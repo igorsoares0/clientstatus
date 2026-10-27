@@ -1,11 +1,9 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { APIError } from "better-auth/api";
 import { nextCookies } from "better-auth/next-js";
 import { db } from "@/lib/db";
 import { actionEmail, sendEmail } from "@/lib/email";
 import { env } from "@/lib/env";
-import { isSignupAllowed, SIGNUP_CLOSED_MESSAGE } from "@/lib/signup-allowlist";
 import { PASSWORD_MAX, PASSWORD_MIN } from "@/lib/validation";
 
 const VERIFICATION_TTL_SECONDS = 24 * 60 * 60; // Onboarding copy: "valid for 24 hours"
@@ -52,18 +50,6 @@ export const auth = betterAuth({
           footer: "If you didn’t create a Client Status account, you can ignore this email.",
         }),
       });
-    },
-  },
-  // The allowlist is enforced here too, because /api/auth/sign-up/email is reachable directly.
-  databaseHooks: {
-    user: {
-      create: {
-        before: async (user) => {
-          if (!isSignupAllowed(user.email)) {
-            throw new APIError("FORBIDDEN", { code: "SIGNUP_NOT_ALLOWED", message: SIGNUP_CLOSED_MESSAGE });
-          }
-        },
-      },
     },
   },
   // Direct HTTP calls to the auth API (spec §8.2). Server actions add their own limits (lib/auth-limits.ts).

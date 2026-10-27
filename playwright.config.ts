@@ -34,7 +34,6 @@ export default defineConfig({
       PADDLE_PRICE_GROWTH: "pri_e2e_growth",
       PADDLE_PRICE_PRO: "pri_e2e_pro",
       OPS_ADMIN_EMAILS: E2E_OPS_EMAIL,
-      SIGNUP_ALLOWLIST: "",
     },
   },
 });

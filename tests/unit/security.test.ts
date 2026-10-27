@@ -3,7 +3,6 @@ import { allowAccountEmail, allowSignIn, allowSignUp } from "@/lib/auth-limits";
 import { isOpsAdmin } from "@/lib/ops/access";
 import { allow } from "@/lib/rate-limit";
 import { isWellFormedToken, newReportToken } from "@/lib/reports/token";
-import { isSignupAllowed } from "@/lib/signup-allowlist";
 import { isPrivateIp, normalizeSiteUrl } from "@/lib/url";
 
 // Spec §13 "Security tests": SSRF inputs, rate limits, token brute-force resistance.
@@ -130,17 +129,7 @@ describe("report tokens resist brute force", () => {
   });
 });
 
-describe("access allowlists", () => {
-  it("private beta sign-up allowlist matches emails and @domains, case-insensitively", () => {
-    const list = "ana@northfold.studio, @harbour.agency";
-    expect(isSignupAllowed("Ana@Northfold.Studio", list)).toBe(true);
-    expect(isSignupAllowed("sam@harbour.agency", list)).toBe(true);
-    expect(isSignupAllowed("sam@evil-harbour.agency", list)).toBe(false);
-    expect(isSignupAllowed("sam@harbour.agency.evil.com", list)).toBe(false);
-    expect(isSignupAllowed("bob@northfold.studio", list)).toBe(false);
-    expect(isSignupAllowed("anyone@example.com", undefined)).toBe(true);
-  });
-
+describe("ops access", () => {
   it("ops access is an explicit allowlist and empty means nobody", () => {
     expect(isOpsAdmin("ops@clientstatus.app", "ops@clientstatus.app")).toBe(true);
     expect(isOpsAdmin("OPS@clientstatus.app ", "ops@clientstatus.app")).toBe(true);

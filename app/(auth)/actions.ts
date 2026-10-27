@@ -8,7 +8,6 @@ import { auth } from "@/lib/auth";
 import { allowAccountEmail, allowSignIn, allowSignUp } from "@/lib/auth-limits";
 import { logger } from "@/lib/log";
 import { clientIp } from "@/lib/rate-limit";
-import { isSignupAllowed, SIGNUP_CLOSED_MESSAGE } from "@/lib/signup-allowlist";
 import { emailSchema, nameSchema, passwordSchema } from "@/lib/validation";
 
 const log = logger("auth");
@@ -53,7 +52,6 @@ export async function signUpAction(_prev: FormState, formData: FormData): Promis
   const values = { name: raw.name, email: raw.email };
   const parsed = signUpSchema.safeParse(raw);
   if (!parsed.success) return { fieldErrors: fieldErrors(parsed.error), values };
-  if (!isSignupAllowed(parsed.data.email)) return { formError: SIGNUP_CLOSED_MESSAGE, values };
   if (!allowSignUp(clientIp(await headers()))) {
     return { formError: "Too many sign-ups from this network. Try again in an hour.", values };
   }
@@ -71,7 +69,6 @@ export async function signUpAction(_prev: FormState, formData: FormData): Promis
     if (code === "PASSWORD_TOO_SHORT" || code === "PASSWORD_TOO_LONG") {
       return { fieldErrors: { password: "Use between 12 and 128 characters." }, values };
     }
-    if (code === "SIGNUP_NOT_ALLOWED") return { formError: SIGNUP_CLOSED_MESSAGE, values };
     log.error("sign-up failed", { code, error });
     return { formError: "We couldn’t create your account. Try again in a moment.", values };
   }

@@ -14,16 +14,14 @@ what is built today.
       `RESEND_WEBHOOK_SECRET`.
 - [ ] Paddle **production**: products and monthly prices for Starter/Growth/Pro, `PADDLE_ENVIRONMENT=production`, API
       key, client token, webhook destination and secret. Make one real purchase and refund it.
-- [ ] `SIGNUP_ALLOWLIST` set to the invited agencies' emails or domains.
 - [ ] `OPS_ADMIN_EMAILS` set to the team; `/ops` opens and shows a live worker.
 - [ ] Load test re-run on the production worker size (`npm run load-test`), concurrency set from the results
       ([load-test.md](load-test.md)).
 
 ## Inviting an agency
 
-1. Add their address or `@domain` to `SIGNUP_ALLOWLIST` and redeploy (or restart) the web app.
-2. They sign up, verify, create the workspace and get a 14-day Growth trial — no card needed.
-3. Offer a 20-minute onboarding call: import their sites by CSV, assign clients, add report recipients.
+1. Send them the sign-up link. They verify, create the workspace and get a 14-day Growth trial — no card needed.
+2. Offer a 20-minute onboarding call: import their sites by CSV, assign clients, add report recipients.
 
 ## What to watch each day
 

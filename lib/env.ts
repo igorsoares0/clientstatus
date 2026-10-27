@@ -31,7 +31,6 @@ const schema = z.object({
   /** Comma-separated emails allowed into the internal ops page (/ops). */
   OPS_ADMIN_EMAILS: optional,
   /** Private beta: comma-separated emails or @domains allowed to sign up. Empty = open sign-up. */
-  SIGNUP_ALLOWLIST: optional,
 });
 
 export type Env = z.infer<typeof schema>;

@@ -168,6 +168,4 @@ Team members: limits are configured but there is no invitation flow yet (spec P1
   one web instance; move to Postgres or Redis before running several.
 - SSRF: IPv6 addresses are fully expanded before classification, so mapped (`::ffff:7f00:1`), NAT64, 6to4 and
   non-canonical loopback forms are blocked at input and again at connection time.
-- Private beta: set `SIGNUP_ALLOWLIST` (emails or `@domains`). Enforced in the sign-up action and in Better Auth's
-  user-creation hook, because `/api/auth/sign-up/email` is reachable directly.
 - CI runs `npm audit --omit=dev --audit-level=high`.
