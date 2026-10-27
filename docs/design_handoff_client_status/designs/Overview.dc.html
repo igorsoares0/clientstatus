@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Overview · Northfold Studio · Client Status</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400;75..100,500;75..100,600;75..100,700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F4F5F3;color:#161A1C;-webkit-font-smoothing:antialiased}
+a{color:#161A1C;text-decoration:underline;text-underline-offset:2px}
+a:hover{color:#4A4F52}
+button,select,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid #161A1C;outline-offset:2px}
+</style>
+</helmet>
+
+<div style="display:flex;min-height:100vh;font-family:Archivo,sans-serif;font-size:14px;background:#F4F5F3;color:#161A1C">
+
+  <sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}">
+    <nav aria-label="Primary" style="flex:0 0 200px;position:sticky;top:0;height:100vh;box-sizing:border-box;background:#FFFFFF;border-right:1px solid #D5D8D4;display:flex;flex-direction:column;padding:16px 0">
+      <div style="padding:0 16px 4px;font-weight:700;font-stretch:80%;font-size:17px;letter-spacing:.01em">Northfold Studio</div>
+      <div style="padding:0 16px 16px;font-size:12px;color:#4A4F52">Growth plan · 84 of 100 sites</div>
+      <a href="#" aria-current="page" style="display:flex;justify-content:space-between;padding:8px 16px;background:#161A1C;color:#FFFFFF;text-decoration:none"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M3 12h4l3-8 4 16 3-8h4"></path></svg>Overview</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;opacity:.7">G O</span></a>
+      <a href="Websites.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9M12 3c-2.5 2.6-3.8 5.6-3.8 9s1.3 6.4 3.8 9"></path></svg>Websites</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G W</span></a>
+      <a href="Clients.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><rect x="3" y="7" width="18" height="13"></rect><path d="M8.5 7V4h7v3M3 12.5h18"></path></svg>Clients</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G C</span></a>
+      <a href="Incidents.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M12 3.5 2.5 20h19L12 3.5z"></path><path d="M12 10v4.5M12 17.2v.1"></path></svg>Incidents <span style="font-family:'JetBrains Mono',monospace;color:#C2261B;font-weight:600">{{ unackCount }}</span></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G I</span></a>
+      <a href="#" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M6 2.5h8.5L19 7v14.5H6z"></path><path d="M14 2.5V7.5h5M9 12.5h7M9 16.5h7"></path></svg>Reports</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G R</span></a>
+      <div style="height:1px;background:#E2E4E1;margin:12px 16px"></div>
+      <a href="Team.dc.html" style="padding:8px 16px;text-decoration:none;color:#4A4F52" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20.5c.7-3.6 3.3-5.8 6.5-5.8s5.8 2.2 6.5 5.8M15.5 4.6a3.5 3.5 0 0 1 0 6.8M18 15c1.9.9 3.1 2.8 3.5 5.5"></path></svg>Team</span></a>
+      <a href="Settings.dc.html" style="padding:8px 16px;text-decoration:none;color:#4A4F52" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M3 6h11M18 6h3M3 12h4M11 12h10M3 18h12M19 18h2"></path><circle cx="16" cy="6" r="2"></circle><circle cx="9" cy="12" r="2"></circle><circle cx="17" cy="18" r="2"></circle></svg>Settings</span></a>
+      <a href="Billing.dc.html" style="padding:8px 16px;text-decoration:none;color:#4A4F52" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><rect x="2.5" y="5" width="19" height="14"></rect><path d="M2.5 10h19M6 15h4"></path></svg>Billing</span></a>
+      <div style="margin-top:auto;padding:12px 16px 0;border-top:1px solid #E2E4E1;font-size:13px;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Priya Raman</span><span style="color:#4A4F52;font-size:12px">Owner · Europe/London</span><span style="margin-top:8px;font-size:12px;font-weight:600;font-stretch:80%;letter-spacing:.02em;color:#4A4F52">Client Status</span></div>
+    </nav>
+  </sc-if>
+
+  <div style="flex:1 1 auto;min-width:0;display:flex;flex-direction:column">
+    <sc-if value="{{ narrow }}" hint-placeholder-val="{{ false }}">
+      <nav aria-label="Primary" style="display:flex;gap:4px;align-items:center;padding:8px 12px;background:#FFFFFF;border-bottom:1px solid #D5D8D4;overflow-x:auto;white-space:nowrap">
+        <span style="font-weight:700;font-stretch:80%;font-size:15px;margin-right:8px">Northfold</span>
+        <a href="#" aria-current="page" style="padding:6px 10px;background:#161A1C;color:#FFFFFF;text-decoration:none">Overview</a>
+        <a href="#" style="padding:6px 10px;text-decoration:none">Websites</a><a href="Clients.dc.html" style="padding:6px 10px;text-decoration:none">Clients</a><a href="Incidents.dc.html" style="padding:6px 10px;text-decoration:none">Incidents</a><a href="#" style="padding:6px 10px;text-decoration:none">Reports</a><a href="#" style="padding:6px 10px;text-decoration:none;color:#4A4F52">Settings</a>
+      </nav>
+    </sc-if>
+
+    <header style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;padding:18px 28px 14px">
+      <h1 style="margin:0;font-size:22px;font-weight:600;font-stretch:85%">Overview</h1>
+      <span role="status" style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:12px;color:{{ fresh.color }}"><span aria-hidden="true">{{ fresh.glyph }}</span>{{ fresh.text }}</span>
+      <span style="flex:1"></span>
+      <button type="button" onClick="{{ openAdd }}" style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px" style-hover="background:#EEF0EE"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M12 15V4M7 8.5 12 4l5 4.5M4 15v5h16v-5"></path></svg>Import CSV</button>
+      <button type="button" onClick="{{ openAdd }}" style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;height:34px;padding:0 14px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-size:13px;font-weight:600" style-hover="background:#2E3437"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M12 5v14M5 12h14"></path></svg>Add website</button>
+    </header>
+
+    <sc-if value="{{ isDelayed }}" hint-placeholder-val="{{ false }}">
+      <div role="alert" style="margin:0 28px 14px;padding:10px 14px;background:#FBF1E4;border:1px solid #E2C9A3;display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline">
+        <span style="font-weight:600;color:#7A4300">▲ Monitoring results are delayed</span>
+        <span style="color:#3A2A14">The check worker last reported at 09:31 GMT (17 min ago). Statuses below are the last known values and are marked stale until new results arrive. Incidents and alerts will resume automatically.</span>
+      </div>
+    </sc-if>
+
+    <main style="flex:1;display:flex;flex-direction:column">
+
+      <sc-if value="{{ isLoading }}" hint-placeholder-val="{{ false }}">
+        <div aria-busy="true" aria-live="polite" style="padding:0 28px 28px;display:flex;flex-direction:column;gap:20px">
+          <span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Loading portfolio overview…</span>
+          <div style="display:flex;flex-direction:column;gap:12px;padding:4px 0 8px"><div style="width:380px;max-width:80%;height:30px;background:#E2E4E1"></div><div style="height:12px;background:#E2E4E1"></div><div style="width:520px;max-width:90%;height:12px;background:#ECEEEB"></div></div>
+          <div style="display:flex;flex-wrap:wrap;gap:20px">
+            <div style="flex:1 1 640px;background:#FFFFFF;border:1px solid #D5D8D4;display:flex;flex-direction:column">
+              <div style="padding:14px 16px;border-bottom:1px solid #E2E4E1;font-weight:600;font-stretch:85%;font-size:16px;color:#4A4F52">Needs attention</div>
+              <sc-for list="{{ skel }}" as="k" hint-placeholder-count="5"><div style="display:flex;gap:16px;padding:14px 16px;border-bottom:1px solid #E2E4E1"><div style="width:80px;height:14px;background:#ECEEEB"></div><div style="flex:1;display:flex;flex-direction:column;gap:6px"><div style="width:60%;height:14px;background:#E2E4E1"></div><div style="width:40%;height:10px;background:#ECEEEB"></div></div></div></sc-for>
+            </div>
+            <div style="flex:1 1 320px;max-width:400px;background:#FFFFFF;border:1px solid #D5D8D4;height:260px"></div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isError }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:0 28px 28px">
+          <div role="alert" style="max-width:640px;background:#FFFFFF;border:1px solid #D5D8D4;padding:24px;display:flex;flex-direction:column;gap:12px">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#C2261B">◆ REQUEST FAILED · 09:48:20 GMT</span>
+            <h2 style="margin:0;font-size:20px;font-weight:600;font-stretch:85%">We couldn’t load the overview</h2>
+            <p style="margin:0;line-height:1.5;color:#2E3437;text-wrap:pretty">The server didn’t respond within 10 seconds. Monitoring and alerts keep running in the background — only this page is affected. If this continues, incidents are still delivered by email.</p>
+            <div style="display:flex;gap:8px"><button type="button" onClick="{{ retry }}" style="white-space:nowrap;height:34px;padding:0 14px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:13px">Try again</button><a href="#" style="white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;background:#FFFFFF;display:flex;align-items:center;text-decoration:none;font-size:13px">Open Incidents</a></div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:0 28px 28px">
+          <div style="max-width:760px;background:#FFFFFF;border:1px solid #D5D8D4;display:flex;flex-direction:column">
+            <div style="padding:24px 24px 18px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid #E2E4E1">
+              <h2 style="margin:0;font-size:24px;font-weight:600;font-stretch:85%">Add your first client website</h2>
+              <p style="margin:0;line-height:1.5;color:#2E3437;max-width:600px;text-wrap:pretty">We’ll check it every 2 minutes on your Growth plan and track its SSL certificate and domain expiry. The first result usually arrives within one check interval.</p>
+            </div>
+            <form onSubmit="{{ submitEmpty }}" style="padding:18px 24px;display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end" novalidate="">
+              <label style="flex:1 1 280px;display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Website address
+                <input type="text" inputmode="url" placeholder="clientsite.com" value="{{ addUrl }}" onChange="{{ onAddUrl }}" aria-invalid="{{ addInvalid }}" aria-describedby="empty-url-msg" style="height:38px;padding:0 10px;border:1px solid {{ addBorder }};background:#FFFFFF;font-weight:400;font-size:14px;font-family:'JetBrains Mono',monospace"></input>
+              </label>
+              <label style="flex:0 1 220px;display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Client <span style="font-weight:400;color:#4A4F52">optional</span>
+                <input type="text" placeholder="e.g. Harbour Dental Group" value="{{ addClient }}" onChange="{{ onAddClient }}" style="height:38px;padding:0 10px;border:1px solid #B9BDB8;background:#FFFFFF;font-weight:400;font-size:14px"></input>
+              </label>
+              <button type="submit" style="white-space:nowrap;height:38px;padding:0 16px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:13px">Start monitoring</button>
+              <div id="empty-url-msg" aria-live="polite" style="flex-basis:100%;font-size:13px;color:#C2261B;min-height:18px">{{ addErr }}</div>
+            </form>
+            <sc-if value="{{ emptyAdded }}" hint-placeholder-val="{{ false }}">
+              <div role="status" style="margin:0 24px 18px;padding:12px 14px;background:#F4F5F3;border:1px solid #D5D8D4;display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline">
+                <span style="font-family:'JetBrains Mono',monospace;font-weight:600">{{ emptyAdded.url }}</span>
+                <span style="color:#4A4F52">○ Unknown — first check queued at 09:48 GMT</span>
+                <button type="button" onClick="{{ goLive }}" style="white-space:nowrap;margin-left:auto;background:none;border:none;padding:0;text-decoration:underline;cursor:pointer;font-size:13px">See the overview</button>
+              </div>
+            </sc-if>
+            <div style="padding:14px 24px 20px;border-top:1px solid #E2E4E1;display:flex;flex-wrap:wrap;gap:8px 24px;font-size:13px;color:#4A4F52">
+              <span>Managing many sites? <button type="button" onClick="{{ openAdd }}" style="white-space:nowrap;background:none;border:none;padding:0;text-decoration:underline;cursor:pointer;color:#161A1C;font-size:13px">Import a CSV</button> with validation preview before anything is added.</span>
+              <span>Prefer to organise first? <a href="#">Create a client</a></span>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isLive }}" hint-placeholder-val="{{ true }}">
+        <section aria-labelledby="sum-h" style="padding:0 28px 18px;display:flex;flex-wrap:wrap;gap:16px 40px;align-items:flex-end">
+          <div style="flex:1 1 520px;min-width:0;display:flex;flex-direction:column;gap:10px">
+            <h2 id="sum-h" style="margin:0;font-size:30px;line-height:1.1;font-weight:600;font-stretch:82%;letter-spacing:-.005em;text-wrap:pretty">{{ headline.lead }} <span style="color:#4A4F52;font-weight:500">{{ headline.rest }}</span></h2>
+            <div role="img" aria-label="{{ distLabel }}" style="display:flex;height:12px;gap:2px">
+              <sc-for list="{{ dist }}" as="d" hint-placeholder-count="4"><span style="flex:{{ d.flex }};min-width:10px;background:{{ d.fill }}"></span></sc-for>
+            </div>
+            <div role="group" aria-label="Filter by status" style="display:flex;flex-wrap:wrap;gap:6px">
+              <sc-for list="{{ statusChips }}" as="c" hint-placeholder-count="5">
+                <button type="button" onClick="{{ c.toggle }}" aria-pressed="{{ c.pressed }}" style="white-space:nowrap;display:flex;align-items:center;gap:6px;height:28px;padding:0 10px;border:1px solid {{ c.border }};background:{{ c.bg }};color:{{ c.fg }};cursor:pointer;font-size:13px;font-variant-numeric:tabular-nums"><span aria-hidden="true" style="color:{{ c.glyphColor }}">{{ c.glyph }}</span>{{ c.label }} <b>{{ c.count }}</b></button>
+              </sc-for>
+            </div>
+          </div>
+          <dl style="flex:0 1 auto;margin:0;display:flex;flex-wrap:wrap;gap:0">
+            <div style="padding:2px 20px 2px 0;margin-right:20px;border-right:1px solid #D5D8D4;display:flex;flex-direction:column;gap:2px"><dt style="font-size:12px;color:#4A4F52">Active incidents</dt><dd style="margin:0;font-size:22px;font-weight:600;font-stretch:85%">{{ openIncCount }} <span style="font-size:13px;font-weight:500;color:#C2261B">{{ critCount }} critical · {{ unackCount }} not acknowledged</span></dd></div>
+            <div style="padding:2px 20px 2px 0;margin-right:20px;border-right:1px solid #D5D8D4;display:flex;flex-direction:column;gap:2px"><dt style="font-size:12px;color:#4A4F52">Expiring ≤ 30 days</dt><dd style="margin:0;font-size:22px;font-weight:600;font-stretch:85%">3 <span style="font-size:13px;font-weight:500;color:#A35A00">▲ 1 within 7 days</span></dd></div>
+            <div style="padding:2px 0;display:flex;flex-direction:column;gap:2px"><dt style="font-size:12px;color:#4A4F52">September reports</dt><dd style="margin:0;font-size:22px;font-weight:600;font-stretch:85%">{{ repSent }}/31 <span style="font-size:13px;font-weight:500;color:#4A4F52">sent · {{ repReview }} to review</span></dd></div>
+          </dl>
+        </section>
+
+        <div role="search" aria-label="Filter overview" style="position:sticky;top:0;z-index:5;background:#F4F5F3;border-top:1px solid #D5D8D4;border-bottom:1px solid #D5D8D4;padding:10px 28px;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center">
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:#4A4F52">Client
+            <select value="{{ clientF }}" onChange="{{ onClient }}" style="height:32px;border:1px solid #B9BDB8;background:#FFFFFF;padding:0 8px;font-size:13px;color:#161A1C;max-width:200px">
+              <sc-for list="{{ clientOpts }}" as="o" hint-placeholder-count="6"><option value="{{ o.v }}">{{ o.l }}</option></sc-for>
+            </select>
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:#4A4F52">Status
+            <select value="{{ statusF }}" onChange="{{ onStatus }}" style="height:32px;border:1px solid #B9BDB8;background:#FFFFFF;padding:0 8px;font-size:13px;color:#161A1C">
+              <option value="all">All statuses</option><option value="down">◆ Down</option><option value="degraded">▲ Degraded</option><option value="unknown">○ Unknown / stale</option><option value="up">● Up</option><option value="paused">‖ Paused</option>
+            </select>
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:#4A4F52">Severity
+            <select value="{{ sevF }}" onChange="{{ onSev }}" style="height:32px;border:1px solid #B9BDB8;background:#FFFFFF;padding:0 8px;font-size:13px;color:#161A1C">
+              <option value="all">Any severity</option><option value="4">Critical</option><option value="3">High and above</option><option value="2">Medium and above</option>
+            </select>
+          </label>
+          <label style="position:relative;flex:1 1 200px;max-width:300px;display:flex;align-items:center"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search websites</span><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;position:absolute;left:10px;top:50%;margin-top:-7.5px;pointer-events:none;color:#4A4F52"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="M15.5 15.5 21 21"></path></svg>
+            <input type="search" placeholder="Search website or client" value="{{ q }}" onChange="{{ onQ }}" style="width:100%;height:32px;border:1px solid #B9BDB8;background:#FFFFFF;padding:0 10px 0 32px;font-size:13px"></input>
+          </label>
+          <sc-if value="{{ filtersOn }}" hint-placeholder-val="{{ false }}">
+            <button type="button" onClick="{{ clearFilters }}" style="white-space:nowrap;height:32px;padding:0 10px;border:none;background:none;text-decoration:underline;cursor:pointer;font-size:13px">Clear filters</button>
+          </sc-if>
+          <span aria-live="polite" style="margin-left:auto;font-size:12px;color:#4A4F52;font-variant-numeric:tabular-nums">{{ resultText }}</span>
+        </div>
+
+        <div style="padding:18px 28px 28px;display:flex;flex-wrap:wrap;gap:20px;align-items:flex-start">
+          <div style="flex:1 1 640px;min-width:0;display:flex;flex-direction:column;gap:20px">
+
+            <section aria-labelledby="att-h" style="background:#FFFFFF;border:1px solid #D5D8D4">
+              <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;padding:12px 16px;border-bottom:1px solid #D5D8D4">
+                <h2 id="att-h" style="margin:0;font-size:17px;font-weight:600;font-stretch:85%">Needs attention <span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#4A4F52">{{ attn.length }}</span></h2>
+                <span style="font-size:12px;color:#4A4F52">Most severe first, then oldest</span>
+                <a href="Incidents.dc.html" style="margin-left:auto;font-size:13px">All incidents</a>
+              </div>
+              <sc-for list="{{ attn }}" as="a" hint-placeholder-count="6">
+                <div style="display:flex;flex-wrap:wrap;gap:6px 16px;padding:12px 16px;border-bottom:1px solid #E2E4E1;align-items:center;background:{{ a.bg }}">
+                  <span style="flex:0 0 120px;white-space:nowrap;font-size:13px;font-weight:600;color:{{ a.sevColor }}"><span aria-hidden="true">{{ a.sevGlyph }}</span> {{ a.sevLabel }}</span>
+                  <div style="flex:1 1 280px;min-width:0;display:flex;flex-direction:column;gap:2px">
+                    <button type="button" onClick="{{ a.open }}" style="align-self:flex-start;text-align:left;background:none;border:none;padding:0;cursor:pointer;font-size:15px;font-weight:600;line-height:1.3" style-hover="text-decoration:underline">{{ a.title }}</button>
+                    <span style="font-size:13px;color:#4A4F52"><span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#2E3437">{{ a.site }}</span> · {{ a.client }} · {{ a.detail }}</span>
+                  </div>
+                  <span style="flex:0 0 116px;display:flex;flex-direction:column;font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52;text-align:right"><span style="color:#161A1C">{{ a.when }}</span><span>{{ a.when2 }}</span></span>
+                  <div style="flex:0 0 auto;display:flex;gap:6px;margin-left:auto">
+                    <sc-if value="{{ a.canAck }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ a.ack }}" style="white-space:nowrap;height:30px;padding:0 10px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-size:12.5px;font-weight:600">Acknowledge</button></sc-if>
+                    <button type="button" onClick="{{ a.open }}" style="white-space:nowrap;height:30px;padding:0 10px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:12.5px" style-hover="background:#EEF0EE">{{ a.cta }}</button>
+                  </div>
+                </div>
+              </sc-for>
+              <sc-if value="{{ attnEmpty }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:24px 16px;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:baseline"><span style="font-weight:600">Nothing needs attention for these filters.</span><button type="button" onClick="{{ clearFilters }}" style="white-space:nowrap;background:none;border:none;padding:0;text-decoration:underline;cursor:pointer;font-size:13px">Clear filters</button></div>
+              </sc-if>
+            </section>
+
+            <section aria-labelledby="web-h" style="background:#FFFFFF;border:1px solid #D5D8D4">
+              <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px;padding:12px 16px;border-bottom:1px solid #D5D8D4">
+                <h2 id="web-h" style="margin:0;font-size:17px;font-weight:600;font-stretch:85%">Websites</h2>
+                <span style="font-size:12px;color:#4A4F52">Only websites with something to look at · uptime is check-based over 30 days</span>
+                <a href="Websites.dc.html" style="margin-left:auto;font-size:13px">All {{ totalSites }} websites</a>
+              </div>
+              <sc-if value="{{ stackRows }}" hint-placeholder-val="{{ false }}">
+                <ul aria-label="Websites" style="list-style:none;margin:0;padding:0">
+                  <sc-for list="{{ rows }}" as="s" hint-placeholder-count="6">
+                    <li style="padding:10px 12px;border-bottom:1px solid #E7E9E6;display:flex;flex-direction:column;gap:2px;background:{{ s.bg }}">
+                      <button type="button" onClick="{{ s.open }}" style="align-self:flex-start;max-width:100%;padding:0;border:none;background:none;text-align:left;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;text-decoration:underline;text-decoration-color:#C9CDC8;text-underline-offset:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.url }}</button>
+                      <span style="font-size:12px;color:#4A4F52">{{ s.client }}</span>
+                      <span style="display:flex;flex-wrap:wrap;gap:2px 12px;white-space:nowrap;font-size:13px;font-variant-numeric:tabular-nums"><span style="font-weight:600;color:{{ s.color }}"><span aria-hidden="true">{{ s.glyph }}</span> {{ s.label }}</span><span>{{ s.up30 }}</span><span style="color:{{ s.sslColor }};font-weight:{{ s.sslWeight }}">SSL {{ s.sslTxt }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:{{ s.agoColor }}">{{ s.ago }}</span></span>
+                    </li>
+                  </sc-for>
+                </ul>
+              </sc-if>
+              <sc-if value="{{ tableRows }}" hint-placeholder-val="{{ true }}"><div style="overflow-x:auto">
+                <div role="table" aria-label="Websites" style="min-width:900px">
+                  <div role="row" style="display:grid;grid-template-columns:minmax(210px,1.8fr) 150px 150px 74px 82px 70px 76px 40px 96px;gap:12px;padding:8px 16px;border-bottom:1px solid #D5D8D4;font-size:12px;letter-spacing:.03em;color:#4A4F52">
+                    <span role="columnheader">WEBSITE · CLIENT</span><span role="columnheader">STATUS</span><span role="columnheader">CHECKS · LAST 24 H</span><span role="columnheader" style="text-align:right">UPTIME</span><span role="columnheader" style="text-align:right">RESPONSE</span><span role="columnheader" style="text-align:right">SSL</span><span role="columnheader" style="text-align:right">DOMAIN</span><span role="columnheader" style="text-align:right">INC.</span><span role="columnheader" style="text-align:right">LAST CHECK</span>
+                  </div>
+                  <sc-for list="{{ rows }}" as="s" hint-placeholder-count="12">
+                    <button type="button" role="row" onClick="{{ s.open }}" aria-label="{{ s.aria }}" style="white-space:nowrap;display:grid;width:100%;grid-template-columns:minmax(210px,1.8fr) 150px 150px 74px 82px 70px 76px 40px 96px;gap:12px;padding:{{ rowPad }} 16px;border:none;border-bottom:1px solid #E2E4E1;background:{{ s.bg }};text-align:left;cursor:pointer;align-items:center;font-size:13px;font-variant-numeric:tabular-nums" style-hover="background:#EEF0EE">
+                      <span role="cell" style="display:flex;flex-direction:column;min-width:0"><span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.url }}</span><span style="font-size:12px;color:#4A4F52;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.client }}</span></span>
+                      <span role="cell" style="display:flex;flex-direction:column"><span style="font-weight:600;color:{{ s.color }}"><span aria-hidden="true">{{ s.glyph }}</span> {{ s.label }}</span><span style="font-size:12px;color:#4A4F52">{{ s.sub }}</span></span>
+                      <span role="cell" aria-label="{{ s.tickLabel }}" style="display:flex;gap:1px;align-items:flex-end;height:16px"><sc-for list="{{ s.ticks }}" as="t" hint-placeholder-count="48"><span style="width:2px;height:{{ t.h }};background:{{ t.c }}"></span></sc-for></span>
+                      <span role="cell" style="text-align:right">{{ s.up30 }}</span>
+                      <span role="cell" style="text-align:right;color:{{ s.respColor }}">{{ s.resp }}</span>
+                      <span role="cell" style="text-align:right;color:{{ s.sslColor }};font-weight:{{ s.sslWeight }}">{{ s.sslTxt }}</span>
+                      <span role="cell" style="text-align:right;color:{{ s.domColor }};font-weight:{{ s.domWeight }}">{{ s.domTxt }}</span>
+                      <span role="cell" style="text-align:right;font-weight:600;color:{{ s.incColor }}">{{ s.incTxt }}</span>
+                      <span role="cell" style="display:flex;flex-direction:column;text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px"><span>{{ s.checked }}</span><span style="color:{{ s.agoColor }}">{{ s.ago }}</span></span>
+                    </button>
+                  </sc-for>
+                </div>
+              </div></sc-if>
+              <sc-if value="{{ passingNote }}" hint-placeholder-val="{{ true }}"><div style="padding:10px 16px;border-bottom:1px solid #E2E4E1;font-size:13px;color:#2E3437;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:baseline"><span><span aria-hidden="true" style="color:#1F7A4A">●</span> {{ passingNote }}</span><a href="Websites.dc.html" style="font-size:13px">View in Websites</a></div></sc-if>
+              <sc-if value="{{ rowsEmpty }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:24px 16px;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:baseline"><span style="font-weight:600">No websites match these filters.</span><button type="button" onClick="{{ clearFilters }}" style="white-space:nowrap;background:none;border:none;padding:0;text-decoration:underline;cursor:pointer;font-size:13px">Clear filters</button></div>
+              </sc-if>
+              <div style="padding:8px 16px;display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12px;color:#4A4F52"><span>Each bar = one 30-minute window</span><span><span aria-hidden="true" style="color:#1F7A4A">▮</span> all checks passed</span><span><span aria-hidden="true" style="color:#A35A00">▮</span> slow or inconclusive</span><span><span aria-hidden="true" style="color:#C2261B">▮</span> failed check</span><span><span aria-hidden="true" style="color:#B9BDB8">▮</span> no data</span></div>
+            </section>
+          </div>
+
+          <aside style="flex:1 1 320px;max-width:420px;min-width:0;display:flex;flex-direction:column;gap:20px">
+            <section aria-labelledby="exp-h" style="background:#FFFFFF;border:1px solid #D5D8D4">
+              <div style="display:flex;align-items:baseline;gap:12px;padding:12px 16px;border-bottom:1px solid #D5D8D4"><h2 id="exp-h" style="margin:0;font-size:16px;font-weight:600;font-stretch:85%">Expiring in 30 days</h2></div>
+              <sc-for list="{{ expiring }}" as="e" hint-placeholder-count="3">
+                <button type="button" onClick="{{ e.open }}" style="display:grid;width:100%;grid-template-columns:56px minmax(0,1fr) auto;gap:10px;align-items:baseline;padding:10px 16px;border:none;border-bottom:1px solid #E2E4E1;background:none;text-align:left;cursor:pointer" style-hover="background:#EEF0EE">
+                  <span style="font-size:12px;color:#4A4F52">{{ e.kind }}</span>
+                  <span style="display:flex;flex-direction:column;min-width:0"><span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ e.host }}</span><span style="font-size:12px;color:#4A4F52">{{ e.date }}</span></span>
+                  <span style="font-weight:600;font-variant-numeric:tabular-nums;color:{{ e.color }}"><span aria-hidden="true">{{ e.glyph }}</span> {{ e.days }}</span>
+                </button>
+              </sc-for>
+              <p style="margin:0;padding:10px 16px;font-size:12px;line-height:1.45;color:#4A4F52">Domain expiry isn’t available for 9 websites — their registries don’t publish it via RDAP. We never estimate a date.</p>
+            </section>
+
+            <section aria-labelledby="rep-h" style="background:#FFFFFF;border:1px solid #D5D8D4">
+              <div style="display:flex;align-items:baseline;gap:12px;padding:12px 16px;border-bottom:1px solid #D5D8D4"><h2 id="rep-h" style="margin:0;font-size:16px;font-weight:600;font-stretch:85%">September reports</h2><span style="font-size:12px;color:#4A4F52">1–30 Sep · Europe/London</span></div>
+              <sc-for list="{{ reports }}" as="r" hint-placeholder-count="6">
+                <div style="display:flex;gap:10px;align-items:center;padding:9px 16px;border-bottom:1px solid #E2E4E1">
+                  <span style="flex:1;min-width:0;display:flex;flex-direction:column"><span style="font-weight:600;font-size:13.5px">{{ r.client }}</span><span style="font-size:12px;color:{{ r.noteColor }}">{{ r.note }}</span></span>
+                  <button type="button" onClick="{{ r.open }}" style="white-space:nowrap;flex:0 0 auto;height:28px;padding:0 10px;border:1px solid {{ r.btnBorder }};background:{{ r.btnBg }};color:{{ r.btnFg }};cursor:pointer;font-size:12.5px;font-weight:600">{{ r.cta }}</button>
+                </div>
+              </sc-for>
+              <p style="margin:0;padding:10px 16px;font-size:12px;color:#4A4F52">October reports generate on 1 Nov, 06:00 GMT, and send at 07:00 to confirmed recipients.</p>
+            </section>
+
+            <section aria-labelledby="aud-h" style="background:#FFFFFF;border:1px solid #D5D8D4">
+              <div style="display:flex;align-items:baseline;gap:12px;padding:12px 16px;border-bottom:1px solid #D5D8D4"><h2 id="aud-h" style="margin:0;font-size:16px;font-weight:600;font-stretch:85%">Recent audits</h2><span style="font-size:12px;color:#4A4F52">Links &amp; technical SEO</span></div>
+              <sc-for list="{{ audits }}" as="u" hint-placeholder-count="4">
+                <button type="button" onClick="{{ u.open }}" style="display:flex;flex-direction:column;gap:2px;width:100%;padding:9px 16px;border:none;border-bottom:1px solid #E2E4E1;background:none;text-align:left;cursor:pointer" style-hover="background:#EEF0EE">
+                  <span style="display:flex;justify-content:space-between;gap:8px;width:100%"><span style="font-family:'JetBrains Mono',monospace;font-size:12.5px">{{ u.host }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">{{ u.when }}</span></span>
+                  <span style="font-size:12.5px;color:{{ u.color }}"><span aria-hidden="true">{{ u.glyph }}</span> {{ u.summary }}</span>
+                </button>
+              </sc-for>
+            </section>
+
+            <section aria-labelledby="act-h" style="background:#FFFFFF;border:1px solid #D5D8D4">
+              <div style="display:flex;align-items:baseline;gap:12px;padding:12px 16px;border-bottom:1px solid #D5D8D4"><h2 id="act-h" style="margin:0;font-size:16px;font-weight:600;font-stretch:85%">Monitoring activity</h2><span style="font-size:12px;color:#4A4F52">Today, GMT</span></div>
+              <ol style="list-style:none;margin:0;padding:6px 0">
+                <sc-for list="{{ activity }}" as="v" hint-placeholder-count="8">
+                  <li style="display:grid;grid-template-columns:66px minmax(0,1fr);gap:10px;padding:5px 16px;font-size:12.5px;line-height:1.4"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">{{ v.t }}</span><span style="color:{{ v.color }}">{{ v.txt }}</span></li>
+                </sc-for>
+              </ol>
+            </section>
+          </aside>
+        </div>
+      </sc-if>
+    </main>
+
+    <footer style="display:flex;flex-wrap:wrap;gap:4px 24px;padding:6px 28px;background:#161A1C;color:#D5D8D4;font-family:'JetBrains Mono',monospace;font-size:12px">
+      <span style="white-space:nowrap"><span aria-hidden="true" style="color:{{ worker.dot }}">●</span> {{ worker.text }}</span><span style="white-space:nowrap">{{ worker.queue }}</span><span style="margin-left:auto;white-space:nowrap">Times in Europe/London (GMT)</span>
+    </footer>
+  </div>
+
+  <sc-if value="{{ drawerOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeDrawer }}" style="position:fixed;inset:0;background:rgba(22,26,28,.28);z-index:40"></div>
+    <div role="dialog" aria-modal="true" aria-labelledby="drawer-title" style="position:fixed;top:0;right:0;bottom:0;width:480px;max-width:100%;background:#FFFFFF;z-index:41;border-left:1px solid #B9BDB8;display:flex;flex-direction:column;box-shadow:-16px 0 40px rgba(0,0,0,.14)">
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid #D5D8D4">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">{{ drawerKicker }}</span>
+        <button type="button" ref="{{ closeRef }}" onClick="{{ closeDrawer }}" aria-label="Close panel" style="white-space:nowrap;margin-left:auto;height:30px;padding:0 10px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:12.5px">Close <span style="font-family:'JetBrains Mono',monospace;color:#4A4F52">Esc</span></button>
+      </div>
+      <div style="flex:1;overflow-y:auto;padding:18px 20px 28px;display:flex;flex-direction:column;gap:18px">
+
+        <sc-if value="{{ dSite }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:4px"><h2 id="drawer-title" style="margin:0;font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:600;word-break:break-all">{{ dSite.url }}</h2><span style="color:#4A4F52">{{ dSite.client }} · checked every {{ dSite.interval }}</span></div>
+          <div style="padding:12px 14px;background:{{ dSite.bg }};border:1px solid #E2E4E1;display:flex;flex-direction:column;gap:4px">
+            <span style="font-size:17px;font-weight:600;color:{{ dSite.color }}"><span aria-hidden="true">{{ dSite.glyph }}</span> {{ dSite.label }}</span>
+            <span style="font-size:13px;color:#2E3437">{{ dSite.sub }}</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">Last check {{ dSite.checked }} · {{ dSite.ago }}</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px"><span style="font-size:12px;color:#4A4F52">Checks, last 24 hours</span><span aria-label="{{ dSite.tickLabel }}" style="display:flex;gap:2px;align-items:flex-end;height:22px"><sc-for list="{{ dSite.ticksL }}" as="t" hint-placeholder-count="48"><span style="flex:1;height:{{ t.h }};background:{{ t.c }}"></span></sc-for></span><span style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52"><span>24 Oct 10:00</span><span>now</span></span></div>
+          <dl style="margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:13.5px;border-top:1px solid #E2E4E1;padding-top:14px">
+            <dt style="color:#4A4F52">Uptime, 30 days</dt><dd style="margin:0">{{ dSite.up30 }} <span style="color:#4A4F52">· {{ dSite.checks30 }}</span></dd>
+            <dt style="color:#4A4F52">Response</dt><dd style="margin:0">{{ dSite.resp }} <span style="color:#4A4F52">{{ dSite.respNote }}</span></dd>
+            <dt style="color:#4A4F52">SSL certificate</dt><dd style="margin:0">{{ dSite.sslLong }}</dd>
+            <dt style="color:#4A4F52">Domain</dt><dd style="margin:0">{{ dSite.domLong }}</dd>
+            <dt style="color:#4A4F52">Last audit</dt><dd style="margin:0">{{ dSite.auditLong }}</dd>
+          </dl>
+          <sc-if value="{{ dSite.hasIncs }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;flex-direction:column;border-top:1px solid #E2E4E1;padding-top:12px;gap:6px"><span style="font-size:12px;color:#4A4F52">Open incidents</span>
+              <sc-for list="{{ dSite.incs }}" as="i" hint-placeholder-count="1"><button type="button" onClick="{{ i.open }}" style="display:flex;gap:10px;align-items:baseline;width:100%;padding:8px 0;border:none;border-bottom:1px solid #E2E4E1;background:none;text-align:left;cursor:pointer"><span style="font-weight:600;color:{{ i.sevColor }}">{{ i.sevGlyph }} {{ i.sevLabel }}</span><span style="flex:1">{{ i.title }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">{{ i.id }}</span></button></sc-for>
+            </div>
+          </sc-if>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <button type="button" onClick="{{ dSite.runCheck }}" style="white-space:nowrap;height:34px;padding:0 14px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:13px">Run check now</button>
+            <sc-if value="{{ dSite.hasAudit }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ dSite.openAudit }}" style="white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">Audit findings</button></sc-if>
+            <a href="Website%20Detail.dc.html" style="white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;display:flex;align-items:center;text-decoration:none;font-size:13px">Full website page</a>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ dInc }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:6px">
+            <span style="display:flex;gap:12px;font-size:13px"><span style="font-weight:600;color:{{ dInc.sevColor }}">{{ dInc.sevGlyph }} {{ dInc.sevLabel }}</span><span style="color:#4A4F52">{{ dInc.type }}</span><span style="font-weight:600">{{ dInc.statusLabel }}</span></span>
+            <h2 id="drawer-title" style="margin:0;font-size:20px;font-weight:600;font-stretch:88%;line-height:1.25">{{ dInc.title }}</h2>
+            <span style="color:#4A4F52"><button type="button" onClick="{{ dInc.openSite }}" style="white-space:nowrap;background:none;border:none;padding:0;cursor:pointer;text-decoration:underline;font-family:'JetBrains Mono',monospace;font-size:13px;color:#161A1C">{{ dInc.site }}</button> · {{ dInc.client }}</span>
+          </div>
+          <p style="margin:0;line-height:1.5;color:#2E3437">{{ dInc.detail }}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <sc-if value="{{ dInc.canAck }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ dInc.ack }}" style="white-space:nowrap;height:34px;padding:0 14px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:13px">Acknowledge</button></sc-if>
+            <sc-if value="{{ dInc.canMute }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ dInc.mute }}" style="white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">Mute alerts</button></sc-if>
+          </div>
+          <dl style="margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:13px;border-top:1px solid #E2E4E1;padding-top:12px">
+            <dt style="color:#4A4F52">First detected</dt><dd style="margin:0;font-family:'JetBrains Mono',monospace;font-size:12.5px">{{ dInc.first }}</dd>
+            <dt style="color:#4A4F52">Last detected</dt><dd style="margin:0;font-family:'JetBrains Mono',monospace;font-size:12.5px">{{ dInc.last }}</dd>
+            <dt style="color:#4A4F52">Source</dt><dd style="margin:0">{{ dInc.source }}</dd>
+          </dl>
+          <form onSubmit="{{ dInc.addNote }}" style="display:flex;flex-direction:column;gap:6px;border-top:1px solid #E2E4E1;padding-top:12px">
+            <label for="inc-note" style="font-size:12px;color:#4A4F52">Internal note — never shown in client reports</label>
+            <textarea id="inc-note" rows="2" value="{{ noteVal }}" onChange="{{ onNote }}" placeholder="e.g. Host confirmed origin server restart in progress" style="border:1px solid #B9BDB8;padding:8px 10px;font-size:13px;resize:vertical"></textarea>
+            <button type="submit" style="white-space:nowrap;align-self:flex-start;height:30px;padding:0 12px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:12.5px">Add note</button>
+          </form>
+          <div style="display:flex;flex-direction:column;border-top:1px solid #E2E4E1;padding-top:12px"><span style="font-size:12px;color:#4A4F52;margin-bottom:6px">Timeline</span>
+            <sc-for list="{{ dInc.events }}" as="ev" hint-placeholder-count="4"><div style="display:grid;grid-template-columns:104px 1fr;gap:10px;padding:5px 0;font-size:13px"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">{{ ev.t }}</span><span style="font-weight:{{ ev.w }}">{{ ev.txt }}</span></div></sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ dAudit }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:4px"><h2 id="drawer-title" style="margin:0;font-size:20px;font-weight:600;font-stretch:88%">Audit findings</h2><span style="color:#4A4F52"><button type="button" onClick="{{ dAudit.openSite }}" style="white-space:nowrap;background:none;border:none;padding:0;cursor:pointer;text-decoration:underline;font-family:'JetBrains Mono',monospace;font-size:13px;color:#161A1C">{{ dAudit.host }}</button> · {{ dAudit.client }}</span></div>
+          <dl style="margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:13px">
+            <dt style="color:#4A4F52">Run</dt><dd style="margin:0">{{ dAudit.statusLabel }} · <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px">{{ dAudit.whenLong }}</span></dd>
+            <dt style="color:#4A4F52">Coverage</dt><dd style="margin:0">{{ dAudit.coverage }}</dd>
+          </dl>
+          <sc-if value="{{ dAudit.hasNote }}" hint-placeholder-val="{{ false }}"><p style="margin:0;padding:10px 12px;background:#FBF1E4;border:1px solid #E2C9A3;font-size:13px;line-height:1.45;color:#3A2A14">{{ dAudit.note }}</p></sc-if>
+          <div style="display:flex;flex-direction:column">
+            <sc-for list="{{ dAudit.findings }}" as="f" hint-placeholder-count="4">
+              <div style="display:flex;flex-direction:column;gap:2px;padding:9px 0;border-bottom:1px solid #E2E4E1">
+                <span style="display:flex;gap:10px;font-size:13px"><span style="font-weight:600;color:{{ f.sevColor }};flex:0 0 72px">{{ f.sevGlyph }} {{ f.sevLabel }}</span><span style="font-weight:600">{{ f.type }}</span></span>
+                <span style="padding-left:82px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#2E3437;word-break:break-all">{{ f.where }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+            <button type="button" onClick="{{ dAudit.rerun }}" disabled="{{ dAudit.rerunDisabled }}" style="white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">{{ dAudit.rerunLabel }}</button>
+            <span style="font-size:12px;color:#4A4F52">{{ dAudit.budget }}</span>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ dRep }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:4px"><h2 id="drawer-title" style="margin:0;font-size:20px;font-weight:600;font-stretch:88%">{{ dRep.client }}</h2><span style="color:#4A4F52">September 2026 report · 1–30 Sep · Europe/London · {{ dRep.sites }}</span></div>
+          <div style="padding:10px 12px;border:1px solid #E2E4E1;background:{{ dRep.bg }};display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;color:{{ dRep.color }}">{{ dRep.statusLabel }}</span><span style="font-size:13px;color:#2E3437">{{ dRep.note }}</span></div>
+          <dl style="margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 16px;font-size:13.5px">
+            <dt style="color:#4A4F52">Uptime (checks)</dt><dd style="margin:0">{{ dRep.uptime }}</dd>
+            <dt style="color:#4A4F52">Confirmed downtime</dt><dd style="margin:0">{{ dRep.downtime }}</dd>
+            <dt style="color:#4A4F52">Recipients</dt><dd style="margin:0">{{ dRep.recipients }}</dd>
+          </dl>
+          <div style="display:flex;flex-wrap:wrap;gap:8px">
+            <sc-if value="{{ dRep.isReview }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ dRep.generate }}" style="white-space:nowrap;height:34px;padding:0 14px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:13px">Generate with coverage notes</button></sc-if>
+            <sc-if value="{{ dRep.isGenerating }}" hint-placeholder-val="{{ false }}"><button type="button" disabled="" style="white-space:nowrap;height:34px;padding:0 14px;border:none;background:#4A4F52;color:#FFFFFF;font-weight:600;font-size:13px">Generating PDF…</button></sc-if>
+            <sc-if value="{{ dRep.isReady }}" hint-placeholder-val="{{ false }}">
+              <a href="#" style="white-space:nowrap;height:34px;padding:0 14px;background:#161A1C;color:#FFFFFF;display:flex;align-items:center;text-decoration:none;font-size:13px;font-weight:600">Open PDF</a>
+              <button type="button" onClick="{{ dRep.copy }}" style="white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">Copy private link</button>
+              <button type="button" onClick="{{ dRep.revoke }}" style="white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px;color:#C2261B">Revoke link</button>
+            </sc-if>
+          </div>
+          <p style="margin:0;font-size:12px;color:#4A4F52;line-height:1.45">Reports exclude internal notes and diagnostics. Gaps in monitoring or audit coverage are stated in the report rather than filled in.</p>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ addOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeAdd }}" style="position:fixed;inset:0;background:rgba(22,26,28,.36);z-index:50"></div>
+    <form role="dialog" aria-modal="true" aria-labelledby="add-title" onSubmit="{{ submitAdd }}" novalidate="" style="position:fixed;top:12vh;left:50%;transform:translateX(-50%);width:520px;max-width:calc(100% - 32px);background:#FFFFFF;border:1px solid #B9BDB8;z-index:51;box-shadow:0 20px 48px rgba(0,0,0,.2);display:flex;flex-direction:column">
+      <div style="padding:16px 20px;border-bottom:1px solid #D5D8D4;display:flex;align-items:baseline;gap:12px"><h2 id="add-title" style="margin:0;font-size:18px;font-weight:600;font-stretch:85%">Add website</h2><span style="font-size:12px;color:#4A4F52;margin-left:auto">{{ planUse }}</span></div>
+      <div style="padding:16px 20px;display:flex;flex-direction:column;gap:14px">
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Website address
+          <input type="text" ref="{{ addRef }}" inputmode="url" placeholder="https://clientsite.com" value="{{ addUrl }}" onChange="{{ onAddUrl }}" aria-invalid="{{ addInvalid }}" aria-describedby="add-msg" style="height:38px;padding:0 10px;border:1px solid {{ addBorder }};font-weight:400;font-size:14px;font-family:'JetBrains Mono',monospace"></input>
+          <span id="add-msg" aria-live="polite" style="font-weight:400;font-size:12.5px;color:{{ addMsgColor }}">{{ addMsg }}</span>
+        </label>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Client
+          <select value="{{ addClient }}" onChange="{{ onAddClient }}" style="height:38px;border:1px solid #B9BDB8;background:#FFFFFF;padding:0 8px;font-size:14px;font-weight:400">
+            <option value="">Unassigned</option>
+            <sc-for list="{{ clientNames }}" as="n" hint-placeholder-count="6"><option value="{{ n }}">{{ n }}</option></sc-for>
+          </select>
+        </label>
+      </div>
+      <div style="padding:12px 20px;border-top:1px solid #D5D8D4;display:flex;gap:8px;justify-content:flex-end">
+        <button type="button" onClick="{{ closeAdd }}" style="white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">Cancel</button>
+        <button type="submit" style="white-space:nowrap;height:34px;padding:0 14px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:13px">Add and start checks</button>
+      </div>
+    </form>
+  </sc-if>
+
+  <div aria-live="polite" style="position:fixed;left:50%;bottom:40px;transform:translateX(-50%);z-index:60;pointer-events:none">
+    <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}"><div style="background:#161A1C;color:#FFFFFF;padding:10px 16px;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.2)">{{ toast }}</div></sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;state&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;live&quot;,&quot;delayed&quot;,&quot;loading&quot;,&quot;empty&quot;,&quot;error&quot;],&quot;default&quot;:&quot;live&quot;,&quot;tsType&quot;:&quot;'live'|'delayed'|'loading'|'empty'|'error'&quot;,&quot;section&quot;:&quot;Demo state&quot;},&quot;compact&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Density&quot;}}">
+const C = { up: '#1F7A4A', degraded: '#A35A00', down: '#C2261B', unknown: '#4A4F52', paused: '#4A4F52' };
+const G = { up: '●', degraded: '▲', down: '◆', unknown: '○', paused: '‖' };
+const L = { up: 'Up', degraded: 'Degraded', down: 'Down', unknown: 'Unknown', paused: 'Paused' };
+const SEV = { 4: { l: 'Critical', g: '▮▮▮▮', c: '#C2261B' }, 3: { l: 'High', g: '▮▮▮▯', c: '#A35A00' }, 2: { l: 'Medium', g: '▮▮▯▯', c: '#161A1C' }, 1: { l: 'Low', g: '▮▯▯▯', c: '#4A4F52' }, 0: { l: 'Info', g: '○', c: '#4A4F52' } };
+const HATCH = 'repeating-linear-gradient(45deg,#9AA09C 0 2px,#E2E4E1 2px 4px)';
+const GAP = '#C9CDC8';
+
+const SITES = [
+  { id: 's1', url: 'harbourdental.co.uk', client: 'Harbour Dental Group', st: 'down', sub: 'Since 09:41 · HTTP 502', checked: '09:47:04', ago: '1 min ago', up30: '99.12%', checks30: '21,410 of 21,600 checks', resp: '—', respNote: 'no response body · 502 in 1,204 ms', ssl: 212, sslDate: '25 May 2027', dom: 139, domDate: '14 Mar 2027', domSrc: 'Nominet RDAP', audit: 'a2' },
+  { id: 's3', url: 'shop.millerandkoch.com', client: 'Miller & Koch', st: 'degraded', sub: 'Slow since 08:58', checked: '09:46:52', ago: '1 min ago', up30: '99.87%', checks30: '21,572 of 21,600 checks', resp: '3,840 ms', respSlow: true, respNote: 'median today · 30-day median 610 ms', ssl: 6, sslDate: '31 Oct 2026, 14:00', dom: 231, domDate: '13 Jun 2027', domSrc: 'Verisign RDAP' },
+  { id: 's5', url: 'thegreenroomlondon.com', client: 'Green Room Theatre', st: 'unknown', stale: true, sub: 'No result since 07:52', checked: '07:52:18', ago: '1 h 56 min ago', up30: '99.98%', checks30: '21,540 of 21,600 checks · 3 inconclusive', resp: '—', respNote: 'last 3 checks timed out after 10 s (inconclusive)', ssl: 88, sslDate: '21 Jan 2027', dom: 302, domDate: '23 Aug 2027', domSrc: 'Verisign RDAP', audit: 'a3' },
+  { id: 's6', url: 'vela-architects.com', client: 'Vela Architects', st: 'up', sub: 'Up 41 days', checked: '09:47:31', ago: '1 min ago', up30: '100%', checks30: '21,600 of 21,600 checks', resp: '312 ms', respNote: 'median, 24 h', ssl: 54, sslDate: '18 Dec 2026', dom: 188, domDate: '1 May 2027', domSrc: 'Verisign RDAP', audit: 'a1' },
+  { id: 's7', url: 'alpinecycleworks.com', client: 'Alpine Cycle Works', st: 'up', sub: 'Up 12 days', checked: '09:46:40', ago: '2 min ago', up30: '99.99%', checks30: '21,598 of 21,600 checks', resp: '341 ms', respNote: 'median, 24 h', ssl: 71, sslDate: '4 Jan 2027', dom: 12, domDate: '6 Nov 2026', domSrc: 'Verisign RDAP' },
+  { id: 's9', url: 'lumenoptics.ie', client: 'Lumen Optics', st: 'up', sub: 'Up 63 days', checked: '09:47:12', ago: '1 min ago', up30: '100%', checks30: '21,600 of 21,600 checks', resp: '402 ms', respNote: 'median, 24 h', ssl: 27, sslDate: '21 Nov 2026', dom: 97, domDate: '30 Jan 2027', domSrc: '.ie RDAP' },
+  { id: 's2', url: 'bookings.harbourdental.co.uk', client: 'Harbour Dental Group', st: 'up', sub: 'Up 18 days', checked: '09:47:10', ago: '1 min ago', up30: '100%', checks30: '21,600 of 21,600 checks', resp: '244 ms', respNote: 'median, 24 h', ssl: 212, sslDate: '25 May 2027', dom: 139, domDate: '14 Mar 2027', domSrc: 'Nominet RDAP' },
+  { id: 's4', url: 'millerandkoch.com', client: 'Miller & Koch', st: 'up', sub: 'Up 29 days', checked: '09:47:22', ago: '1 min ago', up30: '99.97%', checks30: '21,594 of 21,600 checks', resp: '286 ms', respNote: 'median, 24 h', ssl: 64, sslDate: '28 Dec 2026', dom: 231, domDate: '13 Jun 2027', domSrc: 'Verisign RDAP' },
+  { id: 's8', url: 'alpinecycleworks.de', client: 'Alpine Cycle Works', st: 'up', sub: 'Up 12 days', checked: '09:46:44', ago: '2 min ago', up30: '99.99%', checks30: '21,598 of 21,600 checks', resp: '355 ms', respNote: 'median, 24 h', ssl: 71, sslDate: '4 Jan 2027', dom: null, domSrc: 'DENIC does not publish expiry dates' },
+  { id: 's10', url: 'kiln-coffee.com', client: 'Kiln Coffee Roasters', st: 'up', sub: 'Up 90+ days', checked: '09:47:40', ago: '1 min ago', up30: '100%', checks30: '21,600 of 21,600 checks', resp: '198 ms', respNote: 'median, 24 h', ssl: 143, sslDate: '17 Mar 2027', dom: 260, domDate: '12 Jul 2027', domSrc: 'Verisign RDAP', audit: 'a4' },
+  { id: 's11', url: 'riverside-vets.co.uk', client: 'Riverside Veterinary', st: 'unknown', isNew: true, sub: 'First check queued', checked: '—', ago: 'added 09:46', up30: '—', checks30: 'no checks yet', resp: '—', respNote: '', ssl: null, sslDate: null, dom: null, domSrc: 'pending first domain check' },
+  { id: 's12', url: 'ostarawellness.com', client: 'Ostara Wellness', st: 'paused', sub: 'Paused 3 Oct by Tom E.', checked: '3 Oct', ago: '11:20', up30: '—', checks30: 'paused — history preserved', resp: '—', respNote: '', ssl: 120, sslDate: '22 Feb 2027', dom: 77, domDate: '10 Jan 2027', domSrc: 'Verisign RDAP' },
+  { id: 's13', url: 'book.blackthorn-fitness.ie', client: 'Blackthorn Fitness', st: 'up', sub: 'Responding · certificate invalid', checked: '09:47:18', ago: '1 min ago', up30: '100%', checks30: '21,600 of 21,600 checks', resp: '388 ms', respNote: 'median, 24 h', ssl: null, sslInvalid: true, dom: 214, domDate: '27 May 2027', domSrc: '.ie RDAP' }
+];
+
+const INCIDENTS = [
+  { id: 'INC-0412', site: 's1', type: 'Downtime', sev: 4, status: 'open', title: 'Website down — HTTP 502 Bad Gateway', when: 'since 09:41', when2: 'open 7 min', first: '25 Oct 09:41:07', last: '25 Oct 09:47:04', source: 'Uptime check, every 2 min', detail: 'Confirmed after 2 consecutive failed checks. All 4 checks since 09:41 returned 502 from the origin; DNS and TLS succeeded. One alert email has been sent; repeats are suppressed while the incident stays open.',
+    events: [{ t: '25 Oct 09:47:04', txt: 'Check failed · 502 · 1,204 ms' }, { t: '25 Oct 09:43:10', txt: 'Alert emailed to 2 recipients · cooldown 60 min' }, { t: '25 Oct 09:43:06', txt: 'Incident opened — 2nd consecutive failure', w: 600 }, { t: '25 Oct 09:41:07', txt: 'Check failed · 502 · 1,180 ms' }] },
+  { id: 'INC-0409', site: 's3', type: 'SSL expiry', sev: 3, status: 'acknowledged', title: 'SSL certificate expires in 6 days', when: '31 Oct 14:00', when2: 'ack’d 24 Oct', first: '24 Oct 14:00:00', last: '25 Oct 06:00:12', source: 'SSL check · 7-day threshold', detail: 'Certificate for shop.millerandkoch.com (Let’s Encrypt R11) is valid but expires 31 Oct 2026 at 14:00 GMT. Auto-renewal has not happened yet; hostname and chain are otherwise valid.',
+    events: [{ t: '25 Oct 06:00:12', txt: 'SSL check · 6 days remaining' }, { t: '24 Oct 16:20:41', txt: 'Acknowledged by Priya R. — “Asked host to check certbot cron”', w: 600 }, { t: '24 Oct 14:00:03', txt: 'Incident opened — 7-day threshold reached', w: 600 }] },
+  { id: 'INC-0410', site: 's6', type: 'Audit issue', sev: 2, status: 'open', title: '14 confirmed broken links', when: 'audit 24 Oct', when2: '03:12', first: '24 Oct 03:12:55', last: '24 Oct 03:12:55', source: 'Link audit', audit: 'a1', detail: '14 links returned a stable 404/410 after retries. 3 further external links were inconclusive (rate-limited) and are not counted as broken.',
+    events: [{ t: '24 Oct 03:12:55', txt: 'Incident opened from audit findings', w: 600 }] },
+  { id: 'INC-0408', site: 's7', type: 'Domain expiry', sev: 2, status: 'open', title: 'Domain registration expires in 12 days', when: '6 Nov 2026', when2: 'Verisign RDAP', first: '25 Oct 02:00:09', last: '25 Oct 02:00:09', source: 'Domain check · 14-day threshold', detail: 'alpinecycleworks.com is registered until 6 Nov 2026 according to Verisign RDAP (checked 25 Oct 02:00). Renewal is handled by the client’s registrar.',
+    events: [{ t: '25 Oct 02:00:09', txt: 'Incident opened — 14-day threshold reached', w: 600 }] },
+  { id: 'INC-0413', site: 's13', type: 'SSL invalid', sev: 3, status: 'open', title: 'Certificate doesn’t match hostname', when: 'since 06:00', when2: 'open 3 h 48 min', first: '25 Oct 06:00:14', last: '25 Oct 06:00:14', source: 'SSL check', detail: 'The certificate is trusted but covers blackthorn-fitness.com only — not book.blackthorn-fitness.ie. Visitors see a browser security warning.',
+    events: [{ t: '25 Oct 06:00:18', txt: 'Alert emailed to 2 recipients' }, { t: '25 Oct 06:00:14', txt: 'Incident opened — hostname mismatch', w: 600 }] },
+  { id: 'INC-0406', site: 's9', type: 'SSL expiry', sev: 1, status: 'acknowledged', title: 'SSL certificate expires in 27 days', when: '21 Nov 2026', when2: 'ack’d 22 Oct', first: '22 Oct 06:00:05', last: '25 Oct 06:00:10', source: 'SSL check · 30-day threshold', detail: 'Valid certificate expiring 21 Nov 2026. The client renews it manually.',
+    events: [{ t: '22 Oct 09:12:05', txt: 'Acknowledged by Tom E.', w: 600 }, { t: '22 Oct 06:00:05', txt: 'Incident opened — 30-day threshold', w: 600 }] }
+];
+
+const AUDITS = [
+  { id: 'a1', site: 's6', when: '24 Oct 03:12', whenLong: '24 Oct 2026, 03:01–03:12 GMT', status: 'completed', coverage: '412 pages · 2,960 links checked', sevTop: 3, summary: '14 broken links · 3 inconclusive', findings: [
+    { sev: 3, type: 'Broken link (404)', where: '/projects/harbour-house → /files/harbour-house-plans.pdf' },
+    { sev: 3, type: 'Broken link (410)', where: '/journal/2019-awards → riba.org/awards/2019/shortlist' },
+    { sev: 3, type: 'Broken link (404)', where: '/studio/team → /studio/team/ana-lopes' },
+    { sev: 1, type: 'Inconclusive (429 rate-limited)', where: '/press → instagram.com/vela.architects' }] },
+  { id: 'a4', site: 's10', when: '22 Oct 02:40', whenLong: '22 Oct 2026, 02:36–02:40 GMT', status: 'completed', coverage: '54 pages · 610 links checked', sevTop: 0, summary: 'No broken links · 1 advisory', findings: [
+    { sev: 0, type: 'Multiple H1 tags (advisory)', where: '/subscriptions' }] },
+  { id: 'a2', site: 's1', when: '21 Oct 03:40', whenLong: '21 Oct 2026, 03:33–03:40 GMT', status: 'completed', coverage: '86 pages · 740 links checked', sevTop: 2, summary: '3 broken links · 2 missing descriptions', findings: [
+    { sev: 2, type: 'Broken internal link (404)', where: '/treatments/implants → /treatments/implant-pricing' },
+    { sev: 2, type: 'Broken internal link (404)', where: '/treatments/whitening → /offers/summer' },
+    { sev: 2, type: 'Broken internal link (404)', where: '/treatments → /treatments/invisalign-faq' },
+    { sev: 1, type: 'Missing meta description', where: '/careers · /patient-forms' }] },
+  { id: 'a3', site: 's5', when: '18 Oct 02:15', whenLong: '18 Oct 2026, 02:02–02:15 GMT', status: 'partial', coverage: '120 of 500 page budget visited', sevTop: 3, summary: 'Partial — stopped by bot challenge', note: 'The site’s firewall served a bot challenge on 38 requests, so the audit stopped early. Findings below cover only the pages reached; this will be disclosed in the client report.', findings: [
+    { sev: 1, type: 'Missing canonical tag', where: '/whats-on/autumn-season' },
+    { sev: 1, type: 'Inconclusive (403 bot challenge)', where: '38 pages under /whats-on/' }] }
+];
+
+const REPORTS = [
+  { id: 'r1', client: 'Green Room Theatre', status: 'review', note: 'Audit partial — 120 of 500 pages', sites: '1 website', uptime: '99.98% · coverage 100%', downtime: 'None confirmed', recipients: 'Marta Kowalski (not yet confirmed)' },
+  { id: 'r2', client: 'Brightwater Law', status: 'review', note: 'Monitoring coverage 91% (paused 2–4 Sep)', sites: '2 websites', uptime: '99.99% · coverage 91%', downtime: 'None confirmed', recipients: 'it@brightwaterlaw.co.uk' },
+  { id: 'r3', client: 'Ostara Wellness', status: 'review', note: 'No audit completed in September', sites: '1 website', uptime: '100% · coverage 100%', downtime: 'None confirmed', recipients: 'hello@ostarawellness.com' },
+  { id: 'r4', client: 'Alpine Cycle Works', status: 'review', note: 'Domain expiry unavailable for 1 of 4 sites', sites: '4 websites', uptime: '99.98% · coverage 100%', downtime: '4 min · 1 incident, resolved', recipients: 'Jonas Weber' },
+  { id: 'r5', client: 'Harbour Dental Group', status: 'sent', note: 'Sent 1 Oct 07:00 · 2 recipients', sites: '2 websites', uptime: '99.94% · coverage 99.8%', downtime: '26 min · 1 incident, resolved', recipients: 'Dr Sarah Okafor, practice manager' },
+  { id: 'r6', client: 'Miller & Koch', status: 'sent', note: 'Sent 1 Oct 07:00 · 1 recipient', sites: '3 websites', uptime: '99.97% · coverage 100%', downtime: '9 min · 1 incident, resolved', recipients: 'Anna Koch' }
+];
+
+const ACTIVITY = [
+  { t: '09:47:04', txt: 'harbourdental.co.uk check failed · 502', k: 'bad' },
+  { t: '09:46:12', txt: 'riverside-vets.co.uk added by Priya R. · first check queued' },
+  { t: '09:43:10', txt: 'Alert emailed for INC-0412 to 2 recipients' },
+  { t: '09:43:06', txt: 'INC-0412 opened · harbourdental.co.uk down', k: 'bad' },
+  { t: '08:58:40', txt: 'shop.millerandkoch.com slow · 3,840 ms', k: 'warn' },
+  { t: '07:52:18', txt: 'thegreenroomlondon.com inconclusive · timeout 10 s', k: 'warn' },
+  { t: '06:00:12', txt: 'Daily SSL checks completed · 84 sites · 1 warning' },
+  { t: '02:00:09', txt: 'INC-0408 opened · alpinecycleworks.com domain 12 days' }
+];
+
+function ticksFor(s, delayed) {
+  return Array.from({ length: 48 }, (_, i) => {
+    if (delayed && i >= 47 && s.st !== 'paused' && !s.isNew) return { c: GAP, h: '4px' };
+    if (s.st === 'paused' || s.isNew) return { c: GAP, h: '4px' };
+    if (s.st === 'down') return i >= 47 ? { c: C.down, h: '16px' } : { c: C.up, h: '10px' };
+    if (s.st === 'degraded') return i >= 38 ? { c: C.degraded, h: '13px' } : { c: C.up, h: '10px' };
+    if (s.stale) return i >= 44 ? { c: GAP, h: '4px' } : (i === 43 ? { c: C.degraded, h: '13px' } : { c: C.up, h: '10px' });
+    if (s.id === 's7' && i === 17) return { c: C.degraded, h: '13px' };
+    return { c: C.up, h: '10px' };
+  });
+}
+function tickLabel(t) {
+  const n = k => t.filter(x => x.c === k).length;
+  return `Last 24 hours: ${n(C.up)} windows passed, ${n(C.degraded)} slow or inconclusive, ${n(C.down)} failed, ${n(GAP)} without data`;
+}
+
+class Component extends DCLogic {
+  state = { phase: this.props.state ?? 'live', clientF: 'all', statusF: 'all', sevF: 'all', q: '', drawer: null, addOpen: false, addUrl: '', addClient: '', addErr: '', sites: SITES, incidents: INCIDENTS, audits: AUDITS, reports: REPORTS, activity: ACTIVITY, noteVal: '', toast: '', emptyAdded: null, w: typeof window !== 'undefined' ? window.innerWidth : 1400 };
+  closeRef = React.createRef();
+  addRef = React.createRef();
+
+  componentDidMount() {
+    this.onResize = () => this.setState({ w: window.innerWidth });
+    this.onKey = e => {
+      if (e.key === 'Escape') { if (this.state.addOpen) this.setState({ addOpen: false }); else if (this.state.drawer) this.close(); }
+    };
+    window.addEventListener('resize', this.onResize);
+    window.addEventListener('keydown', this.onKey);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); window.removeEventListener('keydown', this.onKey); clearTimeout(this.tt); }
+  componentDidUpdate(pp, ps) {
+    if (pp.state !== this.props.state) this.setState({ phase: this.props.state ?? 'live' });
+    if (this.state.drawer && (!ps.drawer || ps.drawer.id !== this.state.drawer.id)) { this.lastFocus = this.lastFocus || document.activeElement; setTimeout(() => this.closeRef.current && this.closeRef.current.focus(), 0); }
+    if (this.state.addOpen && !ps.addOpen) setTimeout(() => this.addRef.current && this.addRef.current.focus(), 0);
+  }
+  close() { this.setState({ drawer: null, noteVal: '' }); const f = this.lastFocus; this.lastFocus = null; if (f && f.focus) setTimeout(() => f.focus(), 0); }
+  say(msg) { clearTimeout(this.tt); this.setState({ toast: msg }); this.tt = setTimeout(() => this.setState({ toast: '' }), 3200); }
+  open(type, id) { this.setState({ drawer: { type, id } }); }
+
+  validate(raw) {
+    let s = (raw || '').trim();
+    if (!s) return { err: 'Enter a website address.' };
+    if (!/^[a-z][a-z0-9+.-]*:\/\//i.test(s)) s = 'https://' + s;
+    let u; try { u = new URL(s); } catch (e) { return { err: 'That doesn’t look like a valid web address.' }; }
+    if (!/^https?:$/.test(u.protocol)) return { err: 'Only http:// and https:// addresses can be monitored.' };
+    if (u.username || u.password) return { err: 'Remove the username and password from the address.' };
+    if (!u.hostname.includes('.') || /^(localhost|\d+\.\d+\.\d+\.\d+)$/.test(u.hostname)) return { err: 'Enter a public domain name, e.g. clientsite.com.' };
+    const host = u.hostname.replace(/^www\./, '');
+    if (this.state.sites.some(x => x.url === host)) return { err: `${host} is already monitored.` };
+    return { host };
+  }
+  addSite(host, client) {
+    const s = { id: 'n' + Date.now(), url: host, client: client || 'Unassigned', st: 'unknown', isNew: true, sub: 'First check queued', checked: '—', ago: 'added 09:48', up30: '—', checks30: 'no checks yet', resp: '—', respNote: '', ssl: null, dom: null, domSrc: 'pending first domain check' };
+    this.setState(st => ({ sites: [...st.sites, s], activity: [{ t: '09:48:20', txt: `${host} added by Priya R. · first check queued` }, ...st.activity] }));
+    return s;
+  }
+
+  renderVals() {
+    const S = this.state;
+    const phase = S.phase;
+    const delayed = phase === 'delayed';
+    const wide = S.w >= 980;
+    const siteById = id => S.sites.find(s => s.id === id);
+
+    const disp = s => {
+      if (delayed && ['up', 'degraded', 'down'].includes(s.st)) return { color: C.unknown, glyph: G.unknown, label: 'Stale', sub: `Last known ${L[s.st].toLowerCase()} · 09:31` };
+      if (s.stale) return { color: C.unknown, glyph: G.unknown, label: 'Stale', sub: s.sub };
+      return { color: C[s.st], glyph: G[s.st], label: L[s.st], sub: s.sub };
+    };
+    const openIncs = S.incidents.filter(i => i.status === 'open' || i.status === 'acknowledged');
+    const incsFor = id => openIncs.filter(i => i.site === id);
+    const maxSev = id => Math.max(-1, ...incsFor(id).map(i => i.sev));
+    const sevMin = S.sevF === 'all' ? null : +S.sevF;
+    const q = S.q.trim().toLowerCase();
+    const siteMatch = s => (S.clientF === 'all' || s.client === S.clientF)
+      && (S.statusF === 'all' || s.st === S.statusF)
+      && (!q || s.url.includes(q) || s.client.toLowerCase().includes(q))
+      && (sevMin === null || maxSev(s.id) >= sevMin);
+
+    const rank = s => s.st === 'down' ? 0 : s.st === 'degraded' ? 1 : s.stale ? 2 : incsFor(s.id).length ? 3 : ((s.ssl !== null && s.ssl <= 30) || (s.dom !== null && s.dom <= 30)) ? 4 : s.st === 'up' ? 5 : s.isNew ? 6 : 7;
+    const fOn = S.clientF !== 'all' || S.statusF !== 'all' || S.sevF !== 'all' || !!q;
+    const filteredAll = S.sites.filter(siteMatch).sort((a, b) => rank(a) - rank(b));
+    const filtered = fOn ? filteredAll : filteredAll.filter(s => rank(s) <= 4 || s.isNew);
+    const shownActive = filtered.filter(s => s.st !== 'paused').length;
+    const passingNote = fOn ? '' : `${84 - shownActive} other websites passed every check in the last 24 h · 2 paused`;
+    const days = (d, warnAt) => d === null ? { t: '—', c: '#4A4F52', w: 400 } : { t: d + ' d', c: d <= 7 ? C.down : d <= warnAt ? C.degraded : '#161A1C', w: d <= warnAt ? 600 : 400 };
+
+    const rows = filtered.map(s => {
+      const d = disp(s); const t = ticksFor(s, delayed); const ss = s.sslInvalid ? { t: 'Invalid', c: C.down, w: 600 } : days(s.ssl, 30); const dd = s.dom === null && !s.isNew ? { t: 'n/a', c: '#4A4F52', w: 400 } : days(s.dom, 30); const n = incsFor(s.id).length;
+      return { ...s, ...d, ticks: t, tickLabel: tickLabel(t), sslTxt: ss.t, sslColor: ss.c, sslWeight: ss.w, domTxt: dd.t, domColor: dd.c, domWeight: dd.w,
+        incTxt: n ? String(n) : '—', incColor: n ? C.down : '#4A4F52', respColor: s.respSlow ? C.degraded : '#161A1C',
+        agoColor: (s.stale || (delayed && s.st !== 'paused')) ? C.degraded : '#4A4F52', ago: delayed && s.st !== 'paused' && !s.isNew ? '17 min ago' : s.ago, checked: delayed && s.st !== 'paused' && !s.isNew ? '09:31:12' : s.checked,
+        bg: s.st === 'down' && !delayed ? '#FBEDEB' : 'transparent', aria: `${s.url}, ${s.client}, ${d.label}. Open details`, open: () => this.open('site', s.id) };
+    });
+
+    const attnAll = [];
+    openIncs.forEach(i => { const s = siteById(i.site); const v = SEV[i.sev]; attnAll.push({ key: i.id, sevN: i.sev, order: i.sev * 10, sevLabel: v.l, sevGlyph: v.g, sevColor: v.c, title: i.title, site: s.url, client: s.client, siteObj: s,
+      detail: i.status === 'acknowledged' ? 'Acknowledged by Priya R.' : i.type, when: i.when, when2: i.when2, canAck: i.status === 'open' && i.sev >= 3, ack: () => this.ack(i.id), open: () => i.audit ? this.open('audit', i.audit) : this.open('inc', i.id), cta: i.audit ? 'View findings' : 'Open incident', bg: i.sev === 4 ? '#FBEDEB' : 'transparent' }); });
+    S.sites.filter(s => s.st === 'degraded' || s.stale).forEach(s => { const d = disp(s); attnAll.push({ key: s.id, sevN: null, order: s.st === 'degraded' ? 25 : 24, sevLabel: d.label, sevGlyph: d.glyph, sevColor: d.color, title: s.st === 'degraded' ? 'Responses slower than usual' : 'No fresh result for 1 h 56 min', site: s.url, client: s.client, siteObj: s,
+      detail: s.st === 'degraded' ? '3,840 ms median today vs 610 ms' : 'last 3 checks timed out (inconclusive)', when: s.st === 'degraded' ? 'since 08:58' : 'last 07:52', when2: s.st === 'degraded' ? '50 min' : 'stale', canAck: false, open: () => this.open('site', s.id), cta: 'View website', bg: 'transparent' }); });
+    const attn = attnAll.filter(a => (S.clientF === 'all' || a.client === S.clientF) && (S.statusF === 'all' || a.siteObj.st === S.statusF) && (!q || a.site.includes(q) || a.client.toLowerCase().includes(q)) && (sevMin === null || (a.sevN !== null && a.sevN >= sevMin)))
+      .sort((a, b) => b.order - a.order);
+
+    const added = S.sites.filter(s => s.isNew).length - 1;
+    const base = { up: 80, degraded: 1, down: 1, unknown: 2 + Math.max(0, added), paused: 2 };
+    const total = base.up + base.degraded + base.down + base.unknown;
+    const atRisk = base.degraded + base.down + 1;
+    const dist = delayed ? [{ flex: total, fill: HATCH }] : [{ flex: base.up, fill: C.up }, { flex: base.degraded, fill: C.degraded }, { flex: base.down, fill: C.down }, { flex: base.unknown, fill: HATCH }];
+    const chip = (key, label) => { const on = S.statusF === key; return { label, glyph: G[key], count: base[key], pressed: on ? 'true' : 'false', bg: on ? '#161A1C' : '#FFFFFF', fg: on ? '#FFFFFF' : '#161A1C', border: on ? '#161A1C' : '#B9BDB8', glyphColor: on ? '#FFFFFF' : C[key], toggle: () => this.setState({ statusF: on ? 'all' : key }) }; };
+    const statusChips = [chip('down', 'Down'), chip('degraded', 'Degraded'), chip('unknown', 'Unknown / stale'), chip('up', 'Up'), chip('paused', 'Paused')];
+
+    const clientNames = [...new Set(S.sites.map(s => s.client))].filter(c => c !== 'Unassigned').sort();
+    const filtersOn = S.clientF !== 'all' || S.statusF !== 'all' || S.sevF !== 'all' || !!q;
+
+    const expiring = [
+      { kind: 'SSL', id: 's3', host: 'shop.millerandkoch.com', date: '31 Oct 2026, 14:00', d: 6 },
+      { kind: 'Domain', id: 's7', host: 'alpinecycleworks.com', date: '6 Nov 2026 · Verisign RDAP', d: 12 },
+      { kind: 'SSL', id: 's9', host: 'lumenoptics.ie', date: '21 Nov 2026', d: 27 }
+    ].map(e => ({ ...e, days: e.d + ' days', color: e.d <= 7 ? C.down : e.d <= 14 ? C.degraded : '#161A1C', glyph: e.d <= 7 ? '◆' : e.d <= 14 ? '▲' : '', open: () => this.open('site', e.id) }));
+
+    const reports = S.reports.map(r => ({ ...r, note: r.status === 'generating' ? 'Generating PDF…' : r.status === 'ready' ? 'Ready · generated 09:48 · not sent' : r.note,
+      noteColor: r.status === 'review' ? C.degraded : '#4A4F52', cta: r.status === 'review' ? 'Review' : 'View',
+      btnBg: r.status === 'review' ? '#161A1C' : '#FFFFFF', btnFg: r.status === 'review' ? '#FFFFFF' : '#161A1C', btnBorder: r.status === 'review' ? '#161A1C' : '#B9BDB8', open: () => this.open('rep', r.id) }));
+    const repSent = 27 + S.reports.filter(r => r.status === 'ready').length * 0;
+    const repReview = S.reports.filter(r => r.status === 'review').length;
+
+    const audits = S.audits.map(a => { const s = siteById(a.site); const v = SEV[a.sevTop];
+      return { ...a, host: s.url, when: a.status === 'queued' ? 'queued' : a.when, glyph: a.status === 'partial' ? '▲' : v.g, color: a.status === 'partial' ? C.degraded : a.sevTop >= 3 ? C.degraded : '#2E3437', summary: a.status === 'queued' ? 'Rerun queued — starts within 5 min' : a.summary, open: () => this.open('audit', a.id) }; });
+
+    const activity = S.activity.map(v => ({ ...v, color: v.k === 'bad' ? C.down : v.k === 'warn' ? '#7A4300' : '#161A1C' }));
+
+    let dSite = null, dInc = null, dAudit = null, dRep = null, drawerKicker = '';
+    const dr = S.drawer;
+    if (dr && dr.type === 'site') {
+      const s = siteById(dr.id); const d = disp(s); const t = ticksFor(s, delayed);
+      drawerKicker = 'WEBSITE';
+      dSite = { ...s, ...d, interval: '2 min', bg: s.st === 'down' && !delayed ? '#FBEDEB' : '#F4F5F3', ticksL: t.map(x => ({ c: x.c, h: x.h === '10px' ? '14px' : x.h === '4px' ? '5px' : '22px' })), tickLabel: tickLabel(t),
+        checked: delayed && !s.isNew ? '09:31:12' : s.checked, ago: delayed && !s.isNew ? '17 min ago — stale' : s.ago,
+        sslLong: s.sslInvalid ? 'Invalid — certificate doesn’t cover this hostname' : s.ssl === null ? 'Pending first check' : `Valid · expires ${s.sslDate} (${s.ssl} days)`,
+        domLong: s.dom === null ? `Not available — ${s.domSrc}` : `Expires ${s.domDate} (${s.dom} days) · ${s.domSrc}`,
+        auditLong: s.audit ? (() => { const a = S.audits.find(x => x.id === s.audit); return `${a.whenLong.split(',')[0]} · ${a.summary}`; })() : (s.isNew ? 'Scheduled after first successful check' : 'Weekly · next run Mon 27 Oct'),
+        hasAudit: !!s.audit, openAudit: () => this.open('audit', s.audit),
+        hasIncs: incsFor(s.id).length > 0, incs: incsFor(s.id).map(i => ({ id: i.id, title: i.title, sevLabel: SEV[i.sev].l, sevGlyph: SEV[i.sev].g, sevColor: SEV[i.sev].c, open: () => this.open('inc', i.id) })),
+        runCheck: () => this.say(`Check queued for ${s.url} · result in under a minute`) };
+    }
+    if (dr && dr.type === 'inc') {
+      const i = S.incidents.find(x => x.id === dr.id); const s = siteById(i.site); const v = SEV[i.sev];
+      drawerKicker = `INCIDENT · ${i.id}`;
+      dInc = { ...i, site: s.url, client: s.client, sevLabel: v.l, sevGlyph: v.g, sevColor: v.c, statusLabel: { open: 'Open', acknowledged: 'Acknowledged', muted: 'Muted', resolved: 'Resolved' }[i.status],
+        events: i.events.map(e => ({ ...e, w: e.w || 400 })), canAck: i.status === 'open', canMute: i.status !== 'muted', ack: () => this.ack(i.id), mute: () => this.mute(i.id), openSite: () => this.open('site', s.id),
+        addNote: e => { e.preventDefault(); const n = S.noteVal.trim(); if (!n) return; this.pushEvent(i.id, `Note by Priya R. — “${n}”`); this.setState({ noteVal: '' }); this.say('Note added to incident'); } };
+    }
+    if (dr && dr.type === 'audit') {
+      const a = S.audits.find(x => x.id === dr.id); const s = siteById(a.site);
+      drawerKicker = 'AUDIT RUN';
+      dAudit = { ...a, host: s.url, client: s.client, statusLabel: { completed: 'Completed', partial: 'Partial', queued: 'Queued' }[a.status], hasNote: !!a.note,
+        findings: a.findings.map(f => ({ ...f, sevLabel: SEV[f.sev].l, sevGlyph: SEV[f.sev].g, sevColor: SEV[f.sev].c })),
+        rerunLabel: a.status === 'queued' ? 'Rerun queued' : 'Rerun audit', rerunDisabled: a.status === 'queued', budget: '2 of 8 manual audits used this month',
+        rerun: () => { this.setState(st => ({ audits: st.audits.map(x => x.id === a.id ? { ...x, status: 'queued' } : x) })); this.say(`Audit queued for ${s.url}`); }, openSite: () => this.open('site', s.id) };
+    }
+    if (dr && dr.type === 'rep') {
+      const r = S.reports.find(x => x.id === dr.id);
+      drawerKicker = 'MONTHLY REPORT';
+      const map = { review: ['Needs review before sending', C.degraded, '#FBF1E4'], generating: ['Generating PDF…', '#4A4F52', '#F4F5F3'], ready: ['Ready to send', C.up, '#EEF5F0'], sent: ['Sent', C.up, '#EEF5F0'] }[r.status];
+      dRep = { ...r, statusLabel: map[0], color: map[1], bg: map[2], note: r.status === 'review' ? `${r.note}. This gap will be stated in the report.` : r.status === 'ready' ? 'Generated 25 Oct 09:48 GMT · not yet sent' : r.note,
+        isReview: r.status === 'review', isGenerating: r.status === 'generating', isReady: r.status === 'ready' || r.status === 'sent',
+        generate: () => this.generate(r.id), copy: () => this.say('Private link copied · expires 24 Nov 2026'), revoke: () => this.say(`Link for ${r.client} revoked — the old URL no longer opens`) };
+    }
+
+    const fresh = delayed ? { glyph: '▲', color: '#7A4300', text: 'Delayed · newest result 09:31:12 GMT (17 min ago)' } : { glyph: '●', color: '#1F7A4A', text: 'Live · newest result 09:48:02 GMT' };
+    const worker = delayed ? { dot: '#F2A65A', text: 'Results delayed since 09:31', queue: 'Statuses show last known values until checks resume' } : { dot: '#5FD39A', text: 'Monitoring current', queue: 'Newest result 09:48:02 · next SSL sweep 12:00' };
+    const v = this.validate(S.addUrl);
+    const addMsg = S.addErr || (S.addUrl && !v.err ? `Will monitor https://${v.host}` : 'http:// or https:// only. We add https:// if you leave it out.');
+
+    return {
+      wide, narrow: !wide, isLive: phase === 'live' || delayed, isDelayed: delayed, isLoading: phase === 'loading', isError: phase === 'error', isEmpty: phase === 'empty',
+      fresh, worker, skel: [1, 2, 3, 4, 5],
+      headline: delayed ? { lead: 'Results are 17 minutes old.', rest: 'Showing last known state for 84 websites.' } : { lead: `${atRisk} of ${total} websites at risk.`, rest: `${total - atRisk - Math.max(0, added) - 1} healthy · 1 awaiting first check · 2 paused` },
+      dist, distLabel: `Status distribution: ${base.up} up, ${base.degraded} degraded, ${base.down} down, ${base.unknown} unknown or stale, ${base.paused} paused`,
+      statusChips, openIncCount: openIncs.length, unackCount: openIncs.filter(i => i.status === 'open').length, passingNote, critCount: openIncs.filter(i => i.sev === 4).length, repSent, repReview, totalSites: total + base.paused,
+      clientF: S.clientF, statusF: S.statusF, sevF: S.sevF, q: S.q, filtersOn,
+      clientOpts: [{ v: 'all', l: 'All clients' }, ...clientNames.map(n => ({ v: n, l: n }))], clientNames,
+      onClient: e => this.setState({ clientF: e.target.value }), onStatus: e => this.setState({ statusF: e.target.value }), onSev: e => this.setState({ sevF: e.target.value }), onQ: e => this.setState({ q: e.target.value }),
+      clearFilters: () => this.setState({ clientF: 'all', statusF: 'all', sevF: 'all', q: '' }),
+      resultText: `${attn.length} ${attn.length === 1 ? 'issue' : 'issues'} · ${rows.length} of ${S.sites.length} listed websites`,
+      stackRows: S.w < 720, tableRows: S.w >= 720, attn, attnEmpty: attn.length === 0, rows, rowsEmpty: rows.length === 0, rowPad: this.props.compact ? '6px' : '9px',
+      expiring, reports, audits, activity,
+      drawerOpen: !!dr, drawerKicker, dSite, dInc, dAudit, dRep, closeDrawer: () => this.close(), closeRef: this.closeRef,
+      noteVal: S.noteVal, onNote: e => this.setState({ noteVal: e.target.value }),
+      addOpen: S.addOpen, addRef: this.addRef, addUrl: S.addUrl, addClient: S.addClient, addErr: S.addErr, addMsg, addMsgColor: S.addErr ? C.down : '#4A4F52', addInvalid: S.addErr ? 'true' : 'false', addBorder: S.addErr ? C.down : '#B9BDB8',
+      planUse: `${S.sites.length - 12 + 85} of 100 sites on Growth`,
+      openAdd: () => this.setState({ addOpen: true, addErr: '', addUrl: '', addClient: '' }), closeAdd: () => this.setState({ addOpen: false }),
+      onAddUrl: e => this.setState({ addUrl: e.target.value, addErr: '' }), onAddClient: e => this.setState({ addClient: e.target.value }),
+      submitAdd: e => { e.preventDefault(); const r = this.validate(S.addUrl); if (r.err) return this.setState({ addErr: r.err }); this.addSite(r.host, S.addClient); this.setState({ addOpen: false, addUrl: '' }); this.say(`${r.host} added · first check queued`); },
+      submitEmpty: e => { e.preventDefault(); const r = this.validate(S.addUrl); if (r.err) return this.setState({ addErr: r.err }); const s = this.addSite(r.host, S.addClient); this.setState({ emptyAdded: s, addUrl: '', addClient: '' }); },
+      emptyAdded: S.emptyAdded, goLive: () => this.setState({ phase: 'live' }),
+      retry: () => { this.setState({ phase: 'loading' }); setTimeout(() => this.setState({ phase: 'live' }), 1100); },
+      toast: S.toast
+    };
+  }
+  pushEvent(id, txt, extra) { this.setState(st => ({ incidents: st.incidents.map(i => i.id === id ? { ...i, ...(extra || {}), events: [{ t: '25 Oct 09:48:20', txt, w: 600 }, ...i.events] } : i) })); }
+  ack(id) { this.pushEvent(id, 'Acknowledged by Priya R.', { status: 'acknowledged', when2: 'ack’d now' }); this.say(`${id} acknowledged · alerts continue until resolved`); }
+  mute(id) { this.pushEvent(id, 'Alerts muted by Priya R.', { status: 'muted' }); this.say(`${id} muted · it stays in the incident log`); }
+  generate(id) {
+    this.setState(st => ({ reports: st.reports.map(r => r.id === id ? { ...r, status: 'generating' } : r) }));
+    setTimeout(() => this.setState(st => ({ reports: st.reports.map(r => r.id === id ? { ...r, status: 'ready' } : r) })), 1600);
+  }
+}
+</script>
+</body>
+</html>

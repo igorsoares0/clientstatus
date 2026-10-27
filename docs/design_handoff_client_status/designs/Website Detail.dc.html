@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>harbourdental.co.uk · Northfold Studio · Client Status</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400;75..100,500;75..100,600;75..100,700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F4F5F3;color:#161A1C;-webkit-font-smoothing:antialiased}
+a{color:#161A1C;text-decoration:underline;text-underline-offset:2px}
+a:hover{color:#4A4F52}
+button,select,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid #161A1C;outline-offset:2px}
+input[type=radio]{accent-color:#161A1C}
+</style>
+</helmet>
+
+<div style="display:flex;min-height:100vh;font-family:Archivo,sans-serif;font-size:14px;background:#F4F5F3;color:#161A1C">
+  <sc-if value="{{ wideNav }}" hint-placeholder-val="{{ true }}">
+    <nav aria-label="Primary" style="flex:0 0 200px;position:sticky;top:0;height:100vh;box-sizing:border-box;background:#FFFFFF;border-right:1px solid #D5D8D4;display:flex;flex-direction:column;padding:16px 0">
+      <div style="padding:0 16px 4px;font-weight:700;font-stretch:80%;font-size:17px;letter-spacing:.01em">Northfold Studio</div>
+      <div style="padding:0 16px 16px;font-size:12px;color:#4A4F52">Growth plan · 84 of 100 sites</div>
+      <a href="Overview.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M3 12h4l3-8 4 16 3-8h4"></path></svg>Overview</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G O</span></a>
+      <a href="Websites.dc.html" aria-current="page" style="display:flex;justify-content:space-between;padding:8px 16px;background:#161A1C;color:#FFFFFF;text-decoration:none"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9M12 3c-2.5 2.6-3.8 5.6-3.8 9s1.3 6.4 3.8 9"></path></svg>Websites</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;opacity:.7">G W</span></a>
+      <a href="Clients.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><rect x="3" y="7" width="18" height="13"></rect><path d="M8.5 7V4h7v3M3 12.5h18"></path></svg>Clients</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G C</span></a>
+      <a href="Incidents.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M12 3.5 2.5 20h19L12 3.5z"></path><path d="M12 10v4.5M12 17.2v.1"></path></svg>Incidents <span style="font-family:'JetBrains Mono',monospace;color:#C2261B;font-weight:600">4</span></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G I</span></a>
+      <a href="Reports.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M6 2.5h8.5L19 7v14.5H6z"></path><path d="M14 2.5V7.5h5M9 12.5h7M9 16.5h7"></path></svg>Reports</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G R</span></a>
+      <div style="height:1px;background:#E2E4E1;margin:12px 16px"></div>
+      <a href="Team.dc.html" style="padding:8px 16px;text-decoration:none;color:#4A4F52" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20.5c.7-3.6 3.3-5.8 6.5-5.8s5.8 2.2 6.5 5.8M15.5 4.6a3.5 3.5 0 0 1 0 6.8M18 15c1.9.9 3.1 2.8 3.5 5.5"></path></svg>Team</span></a>
+      <a href="Settings.dc.html" style="padding:8px 16px;text-decoration:none;color:#4A4F52" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M3 6h11M18 6h3M3 12h4M11 12h10M3 18h12M19 18h2"></path><circle cx="16" cy="6" r="2"></circle><circle cx="9" cy="12" r="2"></circle><circle cx="17" cy="18" r="2"></circle></svg>Settings</span></a>
+      <a href="Billing.dc.html" style="padding:8px 16px;text-decoration:none;color:#4A4F52" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><rect x="2.5" y="5" width="19" height="14"></rect><path d="M2.5 10h19M6 15h4"></path></svg>Billing</span></a>
+      <div style="margin-top:auto;padding:12px 16px 0;border-top:1px solid #E2E4E1;font-size:13px;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Priya Raman</span><span style="color:#4A4F52;font-size:12px">Owner · Europe/London</span><span style="margin-top:8px;font-size:12px;font-weight:600;font-stretch:80%;letter-spacing:.02em;color:#4A4F52">Client Status</span></div>
+    </nav>
+  </sc-if>
+
+  <div style="flex:1 1 auto;min-width:0;display:flex;flex-direction:column">
+    <header style="background:#FFFFFF;border-bottom:1px solid #D5D8D4;padding:14px 28px 16px;display:flex;flex-direction:column;gap:10px">
+      <nav aria-label="Breadcrumb" style="font-size:12.5px;color:#4A4F52;display:flex;gap:6px;flex-wrap:wrap"><a href="Websites.dc.html" style="color:#4A4F52">Websites</a><span aria-hidden="true">/</span><a href="Clients.dc.html?c=hd" style="color:#4A4F52">Harbour Dental Group</a><span aria-hidden="true">/</span><span aria-current="page" style="color:#161A1C">harbourdental.co.uk</span></nav>
+      <div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 24px">
+        <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+          <h1 style="margin:0;font-size:26px;line-height:1.1;font-weight:600;font-stretch:84%">Harbour Dental Group</h1>
+          <span style="font-size:13px;color:#4A4F52"><a href="https://harbourdental.co.uk" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#2E3437">https://harbourdental.co.uk</a> · Client: <a href="Clients.dc.html?c=hd" style="color:#2E3437">Harbour Dental Group</a> · Checked every {{ interval }}</span>
+        </div>
+        <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap">
+          <button type="button" onClick="{{ runCheck }}" disabled="{{ paused }}" style="white-space:nowrap;height:34px;padding:0 14px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:13px;opacity:{{ runOpacity }}">{{ runLabel }}</button>
+          <button type="button" onClick="{{ askPause }}" aria-expanded="{{ pauseOpenAria }}" style="white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">{{ pauseLabel }}</button>
+        </div>
+      </div>
+      <div role="status" style="display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 20px;padding:10px 14px;background:{{ st.bg }};border:1px solid {{ st.border }}">
+        <span style="font-size:17px;font-weight:600;color:{{ st.color }}"><span aria-hidden="true">{{ st.glyph }}</span> {{ st.label }}</span>
+        <span style="color:#2E3437">{{ st.sub }}</span>
+        <span style="margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">{{ st.fresh }}</span>
+      </div>
+      <sc-if value="{{ pauseOpen }}" hint-placeholder-val="{{ false }}">
+        <div role="region" aria-label="Confirm pause" style="padding:12px 14px;border:1px solid #B9BDB8;background:#F4F5F3;display:flex;flex-direction:column;gap:8px;max-width:640px">
+          <span style="font-weight:600">Pause monitoring for harbourdental.co.uk?</span>
+          <ul style="margin:0;padding-left:18px;font-size:13px;line-height:1.5;color:#2E3437"><li>Uptime, SSL and domain checks stop; the weekly audit is skipped.</li><li>INC-0412 stays open but won’t update, and no alerts are sent.</li><li>History is kept. October’s report will show the paused time as a gap.</li><li>Frees 1 of your 100 plan slots.</li></ul>
+          <div style="display:flex;gap:8px"><button type="button" onClick="{{ pause }}" style="white-space:nowrap;height:32px;padding:0 12px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:13px">Pause monitoring</button><button type="button" onClick="{{ cancelPause }}" style="white-space:nowrap;height:32px;padding:0 12px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">Cancel</button></div>
+        </div>
+      </sc-if>
+    </header>
+
+    <div style="flex:1;display:flex;gap:28px;padding:20px 28px 32px;align-items:flex-start;min-width:0">
+      <sc-if value="{{ wideNav }}" hint-placeholder-val="{{ true }}">
+        <nav aria-label="On this page" style="flex:0 0 160px;position:sticky;top:20px;display:flex;flex-direction:column;border-left:1px solid #D5D8D4">
+          <sc-for list="{{ sections }}" as="x" hint-placeholder-count="7"><button type="button" onClick="{{ x.go }}" aria-current="{{ x.cur }}" style="white-space:nowrap;text-align:left;padding:6px 12px;margin-left:-1px;border:none;border-left:2px solid {{ x.edge }};background:none;cursor:pointer;font-size:13px;font-weight:{{ x.w }};color:{{ x.c }}" style-hover="color:#161A1C">{{ x.l }}<sc-if value="{{ x.n }}" hint-placeholder-val="{{ false }}"> <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:{{ x.nc }}">{{ x.n }}</span></sc-if></button></sc-for>
+        </nav>
+      </sc-if>
+
+      <main style="flex:1;min-width:0;max-width:980px;display:flex;flex-direction:column;gap:32px">
+        <section id="summary" aria-labelledby="h-summary" style="display:flex;flex-direction:column;gap:10px">
+          <h2 id="h-summary" style="margin:0;font-size:17px;font-weight:600;font-stretch:85%">Summary</h2>
+          <dl style="margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));background:#FFFFFF;border:1px solid #D5D8D4">
+            <sc-for list="{{ facts }}" as="f" hint-placeholder-count="6">
+              <div style="padding:12px 14px;border-right:1px solid #E7E9E6;border-bottom:1px solid #E7E9E6;display:flex;flex-direction:column;gap:2px">
+                <dt style="font-size:12px;letter-spacing:.03em;color:#4A4F52">{{ f.k }}</dt>
+                <dd style="margin:0;font-size:18px;font-weight:600;font-stretch:88%;color:{{ f.c }};font-variant-numeric:tabular-nums">{{ f.v }}</dd>
+                <dd style="margin:0;font-size:12.5px;color:#4A4F52">{{ f.s }}</dd>
+              </div>
+            </sc-for>
+          </dl>
+        </section>
+
+        <section id="uptime" aria-labelledby="h-uptime" style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 16px">
+            <h2 id="h-uptime" style="margin:0;font-size:17px;font-weight:600;font-stretch:85%">Uptime history</h2>
+            <div role="group" aria-label="Period" style="display:flex;border:1px solid #B9BDB8;background:#FFFFFF;margin-left:auto">
+              <sc-for list="{{ periods }}" as="p" hint-placeholder-count="3"><button type="button" onClick="{{ p.pick }}" aria-pressed="{{ p.pressed }}" style="white-space:nowrap;height:30px;padding:0 10px;border:none;background:{{ p.bg }};color:{{ p.fg }};cursor:pointer;font-size:12.5px;font-family:'JetBrains Mono',monospace">{{ p.l }}</button></sc-for>
+            </div>
+          </div>
+          <div style="background:#FFFFFF;border:1px solid #D5D8D4;padding:14px 16px;display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;flex-wrap:wrap;gap:4px 28px;font-size:13.5px;font-variant-numeric:tabular-nums">
+              <span>Uptime <b>{{ up.pct }}</b></span><span>{{ up.checks }}</span><span style="color:#C2261B">◆ {{ up.fail }} failed</span><span style="color:#4A4F52">◌ {{ up.inc }} inconclusive, excluded</span><span style="color:#4A4F52">Coverage {{ up.cov }}</span>
+            </div>
+            <div role="img" aria-label="{{ up.aria }}" style="display:flex;gap:2px;align-items:flex-end;height:28px">
+              <sc-for list="{{ up.cells }}" as="c" hint-placeholder-count="48"><span style="flex:1;height:{{ c.h }};background:{{ c.bg }}"></span></sc-for>
+            </div>
+            <div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52"><span>{{ up.from }}</span><span>{{ up.unit }}</span><span>now</span></div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12px;color:#4A4F52;border-top:1px solid #E7E9E6;padding-top:8px"><span><span aria-hidden="true" style="color:#1F7A4A">▮</span> all checks passed</span><span><span aria-hidden="true" style="color:#A35A00">▮</span> slow or inconclusive</span><span><span aria-hidden="true" style="color:#C2261B">▮</span> confirmed failure</span><span><span aria-hidden="true" style="color:#B9BDB8">▮</span> no data</span></div>
+          </div>
+        </section>
+
+        <section id="ssl" aria-labelledby="h-ssl" style="display:flex;flex-direction:column;gap:10px">
+          <h2 id="h-ssl" style="margin:0;font-size:17px;font-weight:600;font-stretch:85%">SSL and domain</h2>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px">
+            <dl style="margin:0;background:#FFFFFF;border:1px solid #D5D8D4;padding:12px 16px;display:grid;grid-template-columns:auto 1fr;gap:7px 16px;font-size:13.5px;align-content:start">
+              <dt style="grid-column:1 / -1;font-weight:600;font-size:14px;margin-bottom:2px">Certificate <span style="font-weight:600;color:#1F7A4A">● Valid</span></dt>
+              <dt style="color:#4A4F52">Expires</dt><dd style="margin:0">25 May 2027 · 212 days</dd>
+              <dt style="color:#4A4F52">Covers</dt><dd style="margin:0;font-family:'JetBrains Mono',monospace;font-size:12.5px">harbourdental.co.uk, *.harbourdental.co.uk</dd>
+              <dt style="color:#4A4F52">Issuer</dt><dd style="margin:0">Let’s Encrypt (R11) · chain trusted</dd>
+              <dt style="color:#4A4F52">Hostname</dt><dd style="margin:0">Matches</dd>
+              <dt style="color:#4A4F52">Alerts at</dt><dd style="margin:0">30, 14, 7 and 1 days before expiry</dd>
+              <dt style="color:#4A4F52">Checked</dt><dd style="margin:0;font-family:'JetBrains Mono',monospace;font-size:12.5px">25 Oct 06:00:11 · next 12:00</dd>
+            </dl>
+            <dl style="margin:0;background:#FFFFFF;border:1px solid #D5D8D4;padding:12px 16px;display:grid;grid-template-columns:auto 1fr;gap:7px 16px;font-size:13.5px;align-content:start">
+              <dt style="grid-column:1 / -1;font-weight:600;font-size:14px;margin-bottom:2px">Domain registration</dt>
+              <dt style="color:#4A4F52">Expires</dt><dd style="margin:0">14 Mar 2027 · 139 days</dd>
+              <dt style="color:#4A4F52">Domain</dt><dd style="margin:0;font-family:'JetBrains Mono',monospace;font-size:12.5px">harbourdental.co.uk</dd>
+              <dt style="color:#4A4F52">Source</dt><dd style="margin:0">Nominet RDAP</dd>
+              <dt style="color:#4A4F52">DNS</dt><dd style="margin:0">A, MX and NS records unchanged since 2 Sep</dd>
+              <dt style="color:#4A4F52">Checked</dt><dd style="margin:0;font-family:'JetBrains Mono',monospace;font-size:12.5px">25 Oct 02:00:07 · daily</dd>
+            </dl>
+          </div>
+        </section>
+
+        <section id="audit" aria-labelledby="h-audit" style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px">
+            <h2 id="h-audit" style="margin:0;font-size:17px;font-weight:600;font-stretch:85%">Audit findings</h2>
+            <span style="font-size:12.5px;color:#4A4F52">{{ auditMeta }}</span>
+            <button type="button" onClick="{{ rerun }}" disabled="{{ rerunDisabled }}" style="white-space:nowrap;margin-left:auto;height:30px;padding:0 12px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:12.5px">{{ rerunLabel }}</button>
+          </div>
+          <div style="background:#FFFFFF;border:1px solid #D5D8D4">
+            <div style="display:grid;grid-template-columns:120px minmax(0,1fr) minmax(0,1.3fr);gap:12px;padding:8px 16px;border-bottom:1px solid #D5D8D4;font-size:12px;letter-spacing:.03em;color:#4A4F52"><span>SEVERITY</span><span>FINDING</span><span>PAGE → TARGET</span></div>
+            <sc-for list="{{ findings }}" as="f" hint-placeholder-count="5">
+              <div style="display:grid;grid-template-columns:120px minmax(0,1fr) minmax(0,1.3fr);gap:12px;padding:9px 16px;border-bottom:1px solid #E7E9E6;font-size:13px;align-items:baseline">
+                <span style="font-weight:600;color:{{ f.c }};white-space:nowrap"><span aria-hidden="true">{{ f.g }}</span> {{ f.l }}</span>
+                <span style="display:flex;flex-direction:column"><span style="font-weight:600">{{ f.type }}</span><span style="font-size:12px;color:#4A4F52">{{ f.first }}</span></span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#2E3437;word-break:break-word">{{ f.where }}</span>
+              </div>
+            </sc-for>
+            <p style="margin:0;padding:10px 16px;font-size:12.5px;color:#4A4F52">Basic technical checks only. 2 external links were rate-limited (429) and are counted as inconclusive, not broken.</p>
+          </div>
+        </section>
+
+        <section id="incidents" aria-labelledby="h-inc" style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:baseline;gap:16px"><h2 id="h-inc" style="margin:0;font-size:17px;font-weight:600;font-stretch:85%">Incidents</h2><a href="Incidents.dc.html" style="margin-left:auto;font-size:13px">Open in Incidents</a></div>
+          <div style="background:#FFFFFF;border:1px solid #D5D8D4">
+            <sc-for list="{{ incidents }}" as="i" hint-placeholder-count="3">
+              <a href="Incidents.dc.html" style="display:grid;grid-template-columns:120px minmax(0,1fr) 150px;gap:12px;padding:10px 16px;border-bottom:1px solid #E7E9E6;text-decoration:none;align-items:baseline" style-hover="background:#F1F3F1">
+                <span style="font-weight:600;font-size:13px;color:{{ i.c }};white-space:nowrap"><span aria-hidden="true">{{ i.g }}</span> {{ i.sev }}</span>
+                <span style="display:flex;flex-direction:column"><span style="font-weight:600;text-decoration:underline;text-decoration-color:#C9CDC8;text-underline-offset:3px">{{ i.title }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">{{ i.id }} · {{ i.when }}</span></span>
+                <span style="text-align:right;font-size:13px;font-weight:600;color:{{ i.sc }}">{{ i.state }}<span style="display:block;font-weight:400;font-size:12px;color:#4A4F52">{{ i.dur }}</span></span>
+              </a>
+            </sc-for>
+          </div>
+        </section>
+
+        <section id="reports" aria-labelledby="h-rep" style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:baseline;gap:16px"><h2 id="h-rep" style="margin:0;font-size:17px;font-weight:600;font-stretch:85%">Reports</h2><span style="font-size:12.5px;color:#4A4F52">Included in the Harbour Dental Group client report</span></div>
+          <div style="background:#FFFFFF;border:1px solid #D5D8D4">
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) 120px 200px;gap:12px;padding:10px 16px;border-bottom:1px solid #E7E9E6;align-items:baseline;font-size:13.5px"><a href="Monthly%20Report.dc.html?r=harbour" target="_blank" style="font-weight:600">September 2026</a><span style="font-variant-numeric:tabular-nums">99.94% uptime</span><span style="text-align:right;color:#4A4F52;font-size:13px">Sent 1 Oct 07:00 · 2 recipients</span></div>
+            <div style="display:grid;grid-template-columns:minmax(0,1fr) 120px 200px;gap:12px;padding:10px 16px;border-bottom:1px solid #E7E9E6;align-items:baseline;font-size:13.5px"><span style="font-weight:600">August 2026</span><span style="font-variant-numeric:tabular-nums">99.99% uptime</span><span style="text-align:right;color:#4A4F52;font-size:13px">Sent 1 Sep 07:00 · link expired</span></div>
+            <p style="margin:0;padding:10px 16px;font-size:12.5px;color:#4A4F52">October report generates 1 Nov, 06:00 GMT.</p>
+          </div>
+        </section>
+
+        <section id="settings" aria-labelledby="h-set" style="display:flex;flex-direction:column;gap:10px">
+          <h2 id="h-set" style="margin:0;font-size:17px;font-weight:600;font-stretch:85%">Settings</h2>
+          <form onSubmit="{{ save }}" style="background:#FFFFFF;border:1px solid #D5D8D4;display:flex;flex-direction:column">
+            <div style="padding:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px 24px">
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Display name<input type="text" value="{{ form.name }}" onChange="{{ onName }}" style="height:36px;padding:0 10px;border:1px solid #B9BDB8;font-weight:400;font-size:14px"></input></label>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Request timeout
+                <select value="{{ form.timeout }}" onChange="{{ onTimeout }}" style="height:36px;border:1px solid #B9BDB8;background:#FFFFFF;padding:0 8px;font-size:14px;font-weight:400"><option value="5">5 seconds</option><option value="10">10 seconds (default)</option><option value="15">15 seconds</option><option value="20">20 seconds</option></select>
+              </label>
+              <div style="display:flex;flex-direction:column;gap:6px;font-size:13px"><span style="font-weight:600">Check interval</span><span style="height:36px;display:flex;align-items:center;color:#2E3437">Every 2 minutes — set by the Growth plan</span></div>
+              <fieldset style="grid-column:1 / -1;margin:0;padding:0;border:none;display:flex;flex-direction:column;gap:6px">
+                <legend style="font-size:13px;font-weight:600;padding:0;margin-bottom:6px">What counts as down</legend>
+                <label style="display:flex;gap:8px;align-items:flex-start;font-size:13.5px;line-height:1.45;cursor:pointer"><input type="radio" name="policy" value="default" checked="{{ form.pDefault }}" onChange="{{ onPolicy }}" style="margin:3px 0 0"></input><span style="flex:1;min-width:0">Server errors (5xx) and connection failures <span style="color:#4A4F52">— recommended. 4xx responses are recorded but don’t open incidents.</span></span></label>
+                <label style="display:flex;gap:8px;align-items:flex-start;font-size:13.5px;line-height:1.45;cursor:pointer"><input type="radio" name="policy" value="strict" checked="{{ form.pStrict }}" onChange="{{ onPolicy }}" style="margin:3px 0 0"></input><span style="flex:1;min-width:0">Any response other than 2xx or 3xx <span style="color:#4A4F52">— use if this page should never return 401/403/404.</span></span></label>
+              </fieldset>
+              <p style="grid-column:1 / -1;margin:0;font-size:12.5px;color:#4A4F52;line-height:1.45">Incidents open after 2 consecutive failed checks and resolve after 2 consecutive passes. Alerts use the workspace defaults (Priya R., Tom E.; 60-minute cooldown). <a href="Settings.dc.html">Notification settings</a></p>
+            </div>
+            <div style="padding:12px 16px;border-top:1px solid #E2E4E1;display:flex;gap:10px;align-items:center">
+              <button type="submit" disabled="{{ clean }}" style="white-space:nowrap;height:34px;padding:0 14px;border:none;background:{{ saveBg }};color:#FFFFFF;cursor:pointer;font-weight:600;font-size:13px">Save changes</button>
+              <span aria-live="polite" style="font-size:12.5px;color:#4A4F52">{{ saveNote }}</span>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <footer style="display:flex;flex-wrap:wrap;gap:4px 24px;padding:6px 28px;background:#161A1C;color:#D5D8D4;font-family:'JetBrains Mono',monospace;font-size:12px">
+      <span style="white-space:nowrap"><span aria-hidden="true" style="color:#5FD39A">●</span> Monitoring current</span><span style="white-space:nowrap">Newest result 09:48:02 · next SSL sweep 12:00</span><span style="margin-left:auto;white-space:nowrap">Times in Europe/London (GMT)</span>
+    </footer>
+  </div>
+
+  <div aria-live="polite" style="position:fixed;left:50%;bottom:40px;transform:translateX(-50%);z-index:60">
+    <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}"><div style="background:#161A1C;color:#FFFFFF;padding:10px 16px;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.2)">{{ toast }}</div></sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const OK = '#1F7A4A', WARN = '#A35A00', BAD = '#C2261B', GAPC = '#C9CDC8';
+const SECTIONS = [['summary', 'Summary'], ['uptime', 'Uptime history'], ['ssl', 'SSL and domain'], ['audit', 'Audit findings', '5'], ['incidents', 'Incidents', '1 open'], ['reports', 'Reports'], ['settings', 'Settings']];
+const cells = (n, fn) => Array.from({ length: n }, (_, i) => fn(i));
+const PERIODS = {
+  d1: { l: '24 h', pct: '86.11%', checks: '720 checks', fail: 4, inc: 1, cov: '100%', from: '24 Oct 09:48', unit: '30-minute windows', cells: cells(48, i => i >= 47 ? { bg: BAD, h: '28px' } : { bg: OK, h: '18px' }) },
+  d7: { l: '7 d', pct: '98.02%', checks: '5,040 checks', fail: 4, inc: 3, cov: '100%', from: '18 Oct', unit: '3-hour windows', cells: cells(56, i => i === 55 ? { bg: BAD, h: '28px' } : i === 30 ? { bg: WARN, h: '22px' } : { bg: OK, h: '18px' }) },
+  d30: { l: '30 d', pct: '99.12%', checks: '21,410 of 21,600 checks', fail: 190, inc: 6, cov: '99.9%', from: '26 Sep', unit: 'days', cells: cells(30, i => i === 29 ? { bg: BAD, h: '28px' } : i === 4 ? { bg: BAD, h: '28px' } : i === 12 ? { bg: WARN, h: '22px' } : { bg: OK, h: '18px' }) }
+};
+
+class Component extends DCLogic {
+  state = { period: 'd1', paused: false, pauseOpen: false, cur: 'summary', audit: 'done', form: { name: 'Harbour Dental Group', timeout: '10', policy: 'default' }, saved: { name: 'Harbour Dental Group', timeout: '10', policy: 'default' }, saveNote: '', toast: '', w: typeof window !== 'undefined' ? window.innerWidth : 1400 };
+  componentDidMount() {
+    this.onResize = () => this.setState({ w: window.innerWidth });
+    this.onScroll = () => { let cur = 'summary'; for (const [id] of SECTIONS) { const el = document.getElementById(id); if (el && el.getBoundingClientRect().top < 140) cur = id; } if (cur !== this.state.cur) this.setState({ cur }); };
+    window.addEventListener('resize', this.onResize); window.addEventListener('scroll', this.onScroll, { passive: true });
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); window.removeEventListener('scroll', this.onScroll); clearTimeout(this.tt); }
+  say(m) { clearTimeout(this.tt); this.setState({ toast: m }); this.tt = setTimeout(() => this.setState({ toast: '' }), 3500); }
+  go(id) { const el = document.getElementById(id); if (!el) return; window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 16, behavior: 'smooth' }); const h = el.querySelector('h2'); if (h) { h.setAttribute('tabindex', '-1'); setTimeout(() => h.focus({ preventScroll: true }), 300); } }
+  renderVals() {
+    const S = this.state, P = PERIODS[S.period];
+    const paused = S.paused;
+    const st = paused ? { label: 'Paused', glyph: '‖', color: '#4A4F52', bg: '#F4F5F3', border: '#D5D8D4', sub: 'Paused 25 Oct 09:48 by Priya R. — no checks or alerts. History is kept.', fresh: 'Last check 09:47:04 · before pause' }
+      : { label: 'Down', glyph: '◆', color: BAD, bg: '#FBEDEB', border: '#EBC3BE', sub: 'HTTP 502 Bad Gateway since 09:41 · 4 failed checks · INC-0412 open, not acknowledged', fresh: 'Last check 09:47:04 (1 min ago) · next 09:49:04' };
+    const dirty = JSON.stringify(S.form) !== JSON.stringify(S.saved);
+    return {
+      wideNav: S.w >= 980, interval: '2 min', st, paused,
+      runCheck: () => this.say('Check queued · result in under a minute'), runLabel: 'Run check now', runOpacity: paused ? .45 : 1,
+      pauseLabel: paused ? 'Resume monitoring' : 'Pause monitoring…', pauseOpen: S.pauseOpen, pauseOpenAria: S.pauseOpen ? 'true' : 'false',
+      askPause: () => paused ? (this.setState({ paused: false }), this.say('Monitoring resumed · first check within 2 minutes')) : this.setState({ pauseOpen: !S.pauseOpen }),
+      pause: () => { this.setState({ paused: true, pauseOpen: false }); this.say('Monitoring paused · history kept'); }, cancelPause: () => this.setState({ pauseOpen: false }),
+      sections: SECTIONS.map(([id, l, n]) => { const on = S.cur === id; return { l, n: n || '', nc: id === 'incidents' ? BAD : '#4A4F52', cur: on ? 'location' : 'false', edge: on ? '#161A1C' : 'transparent', w: on ? 600 : 400, c: on ? '#161A1C' : '#4A4F52', go: () => this.go(id) }; }),
+      facts: [
+        { k: 'UPTIME · 30 DAYS', v: '99.12%', s: '21,410 of 21,600 checks', c: '#161A1C' },
+        { k: 'RESPONSE', v: '—', s: 'No response · median 24 h 312 ms', c: '#161A1C' },
+        { k: 'OPEN INCIDENTS', v: '1 critical', s: 'INC-0412 · since 09:43', c: BAD },
+        { k: 'SSL CERTIFICATE', v: '212 days', s: 'Valid until 25 May 2027', c: '#161A1C' },
+        { k: 'DOMAIN', v: '139 days', s: 'Until 14 Mar 2027 · Nominet', c: '#161A1C' },
+        { k: 'LAST AUDIT', v: '21 Oct', s: '3 broken links · 2 advisories', c: '#161A1C' }
+      ],
+      periods: Object.entries(PERIODS).map(([k, p]) => ({ l: p.l, pressed: S.period === k ? 'true' : 'false', bg: S.period === k ? '#161A1C' : '#FFFFFF', fg: S.period === k ? '#FFFFFF' : '#161A1C', pick: () => this.setState({ period: k }) })),
+      up: { ...P, aria: `Uptime over ${P.l}: ${P.pct}. ${P.fail} failed checks, ${P.inc} inconclusive.` },
+      auditMeta: S.audit === 'queued' ? 'Rerun queued — starts within 5 minutes' : '21 Oct 03:33–03:40 · completed · 86 pages · 740 links',
+      rerun: () => { this.setState({ audit: 'queued' }); this.say('Audit queued · 3 of 8 manual audits used this month'); }, rerunDisabled: S.audit === 'queued' || paused, rerunLabel: S.audit === 'queued' ? 'Audit queued' : 'Rerun audit',
+      findings: [
+        { g: '▮▮▯▯', l: 'Medium', c: '#161A1C', type: 'Broken internal link (404)', first: 'First found 28 Sep', where: '/treatments/implants → /treatments/implant-pricing' },
+        { g: '▮▮▯▯', l: 'Medium', c: '#161A1C', type: 'Broken internal link (404)', first: 'First found 28 Sep', where: '/treatments/whitening → /offers/summer' },
+        { g: '▮▮▯▯', l: 'Medium', c: '#161A1C', type: 'Broken internal link (404)', first: 'First found 28 Sep', where: '/treatments → /treatments/invisalign-faq' },
+        { g: '▮▯▯▯', l: 'Low', c: '#4A4F52', type: 'Missing meta description', first: 'First found 28 Sep', where: '/careers · /patient-forms' },
+        { g: '▯▯▯▯', l: 'Info', c: '#4A4F52', type: 'Multiple H1 tags (advisory)', first: 'First found 14 Sep', where: '/about' }
+      ],
+      incidents: [
+        { g: '▮▮▮▮', sev: 'Critical', c: BAD, title: 'Website down — HTTP 502 Bad Gateway', id: 'INC-0412', when: 'since 25 Oct 09:41', state: 'Open', sc: '#161A1C', dur: '7 min · ongoing' },
+        { g: '▮▮▮▯', sev: 'High', c: '#4A4F52', title: 'Website down — HTTP 503 Service Unavailable', id: 'INC-0388', when: '17 Sep 08:12–08:38', state: 'Resolved', sc: OK, dur: '26 min' },
+        { g: '▮▯▯▯', sev: 'Low', c: '#4A4F52', title: 'NS records changed', id: 'INC-0361', when: '2 Sep 11:20', state: 'Resolved', sc: OK, dur: 'acknowledged as planned' }
+      ],
+      form: { ...S.form, pDefault: S.form.policy === 'default', pStrict: S.form.policy === 'strict' },
+      onName: e => this.setState({ form: { ...S.form, name: e.target.value }, saveNote: '' }), onTimeout: e => this.setState({ form: { ...S.form, timeout: e.target.value }, saveNote: '' }), onPolicy: e => this.setState({ form: { ...S.form, policy: e.target.value }, saveNote: '' }),
+      clean: !dirty, saveBg: dirty ? '#161A1C' : '#8D9396', saveNote: S.saveNote || (dirty ? 'Unsaved changes' : ''),
+      save: e => { e.preventDefault(); if (!dirty) return; this.setState({ saved: S.form, saveNote: 'Saved 09:48 · applies from the next check' }); },
+      archive: () => this.say('Archiving stops checks and keeps history and reports — confirmation would follow here'),
+      toast: S.toast
+    };
+  }
+}
+</script>
+</body>
+</html>

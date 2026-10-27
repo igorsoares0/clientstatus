@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Clients · Northfold Studio · Client Status</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400;75..100,500;75..100,600;75..100,700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F4F5F3;color:#161A1C;-webkit-font-smoothing:antialiased}
+a{color:#161A1C;text-decoration:underline;text-underline-offset:2px}
+a:hover{color:#4A4F52}
+button,select,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid #161A1C;outline-offset:2px}
+input[type=radio],input[type=checkbox]{accent-color:#161A1C}
+</style>
+</helmet>
+
+<div style="display:flex;min-height:100vh;font-family:Archivo,sans-serif;font-size:14px;background:#F4F5F3;color:#161A1C">
+  <sc-if value="{{ wideNav }}" hint-placeholder-val="{{ true }}">
+    <nav aria-label="Primary" style="flex:0 0 200px;position:sticky;top:0;height:100vh;box-sizing:border-box;background:#FFFFFF;border-right:1px solid #D5D8D4;display:flex;flex-direction:column;padding:16px 0">
+      <div style="padding:0 16px 4px;font-weight:700;font-stretch:80%;font-size:17px;letter-spacing:.01em">Northfold Studio</div>
+      <div style="padding:0 16px 16px;font-size:12px;color:#4A4F52">Growth plan · 84 of 100 sites</div>
+      <a href="Overview.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M3 12h4l3-8 4 16 3-8h4"></path></svg>Overview</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G O</span></a>
+      <a href="Websites.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9M12 3c-2.5 2.6-3.8 5.6-3.8 9s1.3 6.4 3.8 9"></path></svg>Websites</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G W</span></a>
+      <a href="Clients.dc.html" aria-current="page" style="display:flex;justify-content:space-between;padding:8px 16px;background:#161A1C;color:#FFFFFF;text-decoration:none"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><rect x="3" y="7" width="18" height="13"></rect><path d="M8.5 7V4h7v3M3 12.5h18"></path></svg>Clients</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;opacity:.7">G C</span></a>
+      <a href="Incidents.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M12 3.5 2.5 20h19L12 3.5z"></path><path d="M12 10v4.5M12 17.2v.1"></path></svg>Incidents <span style="font-family:'JetBrains Mono',monospace;color:#C2261B;font-weight:600">4</span></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G I</span></a>
+      <a href="Reports.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M6 2.5h8.5L19 7v14.5H6z"></path><path d="M14 2.5V7.5h5M9 12.5h7M9 16.5h7"></path></svg>Reports</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G R</span></a>
+      <div style="height:1px;background:#E2E4E1;margin:12px 16px"></div>
+      <a href="Team.dc.html" style="padding:8px 16px;text-decoration:none;color:#4A4F52" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20.5c.7-3.6 3.3-5.8 6.5-5.8s5.8 2.2 6.5 5.8M15.5 4.6a3.5 3.5 0 0 1 0 6.8M18 15c1.9.9 3.1 2.8 3.5 5.5"></path></svg>Team</span></a>
+      <a href="Settings.dc.html" style="padding:8px 16px;text-decoration:none;color:#4A4F52" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M3 6h11M18 6h3M3 12h4M11 12h10M3 18h12M19 18h2"></path><circle cx="16" cy="6" r="2"></circle><circle cx="9" cy="12" r="2"></circle><circle cx="17" cy="18" r="2"></circle></svg>Settings</span></a>
+      <a href="Billing.dc.html" style="padding:8px 16px;text-decoration:none;color:#4A4F52" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><rect x="2.5" y="5" width="19" height="14"></rect><path d="M2.5 10h19M6 15h4"></path></svg>Billing</span></a>
+      <div style="margin-top:auto;padding:12px 16px 0;border-top:1px solid #E2E4E1;font-size:13px;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Priya Raman</span><span style="color:#4A4F52;font-size:12px">Owner · Europe/London</span><span style="margin-top:8px;font-size:12px;font-weight:600;font-stretch:80%;letter-spacing:.02em;color:#4A4F52">Client Status</span></div>
+    </nav>
+  </sc-if>
+
+  <div style="flex:1 1 auto;min-width:0;display:flex;flex-direction:column">
+    <sc-if value="{{ narrowNav }}" hint-placeholder-val="{{ false }}">
+      <nav aria-label="Primary" style="display:flex;gap:4px;align-items:center;padding:8px 12px;background:#FFFFFF;border-bottom:1px solid #D5D8D4;overflow-x:auto;white-space:nowrap">
+        <span style="font-weight:700;font-stretch:80%;font-size:15px;margin-right:8px">Northfold</span>
+        <a href="Overview.dc.html" style="padding:6px 10px;text-decoration:none">Overview</a><a href="Websites.dc.html" style="padding:6px 10px;text-decoration:none">Websites</a><a href="Clients.dc.html" aria-current="page" style="padding:6px 10px;background:#161A1C;color:#FFFFFF;text-decoration:none">Clients</a><a href="Incidents.dc.html" style="padding:6px 10px;text-decoration:none">Incidents</a><a href="Reports.dc.html" style="padding:6px 10px;text-decoration:none">Reports</a>
+      </nav>
+    </sc-if>
+
+    <sc-if value="{{ isList }}" hint-placeholder-val="{{ true }}">
+      <header style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:18px 28px 12px">
+        <h1 style="margin:0;font-size:22px;font-weight:600;font-stretch:85%">Clients</h1>
+        <span style="font-size:13px;color:#4A4F52;font-variant-numeric:tabular-nums">{{ headCounts }}</span>
+        <button type="button" onClick="{{ openAdd }}" style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;margin-left:auto;height:34px;padding:0 14px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-size:13px;font-weight:600" style-hover="background:#2E3437"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M12 5v14M5 12h14"></path></svg>Add client</button>
+      </header>
+      <main style="flex:1;padding:0 28px 28px;display:flex;flex-direction:column;min-width:0">
+        <div role="search" aria-label="Filter clients" style="display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:0 0 12px">
+          <label style="position:relative;flex:1 1 240px;max-width:340px;display:flex"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search clients</span><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;position:absolute;left:10px;top:50%;margin-top:-7.5px;pointer-events:none;color:#4A4F52"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="M15.5 15.5 21 21"></path></svg><input type="search" placeholder="Search client, contact or website" value="{{ q }}" onChange="{{ onQ }}" style="width:100%;height:34px;border:1px solid #B9BDB8;background:#FFFFFF;padding:0 10px 0 32px;font-size:13px"></input></label>
+          <div role="group" aria-label="Show" style="display:flex;border:1px solid #B9BDB8;background:#FFFFFF">
+            <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="3"><button type="button" onClick="{{ t.pick }}" aria-pressed="{{ t.pressed }}" style="white-space:nowrap;height:32px;padding:0 11px;border:none;border-right:1px solid #E2E4E1;background:{{ t.bg }};color:{{ t.fg }};cursor:pointer;font-size:13px;font-variant-numeric:tabular-nums">{{ t.l }} <span style="opacity:.75">{{ t.n }}</span></button></sc-for>
+          </div>
+          <span aria-live="polite" style="margin-left:auto;font-size:12px;color:#4A4F52">{{ resultText }}</span>
+        </div>
+        <section aria-label="Client list" style="background:#FFFFFF;border:1px solid #D5D8D4">
+          <sc-if value="{{ stackRows }}" hint-placeholder-val="{{ false }}">
+            <ul aria-label="Clients" style="list-style:none;margin:0;padding:0">
+              <sc-for list="{{ rows }}" as="c" hint-placeholder-count="10">
+                <li style="padding:10px 12px;border-bottom:1px solid #E7E9E6;display:flex;flex-direction:column;gap:3px">
+                  <button type="button" onClick="{{ c.open }}" style="align-self:flex-start;padding:0;border:none;background:none;text-align:left;font-size:14px;font-weight:600;text-decoration:underline;text-decoration-color:#C9CDC8;text-underline-offset:3px;cursor:pointer;color:{{ c.nameC }}">{{ c.name }}</button>
+                  <span style="font-size:12.5px;color:{{ c.healthC }};font-weight:{{ c.healthW }}">{{ c.siteCount }} · {{ c.health }}</span>
+                  <span style="font-size:12.5px;color:{{ c.issueC }}">{{ c.issueText }}</span>
+                  <span style="font-size:12px;color:{{ c.repC }};font-weight:{{ c.repW }}">September report: {{ c.rep }}</span>
+                </li>
+              </sc-for>
+            </ul>
+          </sc-if>
+          <sc-if value="{{ tableRows }}" hint-placeholder-val="{{ true }}"><div style="overflow-x:auto">
+            <div role="table" aria-label="Clients" style="min-width:920px">
+              <div role="row" style="display:grid;grid-template-columns:minmax(220px,1.5fr) minmax(170px,1fr) minmax(200px,1.3fr) minmax(170px,1fr) 150px;border-bottom:1px solid #D5D8D4;font-size:12px;letter-spacing:.03em;color:#4A4F52">
+                <span role="columnheader" style="padding:10px 16px">CLIENT</span><span role="columnheader" style="padding:10px 8px">CONTACT</span><span role="columnheader" style="padding:10px 8px">WEBSITES</span><span role="columnheader" style="padding:10px 8px">NEEDS ATTENTION</span><span role="columnheader" style="padding:10px 16px 10px 8px">SEPTEMBER REPORT</span>
+              </div>
+              <sc-for list="{{ rows }}" as="c" hint-placeholder-count="14">
+                <div role="row" style="display:grid;grid-template-columns:minmax(220px,1.5fr) minmax(170px,1fr) minmax(200px,1.3fr) minmax(170px,1fr) 150px;border-bottom:1px solid #E7E9E6;align-items:center;font-size:13px;min-height:50px;background:{{ c.bg }}" style-hover="background:#F1F3F1">
+                  <span role="cell" style="padding:8px 16px;display:flex;flex-direction:column;min-width:0">
+                    <button type="button" onClick="{{ c.open }}" style="align-self:flex-start;max-width:100%;padding:0;border:none;background:none;cursor:pointer;text-align:left;font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:underline;text-decoration-color:#C9CDC8;text-underline-offset:3px;color:{{ c.nameC }}" style-hover="text-decoration-color:#161A1C">{{ c.name }}</button>
+                    <sc-if value="{{ c.archived }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:#4A4F52">Archived {{ c.archivedAt }} · history kept</span></sc-if>
+                  </span>
+                  <span role="cell" style="padding:8px;display:flex;flex-direction:column;min-width:0"><span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.contact }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.email }}</span></span>
+                  <span role="cell" style="padding:8px;display:flex;flex-direction:column"><span style="font-variant-numeric:tabular-nums">{{ c.siteCount }}</span><span style="font-size:12px;color:{{ c.healthC }};font-weight:{{ c.healthW }}">{{ c.health }}</span></span>
+                  <span role="cell" style="padding:8px;font-size:12.5px;line-height:1.4;color:{{ c.issueC }}">{{ c.issueText }}</span>
+                  <span role="cell" style="padding:8px 16px 8px 8px;font-size:12.5px;color:{{ c.repC }};font-weight:{{ c.repW }}">{{ c.rep }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div></sc-if>
+          <sc-if value="{{ noRows }}" hint-placeholder-val="{{ false }}"><div style="padding:28px 16px;display:flex;flex-direction:column;gap:8px"><span style="font-weight:600">No clients match “{{ q }}”</span><span style="font-size:13px;color:#4A4F52">Search covers client names, contacts and website hostnames.</span></div></sc-if>
+          <div style="padding:10px 16px;font-size:12.5px;color:#4A4F52;display:flex;gap:16px"><span>Sorted by what needs attention, then name</span><a href="#" style="margin-left:auto">Show all {{ totalClients }}</a></div>
+        </section>
+      </main>
+    </sc-if>
+
+    <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
+      <header style="background:#FFFFFF;border-bottom:1px solid #D5D8D4;padding:14px 28px 16px;display:flex;flex-direction:column;gap:10px">
+        <nav aria-label="Breadcrumb" style="font-size:12.5px;color:#4A4F52;display:flex;gap:6px"><button type="button" onClick="{{ back }}" style="padding:0;border:none;background:none;cursor:pointer;text-decoration:underline;color:#4A4F52;font-size:12.5px">Clients</button><span aria-hidden="true">/</span><span aria-current="page" style="color:#161A1C">{{ d.name }}</span></nav>
+        <div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:12px 24px">
+          <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+            <h1 style="margin:0;font-size:26px;line-height:1.1;font-weight:600;font-stretch:84%">{{ d.name }}</h1>
+            <span style="font-size:13px;color:#4A4F52">{{ d.contact }} · <a href="{{ d.mailto }}" style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#2E3437">{{ d.email }}</a> · client since {{ d.since }}</span>
+          </div>
+          <div style="margin-left:auto;display:flex;gap:8px;flex-wrap:wrap">
+            <sc-if value="{{ d.active }}" hint-placeholder-val="{{ true }}">
+              <button type="button" onClick="{{ toggleEdit }}" aria-expanded="{{ editAria }}" style="white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">Edit details</button>
+              <button type="button" onClick="{{ askArchive }}" aria-expanded="{{ archiveAria }}" style="white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">Archive…</button>
+            </sc-if>
+            <sc-if value="{{ d.archived }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ restore }}" style="white-space:nowrap;height:34px;padding:0 14px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:13px">Restore client</button></sc-if>
+          </div>
+        </div>
+        <sc-if value="{{ d.archived }}" hint-placeholder-val="{{ false }}"><div role="status" style="padding:8px 12px;background:#F4F5F3;border:1px solid #D5D8D4;font-size:13px;color:#2E3437">Archived {{ d.archivedAt }}. Monitoring history and {{ d.reportCount }} reports are kept and still readable. No new reports are generated.</div></sc-if>
+
+        <sc-if value="{{ editOpen }}" hint-placeholder-val="{{ false }}">
+          <form onSubmit="{{ saveEdit }}" aria-label="Edit client" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px 16px;padding:14px;border:1px solid #B9BDB8;background:#F4F5F3;max-width:900px">
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Client name<input type="text" value="{{ ed.name }}" onChange="{{ onEdName }}" aria-invalid="{{ edInvalid }}" style="height:36px;padding:0 10px;border:1px solid {{ edBorder }};font-weight:400;font-size:14px"></input></label>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Contact name <span style="font-weight:400;color:#4A4F52">optional</span><input type="text" value="{{ ed.contact }}" onChange="{{ onEdContact }}" style="height:36px;padding:0 10px;border:1px solid #B9BDB8;font-weight:400;font-size:14px"></input></label>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Contact email <span style="font-weight:400;color:#4A4F52">optional</span><input type="email" value="{{ ed.email }}" onChange="{{ onEdEmail }}" style="height:36px;padding:0 10px;border:1px solid #B9BDB8;font-weight:400;font-size:14px;font-family:'JetBrains Mono',monospace"></input></label>
+            <div style="grid-column:1 / -1;display:flex;gap:8px;align-items:center"><button type="submit" style="white-space:nowrap;height:32px;padding:0 12px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:13px">Save</button><button type="button" onClick="{{ toggleEdit }}" style="white-space:nowrap;height:32px;padding:0 12px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">Cancel</button><span role="alert" style="font-size:12.5px;color:#C2261B">{{ edErr }}</span></div>
+          </form>
+        </sc-if>
+
+        <sc-if value="{{ archiveOpen }}" hint-placeholder-val="{{ false }}">
+          <div role="region" aria-label="Confirm archive" style="padding:12px 14px;border:1px solid #B9BDB8;background:#F4F5F3;display:flex;flex-direction:column;gap:10px;max-width:680px">
+            <span style="font-weight:600">Archive {{ d.name }}?</span>
+            <ul style="margin:0;padding-left:18px;font-size:13px;line-height:1.5;color:#2E3437"><li>Monitoring history, incidents and {{ d.reportCount }} past reports are kept and stay readable.</li><li>No new monthly reports are generated or sent. Shared report links keep working until they expire.</li><li>You can restore the client later.</li></ul>
+            <fieldset style="margin:0;padding:0;border:none;display:flex;flex-direction:column;gap:6px">
+              <legend style="font-size:13px;font-weight:600;margin-bottom:6px">Its {{ d.siteCount }}</legend>
+              <label style="display:flex;gap:8px;font-size:13.5px;cursor:pointer"><input type="radio" name="arch" value="unassign" checked="{{ archUnassign }}" onChange="{{ onArch }}"></input>Keep monitoring them as Unassigned websites</label>
+              <label style="display:flex;gap:8px;font-size:13.5px;cursor:pointer"><input type="radio" name="arch" value="pause" checked="{{ archPause }}" onChange="{{ onArch }}"></input>Pause them too <span style="color:#4A4F52">— frees {{ d.activeSites }} plan slot{{ d.slotS }}</span></label>
+            </fieldset>
+            <div style="display:flex;gap:8px"><button type="button" onClick="{{ archive }}" style="white-space:nowrap;height:32px;padding:0 12px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:13px">Archive client</button><button type="button" onClick="{{ cancelArchive }}" style="white-space:nowrap;height:32px;padding:0 12px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">Cancel</button></div>
+          </div>
+        </sc-if>
+      </header>
+
+      <main style="flex:1;padding:20px 28px 32px;display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start;min-width:0">
+        <div style="flex:1 1 600px;min-width:0;display:flex;flex-direction:column;gap:28px">
+          <section aria-labelledby="h-iss" style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:baseline;gap:12px"><h2 id="h-iss" style="margin:0;font-size:17px;font-weight:600;font-stretch:85%">Needs attention <span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#4A4F52">{{ d.issues.length }}</span></h2><span style="font-size:12px;color:#4A4F52">Across all of this client’s websites</span></div>
+            <div style="background:#FFFFFF;border:1px solid #D5D8D4">
+              <sc-for list="{{ d.issues }}" as="i" hint-placeholder-count="2">
+                <a href="{{ i.href }}" style="display:grid;grid-template-columns:120px minmax(0,1fr) 130px;gap:12px;padding:11px 16px;border-bottom:1px solid #E7E9E6;text-decoration:none;align-items:baseline" style-hover="background:#F1F3F1">
+                  <span style="font-weight:600;font-size:13px;color:{{ i.c }};white-space:nowrap"><span aria-hidden="true">{{ i.g }}</span> {{ i.l }}</span>
+                  <span style="display:flex;flex-direction:column;min-width:0"><span style="font-weight:600;text-decoration:underline;text-decoration-color:#C9CDC8;text-underline-offset:3px">{{ i.title }}</span><span style="font-size:12px;color:#4A4F52"><span style="font-family:'JetBrains Mono',monospace;font-size:12px">{{ i.host }}</span> · {{ i.kind }}</span></span>
+                  <span style="text-align:right;font-size:12.5px;color:#4A4F52;font-family:'JetBrains Mono',monospace">{{ i.when }}</span>
+                </a>
+              </sc-for>
+              <sc-if value="{{ d.noIssues }}" hint-placeholder-val="{{ false }}"><p style="margin:0;padding:14px 16px;color:#2E3437"><span aria-hidden="true" style="color:#1F7A4A">●</span> Nothing needs attention. All websites passed their latest checks.</p></sc-if>
+            </div>
+          </section>
+
+          <section aria-labelledby="h-sites" style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:baseline;gap:12px"><h2 id="h-sites" style="margin:0;font-size:17px;font-weight:600;font-stretch:85%">Websites <span style="font-family:'JetBrains Mono',monospace;font-size:14px;color:#4A4F52">{{ d.sites.length }}</span></h2><a href="Websites.dc.html" style="margin-left:auto;font-size:13px">Add or assign a website</a></div>
+            <div style="background:#FFFFFF;border:1px solid #D5D8D4;overflow-x:auto">
+              <div style="min-width:640px">
+                <div style="display:grid;grid-template-columns:minmax(220px,2fr) 140px 80px 70px 100px;padding:8px 16px;border-bottom:1px solid #D5D8D4;font-size:12px;letter-spacing:.03em;color:#4A4F52;gap:8px"><span>WEBSITE</span><span>STATUS</span><span style="text-align:right">UPTIME 30 D</span><span style="text-align:right">SSL</span><span style="text-align:right">LAST CHECK</span></div>
+                <sc-for list="{{ d.sites }}" as="s" hint-placeholder-count="2">
+                  <div style="display:grid;grid-template-columns:minmax(220px,2fr) 140px 80px 70px 100px;gap:8px;padding:9px 16px;border-bottom:1px solid #E7E9E6;font-size:13px;align-items:center;font-variant-numeric:tabular-nums;background:{{ s.bg }}">
+                    <span style="display:flex;flex-direction:column;min-width:0"><a href="Website%20Detail.dc.html" style="font-weight:600;font-size:13.5px;text-decoration-color:#C9CDC8;text-underline-offset:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.name }}</a><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.host }}</span></span>
+                    <span style="display:flex;flex-direction:column;line-height:1.3"><span style="font-weight:{{ s.w }};color:{{ s.c }}"><span aria-hidden="true" style="color:{{ s.gc }}">{{ s.g }}</span> {{ s.label }}</span><span style="font-size:12px;color:#4A4F52">{{ s.sub }}</span></span>
+                    <span style="text-align:right">{{ s.up }}</span>
+                    <span style="text-align:right;color:{{ s.sslC }};font-weight:{{ s.sslW }}">{{ s.ssl }}</span>
+                    <span style="text-align:right;font-family:'JetBrains Mono',monospace;font-size:12px;color:{{ s.chkC }}">{{ s.checked }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </section>
+
+          <section aria-labelledby="h-rep" style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:baseline;gap:12px"><h2 id="h-rep" style="margin:0;font-size:17px;font-weight:600;font-stretch:85%">Monthly reports</h2><a href="Reports.dc.html" style="margin-left:auto;font-size:13px">Open in Reports</a></div>
+            <div style="background:#FFFFFF;border:1px solid #D5D8D4">
+              <sc-if value="{{ d.active }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;padding:12px 16px;border-bottom:1px solid #D5D8D4;background:#FAFAF9">
+                  <span style="display:flex;flex-direction:column"><span style="font-weight:600">October 2026 · in progress</span><span style="font-size:12.5px;color:#4A4F52">{{ octNote }}</span></span>
+                  <div style="margin-left:auto;display:flex;gap:8px">
+                    <button type="button" onClick="{{ genPreview }}" disabled="{{ genBusy }}" style="white-space:nowrap;height:32px;padding:0 12px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">{{ genLabel }}</button>
+                    <sc-if value="{{ d.canSendSep }}" hint-placeholder-val="{{ false }}"><a href="Reports.dc.html" style="white-space:nowrap;height:32px;padding:0 12px;background:#161A1C;color:#FFFFFF;display:flex;align-items:center;text-decoration:none;font-size:13px;font-weight:600">Review &amp; send September</a></sc-if>
+                  </div>
+                </div>
+              </sc-if>
+              <sc-for list="{{ d.reports }}" as="r" hint-placeholder-count="3">
+                <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) 140px;gap:12px;padding:10px 16px;border-bottom:1px solid #E7E9E6;align-items:baseline;font-size:13.5px">
+                  <sc-if value="{{ r.href }}" hint-placeholder-val="{{ false }}"><a href="{{ r.href }}" target="_blank" style="font-weight:600">{{ r.period }}</a></sc-if>
+                  <sc-if value="{{ r.noHref }}" hint-placeholder-val="{{ true }}"><span style="font-weight:600">{{ r.period }}</span></sc-if>
+                  <span style="font-size:12.5px;color:{{ r.nc }}">{{ r.note }}</span>
+                  <span style="text-align:right;font-size:12.5px;font-weight:600;color:{{ r.sc }}">{{ r.st }}</span>
+                </div>
+              </sc-for>
+              <sc-if value="{{ d.noReports }}" hint-placeholder-val="{{ false }}"><p style="margin:0;padding:14px 16px;color:#2E3437;font-size:13.5px">{{ d.noReportsText }}</p></sc-if>
+            </div>
+          </section>
+        </div>
+
+        <aside style="flex:0 1 320px;min-width:260px;display:flex;flex-direction:column;gap:20px">
+          <section aria-labelledby="h-rec" style="background:#FFFFFF;border:1px solid #D5D8D4;display:flex;flex-direction:column">
+            <h2 id="h-rec" style="margin:0;padding:12px 16px;border-bottom:1px solid #D5D8D4;font-size:15px;font-weight:600">Report recipients</h2>
+            <sc-for list="{{ d.recips }}" as="p" hint-placeholder-count="2"><div style="padding:9px 16px;border-bottom:1px solid #E7E9E6;display:flex;flex-direction:column;font-size:13px"><span style="font-weight:600">{{ p.n }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">{{ p.e }}</span><span style="font-size:12px;color:{{ p.c }}">{{ p.s }}</span></div></sc-for>
+            <p style="margin:0;padding:10px 16px;font-size:12px;color:#4A4F52;line-height:1.45">Recipients are confirmed once before the first automatic delivery.</p>
+          </section>
+          <section aria-labelledby="h-notes" style="background:#FFFFFF;border:1px solid #D5D8D4;display:flex;flex-direction:column">
+            <div style="padding:12px 16px;border-bottom:1px solid #D5D8D4;display:flex;flex-direction:column;gap:2px"><h2 id="h-notes" style="margin:0;font-size:15px;font-weight:600">Internal notes</h2><span style="font-size:12px;color:#4A4F52">Team only — never in client reports</span></div>
+            <form onSubmit="{{ saveNotes }}" style="padding:12px 16px;display:flex;flex-direction:column;gap:8px">
+              <label for="notes" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Internal notes</label>
+              <textarea id="notes" rows="5" value="{{ notes }}" onChange="{{ onNotes }}" style="border:1px solid #B9BDB8;padding:8px 10px;font-size:13px;line-height:1.45;resize:vertical"></textarea>
+              <div style="display:flex;gap:10px;align-items:center"><button type="submit" disabled="{{ notesClean }}" style="white-space:nowrap;height:30px;padding:0 12px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:12.5px;opacity:{{ notesOpacity }}">Save notes</button><span aria-live="polite" style="font-size:12px;color:#4A4F52">{{ notesNote }}</span></div>
+            </form>
+          </section>
+        </aside>
+      </main>
+    </sc-if>
+
+    <footer style="display:flex;flex-wrap:wrap;gap:4px 24px;padding:6px 28px;background:#161A1C;color:#D5D8D4;font-family:'JetBrains Mono',monospace;font-size:12px;margin-top:auto">
+      <span style="white-space:nowrap"><span aria-hidden="true" style="color:#5FD39A">●</span> Monitoring current</span><span style="white-space:nowrap">Newest result 09:48:02 · next SSL sweep 12:00</span><span style="margin-left:auto;white-space:nowrap">Times in Europe/London (GMT)</span>
+    </footer>
+  </div>
+
+  <sc-if value="{{ addOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeAdd }}" style="position:fixed;inset:0;background:rgba(22,26,28,.36);z-index:50"></div>
+    <form role="dialog" aria-modal="true" aria-labelledby="add-title" onSubmit="{{ submitAdd }}" novalidate="" style="position:fixed;top:12vh;left:50%;transform:translateX(-50%);width:500px;max-width:calc(100% - 32px);background:#FFFFFF;border:1px solid #B9BDB8;z-index:51;box-shadow:0 20px 48px rgba(0,0,0,.2);display:flex;flex-direction:column">
+      <div style="padding:16px 20px;border-bottom:1px solid #D5D8D4"><h2 id="add-title" style="margin:0;font-size:18px;font-weight:600;font-stretch:85%">Add client</h2></div>
+      <div style="padding:16px 20px;display:flex;flex-direction:column;gap:14px">
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Client name<input type="text" ref="{{ addRef }}" value="{{ add.name }}" onChange="{{ onAddName }}" aria-invalid="{{ addInvalid }}" aria-describedby="add-err" style="height:38px;padding:0 10px;border:1px solid {{ addBorder }};font-weight:400;font-size:14px"></input><span id="add-err" aria-live="polite" style="font-weight:400;font-size:12.5px;color:#C2261B">{{ addErr }}</span></label>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Contact name <span style="font-weight:400;color:#4A4F52">optional</span><input type="text" value="{{ add.contact }}" onChange="{{ onAddContact }}" style="height:38px;padding:0 10px;border:1px solid #B9BDB8;font-weight:400;font-size:14px"></input></label>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Contact email <span style="font-weight:400;color:#4A4F52">optional — used as the default report recipient</span><input type="email" value="{{ add.email }}" onChange="{{ onAddEmail }}" style="height:38px;padding:0 10px;border:1px solid #B9BDB8;font-weight:400;font-size:14px;font-family:'JetBrains Mono',monospace"></input></label>
+      </div>
+      <div style="padding:12px 20px;border-top:1px solid #D5D8D4;display:flex;gap:8px;justify-content:flex-end">
+        <button type="button" onClick="{{ closeAdd }}" style="white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">Cancel</button>
+        <button type="submit" style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;height:34px;padding:0 14px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:13px"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M12 5v14M5 12h14"></path></svg>Add client</button>
+      </div>
+    </form>
+  </sc-if>
+
+  <div aria-live="polite" style="position:fixed;left:50%;bottom:40px;transform:translateX(-50%);z-index:60">
+    <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}"><div style="background:#161A1C;color:#FFFFFF;padding:10px 16px;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.2)">{{ toast }}</div></sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const C = { up: '#1F7A4A', degraded: '#A35A00', down: '#C2261B', ink: '#161A1C', mute: '#4A4F52' };
+const ST = { up: ['●', 'Up', C.ink, C.up, 400], degraded: ['▲', 'Degraded', C.degraded, C.degraded, 600], down: ['◆', 'Down', C.down, C.down, 600], stale: ['○', 'Stale', C.ink, C.mute, 600], unknown: ['○', 'Unknown', C.mute, C.mute, 400], paused: ['‖', 'Paused', C.mute, C.mute, 400] };
+const SEVL = { 4: ['▮▮▮▮', 'Critical', C.down], 3: ['▮▮▮▯', 'High', C.degraded], 2: ['▮▮▯▯', 'Medium', C.ink], 1: ['▮▯▯▯', 'Low', C.mute], 0: ['◌', 'Watching', C.mute] };
+const S_ = (host, name, st, sub, up, ssl, checked, extra) => ({ host, name, st, sub, up, ssl, checked, ...(extra || {}) });
+const I_ = (sev, title, host, kind, when, href) => ({ sev, title, host, kind, when, href: href || 'Incidents.dc.html' });
+const sent = (p, n, href) => ({ period: p, note: n, st: 'Sent', href });
+
+const CLIENTS = [
+  { id: 'hd', name: 'Harbour Dental Group', contact: 'Dr Sarah Okafor', email: 'sarah.okafor@harbourdental.co.uk', since: 'Mar 2025', notes: 'Hosting with Krystal (ticket portal login in 1Password). Sarah approves content; invoices to James Whitfield.',
+    sites: [S_('harbourdental.co.uk', 'Harbour Dental Group', 'down', 'since 09:41 · 502', '99.12%', 212, '09:47:04'), S_('bookings.harbourdental.co.uk', 'Harbour Dental — Bookings', 'up', '', '100%', 212, '09:47:10')],
+    issues: [I_(4, 'Website down — HTTP 502 Bad Gateway', 'harbourdental.co.uk', 'Incident INC-0412 · not acknowledged', 'since 09:41'), I_(2, '3 broken links on treatment pages', 'harbourdental.co.uk', 'Audit finding', 'audit 21 Oct', 'Website%20Detail.dc.html')],
+    reports: [sent('September 2026', 'Sent 1 Oct 07:00 · 2 delivered', 'Monthly%20Report.dc.html?r=harbour'), sent('August 2026', 'Sent 1 Sep 07:00 · link expired'), sent('July 2026', 'Sent 1 Aug 07:00 · link expired')], reportCount: 7,
+    recips: [{ n: 'Dr Sarah Okafor', e: 'sarah.okafor@harbourdental.co.uk', s: 'Confirmed 1 Apr 2025', c: C.mute }, { n: 'James Whitfield', e: 'accounts@harbourdental.co.uk', s: 'Confirmed 1 Apr 2025', c: C.mute }] },
+  { id: 'bf', name: 'Blackthorn Fitness', contact: 'Ross Delaney', email: 'ross@blackthorn-fitness.ie', since: 'Jan 2026', notes: '',
+    sites: [S_('blackthorn-fitness.ie', 'Blackthorn Fitness', 'up', '', '100%', 188, '09:47:02'), S_('shop.blackthorn-fitness.ie', 'Blackthorn Fitness Shop', 'up', '', '99.98%', 191, '09:46:51'), S_('book.blackthorn-fitness.ie', 'Blackthorn Fitness Bookings', 'up', 'certificate invalid', '100%', 'Invalid', '09:47:18', { sslBad: true })],
+    issues: [I_(3, 'Certificate doesn’t match hostname', 'book.blackthorn-fitness.ie', 'Incident INC-0413 · not acknowledged', 'since 06:00')],
+    reports: [sent('September 2026', 'Sent 1 Oct 07:00 · 1 delivered')], reportCount: 9, recips: [{ n: 'Ross Delaney', e: 'ross@blackthorn-fitness.ie', s: 'Confirmed 1 Feb 2026', c: C.mute }] },
+  { id: 'mk', name: 'Miller & Koch', contact: 'Anna Koch', email: 'anna@millerandkoch.com', since: 'Jun 2024', notes: 'Shop on Shopify Plus; main site WordPress on Krystal.',
+    sites: [S_('shop.millerandkoch.com', 'Miller & Koch Shop', 'degraded', 'slow since 08:58', '99.87%', 6, '09:46:52'), S_('millerandkoch.com', 'Miller & Koch', 'up', '', '99.97%', 64, '09:47:22')],
+    issues: [I_(3, 'SSL certificate expires in 6 days', 'shop.millerandkoch.com', 'Incident INC-0409 · acknowledged by Priya R.', '31 Oct 14:00'), I_(null, 'Responses slower than usual (3,840 ms)', 'shop.millerandkoch.com', 'Status — not an incident', 'since 08:58', 'Website%20Detail.dc.html')],
+    reports: [sent('September 2026', 'Sent 1 Oct 07:00 · 1 delivered')], reportCount: 16, recips: [{ n: 'Anna Koch', e: 'anna@millerandkoch.com', s: 'Confirmed 1 Jul 2024', c: C.mute }] },
+  { id: 'gr', name: 'Green Room Theatre', contact: 'Marta Kowalski', email: 'marta@thegreenroomlondon.com', since: 'Aug 2026', notes: 'Host has aggressive bot protection — asked them on 30 Sep to allow our user agent.',
+    sites: [S_('thegreenroomlondon.com', 'Green Room Theatre', 'stale', 'no result since 07:52', '99.98%', 88, '07:52:18', { stale: true })],
+    issues: [I_(0, 'Inconclusive results since 07:52', 'thegreenroomlondon.com', 'Not an incident · no alert sent', 'since 07:52', 'Website%20Detail.dc.html')],
+    reports: [{ period: 'September 2026', note: 'Held for review — audit partial, coverage 99.5%', st: 'Needs review', review: true, href: 'Monthly%20Report.dc.html?r=greenroom' }, sent('August 2026', 'Sent 1 Sep 07:00 · first report')], reportCount: 2, canSendSep: true,
+    recips: [{ n: 'Marta Kowalski', e: 'marta@thegreenroomlondon.com', s: 'Not yet confirmed', c: C.degraded }] },
+  { id: 'vl', name: 'Vela Architects', contact: 'Tomás Vela', email: 'studio@vela-architects.com', since: 'Nov 2024', notes: '',
+    sites: [S_('vela-architects.com', 'Vela Architects', 'up', '', '100%', 54, '09:47:31')],
+    issues: [I_(2, '14 confirmed broken links', 'vela-architects.com', 'Incident INC-0410 · from audit', 'audit 24 Oct')],
+    reports: [sent('September 2026', 'Sent 1 Oct 07:00 · 2 delivered')], reportCount: 11, recips: [{ n: 'Tomás Vela', e: 'studio@vela-architects.com', s: 'Confirmed 1 Dec 2024', c: C.mute }] },
+  { id: 'al', name: 'Alpine Cycle Works', contact: 'Jonas Weber', email: 'jonas@alpinecycleworks.com', since: 'Oct 2026', notes: 'Renews domains through their own registrar (Gandi).',
+    sites: [S_('alpinecycleworks.com', 'Alpine Cycle Works', 'up', '', '99.99%', 71, '09:46:40'), S_('alpinecycleworks.de', 'Alpine Cycle Works DE', 'up', '', '99.99%', 71, '09:46:44')],
+    issues: [I_(2, 'Domain registration expires in 12 days', 'alpinecycleworks.com', 'Incident INC-0408 · not acknowledged', '6 Nov 2026')],
+    reports: [{ period: 'September 2026', note: 'Held for review — domain expiry not published for .de', st: 'Needs review', review: true }], reportCount: 1, canSendSep: true,
+    recips: [{ n: 'Jonas Weber', e: 'jonas@alpinecycleworks.com', s: 'Not yet confirmed', c: C.degraded }] },
+  { id: 'lo', name: 'Lumen Optics', contact: 'Ciara Nolan', email: 'it@lumenoptics.ie', since: 'Feb 2025', notes: 'Client renews the SSL certificate manually via Blacknight.',
+    sites: [S_('lumenoptics.ie', 'Lumen Optics', 'up', '', '100%', 27, '09:47:12')],
+    issues: [I_(1, 'SSL certificate expires in 27 days', 'lumenoptics.ie', 'Incident INC-0406 · acknowledged by Tom E.', '21 Nov 2026')],
+    reports: [sent('September 2026', 'Sent 1 Oct 07:00 · 1 delivered')], reportCount: 8, recips: [{ n: 'Ciara Nolan', e: 'it@lumenoptics.ie', s: 'Confirmed 1 Mar 2025', c: C.mute }] },
+  { id: 'rv', name: 'Riverside Veterinary', contact: 'Hannah Price', email: 'practice@riverside-vets.co.uk', since: 'Oct 2026', notes: '',
+    sites: [S_('riverside-vets.co.uk', 'Riverside Veterinary', 'unknown', 'first check queued', '—', '—', '—')],
+    issues: [], reports: [], reportCount: 0, noReportsText: 'No reports yet. Monitoring started 25 Oct, so the first report (1 Nov) covers 25–31 October and is labelled as a partial month.',
+    recips: [{ n: 'Hannah Price', e: 'practice@riverside-vets.co.uk', s: 'Not yet confirmed', c: C.degraded }] },
+  { id: 'os', name: 'Ostara Wellness', contact: 'Leah Morgan', email: 'hello@ostarawellness.com', since: 'May 2025', notes: 'Site paused during rebuild (Tom E., 3 Oct).',
+    sites: [S_('ostarawellness.com', 'Ostara Wellness', 'paused', 'since 3 Oct · Tom E.', '—', 120, '3 Oct')],
+    issues: [], reports: [{ period: 'September 2026', note: 'Held for review — no audit completed in September', st: 'Needs review', review: true }, sent('August 2026', 'Sent 1 Sep 07:00')], reportCount: 5, canSendSep: true,
+    recips: [{ n: 'Leah Morgan', e: 'hello@ostarawellness.com', s: 'Confirmed 1 Jun 2025', c: C.mute }] },
+  { id: 'kc', name: 'Kiln Coffee Roasters', contact: 'Sam Okoro', email: 'sam@kiln-coffee.com', since: 'Sep 2024', notes: 'Moved email to Google Workspace on 23 Oct (MX change expected).',
+    sites: [S_('kiln-coffee.com', 'Kiln Coffee Roasters', 'up', '', '100%', 143, '09:47:40')],
+    issues: [], reports: [sent('September 2026', 'Sent 1 Oct 07:00 · 1 delivered')], reportCount: 13, recips: [{ n: 'Sam Okoro', e: 'sam@kiln-coffee.com', s: 'Confirmed 1 Oct 2024', c: C.mute }] },
+  { id: 'af', name: 'Atlas Freight', contact: 'Operations', email: 'ops@atlas-freight.com', since: 'Jul 2025', notes: '',
+    sites: [S_('atlas-freight.com', 'Atlas Freight', 'up', '', '99.98%', 160, '09:46:58'), S_('shop.atlas-freight.com', 'Atlas Freight Shop', 'up', '', '100%', 163, '09:47:05'), S_('book.atlas-freight.com', 'Atlas Freight Bookings', 'up', '', '100%', 166, '09:47:09')],
+    issues: [], reports: [{ period: 'September 2026', note: 'Sent 1 Oct 07:00 · 1 of 2 bounced', st: 'Sent', warn: true }], reportCount: 3, recips: [{ n: 'Operations', e: 'ops@atlas-freight.com', s: 'Confirmed', c: C.mute }, { n: 'Dan Reyes', e: 'd.reyes@atlas-freight.com', s: 'Bounced 1 Oct — mailbox not found', c: C.down }] },
+  { id: 'bw', name: 'Brightwater Law', contact: 'IT team', email: 'it@brightwaterlaw.co.uk', since: 'Apr 2025', notes: '',
+    sites: [S_('brightwaterlaw.co.uk', 'Brightwater Law', 'up', '', '99.99%', 201, '09:47:11'), S_('shop.brightwaterlaw.co.uk', 'Brightwater Law Shop', 'up', '', '100%', 204, '09:47:14'), S_('book.brightwaterlaw.co.uk', 'Brightwater Law Bookings', 'up', '', '100%', 207, '09:47:20'), S_('blog.brightwaterlaw.co.uk', 'Brightwater Law Blog', 'up', '', '100%', 210, '09:46:49')],
+    issues: [], reports: [{ period: 'September 2026', note: 'Held for review — coverage 91% (paused 2–4 Sep)', st: 'Needs review', review: true }], reportCount: 6, canSendSep: true, recips: [{ n: 'IT team', e: 'it@brightwaterlaw.co.uk', s: 'Confirmed 1 May 2025', c: C.mute }] },
+  { id: 'cw', name: 'Castellan Wines', contact: 'Elena Castellan', email: 'elena@castellan-wines.com', since: 'Mar 2026', notes: 'Report link revoked 12 Oct at client’s request (forwarded internally by mistake).',
+    sites: [S_('castellan-wines.com', 'Castellan Wines', 'up', '', '100%', 98, '09:47:01'), S_('shop.castellan-wines.com', 'Castellan Wines Shop', 'up', '', '100%', 101, '09:47:06'), S_('book.castellan-wines.com', 'Castellan Wines Bookings', 'up', '', '100%', 104, '09:47:13')],
+    issues: [], reports: [sent('September 2026', 'Sent 1 Oct 07:00 · link revoked 12 Oct')], reportCount: 6, recips: [{ n: 'Elena Castellan', e: 'elena@castellan-wines.com', s: 'Confirmed 1 Apr 2026', c: C.mute }] },
+  { id: 'pg', name: 'Pembury Golf Club', contact: 'Club secretary', email: 'secretary@pemburygolf.co.uk', since: 'Feb 2024', notes: 'Moved to in-house IT, Aug 2026.', archived: true, archivedAt: '2 Aug 2026',
+    sites: [], issues: [], reports: [sent('July 2026', 'Sent 1 Aug 07:00 · final report'), sent('June 2026', 'Sent 1 Jul 07:00')], reportCount: 29, recips: [] }
+];
+
+class Component extends DCLogic {
+  state = { clients: CLIENTS, q: '', tab: 'active', view: 'list', openId: null, editOpen: false, ed: {}, edErr: '', archiveOpen: false, arch: 'unassign', notes: '', notesSaved: '', notesNote: '', gen: {}, addOpen: false, add: { name: '', contact: '', email: '' }, addErr: '', toast: '', w: typeof window !== 'undefined' ? window.innerWidth : 1400 };
+  addRef = React.createRef();
+  componentDidMount() {
+    this.onResize = () => this.setState({ w: window.innerWidth }); window.addEventListener('resize', this.onResize);
+    this.onKey = e => { if (e.key === 'Escape') this.setState({ addOpen: false, editOpen: false, archiveOpen: false }); }; window.addEventListener('keydown', this.onKey);
+    try { const c = new URLSearchParams(window.location.search).get('c'); if (c && CLIENTS.find(x => x.id === c)) this.open(c); } catch (e) {}
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); window.removeEventListener('keydown', this.onKey); clearTimeout(this.tt); }
+  componentDidUpdate(pp, ps) { if (this.state.addOpen && !ps.addOpen) setTimeout(() => this.addRef.current && this.addRef.current.focus(), 0); }
+  say(m) { clearTimeout(this.tt); this.setState({ toast: m }); this.tt = setTimeout(() => this.setState({ toast: '' }), 3500); }
+  open(id) { const c = this.state.clients.find(x => x.id === id); this.setState({ view: 'detail', openId: id, editOpen: false, archiveOpen: false, notes: c.notes, notesSaved: c.notes, notesNote: '' }); try { window.scrollTo(0, 0); } catch (e) {} }
+  patch(id, fn) { this.setState(s => ({ clients: s.clients.map(c => c.id === id ? fn(c) : c) })); }
+
+  summary(c) {
+    const n = k => c.sites.filter(s => s.st === k).length;
+    const parts = [['down', 'down'], ['degraded', 'degraded'], ['stale', 'stale'], ['unknown', 'awaiting first check'], ['paused', 'paused']].filter(([k]) => n(k)).map(([k, l]) => `${ST[k][0]} ${n(k)} ${l}`);
+    const bad = n('down') ? C.down : n('degraded') ? C.degraded : null;
+    return { text: c.sites.length === 0 ? 'No active websites' : parts.length ? parts.join(' · ') + (n('up') ? ` · ${n('up')} up` : '') : `● All ${c.sites.length} up`, c: bad || (parts.length ? C.ink : C.up), w: bad ? 600 : 400 };
+  }
+  rank(c) { if (c.archived) return 9; const m = Math.max(-1, ...c.issues.map(i => i.sev === null ? 2 : i.sev)); return m >= 0 ? 4 - m : c.reports.some(r => r.review) ? 5 : 6; }
+
+  renderVals() {
+    const S = this.state, wideNav = S.w >= 980;
+    const q = S.q.trim().toLowerCase();
+    const list = S.clients.filter(c => (S.tab === 'all' || (S.tab === 'active' ? !c.archived : S.tab === 'issues' ? !c.archived && c.issues.length : c.archived)) && (!q || c.name.toLowerCase().includes(q) || c.contact.toLowerCase().includes(q) || c.sites.some(s => s.host.includes(q))))
+      .sort((a, b) => this.rank(a) - this.rank(b) || a.name.localeCompare(b.name));
+    const rows = list.map(c => {
+      const h = this.summary(c), top = c.issues[0], sep = c.reports.find(r => r.period === 'September 2026');
+      const sevSorted = [...c.issues].sort((a, b) => (b.sev ?? 2) - (a.sev ?? 2));
+      const t = sevSorted[0];
+      return { ...c, nameC: c.archived ? C.mute : C.ink, bg: '#FFFFFF', siteCount: `${c.sites.length} website${c.sites.length === 1 ? '' : 's'}`, health: h.text, healthC: h.c, healthW: h.w,
+        issueText: t ? `${t.sev === null ? '▲' : SEVL[t.sev][0]} ${t.title}${c.issues.length > 1 ? ` · +${c.issues.length - 1} more` : ''}` : c.archived ? '—' : 'Nothing',
+        issueC: t ? (t.sev === null ? C.degraded : SEVL[t.sev][2]) : C.mute,
+        rep: sep ? (sep.review ? '▲ Needs review' : sep.warn ? 'Sent · 1 bounce' : 'Sent 1 Oct') : c.archived ? 'Archived' : 'None — new client', repC: sep && sep.review ? C.degraded : sep && sep.warn ? C.down : C.mute, repW: sep && (sep.review || sep.warn) ? 600 : 400,
+        open: () => this.open(c.id) };
+    });
+    const cnt = f => S.clients.filter(f).length;
+    const tabs = [['active', 'Active', cnt(c => !c.archived) + 18], ['issues', 'Need attention', cnt(c => !c.archived && c.issues.length)], ['archived', 'Archived', cnt(c => c.archived)]].map(([v, l, n]) => ({ l, n, pressed: S.tab === v ? 'true' : 'false', bg: S.tab === v ? C.ink : '#FFFFFF', fg: S.tab === v ? '#FFFFFF' : C.ink, pick: () => this.setState({ tab: v }) }));
+
+    let d = {};
+    const c = S.clients.find(x => x.id === S.openId);
+    if (c) {
+      const active = c.sites.filter(s => s.st !== 'paused').length;
+      d = { ...c, active: !c.archived, archived: !!c.archived, mailto: 'mailto:' + c.email, siteCount: `${c.sites.length} website${c.sites.length === 1 ? '' : 's'}`, activeSites: active, slotS: active === 1 ? '' : 's',
+        issues: [...c.issues].sort((a, b) => (b.sev ?? 2) - (a.sev ?? 2)).map(i => { const v = i.sev === null ? ['▲', 'Degraded', C.degraded] : SEVL[i.sev]; return { ...i, g: v[0], l: v[1], c: v[2] }; }), noIssues: !c.issues.length && !c.archived,
+        sites: c.sites.map(s => { const v = ST[s.st]; const sslN = typeof s.ssl === 'number'; return { ...s, g: v[0], label: v[1], c: v[2], gc: v[3], w: v[4], bg: s.st === 'down' ? '#FBEDEB' : '#FFFFFF', ssl: sslN ? s.ssl + ' d' : s.ssl, sslC: s.sslBad || (sslN && s.ssl <= 7) ? C.down : sslN && s.ssl <= 30 ? C.degraded : C.ink, sslW: s.sslBad || (sslN && s.ssl <= 30) ? 600 : 400, chkC: s.stale ? C.degraded : C.mute }; }),
+        reports: c.reports.map(r => ({ ...r, noHref: !r.href, href: r.href || '', nc: r.review ? C.degraded : r.warn ? C.down : C.mute, sc: r.review ? C.degraded : C.up })),
+        noReports: !c.reports.length, noReportsText: c.noReportsText || 'No reports.', canSendSep: !!c.canSendSep && !c.archived };
+    }
+    const g = S.gen[S.openId];
+    const edValid = (S.ed.name || '').trim().length > 0;
+    const addValid = S.add.name.trim().length > 0;
+    return {
+      wideNav, narrowNav: !wideNav, isList: S.view === 'list', isDetail: S.view === 'detail',
+      headCounts: `31 active · ${cnt(c => !c.archived && c.issues.length)} need attention · 1 archived`, totalClients: 32,
+      q: S.q, onQ: e => this.setState({ q: e.target.value }), tabs, rows, stackRows: S.w < 720, tableRows: S.w >= 720, noRows: rows.length === 0,
+      resultText: `Showing ${rows.length}${S.tab === 'active' ? ' of 31' : ''}`,
+      d, back: () => this.setState({ view: 'list', openId: null }),
+      octNote: g === 'done' ? 'Preview generated 09:48 · covers 1–25 Oct, labelled partial · not sent' : g === 'busy' ? 'Generating preview…' : `Generates 1 Nov 06:00 · sends 07:00${c && c.recips.some(r => r.s === 'Not yet confirmed') ? ' after recipients are confirmed' : ''}`,
+      genLabel: g === 'busy' ? 'Generating…' : g === 'done' ? 'Regenerate preview' : 'Generate preview now', genBusy: g === 'busy',
+      genPreview: () => { const id = S.openId; this.setState(x => ({ gen: { ...x.gen, [id]: 'busy' } })); setTimeout(() => { this.setState(x => ({ gen: { ...x.gen, [id]: 'done' } })); this.say('Preview ready · month-to-date, not sent'); }, 1400); },
+      editOpen: S.editOpen, editAria: S.editOpen ? 'true' : 'false', ed: S.ed, edErr: S.edErr, edInvalid: S.edErr ? 'true' : 'false', edBorder: S.edErr ? C.down : '#B9BDB8',
+      toggleEdit: () => this.setState(x => ({ editOpen: !x.editOpen, archiveOpen: false, ed: { name: c.name, contact: c.contact, email: c.email }, edErr: '' })),
+      onEdName: e => this.setState({ ed: { ...S.ed, name: e.target.value }, edErr: '' }), onEdContact: e => this.setState({ ed: { ...S.ed, contact: e.target.value } }), onEdEmail: e => this.setState({ ed: { ...S.ed, email: e.target.value } }),
+      saveEdit: e => { e.preventDefault(); if (!edValid) return this.setState({ edErr: 'Client name is required.' }); if (S.ed.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(S.ed.email)) return this.setState({ edErr: 'Enter a valid email or leave it empty.' }); this.patch(c.id, x => ({ ...x, ...S.ed })); this.setState({ editOpen: false }); this.say('Client details saved'); },
+      archiveOpen: S.archiveOpen, archiveAria: S.archiveOpen ? 'true' : 'false', askArchive: () => this.setState(x => ({ archiveOpen: !x.archiveOpen, editOpen: false })), cancelArchive: () => this.setState({ archiveOpen: false }),
+      archUnassign: S.arch === 'unassign', archPause: S.arch === 'pause', onArch: e => this.setState({ arch: e.target.value }),
+      archive: () => { this.patch(c.id, x => ({ ...x, archived: true, archivedAt: '25 Oct 2026', sites: S.arch === 'pause' ? x.sites.map(s => ({ ...s, st: 'paused', sub: 'since 25 Oct · Priya R.' })) : [] })); this.setState({ archiveOpen: false }); this.say(S.arch === 'pause' ? `${c.name} archived · websites paused, history kept` : `${c.name} archived · websites moved to Unassigned`); },
+      restore: () => { this.patch(c.id, x => ({ ...x, archived: false })); this.say(`${c.name} restored`); },
+      notes: S.notes, onNotes: e => this.setState({ notes: e.target.value, notesNote: '' }), notesClean: S.notes === S.notesSaved, notesOpacity: S.notes === S.notesSaved ? .5 : 1, notesNote: S.notesNote,
+      saveNotes: e => { e.preventDefault(); this.patch(c.id, x => ({ ...x, notes: S.notes })); this.setState({ notesSaved: S.notes, notesNote: 'Saved 09:48' }); },
+      addOpen: S.addOpen, addRef: this.addRef, add: S.add, addErr: S.addErr, addInvalid: S.addErr ? 'true' : 'false', addBorder: S.addErr ? C.down : '#B9BDB8',
+      openAdd: () => this.setState({ addOpen: true, add: { name: '', contact: '', email: '' }, addErr: '' }), closeAdd: () => this.setState({ addOpen: false }),
+      onAddName: e => this.setState({ add: { ...S.add, name: e.target.value }, addErr: '' }), onAddContact: e => this.setState({ add: { ...S.add, contact: e.target.value } }), onAddEmail: e => this.setState({ add: { ...S.add, email: e.target.value } }),
+      submitAdd: e => { e.preventDefault(); const n = S.add.name.trim(); if (!addValid) return this.setState({ addErr: 'Enter a client name.' }); if (S.clients.some(x => x.name.toLowerCase() === n.toLowerCase())) return this.setState({ addErr: `${n} already exists.` }); if (S.add.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(S.add.email)) return this.setState({ addErr: 'Contact email isn’t valid.' });
+        const id = 'n' + Date.now(); const nc = { id, name: n, contact: S.add.contact || '—', email: S.add.email || '—', since: 'Oct 2026', notes: '', sites: [], issues: [], reports: [], reportCount: 0, noReportsText: 'No reports yet. Add a website and the first report covers the monitored part of the month.', recips: S.add.email ? [{ n: S.add.contact || S.add.email, e: S.add.email, s: 'Not yet confirmed', c: C.degraded }] : [] };
+        this.setState(x => ({ clients: [...x.clients, nc], addOpen: false }), () => this.open(id)); this.say(`${n} added · next, add or assign a website`); },
+      toast: S.toast
+    };
+  }
+}
+</script>
+</body>
+</html>

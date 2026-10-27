@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Reports · Northfold Studio · Client Status</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400;75..100,500;75..100,600;75..100,700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F4F5F3;color:#161A1C;-webkit-font-smoothing:antialiased}
+a{color:#161A1C;text-decoration:underline;text-underline-offset:2px}
+a:hover{color:#4A4F52}
+button,select,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid #161A1C;outline-offset:2px}
+input[type=checkbox]{accent-color:#161A1C}
+</style>
+</helmet>
+
+<div style="display:flex;min-height:100vh;font-family:Archivo,sans-serif;font-size:14px;background:#F4F5F3;color:#161A1C">
+  <sc-if value="{{ wideNav }}" hint-placeholder-val="{{ true }}">
+    <nav aria-label="Primary" style="flex:0 0 200px;position:sticky;top:0;height:100vh;box-sizing:border-box;background:#FFFFFF;border-right:1px solid #D5D8D4;display:flex;flex-direction:column;padding:16px 0">
+      <div style="padding:0 16px 4px;font-weight:700;font-stretch:80%;font-size:17px;letter-spacing:.01em">Northfold Studio</div>
+      <div style="padding:0 16px 16px;font-size:12px;color:#4A4F52">Growth plan · 84 of 100 sites</div>
+      <a href="Overview.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M3 12h4l3-8 4 16 3-8h4"></path></svg>Overview</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G O</span></a>
+      <a href="Websites.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9M12 3c-2.5 2.6-3.8 5.6-3.8 9s1.3 6.4 3.8 9"></path></svg>Websites</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G W</span></a>
+      <a href="Clients.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><rect x="3" y="7" width="18" height="13"></rect><path d="M8.5 7V4h7v3M3 12.5h18"></path></svg>Clients</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G C</span></a>
+      <a href="Incidents.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M12 3.5 2.5 20h19L12 3.5z"></path><path d="M12 10v4.5M12 17.2v.1"></path></svg>Incidents <span style="font-family:'JetBrains Mono',monospace;color:#C2261B;font-weight:600">4</span></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G I</span></a>
+      <a href="#" aria-current="page" style="display:flex;justify-content:space-between;padding:8px 16px;background:#161A1C;color:#FFFFFF;text-decoration:none"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M6 2.5h8.5L19 7v14.5H6z"></path><path d="M14 2.5V7.5h5M9 12.5h7M9 16.5h7"></path></svg>Reports</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;opacity:.7">G R</span></a>
+      <div style="height:1px;background:#E2E4E1;margin:12px 16px"></div>
+      <a href="Team.dc.html" style="padding:8px 16px;text-decoration:none;color:#4A4F52" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20.5c.7-3.6 3.3-5.8 6.5-5.8s5.8 2.2 6.5 5.8M15.5 4.6a3.5 3.5 0 0 1 0 6.8M18 15c1.9.9 3.1 2.8 3.5 5.5"></path></svg>Team</span></a>
+      <a href="Settings.dc.html" style="padding:8px 16px;text-decoration:none;color:#4A4F52" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M3 6h11M18 6h3M3 12h4M11 12h10M3 18h12M19 18h2"></path><circle cx="16" cy="6" r="2"></circle><circle cx="9" cy="12" r="2"></circle><circle cx="17" cy="18" r="2"></circle></svg>Settings</span></a>
+      <a href="Billing.dc.html" style="padding:8px 16px;text-decoration:none;color:#4A4F52" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><rect x="2.5" y="5" width="19" height="14"></rect><path d="M2.5 10h19M6 15h4"></path></svg>Billing</span></a>
+      <div style="margin-top:auto;padding:12px 16px 0;border-top:1px solid #E2E4E1;font-size:13px;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Priya Raman</span><span style="color:#4A4F52;font-size:12px">Owner · Europe/London</span><span style="margin-top:8px;font-size:12px;font-weight:600;font-stretch:80%;letter-spacing:.02em;color:#4A4F52">Client Status</span></div>
+    </nav>
+  </sc-if>
+
+  <div style="flex:1 1 auto;min-width:0;display:flex;flex-direction:column">
+    <sc-if value="{{ narrowNav }}" hint-placeholder-val="{{ false }}">
+      <nav aria-label="Primary" style="display:flex;gap:4px;align-items:center;padding:8px 12px;background:#FFFFFF;border-bottom:1px solid #D5D8D4;overflow-x:auto;white-space:nowrap">
+        <span style="font-weight:700;font-stretch:80%;font-size:15px;margin-right:8px">Northfold</span>
+        <a href="Overview.dc.html" style="padding:6px 10px;text-decoration:none">Overview</a><a href="Websites.dc.html" style="padding:6px 10px;text-decoration:none">Websites</a><a href="Incidents.dc.html" style="padding:6px 10px;text-decoration:none">Incidents</a><a href="#" aria-current="page" style="padding:6px 10px;background:#161A1C;color:#FFFFFF;text-decoration:none">Reports</a>
+      </nav>
+    </sc-if>
+
+    <sc-if value="{{ isHistory }}" hint-placeholder-val="{{ true }}">
+      <header style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:18px 28px 12px">
+        <h1 style="margin:0;font-size:22px;font-weight:600;font-stretch:85%">Reports</h1>
+        <span style="font-size:13px;color:#4A4F52;font-variant-numeric:tabular-nums">{{ periodSummary }}</span>
+        <span style="margin-left:auto;font-size:13px;color:#4A4F52">October reports generate <b style="color:#161A1C">1 Nov, 06:00</b> and send at 07:00 · <a href="Settings.dc.html">Schedule &amp; branding</a></span>
+      </header>
+      <main style="flex:1;padding:0 28px 28px;display:flex;flex-direction:column;min-width:0">
+        <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+          <div style="max-width:720px;background:#FFFFFF;border:1px solid #D5D8D4;display:flex;flex-direction:column">
+            <div style="padding:24px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid #E2E4E1">
+              <h2 style="margin:0;font-size:22px;font-weight:600;font-stretch:85%">No reports yet</h2>
+              <p style="margin:0;line-height:1.5;color:#2E3437;max-width:600px;text-wrap:pretty">Reports are generated on the 1st of each month for the month before. Your first, for October, will be ready on 1 November at 06:00 and held for your review before anything is sent.</p>
+            </div>
+            <dl style="margin:0;padding:16px 24px;display:grid;grid-template-columns:170px 1fr;gap:8px 16px;font-size:13.5px;line-height:1.45">
+              <dt style="font-weight:600">Partial first month</dt><dd style="margin:0;color:#2E3437">Websites added mid-month get a report covering only the monitored days, labelled as such. No figures are back-filled.</dd>
+              <dt style="font-weight:600">Before first send</dt><dd style="margin:0;color:#2E3437">You confirm each client’s recipients once. After that, delivery can be automatic.</dd>
+            </dl>
+            <div style="padding:14px 24px 20px;display:flex;gap:8px;border-top:1px solid #E2E4E1"><a href="Settings.dc.html" style="white-space:nowrap;height:34px;padding:0 14px;background:#161A1C;color:#FFFFFF;display:flex;align-items:center;text-decoration:none;font-size:13px;font-weight:600">Set up branding</a><a href="Monthly%20Report.dc.html" target="_blank" style="white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;display:flex;align-items:center;text-decoration:none;font-size:13px">See a sample report</a></div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ hasHistory }}" hint-placeholder-val="{{ true }}">
+          <div role="search" aria-label="Filter reports" style="display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:0 0 12px">
+            <div role="group" aria-label="Period" style="display:flex;border:1px solid #B9BDB8;background:#FFFFFF">
+              <sc-for list="{{ periods }}" as="p" hint-placeholder-count="3"><button type="button" onClick="{{ p.pick }}" aria-pressed="{{ p.pressed }}" style="white-space:nowrap;height:32px;padding:0 12px;border:none;border-right:1px solid #E2E4E1;background:{{ p.bg }};color:{{ p.fg }};cursor:pointer;font-size:13px">{{ p.l }}</button></sc-for>
+            </div>
+            <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:#4A4F52">Status
+              <select value="{{ statusF }}" onChange="{{ onStatus }}" style="height:34px;border:1px solid #B9BDB8;background:#FFFFFF;padding:0 8px;font-size:13px;color:#161A1C"><option value="all">All</option><option value="review">Needs review</option><option value="sent">Sent</option><option value="nodata">No data</option></select>
+            </label>
+            <label style="position:relative;flex:1 1 200px;max-width:280px;display:flex"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search clients</span><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;position:absolute;left:10px;top:50%;margin-top:-7.5px;pointer-events:none;color:#4A4F52"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="M15.5 15.5 21 21"></path></svg><input type="search" placeholder="Search client" value="{{ q }}" onChange="{{ onQ }}" style="width:100%;height:34px;border:1px solid #B9BDB8;background:#FFFFFF;padding:0 10px 0 32px;font-size:13px"></input></label>
+          </div>
+
+          <section aria-label="Report history" style="background:#FFFFFF;border:1px solid #D5D8D4">
+            <div style="overflow-x:auto">
+              <div role="table" aria-label="Reports" style="min-width:1040px">
+                <div role="row" style="display:grid;grid-template-columns:minmax(200px,1.4fr) 150px minmax(220px,1.6fr) 150px 170px 150px;border-bottom:1px solid #D5D8D4;font-size:12px;letter-spacing:.03em;color:#4A4F52">
+                  <span role="columnheader" style="padding:10px 16px">CLIENT</span><span role="columnheader" style="padding:10px 8px">STATUS</span><span role="columnheader" style="padding:10px 8px">DATA NOTES</span><span role="columnheader" style="padding:10px 8px">DELIVERY</span><span role="columnheader" style="padding:10px 8px">PRIVATE LINK</span><span role="columnheader" style="padding:10px 16px 10px 8px;text-align:right">ACTION</span>
+                </div>
+                <sc-for list="{{ rows }}" as="r" hint-placeholder-count="12">
+                  <div role="row" style="display:grid;grid-template-columns:minmax(200px,1.4fr) 150px minmax(220px,1.6fr) 150px 170px 150px;border-bottom:1px solid #E7E9E6;align-items:center;font-size:13px;min-height:52px" style-hover="background:#F6F7F5">
+                    <span role="cell" style="padding:8px 16px;display:flex;flex-direction:column"><span style="font-weight:600;font-size:13.5px">{{ r.client }}</span><span style="font-size:12px;color:#4A4F52">{{ r.periodL }} · {{ r.sitesL }}</span></span>
+                    <span role="cell" style="padding:8px;display:flex;flex-direction:column"><span style="font-weight:600;color:{{ r.stC }}"><span aria-hidden="true">{{ r.stG }}</span> {{ r.stL }}</span><span style="font-size:12px;color:#4A4F52;font-family:'JetBrains Mono',monospace">{{ r.generated }}</span></span>
+                    <span role="cell" style="padding:8px;font-size:12.5px;color:{{ r.notesC }};line-height:1.4">{{ r.notes }}</span>
+                    <span role="cell" style="padding:8px;font-size:12.5px;line-height:1.4;color:{{ r.delC }}">{{ r.delivery }}</span>
+                    <span role="cell" style="padding:8px;font-size:12.5px;line-height:1.4;color:{{ r.linkC }}">{{ r.link }}</span>
+                    <span role="cell" style="padding:8px 16px 8px 8px;display:flex;justify-content:flex-end">
+                      <sc-if value="{{ r.hasAction }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ r.open }}" style="white-space:nowrap;height:30px;padding:0 12px;border:1px solid {{ r.btnBorder }};background:{{ r.btnBg }};color:{{ r.btnFg }};cursor:pointer;font-size:12.5px;font-weight:600">{{ r.cta }}</button></sc-if>
+                    </span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="padding:10px 16px;font-size:12.5px;color:#4A4F52;display:flex;flex-wrap:wrap;gap:6px 16px"><span>{{ footText }}</span><a href="#" style="margin-left:auto">Show all {{ periodTotal }}</a></div>
+          </section>
+        </sc-if>
+      </main>
+    </sc-if>
+
+    <sc-if value="{{ isReview }}" hint-placeholder-val="{{ false }}">
+      <header style="display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;padding:14px 28px 12px;border-bottom:1px solid #D5D8D4;background:#FFFFFF">
+        <button type="button" onClick="{{ back }}" style="white-space:nowrap;height:30px;padding:0 10px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:12.5px">← Reports</button>
+        <div style="display:flex;flex-direction:column;line-height:1.25"><h1 style="margin:0;font-size:19px;font-weight:600;font-stretch:85%">{{ rv.client }}</h1><span style="font-size:12.5px;color:#4A4F52">September 2026 report · {{ rv.sitesL }} · generated 1 Oct 06:00 BST</span></div>
+        <span aria-live="polite" style="font-weight:600;padding:2px 8px;border:1px solid {{ rv.stBorder }};color:{{ rv.stC }}">{{ rv.stL }}</span>
+        <span style="flex:1"></span>
+        <a href="{{ rv.src }}" target="_blank" style="white-space:nowrap;height:32px;padding:0 12px;border:1px solid #B9BDB8;display:flex;align-items:center;text-decoration:none;font-size:13px">Open full size / PDF</a>
+      </header>
+      <div style="flex:1;display:flex;flex-wrap:wrap;min-height:0">
+        <div ref="{{ previewRef }}" style="flex:1 1 520px;min-width:0;display:flex;flex-direction:column;background:#E7E8E4">
+          <div style="display:flex;flex-wrap:wrap;gap:4px;align-items:center;padding:8px 16px;border-bottom:1px solid #D5D8D4;background:#F4F5F3">
+            <span style="font-size:12px;color:#4A4F52;margin-right:6px">Jump to</span>
+            <sc-for list="{{ pageBtns }}" as="b" hint-placeholder-count="5"><button type="button" onClick="{{ b.go }}" style="white-space:nowrap;height:28px;padding:0 10px;border:1px solid #D5D8D4;background:#FFFFFF;cursor:pointer;font-size:12.5px"><span style="font-family:'JetBrains Mono',monospace;color:#4A4F52">{{ b.n }}</span> {{ b.l }}</button></sc-for>
+          </div>
+          <sc-if value="{{ rv.hasPreview }}" hint-placeholder-val="{{ true }}">
+            <div style="position:relative;flex:1;min-height:640px;overflow:hidden">
+              <iframe ref="{{ frameRef }}" title="{{ rv.frameTitle }}" src="{{ rv.src }}" style="position:absolute;top:0;left:{{ frame.left }};border:none;width:{{ frame.w }};height:{{ frame.h }};transform:scale({{ frame.s }});transform-origin:0 0;background:#E7E8E4"></iframe>
+            </div>
+          </sc-if>
+          <sc-if value="{{ rv.noPreview }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:48px 32px;color:#2E3437;line-height:1.5;max-width:520px">Preview for this client isn’t included in the prototype. Open <button type="button" onClick="{{ openGreen }}" style="background:none;border:none;padding:0;text-decoration:underline;cursor:pointer">Green Room Theatre</button> to walk through the review flow.</div>
+          </sc-if>
+        </div>
+
+        <aside aria-label="Review" style="flex:0 1 400px;min-width:300px;background:#FFFFFF;border-left:1px solid #D5D8D4;display:flex;flex-direction:column;max-height:calc(100vh - 64px);overflow-y:auto;position:sticky;top:0">
+          <sc-if value="{{ rv.isReview }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:16px 20px;display:flex;flex-direction:column;gap:20px">
+              <section aria-labelledby="g-h" style="display:flex;flex-direction:column;gap:8px">
+                <div style="display:flex;align-items:baseline;gap:10px"><h2 id="g-h" style="margin:0;font-size:15px;font-weight:600">1 · Data gaps</h2><span style="font-size:12px;color:#4A4F52;font-variant-numeric:tabular-nums">{{ gapsDone }} of {{ gapsTotal }} reviewed</span></div>
+                <p style="margin:0;font-size:12.5px;color:#4A4F52;line-height:1.45">Each gap is already disclosed in the report. Confirm you’ve read how it’s worded.</p>
+                <sc-for list="{{ gaps }}" as="g" hint-placeholder-count="3">
+                  <label style="display:grid;grid-template-columns:18px 1fr;gap:10px;padding:9px 0;border-top:1px solid #E7E9E6;cursor:pointer;align-items:start">
+                    <input type="checkbox" checked="{{ g.on }}" onChange="{{ g.toggle }}" style="width:16px;height:16px;margin:2px 0 0"></input>
+                    <span style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:13.5px"><span aria-hidden="true" style="color:{{ g.c }}">{{ g.g }}</span> {{ g.t }}</span><span style="font-size:12.5px;color:#4A4F52">{{ g.where }} · <button type="button" onClick="{{ g.show }}" style="background:none;border:none;padding:0;text-decoration:underline;cursor:pointer;font-size:12.5px;color:#161A1C">show</button></span></span>
+                  </label>
+                </sc-for>
+                <p style="margin:0;padding:8px 10px;background:#F4F5F3;font-size:12.5px;line-height:1.45;color:#2E3437">Re-running the audit now would measure October, so it can’t fill September’s gap. The report states the gap instead of estimating.</p>
+              </section>
+
+              <section aria-labelledby="p-h" style="display:flex;flex-direction:column;gap:6px">
+                <h2 id="p-h" style="margin:0;font-size:15px;font-weight:600">2 · Kept out of the report</h2>
+                <ul style="margin:0;padding-left:18px;font-size:13px;line-height:1.5;color:#2E3437"><li>Internal notes on incidents and audits</li><li>Team member names and who acknowledged what</li><li>Raw diagnostics, IP addresses and response headers</li></ul>
+              </section>
+
+              <section aria-labelledby="b-h" style="display:flex;flex-direction:column;gap:8px">
+                <h2 id="b-h" style="margin:0;font-size:15px;font-weight:600">3 · Branding</h2>
+                <div style="display:flex;align-items:center;gap:12px">
+                  <span style="width:44px;height:44px;background:#23395B;color:#FFFFFF;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px">NS</span>
+                  <span style="display:flex;flex-direction:column;font-size:13px"><span style="font-weight:600">Northfold Studio · #23395B</span><span style="color:#1F7A4A">● Cover text contrast 11.6 : 1 — passes AA</span></span>
+                </div>
+                <p style="margin:0;font-size:12.5px;color:#4A4F52;line-height:1.45">No logo uploaded yet, so the cover shows initials on a plain mark; uploaded logos sit on a white plate so any brand colour stays legible. Brand colour is used for the cover, rules and section numbers only. Warning and error colours stay fixed. Light brand colours get dark cover text automatically. <a href="Settings.dc.html">Edit branding</a></p>
+              </section>
+
+              <section aria-labelledby="r-h" style="display:flex;flex-direction:column;gap:6px">
+                <h2 id="r-h" style="margin:0;font-size:15px;font-weight:600">4 · Recipients</h2>
+                <sc-for list="{{ recips }}" as="p" hint-placeholder-count="2">
+                  <label style="display:grid;grid-template-columns:18px 1fr;gap:10px;padding:6px 0;cursor:pointer;align-items:start"><input type="checkbox" checked="{{ p.on }}" onChange="{{ p.toggle }}" style="width:16px;height:16px;margin:2px 0 0"></input><span style="display:flex;flex-direction:column"><span style="font-weight:600;font-size:13.5px">{{ p.name }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">{{ p.email }}</span></span></label>
+                </sc-for>
+                <form onSubmit="{{ addRecip }}" style="display:flex;gap:6px"><label style="flex:1;display:flex"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Add recipient email</span><input type="email" placeholder="Add email address" value="{{ newRecip }}" onChange="{{ onNewRecip }}" style="width:100%;height:32px;border:1px solid {{ recipBorder }};padding:0 8px;font-size:13px"></input></label><button type="submit" style="white-space:nowrap;height:32px;padding:0 10px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:12.5px">Add</button></form>
+                <sc-if value="{{ recipErr }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size:12.5px;color:#C2261B">{{ recipErr }}</span></sc-if>
+                <label style="display:grid;grid-template-columns:18px 1fr;gap:10px;padding:8px 10px;margin-top:4px;background:#FBF1E4;border:1px solid #E2C9A3;cursor:pointer;align-items:start"><input type="checkbox" checked="{{ confirmed }}" onChange="{{ toggleConfirmed }}" style="width:16px;height:16px;margin:2px 0 0"></input><span style="font-size:13px;line-height:1.45;color:#3A2A14"><b>First delivery for this client.</b> I’ve confirmed these are the right people to receive it. Future months can then send automatically.</span></label>
+              </section>
+
+              <section aria-labelledby="l-h" style="display:flex;flex-direction:column;gap:8px">
+                <h2 id="l-h" style="margin:0;font-size:15px;font-weight:600">5 · Private link</h2>
+                <label style="display:flex;align-items:center;gap:10px;font-size:13.5px;cursor:pointer"><input type="checkbox" checked="{{ withLink }}" onChange="{{ toggleLink }}" style="width:16px;height:16px;margin:0"></input>Include a private web link in the email</label>
+                <sc-if value="{{ withLink }}" hint-placeholder-val="{{ true }}">
+                  <label style="display:flex;align-items:center;gap:8px;font-size:13px;color:#4A4F52">Expires after
+                    <select value="{{ linkDays }}" onChange="{{ onLinkDays }}" style="height:32px;border:1px solid #B9BDB8;background:#FFFFFF;padding:0 8px;font-size:13px;color:#161A1C"><option value="30">30 days</option><option value="60">60 days</option><option value="90">90 days</option></select>
+                    <span style="color:#161A1C">{{ linkUntil }}</span>
+                  </label>
+                  <span style="font-size:12.5px;color:#4A4F52;line-height:1.45">Hard-to-guess link, created on send. You can revoke it any time; the emailed PDF is unaffected.</span>
+                </sc-if>
+              </section>
+            </div>
+            <div style="margin-top:auto;position:sticky;bottom:0;background:#FFFFFF;border-top:1px solid #D5D8D4;padding:12px 20px;display:flex;flex-direction:column;gap:8px">
+              <sc-if value="{{ blockers }}" hint-placeholder-val="{{ false }}"><span aria-live="polite" style="font-size:12.5px;color:#4A4F52">To send: {{ blockers }}</span></sc-if>
+              <div style="display:flex;gap:8px">
+                <button type="button" onClick="{{ send }}" disabled="{{ cantSend }}" style="white-space:nowrap;flex:1;height:38px;padding:0 14px;border:none;background:{{ sendBg }};color:#FFFFFF;cursor:pointer;font-weight:600;font-size:13.5px">{{ sendLabel }}</button>
+                <button type="button" onClick="{{ back }}" style="white-space:nowrap;height:38px;padding:0 14px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">Keep as draft</button>
+              </div>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ rv.isSent }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:16px 20px;display:flex;flex-direction:column;gap:20px">
+              <section style="display:flex;flex-direction:column;gap:8px">
+                <h2 style="margin:0;font-size:15px;font-weight:600">Delivery</h2>
+                <sc-for list="{{ rv.deliveries }}" as="dl" hint-placeholder-count="2"><div style="display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-top:1px solid #E7E9E6;font-size:13px"><span style="display:flex;flex-direction:column"><span style="font-weight:600">{{ dl.name }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">{{ dl.email }}</span></span><span style="text-align:right;color:{{ dl.c }};white-space:nowrap">{{ dl.st }}<br><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">{{ dl.t }}</span></span></div></sc-for>
+                <button type="button" onClick="{{ resend }}" style="white-space:nowrap;align-self:flex-start;height:32px;padding:0 12px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">Resend…</button>
+              </section>
+              <section style="display:flex;flex-direction:column;gap:8px">
+                <h2 style="margin:0;font-size:15px;font-weight:600">Private link</h2>
+                <span style="font-weight:600;color:{{ rv.linkC }}">{{ rv.linkState }}</span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52;word-break:break-all">{{ rv.linkUrl }}</span>
+                <sc-if value="{{ rv.linkActive }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;gap:8px"><button type="button" onClick="{{ copyLink }}" style="white-space:nowrap;height:32px;padding:0 12px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">Copy link</button><button type="button" onClick="{{ askRevoke }}" style="white-space:nowrap;height:32px;padding:0 12px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px;color:#C2261B">Revoke…</button></div>
+                </sc-if>
+                <sc-if value="{{ revokeOpen }}" hint-placeholder-val="{{ false }}">
+                  <div role="region" aria-label="Confirm revoke" style="padding:10px 12px;border:1px solid #B9BDB8;background:#F4F5F3;display:flex;flex-direction:column;gap:8px;font-size:13px;line-height:1.45">
+                    <span><b>Revoke this link?</b> Anyone opening it will see “This report link is no longer available”. The PDF already emailed isn’t affected.</span>
+                    <div style="display:flex;gap:8px"><button type="button" onClick="{{ revoke }}" style="white-space:nowrap;height:30px;padding:0 12px;border:none;background:#C2261B;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:12.5px">Revoke link</button><button type="button" onClick="{{ cancelRevoke }}" style="white-space:nowrap;height:30px;padding:0 12px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:12.5px">Cancel</button></div>
+                  </div>
+                </sc-if>
+              </section>
+              <section style="display:flex;flex-direction:column;gap:6px">
+                <h2 style="margin:0;font-size:15px;font-weight:600">Disclosed in this report</h2>
+                <sc-for list="{{ rv.disclosed }}" as="x" hint-placeholder-count="1"><span style="font-size:13px;color:#2E3437">▲ {{ x }}</span></sc-for>
+              </section>
+            </div>
+          </sc-if>
+        </aside>
+      </div>
+    </sc-if>
+
+    <footer style="display:flex;flex-wrap:wrap;gap:4px 24px;padding:6px 28px;background:#161A1C;color:#D5D8D4;font-family:'JetBrains Mono',monospace;font-size:12px;margin-top:auto">
+      <span style="white-space:nowrap"><span aria-hidden="true" style="color:#5FD39A">●</span> Reports on schedule</span><span style="white-space:nowrap">Next generation 1 Nov 06:00 · 31 clients</span><span style="margin-left:auto;white-space:nowrap">Times in Europe/London</span>
+    </footer>
+  </div>
+
+  <div aria-live="polite" style="position:fixed;left:50%;bottom:40px;transform:translateX(-50%);z-index:60">
+    <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}"><div style="background:#161A1C;color:#FFFFFF;padding:10px 16px;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.2)">{{ toast }}</div></sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;state&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;live&quot;,&quot;empty&quot;],&quot;default&quot;:&quot;live&quot;,&quot;tsType&quot;:&quot;'live'|'empty'&quot;,&quot;section&quot;:&quot;Demo state&quot;}}">
+const C = { ink: '#161A1C', mute: '#4A4F52', ok: '#1F7A4A', warn: '#A35A00', bad: '#C2261B' };
+const SEP = [
+  { id: 'gr', client: 'Green Room Theatre', sites: 1, status: 'review', notes: 'Audit partial (120 of 500 pages) · coverage 99.5% · recipients not confirmed', r: 'greenroom' },
+  { id: 'bw', client: 'Brightwater Law', sites: 4, status: 'review', notes: 'Monitoring coverage 91% — paused 2–4 Sep' },
+  { id: 'os', client: 'Ostara Wellness', sites: 1, status: 'review', notes: 'No audit completed in September' },
+  { id: 'al', client: 'Alpine Cycle Works', sites: 2, status: 'review', notes: 'Domain expiry not published for alpinecycleworks.de' },
+  { id: 'hd', client: 'Harbour Dental Group', sites: 2, status: 'sent', notes: 'Booking site audit partial (JavaScript app)', delivery: 'Sent 1 Oct 07:00 · 2 delivered', link: 'Active · expires 31 Oct', r: 'harbour' },
+  { id: 'af', client: 'Atlas Freight', sites: 3, status: 'sent', notes: 'Complete', delivery: 'Sent 1 Oct 07:00 · 1 of 2 bounced', delWarn: true, link: 'Active · expires 31 Oct' },
+  { id: 'cw', client: 'Castellan Wines', sites: 3, status: 'sent', notes: 'Complete', delivery: 'Sent 1 Oct 07:00 · 1 delivered', link: 'Revoked 12 Oct', revoked: true },
+  { id: 'mk', client: 'Miller & Koch', sites: 2, status: 'sent', notes: 'Complete', delivery: 'Sent 1 Oct 07:00 · 1 delivered', link: 'Active · expires 31 Oct' },
+  { id: 'vl', client: 'Vela Architects', sites: 1, status: 'sent', notes: 'Complete', delivery: 'Sent 1 Oct 07:00 · 2 delivered', link: 'Active · expires 31 Oct' },
+  { id: 'kc', client: 'Kiln Coffee Roasters', sites: 1, status: 'sent', notes: 'Complete', delivery: 'Sent 1 Oct 07:00 · 1 delivered', link: 'Not included' },
+  { id: 'lo', client: 'Lumen Optics', sites: 1, status: 'sent', notes: 'Complete', delivery: 'Sent 1 Oct 07:00 · 1 delivered', link: 'Active · expires 31 Oct' },
+  { id: 'rv', client: 'Riverside Veterinary', sites: 1, status: 'nodata', notes: 'No September report — monitoring started 25 Oct. First report covers 25–31 Oct, labelled as a partial month.' }
+];
+const OLD = ['Harbour Dental Group', 'Miller & Koch', 'Green Room Theatre', 'Vela Architects', 'Alpine Cycle Works', 'Lumen Optics', 'Kiln Coffee Roasters', 'Brightwater Law', 'Ostara Wellness', 'Atlas Freight'];
+const PERIODS = [{ k: 'sep', l: 'September 2026', sent: '1 Oct', exp: '31 Oct' }, { k: 'aug', l: 'August 2026', sent: '1 Sep', exp: '1 Oct' }, { k: 'jul', l: 'July 2026', sent: '1 Aug', exp: '31 Aug' }];
+const GAPS = [
+  { id: 'a', g: '▲', c: C.warn, t: 'Audit partial — 120 of 500 pages', where: 'Stated on pages 1 and 4', page: 3 },
+  { id: 'b', g: '▲', c: C.warn, t: '68 inconclusive checks on 9, 16, 23 Sep', where: 'Stated on pages 2 and 5', page: 1 },
+  { id: 'c', g: '○', c: C.mute, t: '43 checks not run on 2 Sep (our maintenance)', where: 'Stated on page 5', page: 4 }
+];
+const PAGES = ['Cover', 'Reliability', 'Speed & security', 'Audit', 'Next steps'];
+
+class Component extends DCLogic {
+  state = { phase: this.props.state ?? 'live', period: 'sep', statusF: 'all', q: '', view: 'history', openId: null, sep: SEP, gaps: {}, recips: [{ name: 'Marta Kowalski', email: 'marta@thegreenroomlondon.com', on: true }, { name: 'Box office', email: 'boxoffice@thegreenroomlondon.com', on: false }], newRecip: '', recipErr: '', confirmed: false, withLink: true, linkDays: '30', revokeOpen: false, linkRevoked: {}, toast: '', w: typeof window !== 'undefined' ? window.innerWidth : 1400, pw: 700, ph: 800 };
+  previewRef = React.createRef(); frameRef = React.createRef();
+  componentDidMount() {
+    this.onResize = () => { this.setState({ w: window.innerWidth }); this.measure(); };
+    window.addEventListener('resize', this.onResize);
+  }
+  componentDidUpdate(pp, ps) {
+    if (pp.state !== this.props.state) this.setState({ phase: this.props.state ?? 'live' });
+    if (this.state.view === 'review' && ps.view !== 'review') setTimeout(() => this.measure(), 0);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); clearTimeout(this.tt); }
+  measure() { const el = this.previewRef.current; if (!el) return; const r = el.getBoundingClientRect(); this.setState({ pw: r.width, ph: Math.max(640, window.innerHeight - r.top - 80) }); }
+  say(m) { clearTimeout(this.tt); this.setState({ toast: m }); this.tt = setTimeout(() => this.setState({ toast: '' }), 3500); }
+  jump(i) {
+    const f = this.frameRef.current; if (!f) return;
+    try { const doc = f.contentDocument; const pages = doc.querySelectorAll('section.page'); const p = pages[i]; if (p) { const y = p.getBoundingClientRect().top + f.contentWindow.scrollY - 16; f.contentWindow.scrollTo({ top: y, behavior: 'smooth' }); } } catch (e) {}
+  }
+  open(id) { this.setState({ view: 'review', openId: id, revokeOpen: false }); try { window.scrollTo(0, 0); } catch (e) {} }
+
+  renderVals() {
+    const S = this.state, wideNav = S.w >= 980;
+    const per = PERIODS.find(p => p.k === S.period);
+    const base = S.period === 'sep' ? S.sep : OLD.map((c, i) => ({ id: S.period + i, client: c, sites: 1 + (i % 3), status: 'sent', notes: 'Complete', delivery: `Sent ${per.sent} 07:00 · delivered`, link: `Expired ${per.exp}`, expired: true }));
+    const q = S.q.trim().toLowerCase();
+    const list = base.filter(r => (S.statusF === 'all' || r.status === S.statusF) && (!q || r.client.toLowerCase().includes(q)));
+    const rows = list.map(r => {
+      const revoked = r.revoked || S.linkRevoked[r.id];
+      const st = { review: ['Needs review', '▲', C.warn], sent: ['Sent', '●', C.ok], nodata: ['No data yet', '○', C.mute] }[r.status];
+      return { ...r, periodL: per.l, sitesL: `${r.sites} website${r.sites > 1 ? 's' : ''}`, stL: st[0], stG: st[1], stC: st[2], generated: r.status === 'nodata' ? '—' : 'gen. 1 ' + (S.period === 'sep' ? 'Oct' : S.period === 'aug' ? 'Sep' : 'Aug') + ' 06:00',
+        notesC: r.notes === 'Complete' ? C.mute : r.status === 'nodata' ? C.mute : C.ink,
+        delivery: r.delivery || (r.status === 'review' ? 'Held for your review' : '—'), delC: r.delWarn ? C.bad : r.status === 'review' ? C.warn : C.ink,
+        link: revoked ? (r.revoked ? r.link : 'Revoked just now') : (r.link || '—'), linkC: revoked ? C.bad : r.expired || r.link === 'Not included' ? C.mute : C.ink,
+        hasAction: r.status !== 'nodata', cta: r.status === 'review' ? 'Review' : 'Preview', btnBg: r.status === 'review' ? C.ink : '#FFFFFF', btnFg: r.status === 'review' ? '#FFFFFF' : C.ink, btnBorder: r.status === 'review' ? C.ink : '#B9BDB8',
+        open: () => this.open(r.r && S.period === 'sep' ? r.id : r.id) };
+    });
+    const cnt = st => base.filter(r => r.status === st).length;
+
+    const cur = S.sep.find(r => r.id === S.openId) || base.find(r => r.id === S.openId);
+    let rv = {};
+    if (cur) {
+      const isReview = cur.status === 'review', src = cur.r ? `Monthly%20Report.dc.html?r=${cur.r}` : '';
+      const revoked = cur.revoked || S.linkRevoked[cur.id];
+      rv = { ...cur, sitesL: `${cur.sites} website${cur.sites > 1 ? 's' : ''}`, src, hasPreview: !!src, noPreview: !src, frameTitle: `Preview of ${cur.client} September report`,
+        stL: isReview ? 'Needs review' : cur.status === 'sent' ? 'Sent' : 'No data', stC: isReview ? C.warn : C.ok, stBorder: isReview ? '#E2C9A3' : '#9CC5AE',
+        isReview: isReview && cur.id === 'gr', isSent: cur.status === 'sent',
+        deliveries: cur.id === 'gr' ? S.recips.filter(p => p.on).map(p => ({ ...p, st: 'Delivered', c: C.ok, t: '25 Oct 09:48' })) : cur.id === 'hd' ? [{ name: 'Dr Sarah Okafor', email: 'sarah.okafor@harbourdental.co.uk', st: 'Delivered', c: C.ok, t: '1 Oct 07:00' }, { name: 'James Whitfield', email: 'accounts@harbourdental.co.uk', st: 'Delivered', c: C.ok, t: '1 Oct 07:00' }] : cur.delWarn ? [{ name: 'Operations', email: 'ops@atlas-freight.com', st: 'Delivered', c: C.ok, t: '1 Oct 07:00' }, { name: 'Dan Reyes', email: 'd.reyes@atlas-freight.com', st: 'Bounced — mailbox not found', c: C.bad, t: '1 Oct 07:01' }] : [{ name: 'Primary contact', email: 'on file', st: 'Delivered', c: C.ok, t: '1 Oct 07:00' }],
+        linkState: revoked ? 'Revoked' : cur.link === 'Not included' ? 'No link was included' : cur.expired ? cur.link : cur.id === 'gr' ? `Active · expires ${this.until()}` : 'Active · expires 31 Oct 2026', linkC: revoked ? C.bad : C.ink,
+        linkActive: !revoked && cur.link !== 'Not included' && !cur.expired, linkUrl: revoked ? '—' : 'reports.northfold.studio/r/7Kq…9xT  (full token shown only once, at creation)',
+        disclosed: cur.id === 'hd' ? ['Booking site audit partial — 4 pages readable (JavaScript app)', '43 checks not run on 2 Sep (our maintenance)'] : cur.id === 'gr' ? ['Audit partial — 120 of 500 pages', '68 inconclusive checks', '43 checks not run on 2 Sep'] : ['None — complete data'] };
+    }
+    const gapsDone = GAPS.filter(g => S.gaps[g.id]).length;
+    const recOn = S.recips.filter(p => p.on).length;
+    const blockers = [gapsDone < GAPS.length ? `review ${GAPS.length - gapsDone} data gap${GAPS.length - gapsDone > 1 ? 's' : ''}` : '', recOn === 0 ? 'select a recipient' : '', !S.confirmed ? 'confirm recipients' : ''].filter(Boolean).join(', ');
+    const scale = Math.min(1, (S.pw - 8) / 880);
+    return {
+      wideNav, narrowNav: !wideNav, isHistory: S.view === 'history', isReview: S.view === 'review', isEmpty: S.phase === 'empty', hasHistory: S.phase !== 'empty',
+      periodSummary: S.phase === 'empty' ? 'Nothing generated yet' : `${per.l}: ${cnt('sent') + (S.period === 'sep' ? 20 : 21)} sent · ${cnt('review')} need review${cnt('nodata') ? ` · ${cnt('nodata')} new client not reported (monitoring started 25 Oct)` : ''}`,
+      periods: PERIODS.map(p => ({ l: p.l, pressed: S.period === p.k ? 'true' : 'false', bg: S.period === p.k ? C.ink : '#FFFFFF', fg: S.period === p.k ? '#FFFFFF' : C.ink, pick: () => this.setState({ period: p.k }) })),
+      statusF: S.statusF, onStatus: e => this.setState({ statusF: e.target.value }), q: S.q, onQ: e => this.setState({ q: e.target.value }),
+      rows, footText: rows.length ? `Showing ${rows.filter(r => r.status !== 'nodata').length} of 31 reports — needing review first${rows.some(r => r.status === 'nodata') ? ' · Riverside Veterinary listed for reference, not counted' : ''}` : 'No reports match these filters.', periodTotal: 31,
+      rv, back: () => this.setState({ view: 'history', openId: null }), openGreen: () => this.open('gr'),
+      previewRef: this.previewRef, frameRef: this.frameRef,
+      frame: { s: scale, w: '880px', h: Math.round(S.ph / scale) + 'px', left: Math.max(0, Math.round((S.pw - 880 * scale) / 2)) + 'px' },
+      pageBtns: PAGES.map((l, i) => ({ n: i + 1, l, go: () => this.jump(i) })),
+      gaps: GAPS.map(g => ({ ...g, on: !!S.gaps[g.id], toggle: () => this.setState(x => ({ gaps: { ...x.gaps, [g.id]: !x.gaps[g.id] } })), show: e => { e.preventDefault(); this.jump(g.page); } })),
+      gapsDone, gapsTotal: GAPS.length,
+      recips: S.recips.map((p, i) => ({ ...p, toggle: () => this.setState(x => ({ recips: x.recips.map((y, j) => j === i ? { ...y, on: !y.on } : y), confirmed: false })) })),
+      newRecip: S.newRecip, onNewRecip: e => this.setState({ newRecip: e.target.value, recipErr: '' }), recipErr: S.recipErr, recipBorder: S.recipErr ? C.bad : '#B9BDB8',
+      addRecip: e => { e.preventDefault(); const v = S.newRecip.trim(); if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return this.setState({ recipErr: 'Enter a valid email address.' }); if (S.recips.some(p => p.email === v)) return this.setState({ recipErr: 'Already a recipient.' }); this.setState(x => ({ recips: [...x.recips, { name: v.split('@')[0], email: v, on: true }], newRecip: '', confirmed: false })); },
+      confirmed: S.confirmed, toggleConfirmed: () => this.setState(x => ({ confirmed: !x.confirmed })),
+      withLink: S.withLink, toggleLink: () => this.setState(x => ({ withLink: !x.withLink })), linkDays: S.linkDays, onLinkDays: e => this.setState({ linkDays: e.target.value }), linkUntil: `until ${this.until()}`,
+      blockers, cantSend: !!blockers, sendBg: blockers ? '#8D9396' : C.ink, sendLabel: `Send to ${recOn} recipient${recOn === 1 ? '' : 's'}`,
+      send: () => { if (blockers) return; this.setState(x => ({ sep: x.sep.map(r => r.id === 'gr' ? { ...r, status: 'sent', notes: 'Audit partial (120 of 500 pages) · coverage 99.5% — disclosed', delivery: `Sent 25 Oct 09:48 · ${recOn} delivered`, link: S.withLink ? `Active · expires ${this.until()}` : 'Not included' } : r) })); this.say(`Report sent to ${recOn} recipient${recOn === 1 ? '' : 's'} · future months can send automatically`); },
+      resend: () => this.say('Resend queued to the same recipients · new link not created'),
+      copyLink: () => this.say('Private link copied'), askRevoke: () => this.setState({ revokeOpen: true }), cancelRevoke: () => this.setState({ revokeOpen: false }),
+      revoke: () => { this.setState(x => ({ linkRevoked: { ...x.linkRevoked, [x.openId]: true }, revokeOpen: false })); this.say('Link revoked · it no longer opens'); },
+      revokeOpen: S.revokeOpen, toast: S.toast
+    };
+  }
+  until() { const d = new Date(Date.UTC(2026, 9, 25) + (+this.state.linkDays) * 864e5); return d.getUTCDate() + ' ' + ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][d.getUTCMonth()] + ' ' + d.getUTCFullYear(); }
+}
+</script>
+</body>
+</html>

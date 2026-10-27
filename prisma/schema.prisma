@@ -1,0 +1,685 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ─── Better Auth core tables ──────────────────────────────────────────────
+// Field names follow Better Auth's core schema; regenerate with
+// `npx @better-auth/cli generate` when upgrading and diff against this block.
+
+model User {
+  id            String   @id
+  name          String
+  email         String   @unique
+  emailVerified Boolean  @default(false)
+  image         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  sessions       Session[]
+  accounts       Account[]
+  memberships    WorkspaceMember[]
+  auditLogs      AuditLog[]
+  sitesPaused    Site[]            @relation("SitePausedBy")
+  incidentEvents IncidentEvent[]
+
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+// ─── Workspaces and tenancy ───────────────────────────────────────────────
+
+model Workspace {
+  id                  String    @id @default(uuid(7))
+  name                String
+  slug                String    @unique
+  /// IANA timezone used for report boundaries and displayed timestamps.
+  timezone            String
+  /// Key into lib/plans.ts. Billing (Paddle) updates this in Phase 5.
+  planKey             String    @default("growth")
+  trialEndsAt         DateTime?
+  logoUrl             String?
+  brandPrimaryColor   String?
+  brandSecondaryColor String?
+  reportFooter        String?
+  /// "Questions about this report?" contact line.
+  reportContact       String?
+  /// Uploaded logo in object storage (PNG or SVG), shown on a white plate on the report cover.
+  logoStorageKey      String?
+  /// Last incident number issued (INC-0001…), per workspace.
+  incidentSeq         Int       @default(0)
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  members              WorkspaceMember[]
+  auditLogs            AuditLog[]
+  clients              Client[]
+  sites                Site[]
+  incidents            Incident[]
+  notificationSettings NotificationSettings?
+  reports              MonthlyReport[]
+
+  @@map("workspace")
+}
+
+enum WorkspaceRole {
+  owner
+  admin
+  member
+}
+
+model WorkspaceMember {
+  id          String        @id @default(uuid(7))
+  workspaceId String
+  workspace   Workspace     @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  userId      String
+  user        User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role        WorkspaceRole
+  createdAt   DateTime      @default(now())
+
+  @@unique([workspaceId, userId])
+  // v1: each account belongs to exactly one workspace (FR-AUTH-02).
+  @@unique([userId])
+  @@map("workspace_member")
+}
+
+model AuditLog {
+  id           String    @id @default(uuid(7))
+  workspaceId  String
+  workspace    Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  actorUserId  String?
+  actor        User?     @relation(fields: [actorUserId], references: [id], onDelete: SetNull)
+  action       String
+  resourceType String
+  resourceId   String
+  /// Allowlisted keys only — never secrets or raw request data.
+  metadata     Json?
+  createdAt    DateTime  @default(now())
+
+  @@index([workspaceId, createdAt])
+  @@map("audit_log")
+}
+
+// ─── Clients and websites ─────────────────────────────────────────────────
+
+enum ClientStatus {
+  active
+  archived
+}
+
+model Client {
+  id           String       @id @default(uuid(7))
+  workspaceId  String
+  workspace    Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  name         String
+  /// Lowercased, whitespace-collapsed name for duplicate detection.
+  nameKey      String
+  contactName  String?
+  contactEmail String?
+  /// Internal only — never shown in client-facing reports.
+  notes        String?
+  status       ClientStatus @default(active)
+  archivedAt   DateTime?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+
+  sites      Site[]
+  recipients ClientRecipient[]
+  reports    MonthlyReport[]
+
+  @@unique([workspaceId, nameKey])
+  @@index([workspaceId, status])
+  @@map("client")
+}
+
+enum SiteStatus {
+  active
+  paused
+  archived
+}
+
+/// What counts as "down" for uptime checks (FR-UP-08).
+enum DownPolicy {
+  /// 5xx and connection failures; 4xx is recorded but doesn't open incidents.
+  server_errors
+  /// Anything other than 2xx/3xx.
+  non_success
+}
+
+model Site {
+  id                 String     @id @default(uuid(7))
+  workspaceId        String
+  workspace          Workspace  @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  clientId           String?
+  client             Client?    @relation(fields: [clientId], references: [id], onDelete: SetNull)
+  name               String
+  /// Lowercased name for case-insensitive sorting.
+  nameKey            String
+  /// Canonical URL that checks request, e.g. https://shop.example.com/book
+  baseUrl            String
+  /// Lowercase hostname without a leading "www." — the identity of a site.
+  normalizedHostname String
+  /// eTLD+1 from the Public Suffix List, used for domain expiry lookups.
+  registrableDomain  String?
+  /// normalizedHostname while not archived, NULL once archived. Unique per
+  /// workspace, so the same address can't be monitored twice but can be re-added
+  /// after archiving (Postgres allows many NULLs in a unique index).
+  liveHostKey        String?
+  status             SiteStatus @default(active)
+  downPolicy         DownPolicy @default(server_errors)
+  timeoutMs          Int        @default(10000)
+  /// Per-site override: false = no alert emails for this website.
+  alertsEnabled      Boolean    @default(true)
+  crawlConfig        Json?
+  pausedAt           DateTime?
+  pausedById         String?
+  pausedBy           User?      @relation("SitePausedBy", fields: [pausedById], references: [id], onDelete: SetNull)
+  archivedAt         DateTime?
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+
+  state     SiteState?
+  checks    MonitorCheck[]
+  incidents Incident[]
+  audits    AuditRun[]
+  findings  AuditFinding[]
+
+  @@unique([workspaceId, liveHostKey])
+  @@index([workspaceId, status])
+  @@index([workspaceId, clientId])
+  @@map("site")
+}
+
+// ─── Monitoring ───────────────────────────────────────────────────────────
+
+enum CheckType {
+  uptime
+  ssl
+  domain
+}
+
+enum CheckStatus {
+  success
+  failure
+  inconclusive
+}
+
+/// One check result (FR-UP-02). Kept even when it doesn't change anything.
+model MonitorCheck {
+  id              String      @id @default(uuid(7))
+  workspaceId     String
+  siteId          String
+  site            Site        @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  checkType       CheckType
+  status          CheckStatus
+  checkedAt       DateTime
+  durationMs      Int?
+  httpStatusCode  Int?
+  /// Short machine category, e.g. "http_5xx", "timeout", "dns", "tls".
+  failureCategory String?
+  /// Sanitized, human-readable — never raw response bodies or headers.
+  summary         String
+  /// Strictly allowlisted keys (see lib/monitoring).
+  metadata        Json?
+  createdAt       DateTime    @default(now())
+
+  @@index([siteId, checkType, checkedAt])
+  @@index([workspaceId, checkedAt])
+  @@map("monitor_check")
+}
+
+enum LiveStatus {
+  up
+  degraded
+  down
+  unknown
+}
+
+enum SslState {
+  valid
+  expiring
+  invalid
+  expired
+  none
+  unknown
+}
+
+enum DomainState {
+  ok
+  expiring
+  unsupported
+  error
+  unknown
+}
+
+/// Latest known monitoring state per site — a cache of the check history so
+/// lists don't scan checks. Every value carries its own timestamp.
+model SiteState {
+  siteId               String       @id
+  site                 Site         @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  workspaceId          String
+  liveStatus           LiveStatus   @default(unknown)
+  /// Sort order for "most urgent first": down 0, degraded 1, unknown 2, up 3.
+  statusRank           Int          @default(2)
+  /// Short reason shown under the status, e.g. "HTTP 502" or "Slow since 08:58".
+  statusDetail         String?
+  statusSince          DateTime?
+  lastCheckAt          DateTime?
+  lastResponseMs       Int?
+  lastHttpStatus       Int?
+  consecutiveFailures  Int          @default(0)
+  consecutiveSuccesses Int          @default(0)
+  /// Consecutive slow successes; 2 make a site Degraded.
+  consecutiveSlow      Int          @default(0)
+  nextCheckAt          DateTime     @default(now())
+  sslState             SslState     @default(unknown)
+  sslExpiresAt         DateTime?
+  sslIssuer            String?
+  sslDetail            String?
+  sslCheckedAt         DateTime?
+  nextSslCheckAt       DateTime     @default(now())
+  domainState          DomainState  @default(unknown)
+  domainExpiresAt      DateTime?
+  domainSource         String?
+  domainDetail         String?
+  domainCheckedAt      DateTime?
+  nextDomainCheckAt    DateTime     @default(now())
+  /// Earliest time a manual "Run check now" is allowed again.
+  manualCheckAfter     DateTime?
+  nextAuditAt          DateTime     @default(now())
+  lastAuditAt          DateTime?
+  lastAuditStatus      AuditStatus?
+  lastAuditRunId       String?
+  /// Open findings from the latest audit, for the Websites list.
+  openFindings         Int          @default(0)
+  updatedAt            DateTime     @updatedAt
+
+  @@index([nextCheckAt])
+  @@index([nextSslCheckAt])
+  @@index([nextDomainCheckAt])
+  @@index([nextAuditAt])
+  @@index([workspaceId])
+  @@map("site_state")
+}
+
+enum IncidentType {
+  downtime
+  ssl_invalid
+  ssl_expiry
+  domain_expiry
+  audit_issue
+}
+
+enum IncidentSeverity {
+  low
+  medium
+  high
+  critical
+}
+
+enum IncidentStatus {
+  open
+  acknowledged
+  muted
+  resolved
+}
+
+model Incident {
+  id              String           @id @default(uuid(7))
+  workspaceId     String
+  workspace       Workspace        @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  siteId          String
+  site            Site             @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  /// Per-workspace number, shown as INC-0412.
+  number          Int
+  type            IncidentType
+  severity        IncidentSeverity
+  status          IncidentStatus   @default(open)
+  title           String
+  summary         String
+  firstDetectedAt DateTime
+  lastDetectedAt  DateTime
+  resolvedAt      DateTime?
+  acknowledgedAt  DateTime?
+  /// Last alert email queued for this incident (repeat-alert cooldown).
+  lastNotifiedAt  DateTime?
+  /// "<siteId>:<type>" while unresolved, NULL once resolved: at most one open
+  /// incident per site and type (FR-INC-04).
+  openKey         String?          @unique
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  events IncidentEvent[]
+
+  @@unique([workspaceId, number])
+  @@index([workspaceId, status])
+  @@index([siteId, firstDetectedAt])
+  @@map("incident")
+}
+
+model IncidentEvent {
+  id          String   @id @default(uuid(7))
+  workspaceId String
+  incidentId  String
+  incident    Incident @relation(fields: [incidentId], references: [id], onDelete: Cascade)
+  actorUserId String?
+  actor       User?    @relation(fields: [actorUserId], references: [id], onDelete: SetNull)
+  /// opened, severity_changed, acknowledged, muted, unmuted, note, resolved
+  eventType   String
+  /// Internal notes — team only, never in client reports.
+  note        String?
+  detail      String?
+  createdAt   DateTime @default(now())
+
+  @@index([incidentId, createdAt])
+  @@map("incident_event")
+}
+
+// ─── Audits ───────────────────────────────────────────────────────────────
+
+enum AuditStatus {
+  queued
+  running
+  completed
+  partial
+  failed
+  cancelled
+}
+
+enum FindingSeverity {
+  info
+  low
+  medium
+  high
+}
+
+model AuditRun {
+  id                String      @id @default(uuid(7))
+  workspaceId       String
+  siteId            String
+  site              Site        @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  status            AuditStatus @default(queued)
+  /// "scheduled" or "manual" (manual runs count against the plan's weekly allowance).
+  trigger           String
+  startedAt         DateTime?
+  completedAt       DateTime?
+  pagesVisited      Int         @default(0)
+  pagesBudget       Int         @default(0)
+  linksChecked      Int         @default(0)
+  inconclusiveLinks Int         @default(0)
+  skippedByRobots   Int         @default(0)
+  requests          Int         @default(0)
+  findingsCount     Int         @default(0)
+  /// "ok" | "missing" | "error" | "ignored"
+  robots            String?
+  /// Why coverage is incomplete, e.g. "Page budget reached (500 pages)".
+  partialReasons    String[]
+  errorSummary      String?
+  createdAt         DateTime    @default(now())
+
+  findings AuditFinding[]
+
+  @@index([siteId, createdAt])
+  @@index([workspaceId, createdAt])
+  @@map("audit_run")
+}
+
+model AuditFinding {
+  id          String          @id @default(uuid(7))
+  workspaceId String
+  siteId      String
+  site        Site            @relation(fields: [siteId], references: [id], onDelete: Cascade)
+  /// Latest audit that saw it.
+  auditRunId  String
+  auditRun    AuditRun        @relation(fields: [auditRunId], references: [id], onDelete: Cascade)
+  /// Stable hash of type + source + target, so "first found" survives across audits.
+  key         String
+  type        String
+  severity    FindingSeverity
+  sourceUrl   String?
+  targetUrl   String?
+  statusCode  Int?
+  summary     String
+  firstSeenAt DateTime
+  lastSeenAt  DateTime
+  resolvedAt  DateTime?
+  /// "<siteId>:<key>" while unresolved, NULL once resolved.
+  openKey     String?         @unique
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@index([siteId, resolvedAt])
+  @@index([auditRunId])
+  @@map("audit_finding")
+}
+
+// ─── Notifications ────────────────────────────────────────────────────────
+
+model NotificationSettings {
+  workspaceId      String    @id
+  workspace        Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  /// Team members who get alert emails. Clients never get alerts.
+  recipientUserIds String[]
+  /// { downtime: { opened, resolved }, ssl_invalid: { opened, resolved }, ssl_expiry: { opened }, domain_expiry: { opened } }
+  events           Json
+  /// Minimum minutes between emails for the same open incident; 0 = never repeat.
+  repeatMinutes    Int       @default(60)
+  /// "review" = hold every report; "auto" = send at 07:00 unless it has gaps or unconfirmed recipients.
+  reportDelivery   String    @default("review")
+  linkExpiryDays   Int       @default(30)
+  updatedAt        DateTime  @updatedAt
+
+  @@map("notification_settings")
+}
+
+enum EmailStatus {
+  pending
+  sent
+  failed
+  suppressed
+  bounced
+}
+
+/// Outgoing email queue (FR-NOT-03/04): one row per recipient per event, deduplicated by key.
+model EmailDelivery {
+  id                String      @id @default(uuid(7))
+  workspaceId       String
+  recipient         String
+  templateType      String
+  deduplicationKey  String      @unique
+  status            EmailStatus @default(pending)
+  attempts          Int         @default(0)
+  providerMessageId String?     @unique
+  lastError         String?
+  subject           String
+  textBody          String
+  htmlBody          String
+  attachmentKey     String?
+  attachmentName    String?
+  incidentId        String?
+  reportId          String?
+  scheduledAt       DateTime    @default(now())
+  sentAt            DateTime?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+
+  @@index([incidentId])
+  @@index([reportId])
+  @@index([workspaceId, createdAt])
+  @@map("email_delivery")
+}
+
+// ─── Reports ──────────────────────────────────────────────────────────────
+
+model ClientRecipient {
+  id            String    @id @default(uuid(7))
+  workspaceId   String
+  clientId      String
+  client        Client    @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  name          String?
+  email         String
+  /// Confirmed once before the first automatic delivery.
+  confirmedAt   DateTime?
+  lastBouncedAt DateTime?
+  createdAt     DateTime  @default(now())
+
+  @@unique([clientId, email])
+  @@map("client_recipient")
+}
+
+enum ReportStatus {
+  generating
+  needs_review
+  sent
+  no_data
+  failed
+}
+
+model MonthlyReport {
+  id               String       @id @default(uuid(7))
+  workspaceId      String
+  workspace        Workspace    @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  clientId         String
+  client           Client       @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  /// "monthly" (scheduled, one per client and month) or "preview" (on demand, never auto-sent).
+  kind             String       @default("monthly")
+  /// Human reference printed on the report, e.g. "NS-HDG-2609".
+  code             String
+  periodStart      DateTime
+  periodEnd        DateTime
+  periodLabel      String
+  status           ReportStatus @default(generating)
+  /// Immutable snapshot the report was rendered from.
+  data             Json?
+  disclosures      String[]
+  storageKey       String?
+  generatedAt      DateTime?
+  errorSummary     String?
+  sentAt           DateTime?
+  sentById         String?
+  privateTokenHash String?      @unique
+  linkExpiresAt    DateTime?
+  linkRevokedAt    DateTime?
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt
+
+  deliveries ReportDelivery[]
+
+  @@index([workspaceId, periodStart])
+  @@index([clientId, periodStart])
+  @@map("monthly_report")
+}
+
+model ReportDelivery {
+  id              String        @id @default(uuid(7))
+  workspaceId     String
+  reportId        String
+  report          MonthlyReport @relation(fields: [reportId], references: [id], onDelete: Cascade)
+  email           String
+  emailDeliveryId String?
+  createdAt       DateTime      @default(now())
+
+  @@index([reportId])
+  @@map("report_delivery")
+}
+
+// ─── Jobs (spec §6.4) ─────────────────────────────────────────────────────
+
+enum JobStatus {
+  pending
+  running
+  completed
+  failed
+  cancelled
+}
+
+model Job {
+  id           String    @id @default(uuid(7))
+  workspaceId  String?
+  jobType      String
+  resourceType String
+  resourceId   String
+  /// Validated; never secrets.
+  payload      Json?
+  status       JobStatus @default(pending)
+  priority     Int       @default(0)
+  runAt        DateTime  @default(now())
+  attempts     Int       @default(0)
+  maxAttempts  Int       @default(3)
+  lockedAt     DateTime?
+  lockedBy     String?
+  lastError    String?
+  /// "<jobType>:<resourceId>" while pending or running, NULL afterwards:
+  /// prevents overlapping checks for the same site (FR-UP-10).
+  activeKey    String?   @unique
+  startedAt    DateTime?
+  completedAt  DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([status, runAt, priority])
+  @@index([status, lockedAt])
+  @@map("job")
+}
+
+// ─── Operations ───────────────────────────────────────────────────────────
+
+/// One row per worker process, refreshed on an interval. The status bar reads
+/// it so the UI never presents results as current when the worker is silent.
+model WorkerHeartbeat {
+  workerId   String   @id
+  startedAt  DateTime
+  lastSeenAt DateTime
+
+  @@map("worker_heartbeat")
+}

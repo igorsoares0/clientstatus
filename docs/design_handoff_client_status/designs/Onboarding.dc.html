@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Get started · Client Status</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400;75..100,500;75..100,600;75..100,700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F4F5F3;color:#161A1C;-webkit-font-smoothing:antialiased}
+a{color:#161A1C;text-decoration:underline;text-underline-offset:2px}
+a:hover{color:#4A4F52}
+button,select,input{font:inherit;color:inherit}
+:focus-visible{outline:2px solid #161A1C;outline-offset:2px}
+input[type=checkbox]{accent-color:#161A1C}
+</style>
+</helmet>
+
+<div style="min-height:100vh;display:flex;flex-direction:column;font-family:Archivo,sans-serif;font-size:14px;background:#F4F5F3;color:#161A1C">
+  <header style="display:flex;align-items:center;gap:16px;padding:14px 28px;background:#FFFFFF;border-bottom:1px solid #D5D8D4">
+    <span style="font-weight:700;font-stretch:80%;font-size:17px">Client Status</span>
+    <ol aria-label="Setup steps" style="list-style:none;margin:0 0 0 auto;padding:0;display:flex;gap:4px;flex-wrap:wrap">
+      <sc-for list="{{ steps }}" as="s" hint-placeholder-count="4"><li aria-current="{{ s.cur }}" style="display:flex;align-items:center;gap:6px;padding:4px 10px;font-size:12.5px;white-space:nowrap;color:{{ s.c }};font-weight:{{ s.w }};border-bottom:2px solid {{ s.edge }}"><span style="font-family:'JetBrains Mono',monospace">{{ s.n }}</span>{{ s.l }}</li></sc-for>
+    </ol>
+  </header>
+
+  <main style="flex:1;display:flex;justify-content:center;padding:40px 20px 60px">
+    <div style="width:100%;max-width:560px;display:flex;flex-direction:column;gap:20px">
+
+      <sc-if value="{{ isAccount }}" hint-placeholder-val="{{ true }}">
+        <form onSubmit="{{ submitAccount }}" novalidate="" style="background:#FFFFFF;border:1px solid #D5D8D4;display:flex;flex-direction:column">
+          <div style="padding:22px 24px 6px;display:flex;flex-direction:column;gap:6px"><h1 style="margin:0;font-size:24px;font-weight:600;font-stretch:84%">Create your account</h1><p style="margin:0;color:#2E3437;line-height:1.5">14-day trial with full Growth features. No card needed until it ends.</p></div>
+          <div style="padding:16px 24px;display:flex;flex-direction:column;gap:14px">
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Your name<input type="text" autocomplete="name" value="{{ acc.name }}" onChange="{{ onAccName }}" aria-invalid="{{ accErr.nameInv }}" style="height:40px;padding:0 10px;border:1px solid {{ accErr.nameB }};font-weight:400;font-size:14px"></input><span aria-live="polite" style="font-weight:400;font-size:12.5px;color:#C2261B">{{ accErr.name }}</span></label>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Work email<input type="email" autocomplete="email" value="{{ acc.email }}" onChange="{{ onAccEmail }}" aria-invalid="{{ accErr.emailInv }}" style="height:40px;padding:0 10px;border:1px solid {{ accErr.emailB }};font-weight:400;font-size:14px;font-family:'JetBrains Mono',monospace"></input><span aria-live="polite" style="font-weight:400;font-size:12.5px;color:#C2261B">{{ accErr.email }}</span></label>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Password<input type="password" autocomplete="new-password" value="{{ acc.pw }}" onChange="{{ onAccPw }}" aria-invalid="{{ accErr.pwInv }}" aria-describedby="pw-hint" style="height:40px;padding:0 10px;border:1px solid {{ accErr.pwB }};font-weight:400;font-size:14px"></input><span id="pw-hint" aria-live="polite" style="font-weight:400;font-size:12.5px;color:{{ accErr.pwC }}">{{ accErr.pw }}</span></label>
+          </div>
+          <div style="padding:14px 24px 20px;border-top:1px solid #E2E4E1;display:flex;flex-direction:column;gap:10px">
+            <button type="submit" style="white-space:nowrap;height:42px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:14px">Create account</button>
+            <span style="font-size:12.5px;color:#4A4F52">Already have one? <a href="Overview.dc.html">Sign in</a></span>
+          </div>
+        </form>
+      </sc-if>
+
+      <sc-if value="{{ isVerify }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#FFFFFF;border:1px solid #D5D8D4;padding:24px;display:flex;flex-direction:column;gap:12px">
+          <h1 style="margin:0;font-size:24px;font-weight:600;font-stretch:84%">Check your inbox</h1>
+          <p style="margin:0;color:#2E3437;line-height:1.5">We sent a confirmation link to <b style="font-family:'JetBrains Mono',monospace;font-weight:500">{{ acc.email }}</b>. It’s valid for 24 hours. Alert emails will go to this address, so it needs to work.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" onClick="{{ verify }}" style="white-space:nowrap;height:38px;padding:0 14px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:13px">I’ve confirmed — continue</button><button type="button" onClick="{{ resend }}" disabled="{{ resent }}" style="white-space:nowrap;height:38px;padding:0 14px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">{{ resendLabel }}</button></div>
+          <button type="button" onClick="{{ backAccount }}" style="align-self:flex-start;padding:0;border:none;background:none;text-decoration:underline;cursor:pointer;font-size:13px;color:#4A4F52">Wrong address? Change it</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isWorkspace }}" hint-placeholder-val="{{ false }}">
+        <form onSubmit="{{ submitWs }}" novalidate="" style="background:#FFFFFF;border:1px solid #D5D8D4;display:flex;flex-direction:column">
+          <div style="padding:22px 24px 6px;display:flex;flex-direction:column;gap:6px"><h1 style="margin:0;font-size:24px;font-weight:600;font-stretch:84%">Name your workspace</h1><p style="margin:0;color:#2E3437;line-height:1.5">Usually your agency’s name. It appears on client reports — you can add a logo and brand colour later.</p></div>
+          <div style="padding:16px 24px;display:flex;flex-direction:column;gap:14px">
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Agency name<input type="text" value="{{ ws.name }}" onChange="{{ onWsName }}" aria-invalid="{{ wsInv }}" style="height:40px;padding:0 10px;border:1px solid {{ wsB }};font-weight:400;font-size:14px"></input><span aria-live="polite" style="font-weight:400;font-size:12.5px;color:#C2261B">{{ wsErr }}</span></label>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Timezone for reports and timestamps
+              <select value="{{ ws.tz }}" onChange="{{ onTz }}" style="height:40px;border:1px solid #B9BDB8;background:#FFFFFF;padding:0 8px;font-size:14px;font-weight:400"><option value="Europe/London">Europe/London (GMT/BST) — detected</option><option value="Europe/Dublin">Europe/Dublin</option><option value="Europe/Berlin">Europe/Berlin</option><option value="America/New_York">America/New_York</option><option value="America/Sao_Paulo">America/Sao_Paulo</option></select>
+            </label>
+          </div>
+          <div style="padding:14px 24px 20px;border-top:1px solid #E2E4E1"><button type="submit" style="white-space:nowrap;width:100%;height:42px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:14px">Continue</button></div>
+        </form>
+      </sc-if>
+
+      <sc-if value="{{ isSite }}" hint-placeholder-val="{{ false }}">
+        <form onSubmit="{{ submitSite }}" novalidate="" style="background:#FFFFFF;border:1px solid #D5D8D4;display:flex;flex-direction:column">
+          <div style="padding:22px 24px 6px;display:flex;flex-direction:column;gap:6px"><h1 style="margin:0;font-size:24px;font-weight:600;font-stretch:84%">Add your first client website</h1><p style="margin:0;color:#2E3437;line-height:1.5">We’ll run the first check straight away. Uptime, SSL and domain checks start immediately; the first audit runs tonight.</p></div>
+          <div style="padding:16px 24px;display:flex;flex-direction:column;gap:14px">
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Website address<input type="url" inputmode="url" placeholder="https://clientsite.com" value="{{ site.url }}" onChange="{{ onUrl }}" aria-invalid="{{ siteInv }}" style="height:40px;padding:0 10px;border:1px solid {{ siteB }};font-weight:400;font-size:14px;font-family:'JetBrains Mono',monospace"></input><span aria-live="polite" style="font-weight:400;font-size:12.5px;color:{{ siteHintC }}">{{ siteHint }}</span></label>
+            <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Client <span style="font-weight:400;color:#4A4F52">— who the report is for</span><input type="text" placeholder="e.g. Harbour Dental Group" value="{{ site.client }}" onChange="{{ onClient }}" style="height:40px;padding:0 10px;border:1px solid #B9BDB8;font-weight:400;font-size:14px"></input></label>
+          </div>
+          <div style="padding:14px 24px 20px;border-top:1px solid #E2E4E1;display:flex;flex-direction:column;gap:10px">
+            <button type="submit" disabled="{{ checking }}" style="white-space:nowrap;height:42px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:14px">{{ siteCta }}</button>
+            <span style="font-size:12.5px;color:#4A4F52">Have a list? You can <a href="Websites.dc.html">import a CSV</a> after setup.</span>
+          </div>
+        </form>
+      </sc-if>
+
+      <sc-if value="{{ isDone }}" hint-placeholder-val="{{ false }}">
+        <div style="background:#FFFFFF;border:1px solid #D5D8D4;display:flex;flex-direction:column">
+          <div style="padding:22px 24px 14px;display:flex;flex-direction:column;gap:6px;border-bottom:1px solid #E2E4E1">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12.5px;color:#1F7A4A">● FIRST CHECK PASSED · {{ doneTime }}</span>
+            <h1 style="margin:0;font-size:24px;font-weight:600;font-stretch:84%">{{ siteHost }} is being monitored</h1>
+          </div>
+          <dl style="margin:0;padding:14px 24px;display:grid;grid-template-columns:130px 1fr;gap:8px 16px;font-size:13.5px">
+            <dt style="color:#4A4F52">Response</dt><dd style="margin:0">HTTP 200 · 284 ms</dd>
+            <dt style="color:#4A4F52">SSL certificate</dt><dd style="margin:0">Valid · 211 days remaining</dd>
+            <dt style="color:#4A4F52">Domain</dt><dd style="margin:0">{{ domainLine }}</dd>
+            <dt style="color:#4A4F52">Next</dt><dd style="margin:0">Checks every 2 minutes · first audit tonight 03:00</dd>
+          </dl>
+          <div style="padding:14px 24px 20px;border-top:1px solid #E2E4E1;display:flex;flex-direction:column;gap:12px">
+            <span style="font-weight:600">Two things worth doing next</span>
+            <a href="Websites.dc.html" style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 12px;border:1px solid #D5D8D4;text-decoration:none" style-hover="background:#F1F3F1"><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><b>Add the rest of your clients’ sites</b><span style="font-size:12.5px;color:#4A4F52">One at a time or from a CSV</span></span><span aria-hidden="true">→</span></a>
+            <a href="Settings.dc.html" style="display:flex;justify-content:space-between;align-items:center;gap:12px;padding:10px 12px;border:1px solid #D5D8D4;text-decoration:none" style-hover="background:#F1F3F1"><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><b>Brand your reports</b><span style="font-size:12.5px;color:#4A4F52">Logo, colour and contact details</span></span><span aria-hidden="true">→</span></a>
+            <a href="Overview.dc.html" style="align-self:flex-start;font-size:13px">Go to the overview</a>
+          </div>
+        </div>
+      </sc-if>
+
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;step&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;account&quot;,&quot;verify&quot;,&quot;workspace&quot;,&quot;site&quot;,&quot;done&quot;],&quot;default&quot;:&quot;account&quot;,&quot;tsType&quot;:&quot;'account'|'verify'|'workspace'|'site'|'done'&quot;,&quot;section&quot;:&quot;Demo&quot;}}">
+const STEPS = [['account', 'Account'], ['workspace', 'Workspace'], ['site', 'First website'], ['done', 'Monitoring']];
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+class Component extends DCLogic {
+  state = { step: this.props.step ?? 'account', acc: { name: '', email: '', pw: '' }, tried: false, ws: { name: '', tz: 'Europe/London' }, wsTried: false, site: { url: '', client: '' }, siteTried: false, checking: false, resent: false };
+  componentDidUpdate(pp) { if (pp.step !== this.props.step && this.props.step) this.setState({ step: this.props.step }); }
+  host() { try { const u = this.state.site.url.trim(); return new URL(/^https?:\/\//.test(u) ? u : 'https://' + u).hostname; } catch (e) { return ''; } }
+  renderVals() {
+    const S = this.state, a = S.acc;
+    const idx = STEPS.findIndex(s => s[0] === (S.step === 'verify' ? 'account' : S.step));
+    const e = { name: S.tried && !a.name.trim() ? 'Enter your name.' : '', email: S.tried && !EMAIL.test(a.email) ? 'Enter a valid email address.' : '', pw: a.pw.length === 0 ? (S.tried ? 'Choose a password.' : 'At least 12 characters.') : a.pw.length < 12 ? `${12 - a.pw.length} more character${12 - a.pw.length === 1 ? '' : 's'} needed.` : '✓ Long enough' };
+    const pwBad = S.tried && a.pw.length < 12;
+    const accOk = a.name.trim() && EMAIL.test(a.email) && a.pw.length >= 12;
+    const host = this.host();
+    const urlRaw = S.site.url.trim();
+    const urlOk = !!host && host.includes('.') && !/\s/.test(urlRaw);
+    const siteHint = !urlRaw ? (S.siteTried ? 'Enter the website’s address.' : 'Include the subdomain if it matters, e.g. shop.clientsite.com') : !urlOk ? 'That doesn’t look like a web address.' : /^http:\/\//.test(urlRaw) ? `We’ll check http://${host} — note this site isn’t using HTTPS.` : `We’ll check https://${host}`;
+    const siteErr = (S.siteTried && !urlRaw) || (urlRaw && !urlOk);
+    const unsupported = /\.(de|es)$/.test(host);
+    return {
+      steps: STEPS.map(([k, l], i) => ({ n: i + 1, l, cur: i === idx ? 'step' : 'false', c: i <= idx ? '#161A1C' : '#4A4F52', w: i === idx ? 600 : 400, edge: i === idx ? '#161A1C' : 'transparent' })),
+      isAccount: S.step === 'account', isVerify: S.step === 'verify', isWorkspace: S.step === 'workspace', isSite: S.step === 'site', isDone: S.step === 'done',
+      acc: a, accErr: { ...e, nameInv: e.name ? 'true' : 'false', emailInv: e.email ? 'true' : 'false', pwInv: pwBad ? 'true' : 'false', nameB: e.name ? '#C2261B' : '#B9BDB8', emailB: e.email ? '#C2261B' : '#B9BDB8', pwB: pwBad ? '#C2261B' : '#B9BDB8', pwC: pwBad ? '#C2261B' : a.pw.length >= 12 ? '#1F7A4A' : '#4A4F52' },
+      onAccName: ev => this.setState({ acc: { ...a, name: ev.target.value } }), onAccEmail: ev => this.setState({ acc: { ...a, email: ev.target.value } }), onAccPw: ev => this.setState({ acc: { ...a, pw: ev.target.value } }),
+      submitAccount: ev => { ev.preventDefault(); if (!accOk) return this.setState({ tried: true }); this.setState({ step: 'verify' }); },
+      verify: () => this.setState({ step: 'workspace' }), resend: () => this.setState({ resent: true }), resent: S.resent, resendLabel: S.resent ? 'Sent again' : 'Resend email', backAccount: () => this.setState({ step: 'account' }),
+      ws: S.ws, wsErr: S.wsTried && !S.ws.name.trim() ? 'Enter your agency’s name.' : '', wsInv: S.wsTried && !S.ws.name.trim() ? 'true' : 'false', wsB: S.wsTried && !S.ws.name.trim() ? '#C2261B' : '#B9BDB8',
+      onWsName: ev => this.setState({ ws: { ...S.ws, name: ev.target.value } }), onTz: ev => this.setState({ ws: { ...S.ws, tz: ev.target.value } }),
+      submitWs: ev => { ev.preventDefault(); if (!S.ws.name.trim()) return this.setState({ wsTried: true }); this.setState({ step: 'site' }); },
+      site: S.site, onUrl: ev => this.setState({ site: { ...S.site, url: ev.target.value } }), onClient: ev => this.setState({ site: { ...S.site, client: ev.target.value } }),
+      siteHint, siteHintC: siteErr ? '#C2261B' : '#4A4F52', siteInv: siteErr ? 'true' : 'false', siteB: siteErr ? '#C2261B' : '#B9BDB8',
+      checking: S.checking, siteCta: S.checking ? 'Running first check…' : 'Start monitoring',
+      submitSite: ev => { ev.preventDefault(); if (!urlOk) return this.setState({ siteTried: true }); this.setState({ checking: true }); setTimeout(() => this.setState({ checking: false, step: 'done' }), 1600); },
+      siteHost: host || 'clientsite.com', doneTime: '09:48:12',
+      domainLine: unsupported ? 'Expiry not available — this registry doesn’t publish it' : 'Registered until 14 Mar 2027 · checked daily'
+    };
+  }
+}
+</script>
+</body>
+</html>

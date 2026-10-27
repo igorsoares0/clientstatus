@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: clientstatus
+          POSTGRES_PASSWORD: clientstatus
+          POSTGRES_DB: clientstatus
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U clientstatus" --health-interval 2s --health-timeout 3s --health-retries 20
+    env:
+      DATABASE_URL: postgresql://clientstatus:clientstatus@localhost:5432/clientstatus
+      TEST_DATABASE_URL: postgresql://clientstatus:clientstatus@localhost:5432/clientstatus_test
+      BETTER_AUTH_SECRET: ci-only-secret-not-used-anywhere-else-000
+      BETTER_AUTH_URL: http://localhost:3000
+      EMAIL_FROM: "Client Status <alerts@example.com>"
+      EMAIL_DELIVERY: mailbox
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - name: Create test database
+        run: PGPASSWORD=clientstatus psql -h localhost -U clientstatus -d clientstatus -c "CREATE DATABASE clientstatus_test"
+      - run: npm ci
+      - run: npm run format:check
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: test-results/
+          retention-days: 7

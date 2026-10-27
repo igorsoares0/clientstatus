@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Incidents · Northfold Studio · Client Status</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400;75..100,500;75..100,600;75..100,700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F4F5F3;color:#161A1C;-webkit-font-smoothing:antialiased}
+a{color:#161A1C;text-decoration:underline;text-underline-offset:2px}
+a:hover{color:#4A4F52}
+button,select,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid #161A1C;outline-offset:2px}
+</style>
+</helmet>
+
+<div style="display:flex;min-height:100vh;font-family:Archivo,sans-serif;font-size:14px;background:#F4F5F3;color:#161A1C">
+
+  <sc-if value="{{ wideNav }}" hint-placeholder-val="{{ true }}">
+    <nav aria-label="Primary" style="flex:0 0 200px;position:sticky;top:0;height:100vh;box-sizing:border-box;background:#FFFFFF;border-right:1px solid #D5D8D4;display:flex;flex-direction:column;padding:16px 0">
+      <div style="padding:0 16px 4px;font-weight:700;font-stretch:80%;font-size:17px;letter-spacing:.01em">Northfold Studio</div>
+      <div style="padding:0 16px 16px;font-size:12px;color:#4A4F52">Growth plan · 84 of 100 sites</div>
+      <a href="Overview.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M3 12h4l3-8 4 16 3-8h4"></path></svg>Overview</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G O</span></a>
+      <a href="Websites.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9M12 3c-2.5 2.6-3.8 5.6-3.8 9s1.3 6.4 3.8 9"></path></svg>Websites</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G W</span></a>
+      <a href="Clients.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><rect x="3" y="7" width="18" height="13"></rect><path d="M8.5 7V4h7v3M3 12.5h18"></path></svg>Clients</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G C</span></a>
+      <a href="#" aria-current="page" style="display:flex;justify-content:space-between;padding:8px 16px;background:#161A1C;color:#FFFFFF;text-decoration:none"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M12 3.5 2.5 20h19L12 3.5z"></path><path d="M12 10v4.5M12 17.2v.1"></path></svg>Incidents <span style="font-family:'JetBrains Mono',monospace;font-weight:600">{{ openCount }}</span></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;opacity:.7">G I</span></a>
+      <a href="#" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M6 2.5h8.5L19 7v14.5H6z"></path><path d="M14 2.5V7.5h5M9 12.5h7M9 16.5h7"></path></svg>Reports</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G R</span></a>
+      <div style="height:1px;background:#E2E4E1;margin:12px 16px"></div>
+      <a href="Team.dc.html" style="padding:8px 16px;text-decoration:none;color:#4A4F52" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20.5c.7-3.6 3.3-5.8 6.5-5.8s5.8 2.2 6.5 5.8M15.5 4.6a3.5 3.5 0 0 1 0 6.8M18 15c1.9.9 3.1 2.8 3.5 5.5"></path></svg>Team</span></a>
+      <a href="Settings.dc.html" style="padding:8px 16px;text-decoration:none;color:#4A4F52" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M3 6h11M18 6h3M3 12h4M11 12h10M3 18h12M19 18h2"></path><circle cx="16" cy="6" r="2"></circle><circle cx="9" cy="12" r="2"></circle><circle cx="17" cy="18" r="2"></circle></svg>Settings</span></a>
+      <a href="Billing.dc.html" style="padding:8px 16px;text-decoration:none;color:#4A4F52" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><rect x="2.5" y="5" width="19" height="14"></rect><path d="M2.5 10h19M6 15h4"></path></svg>Billing</span></a>
+      <div style="margin-top:auto;padding:12px 16px 0;border-top:1px solid #E2E4E1;font-size:13px;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Priya Raman</span><span style="color:#4A4F52;font-size:12px">Owner · Europe/London</span><span style="margin-top:8px;font-size:12px;font-weight:600;font-stretch:80%;letter-spacing:.02em;color:#4A4F52">Client Status</span></div>
+    </nav>
+  </sc-if>
+
+  <div style="flex:1 1 auto;min-width:0;display:flex;flex-direction:column">
+    <sc-if value="{{ narrowNav }}" hint-placeholder-val="{{ false }}">
+      <nav aria-label="Primary" style="display:flex;gap:4px;align-items:center;padding:8px 12px;background:#FFFFFF;border-bottom:1px solid #D5D8D4;overflow-x:auto;white-space:nowrap">
+        <span style="font-weight:700;font-stretch:80%;font-size:15px;margin-right:8px">Northfold</span>
+        <a href="Overview.dc.html" style="padding:6px 10px;text-decoration:none">Overview</a><a href="Websites.dc.html" style="padding:6px 10px;text-decoration:none">Websites</a><a href="Clients.dc.html" style="padding:6px 10px;text-decoration:none">Clients</a><a href="#" aria-current="page" style="padding:6px 10px;background:#161A1C;color:#FFFFFF;text-decoration:none">Incidents</a><a href="#" style="padding:6px 10px;text-decoration:none">Reports</a>
+      </nav>
+    </sc-if>
+
+    <header style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:18px 28px 12px">
+      <h1 style="margin:0;font-size:22px;font-weight:600;font-stretch:85%">Incidents</h1>
+      <span style="font-size:13px;color:#4A4F52;font-variant-numeric:tabular-nums">{{ headCounts }}</span>
+      <span role="status" style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:12px;color:{{ fresh.color }}"><span aria-hidden="true">{{ fresh.glyph }}</span>{{ fresh.text }}</span>
+      <a href="Settings.dc.html" style="margin-left:auto;font-size:13px">Alert settings</a>
+    </header>
+
+    <sc-if value="{{ isStale }}" hint-placeholder-val="{{ false }}">
+      <div role="alert" style="margin:0 28px 12px;padding:10px 14px;background:#FBF1E4;border:1px solid #E2C9A3;display:flex;flex-wrap:wrap;gap:6px 16px;align-items:baseline">
+        <span style="font-weight:600;color:#7A4300">▲ Results delayed since 09:31 GMT</span>
+        <span style="color:#3A2A14">The check worker hasn’t reported for 17 minutes. Incidents can’t open, update or resolve until results resume — recovery status below is unknown, not “still failing”.</span>
+      </div>
+    </sc-if>
+
+    <main style="flex:1;padding:0 28px 28px;display:flex;flex-direction:column;min-width:0">
+      <sc-if value="{{ isError }}" hint-placeholder-val="{{ false }}">
+        <div role="alert" style="max-width:640px;background:#FFFFFF;border:1px solid #D5D8D4;padding:24px;display:flex;flex-direction:column;gap:10px">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#C2261B">◆ REQUEST FAILED · 09:48:20 GMT</span>
+          <h2 style="margin:0;font-size:20px;font-weight:600;font-stretch:85%">We couldn’t load incidents</h2>
+          <p style="margin:0;line-height:1.5;color:#2E3437">The server didn’t respond within 10 seconds. Detection and alert emails are unaffected — new incidents still reach your inbox.</p>
+          <button type="button" onClick="{{ retry }}" style="white-space:nowrap;align-self:flex-start;height:34px;padding:0 14px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:13px">Try again</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+        <div style="max-width:720px;background:#FFFFFF;border:1px solid #D5D8D4;display:flex;flex-direction:column">
+          <div style="padding:24px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid #E2E4E1">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#1F7A4A">● ALL 84 WEBSITES PASSING · 09:48 GMT</span>
+            <h2 style="margin:0;font-size:22px;font-weight:600;font-stretch:85%">No incidents in the last 30 days</h2>
+            <p style="margin:0;line-height:1.5;color:#2E3437;max-width:600px;text-wrap:pretty">Incidents open only for confirmed problems, so a single slow or failed check won’t appear here.</p>
+          </div>
+          <dl style="margin:0;padding:16px 24px 20px;display:grid;grid-template-columns:150px 1fr;gap:8px 16px;font-size:13.5px;line-height:1.45">
+            <dt style="font-weight:600">Downtime</dt><dd style="margin:0;color:#2E3437">2 consecutive failed checks. Resolves after 2 consecutive passes.</dd>
+            <dt style="font-weight:600">SSL</dt><dd style="margin:0;color:#2E3437">Invalid, mismatched or untrusted certificates, and expiry at 30, 14, 7 and 1 days.</dd>
+            <dt style="font-weight:600">Domain</dt><dd style="margin:0;color:#2E3437">Expiry thresholds, where the registry publishes a date.</dd>
+            <dt style="font-weight:600">Not incidents</dt><dd style="margin:0;color:#2E3437">Timeouts, rate limits and bot challenges are recorded as inconclusive and never alert on their own.</dd>
+          </dl>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ hasUi }}" hint-placeholder-val="{{ true }}">
+        <div role="search" aria-label="Filter incidents" style="display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:0 0 12px">
+          <div role="group" aria-label="State" style="display:flex;border:1px solid #B9BDB8;background:#FFFFFF">
+            <sc-for list="{{ stateTabs }}" as="t" hint-placeholder-count="5"><button type="button" onClick="{{ t.pick }}" aria-pressed="{{ t.pressed }}" style="white-space:nowrap;height:32px;padding:0 11px;border:none;border-right:1px solid #E2E4E1;background:{{ t.bg }};color:{{ t.fg }};cursor:pointer;font-size:13px;font-variant-numeric:tabular-nums">{{ t.l }} <span style="opacity:.75">{{ t.n }}</span></button></sc-for>
+          </div>
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:#4A4F52">Severity
+            <select value="{{ sevF }}" onChange="{{ onSev }}" style="height:34px;border:1px solid #B9BDB8;background:#FFFFFF;padding:0 8px;font-size:13px;color:#161A1C"><option value="all">Any</option><option value="critical">Critical</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select>
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:#4A4F52">Type
+            <select value="{{ typeF }}" onChange="{{ onType }}" style="height:34px;border:1px solid #B9BDB8;background:#FFFFFF;padding:0 8px;font-size:13px;color:#161A1C"><option value="all">All types</option><option value="downtime">Downtime</option><option value="ssl_invalid">SSL invalid</option><option value="ssl_expiry">SSL expiry</option><option value="domain_expiry">Domain expiry</option><option value="audit_issue">Audit issue</option><option value="dns_change">DNS change</option></select>
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:#4A4F52">Client
+            <select value="{{ clientF }}" onChange="{{ onClient }}" style="height:34px;border:1px solid #B9BDB8;background:#FFFFFF;padding:0 8px;font-size:13px;color:#161A1C;max-width:200px"><sc-for list="{{ clientOpts }}" as="o" hint-placeholder-count="8"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select>
+          </label>
+          <label style="position:relative;flex:1 1 180px;max-width:260px;display:flex"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search incidents</span><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;position:absolute;left:10px;top:50%;margin-top:-7.5px;pointer-events:none;color:#4A4F52"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="M15.5 15.5 21 21"></path></svg><input type="search" placeholder="Search title, website, ID" value="{{ q }}" onChange="{{ onQ }}" style="width:100%;height:34px;border:1px solid #B9BDB8;background:#FFFFFF;padding:0 10px 0 32px;font-size:13px"></input></label>
+          <sc-if value="{{ filtersOn }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ clearFilters }}" style="white-space:nowrap;height:34px;padding:0 6px;border:none;background:none;text-decoration:underline;cursor:pointer;font-size:13px">Clear filters</button></sc-if>
+        </div>
+
+        <div style="display:flex;gap:16px;align-items:flex-start;min-width:0">
+          <section aria-label="Incident list" style="flex:1 1 540px;min-width:0;background:#FFFFFF;border:1px solid #D5D8D4">
+            <sc-if value="{{ isLoading }}" hint-placeholder-val="{{ false }}">
+              <div aria-busy="true" aria-label="Loading incidents"><sc-for list="{{ skel }}" as="k" hint-placeholder-count="8"><div style="display:flex;gap:14px;padding:13px 14px;border-bottom:1px solid #E7E9E6"><span style="width:70px;height:11px;background:#ECEEEB"></span><span style="flex:1;display:flex;flex-direction:column;gap:6px"><span style="width:{{ k.w }};height:12px;background:#E2E4E1"></span><span style="width:40%;height:9px;background:#ECEEEB"></span></span><span style="width:60px;height:11px;background:#ECEEEB"></span></div></sc-for></div>
+            </sc-if>
+            <sc-if value="{{ isListReady }}" hint-placeholder-val="{{ true }}">
+              <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+                <div style="display:flex;align-items:baseline;gap:10px;padding:10px 14px 6px;border-bottom:1px solid #D5D8D4;background:#FAFAF9">
+                  <h2 style="margin:0;font-size:12px;letter-spacing:.05em;font-weight:600;color:#2E3437">{{ g.title }} <span style="font-family:'JetBrains Mono',monospace;font-weight:500;color:#4A4F52">{{ g.n }}</span></h2>
+                  <span style="font-size:12px;color:#4A4F52">{{ g.hint }}</span>
+                </div>
+                <sc-for list="{{ g.items }}" as="i" hint-placeholder-count="3">
+                  <button type="button" onClick="{{ i.select }}" aria-current="{{ i.cur }}" aria-label="{{ i.aria }}" style="display:grid;width:100%;grid-template-columns:112px minmax(0,1fr) 104px;gap:4px 12px;padding:10px 14px;border:none;border-bottom:1px solid #E7E9E6;background:{{ i.bg }};box-shadow:{{ i.edge }};text-align:left;cursor:pointer;align-items:start" style-hover="background:#F1F3F1">
+                    <span style="font-size:12.5px;font-weight:{{ i.sevWeight }};color:{{ i.sevColor }};padding-top:1px;white-space:nowrap"><span aria-hidden="true">{{ i.sevGlyph }}</span> {{ i.sevLabel }}</span>
+                    <span style="display:flex;flex-direction:column;gap:2px;min-width:0">
+                      <span style="font-size:14px;font-weight:{{ i.titleWeight }};color:{{ i.titleColor }};line-height:1.3">{{ i.title }}</span>
+                      <span style="font-size:12px;color:#4A4F52;white-space:nowrap;overflow:hidden;text-overflow:ellipsis"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#2E3437">{{ i.host }}</span> · {{ i.client }} · {{ i.typeL }}</span>
+                    </span>
+                    <span style="display:flex;flex-direction:column;align-items:flex-end;gap:2px;text-align:right">
+                      <span style="font-size:12px;font-weight:600;color:{{ i.stateColor }};white-space:nowrap">{{ i.stateL }}</span>
+                      <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:{{ i.timeColor }};white-space:nowrap">{{ i.timeL }}</span>
+                    </span>
+                  </button>
+                </sc-for>
+              </sc-for>
+              <sc-if value="{{ noMatch }}" hint-placeholder-val="{{ false }}">
+                <div style="padding:28px 16px;display:flex;flex-direction:column;gap:8px"><span style="font-weight:600">No incidents match these filters</span><span style="font-size:13px;color:#4A4F52">Resolved incidents from the last 30 days are included under Resolved.</span><button type="button" onClick="{{ clearFilters }}" style="white-space:nowrap;align-self:flex-start;height:32px;padding:0 12px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">Clear filters</button></div>
+              </sc-if>
+            </sc-if>
+          </section>
+
+          <sc-if value="{{ showBackdrop }}" hint-placeholder-val="{{ false }}"><div onClick="{{ closeDetail }}" style="position:fixed;inset:0;background:rgba(22,26,28,.28);z-index:40"></div></sc-if>
+
+          <section aria-label="Incident detail" style="flex:1 1 560px;min-width:0;display:{{ dDisplay }};position:{{ dPos }};top:{{ dTop }};right:0;bottom:{{ dBottom }};width:{{ dWidth }};max-width:100%;max-height:{{ dMaxH }};overflow-y:auto;z-index:{{ dZ }};background:#FFFFFF;border:1px solid #D5D8D4;box-shadow:{{ dShadow }};box-sizing:border-box">
+            <sc-if value="{{ noSel }}" hint-placeholder-val="{{ false }}">
+              <div style="padding:40px 24px;color:#4A4F52;font-size:13.5px">{{ noSelText }}</div>
+            </sc-if>
+            <sc-if value="{{ d }}" hint-placeholder-val="{{ false }}">
+              <div style="position:sticky;top:0;z-index:2;background:#FFFFFF;border-bottom:1px solid #D5D8D4;padding:10px 20px;display:flex;align-items:center;gap:12px">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">{{ d.id }} · {{ d.typeU }}</span>
+                <sc-if value="{{ narrow }}" hint-placeholder-val="{{ false }}"><button type="button" ref="{{ closeRef }}" onClick="{{ closeDetail }}" style="white-space:nowrap;margin-left:auto;height:30px;padding:0 10px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:12.5px">Close <span style="font-family:'JetBrains Mono',monospace;color:#4A4F52">Esc</span></button></sc-if>
+              </div>
+              <div style="padding:16px 20px 24px;display:flex;flex-direction:column;gap:18px">
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <div style="display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;align-items:baseline">
+                    <span style="font-weight:600;color:{{ d.sevColor }}"><span aria-hidden="true">{{ d.sevGlyph }}</span> {{ d.sevLabel }}</span>
+                    <span aria-live="polite" style="font-weight:600;padding:1px 8px;border:1px solid {{ d.stateBorder }};color:{{ d.stateColor }}">{{ d.stateL }}</span>
+                    <span style="color:#4A4F52">{{ d.stateBy }}</span>
+                  </div>
+                  <h2 style="margin:0;font-size:22px;line-height:1.2;font-weight:600;font-stretch:86%;text-wrap:pretty">{{ d.title }}</h2>
+                  <span style="font-size:13.5px;color:#4A4F52"><a href="Website%20Detail.dc.html" style="font-family:'JetBrains Mono',monospace;font-size:13px">{{ d.host }}</a> · {{ d.client }} · {{ d.siteNow }}</span>
+                </div>
+
+                <div style="display:flex;flex-wrap:wrap;gap:8px">
+                  <sc-if value="{{ d.canAck }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ d.ack }}" style="white-space:nowrap;height:34px;padding:0 14px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:13px" style-hover="background:#2E3437">Acknowledge</button></sc-if>
+                  <sc-if value="{{ d.canMute }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ d.askMute }}" aria-expanded="{{ d.muteOpenAria }}" style="white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px" style-hover="background:#EEF0EE">Mute alerts…</button></sc-if>
+                  <sc-if value="{{ d.canUnmute }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ d.unmute }}" style="white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">Unmute</button></sc-if>
+                  <a href="Website%20Detail.dc.html" style="white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;display:flex;align-items:center;text-decoration:none;font-size:13px">Open website</a>
+                  <sc-if value="{{ d.isAudit }}" hint-placeholder-val="{{ false }}"><a href="#" style="white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;display:flex;align-items:center;text-decoration:none;font-size:13px">Audit findings</a></sc-if>
+                </div>
+
+                <sc-if value="{{ d.muteOpen }}" hint-placeholder-val="{{ false }}">
+                  <div role="region" aria-label="Confirm mute" style="padding:12px 14px;border:1px solid #B9BDB8;background:#F4F5F3;display:flex;flex-direction:column;gap:8px">
+                    <span style="font-weight:600">Mute {{ d.id }}?</span>
+                    <ul style="margin:0;padding-left:18px;font-size:13px;line-height:1.5;color:#2E3437;display:flex;flex-direction:column;gap:2px"><li>No further emails for this incident, including recovery.</li><li>It moves to Muted and stays in history and client reports.</li><li>Detection continues — it still resolves automatically when the problem clears.</li></ul>
+                    <div style="display:flex;gap:8px"><button type="button" onClick="{{ d.mute }}" style="white-space:nowrap;height:32px;padding:0 12px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:13px">Mute alerts</button><button type="button" onClick="{{ d.cancelMute }}" style="white-space:nowrap;height:32px;padding:0 12px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">Cancel</button></div>
+                  </div>
+                </sc-if>
+
+                <dl style="margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));border-top:1px solid #E2E4E1;border-bottom:1px solid #E2E4E1">
+                  <div style="padding:10px 12px 10px 0;display:flex;flex-direction:column;gap:2px"><dt style="font-size:12px;letter-spacing:.03em;color:#4A4F52">FIRST DETECTED</dt><dd style="margin:0;font-family:'JetBrains Mono',monospace;font-size:12.5px">{{ d.first }}</dd></div>
+                  <div style="padding:10px 12px 10px 0;display:flex;flex-direction:column;gap:2px"><dt style="font-size:12px;letter-spacing:.03em;color:#4A4F52">LAST DETECTED</dt><dd style="margin:0;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:{{ d.lastColor }}">{{ d.last }}</dd></div>
+                  <div style="padding:10px 12px 10px 0;display:flex;flex-direction:column;gap:2px"><dt style="font-size:12px;letter-spacing:.03em;color:#4A4F52">DURATION</dt><dd style="margin:0;font-size:13.5px;font-weight:600">{{ d.dur }}</dd></div>
+                  <div style="padding:10px 0;display:flex;flex-direction:column;gap:2px"><dt style="font-size:12px;letter-spacing:.03em;color:#4A4F52">RESOLVED</dt><dd style="margin:0;font-family:'JetBrains Mono',monospace;font-size:12.5px;color:{{ d.resolvedColor }}">{{ d.resolved }}</dd></div>
+                </dl>
+
+                <div style="display:flex;flex-direction:column;gap:4px">
+                  <span style="font-size:12px;letter-spacing:.03em;color:#4A4F52">RECOVERY</span>
+                  <span style="font-weight:600;color:{{ d.recColor }}"><span aria-hidden="true">{{ d.recGlyph }}</span> {{ d.recText }}</span>
+                  <span style="font-size:13px;color:#2E3437">{{ d.recSub }}</span>
+                </div>
+
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  <span style="font-size:12px;letter-spacing:.03em;color:#4A4F52">LATEST DIAGNOSTIC</span>
+                  <p style="margin:0;line-height:1.5;color:#161A1C;text-wrap:pretty">{{ d.diag }}</p>
+                  <div style="display:flex;flex-wrap:wrap;gap:4px 18px;font-size:12.5px;font-variant-numeric:tabular-nums">
+                    <span><span aria-hidden="true" style="color:#C2261B">◆</span> <b>{{ d.nFail }}</b> {{ d.failWord }}</span>
+                    <span style="color:#4A4F52"><span aria-hidden="true">◌</span> <b>{{ d.nInc }}</b> inconclusive — not counted</span>
+                    <span><span aria-hidden="true" style="color:#1F7A4A">●</span> <b>{{ d.nOk }}</b> {{ d.okWord }}</span>
+                  </div>
+                </div>
+
+                <div style="display:flex;gap:10px;align-items:baseline;font-size:13px;color:#2E3437;padding:8px 0;border-top:1px solid #E2E4E1;border-bottom:1px solid #E2E4E1"><span style="font-size:12px;letter-spacing:.03em;color:#4A4F52;flex:0 0 auto">ALERTS</span><span>{{ d.notify }}</span></div>
+
+                <form onSubmit="{{ d.addNote }}" style="display:flex;flex-direction:column;gap:6px">
+                  <label for="note" style="font-size:12.5px;font-weight:600">Internal note <span style="font-weight:400;color:#4A4F52">— visible to your team only, never in client reports</span></label>
+                  <textarea id="note" rows="2" value="{{ noteVal }}" onChange="{{ onNote }}" placeholder="What you checked, who you contacted, what’s next" style="border:1px solid #B9BDB8;padding:8px 10px;font-size:13px;resize:vertical;line-height:1.4"></textarea>
+                  <div style="display:flex;gap:10px;align-items:center"><button type="submit" disabled="{{ noteEmpty }}" style="white-space:nowrap;height:30px;padding:0 12px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:12.5px;opacity:{{ noteOpacity }}">Add note</button><span style="font-size:12px;color:#4A4F52">Posted as Priya Raman</span></div>
+                </form>
+
+                <div style="display:flex;flex-direction:column">
+                  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-bottom:6px">
+                    <h3 style="margin:0;font-size:15px;font-weight:600;font-stretch:88%">Event history</h3>
+                    <div role="group" aria-label="Show events" style="display:flex;border:1px solid #D5D8D4;margin-left:auto">
+                      <sc-for list="{{ evTabs }}" as="t" hint-placeholder-count="3"><button type="button" onClick="{{ t.pick }}" aria-pressed="{{ t.pressed }}" style="white-space:nowrap;height:28px;padding:0 10px;border:none;background:{{ t.bg }};color:{{ t.fg }};cursor:pointer;font-size:12px">{{ t.l }}</button></sc-for>
+                    </div>
+                  </div>
+                  <ol style="list-style:none;margin:0;padding:0">
+                    <sc-for list="{{ d.events }}" as="e" hint-placeholder-count="6">
+                      <li style="display:grid;grid-template-columns:118px 18px minmax(0,1fr);gap:8px;padding:7px 0;border-bottom:1px solid #F0F1EF;font-size:13px;line-height:1.4;align-items:baseline">
+                        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">{{ e.t }}</span>
+                        <span aria-hidden="true" style="color:{{ e.c }};text-align:center">{{ e.g }}</span>
+                        <span style="display:flex;flex-direction:column;gap:2px"><span><span style="font-weight:600;color:{{ e.lc }}">{{ e.label }}</span> <span style="color:#2E3437">{{ e.txt }}</span></span><sc-if value="{{ e.note }}" hint-placeholder-val="{{ false }}"><span style="padding:6px 10px;background:#F4F5F3;border-left:2px solid #9AA09C;color:#161A1C">{{ e.note }}</span></sc-if></span>
+                      </li>
+                    </sc-for>
+                  </ol>
+                </div>
+              </div>
+            </sc-if>
+          </section>
+        </div>
+      </sc-if>
+    </main>
+
+    <footer style="display:flex;flex-wrap:wrap;gap:4px 24px;padding:6px 28px;background:#161A1C;color:#D5D8D4;font-family:'JetBrains Mono',monospace;font-size:12px">
+      <span style="white-space:nowrap"><span aria-hidden="true" style="color:{{ worker.dot }}">●</span> {{ worker.text }}</span><span style="white-space:nowrap">{{ worker.queue }}</span><span style="margin-left:auto;white-space:nowrap">Times in Europe/London (GMT)</span>
+    </footer>
+  </div>
+
+  <div aria-live="polite" style="position:fixed;left:50%;bottom:40px;transform:translateX(-50%);z-index:60">
+    <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:16px;align-items:center;background:#161A1C;color:#FFFFFF;padding:10px 16px;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.2)"><span>{{ toast.msg }}</span><sc-if value="{{ toast.undo }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ toast.undo }}" style="white-space:nowrap;background:none;border:none;padding:0;color:#FFFFFF;text-decoration:underline;cursor:pointer;font-size:13px;font-weight:600">Undo</button></sc-if></div></sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;state&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;live&quot;,&quot;stale&quot;,&quot;loading&quot;,&quot;empty&quot;,&quot;error&quot;],&quot;default&quot;:&quot;live&quot;,&quot;tsType&quot;:&quot;'live'|'stale'|'loading'|'empty'|'error'&quot;,&quot;section&quot;:&quot;Demo state&quot;}}">
+const C = { crit: '#C2261B', high: '#A35A00', ink: '#161A1C', mute: '#4A4F52', faint: '#8D9396', ok: '#1F7A4A' };
+const SEV = { critical: { r: 4, l: 'Critical', g: '▮▮▮▮', c: C.crit }, high: { r: 3, l: 'High', g: '▮▮▮▯', c: C.high }, medium: { r: 2, l: 'Medium', g: '▮▮▯▯', c: C.ink }, low: { r: 1, l: 'Low', g: '▮▯▯▯', c: C.mute } };
+const TYPE = { downtime: 'Downtime', ssl_invalid: 'SSL invalid', ssl_expiry: 'SSL expiry', domain_expiry: 'Domain expiry', audit_issue: 'Audit issue', dns_change: 'DNS change' };
+const EV = {
+  fail: { g: '◆', c: C.crit, label: 'Confirmed failure', lc: C.ink, k: 'check' },
+  inconc: { g: '◌', c: C.mute, label: 'Inconclusive', lc: C.mute, k: 'check' },
+  ok: { g: '●', c: C.ok, label: 'Passed', lc: C.ink, k: 'check' },
+  obs: { g: '·', c: C.mute, label: 'Check', lc: C.mute, k: 'check' },
+  state: { g: '■', c: C.ink, label: '', lc: C.ink, k: 'change' },
+  note: { g: '✎', c: C.ink, label: 'Note', lc: C.ink, k: 'change' },
+  notify: { g: '✉', c: C.mute, label: 'Email', lc: C.mute, k: 'change' }
+};
+const E = (t, kind, txt, extra) => ({ t, kind, txt, ...(extra || {}) });
+
+const INCIDENTS = [
+  { id: 'INC-0412', type: 'downtime', sev: 'critical', state: 'open', host: 'harbourdental.co.uk', client: 'Harbour Dental Group', siteNow: 'Down now', title: 'Website down — HTTP 502 Bad Gateway', first: '25 Oct 09:41:07', last: '25 Oct 09:47:04', since: 9 * 60 + 41, dur: '7 min · ongoing', resolved: '—',
+    rec: { k: 'none', t: 'Not recovered', s: '0 of 2 recovery checks passed. Next check 09:49:04.' },
+    diag: 'Origin returned HTTP 502 in 1,204 ms. DNS resolved and the TLS handshake succeeded, so the fault is at the web server or upstream application — not the network or certificate.',
+    nFail: 3, nInc: 1, nOk: 0, notify: '1 email at 09:43:10 to Priya R. and Tom E. Repeats are suppressed while open; a recovery email follows on resolve.',
+    events: [E('25 Oct 09:47:04', 'fail', 'HTTP 502 · 1,204 ms'), E('25 Oct 09:45:05', 'inconc', 'Connection timed out after 10 s — excluded from failure count'), E('25 Oct 09:43:10', 'notify', 'Alert sent to Priya R., Tom E.'), E('25 Oct 09:43:06', 'state', 'Incident opened after 2nd consecutive confirmed failure', { label: 'Opened' }), E('25 Oct 09:43:06', 'fail', 'HTTP 502 · 1,190 ms'), E('25 Oct 09:41:07', 'fail', 'HTTP 502 · 1,180 ms — 1st failure, awaiting confirmation'), E('25 Oct 09:39:05', 'ok', 'HTTP 200 · 262 ms — last successful check')] },
+  { id: 'INC-0413', type: 'ssl_invalid', sev: 'high', state: 'open', host: 'book.blackthorn-fitness.ie', client: 'Blackthorn Fitness', siteNow: 'Responding · certificate invalid', title: 'Certificate doesn’t match hostname', first: '25 Oct 06:00:14', last: '25 Oct 06:00:14', since: 6 * 60, dur: '3 h 48 min · ongoing', resolved: '—',
+    rec: { k: 'none', t: 'Not recovered', s: 'Resolves when a valid certificate for this hostname is detected. Next SSL check 12:00.' },
+    diag: 'The certificate is trusted but covers blackthorn-fitness.com and www.blackthorn-fitness.com only — not book.blackthorn-fitness.ie. Visitors see a browser security warning. It changed between 18:00 yesterday and 06:00 today.',
+    nFail: 1, nInc: 0, nOk: 0, notify: '1 email at 06:00:18 to Priya R. and Tom E.',
+    events: [E('25 Oct 06:00:18', 'notify', 'Alert sent to Priya R., Tom E.'), E('25 Oct 06:00:14', 'state', 'Incident opened — hostname mismatch', { label: 'Opened' }), E('25 Oct 06:00:14', 'fail', 'TLS: certificate subject doesn’t include book.blackthorn-fitness.ie'), E('24 Oct 18:00:09', 'ok', 'Valid certificate (Sectigo), 211 days remaining — previous certificate')] },
+  { id: 'INC-0410', type: 'audit_issue', sev: 'medium', state: 'open', host: 'vela-architects.com', client: 'Vela Architects', siteNow: 'Up', title: '14 confirmed broken links', first: '24 Oct 03:12:55', last: '24 Oct 03:12:55', since: -1, dur: 'Since audit, 1 day', resolved: '—', isAudit: true,
+    rec: { k: 'wait', t: 'Waiting for next audit', s: 'Resolves when the next audit no longer finds these links. Next audit Fri 31 Oct, 03:00.' },
+    diag: '14 links returned a stable 404 or 410 after 2 retries. 3 external links were rate-limited (HTTP 429) and are treated as inconclusive, not broken. 412 pages crawled of a 500-page budget.',
+    nFail: 14, nInc: 3, nOk: 2943, failWord: 'confirmed broken links', okWord: 'links valid', notify: 'No email — audit issues are listed here and in the client report only.',
+    events: [E('24 Oct 03:12:55', 'state', 'Incident opened from audit findings', { label: 'Opened' }), E('24 Oct 03:12:55', 'fail', '14 links: 404 ×11, 410 ×3'), E('24 Oct 03:12:55', 'inconc', '3 external links returned 429 (rate-limited)'), E('24 Oct 03:01:02', 'obs', 'Audit started · 500-page budget · robots.txt respected')] },
+  { id: 'INC-0408', type: 'domain_expiry', sev: 'medium', state: 'open', host: 'alpinecycleworks.com', client: 'Alpine Cycle Works', siteNow: 'Up', title: 'Domain registration expires in 12 days', first: '25 Oct 02:00:09', last: '25 Oct 02:00:09', since: -1, dur: '7 h 48 min · ongoing', resolved: '—',
+    rec: { k: 'wait', t: 'Waiting for renewal', s: 'Resolves when RDAP shows a later expiry date. Checked daily at 02:00.' },
+    diag: 'Registered until 6 Nov 2026 according to Verisign RDAP, checked 25 Oct 02:00. Renewal is handled through the client’s own registrar account.',
+    nFail: 1, nInc: 0, nOk: 0, failWord: 'threshold reached (14 days)', notify: '1 email at 02:00:12 to Priya R.',
+    events: [E('25 Oct 02:00:12', 'notify', 'Alert sent to Priya R.'), E('25 Oct 02:00:09', 'state', 'Incident opened — 14-day threshold', { label: 'Opened' }), E('25 Oct 02:00:09', 'obs', 'RDAP: expires 6 Nov 2026 (source: Verisign)')] },
+  { id: 'INC-0409', type: 'ssl_expiry', sev: 'high', state: 'acknowledged', ackBy: 'Priya R.', ackAt: '24 Oct 16:20', host: 'shop.millerandkoch.com', client: 'Miller & Koch', siteNow: 'Degraded · slow responses', title: 'SSL certificate expires in 6 days', first: '24 Oct 14:00:03', last: '25 Oct 06:00:12', since: -1, dur: '19 h 48 min · ongoing', resolved: '—',
+    rec: { k: 'wait', t: 'Waiting for renewal', s: 'Resolves when a renewed certificate is detected. Next SSL check 12:00.' },
+    diag: 'Valid, trusted certificate (Let’s Encrypt R11) expiring 31 Oct 2026 at 14:00 GMT. No renewal detected yet; automatic renewal normally happens 30 days before expiry.',
+    nFail: 1, nInc: 0, nOk: 0, failWord: 'threshold reached (7 days)', notify: '1 email at 24 Oct 14:00:09. The 1-day threshold will email again on 30 Oct 14:00.',
+    events: [E('25 Oct 06:00:12', 'obs', 'Valid · 6 days remaining'), E('24 Oct 16:21:03', 'note', '', { note: 'Asked the host to check the certbot renewal cron. Will re-check Monday.', by: 'Priya R.' }), E('24 Oct 16:20:41', 'state', 'by Priya R.', { label: 'Acknowledged' }), E('24 Oct 14:00:09', 'notify', 'Alert sent to Priya R., Tom E.'), E('24 Oct 14:00:03', 'state', 'Incident opened — 7-day threshold', { label: 'Opened' })] },
+  { id: 'INC-0406', type: 'ssl_expiry', sev: 'low', state: 'acknowledged', ackBy: 'Tom E.', ackAt: '22 Oct 09:12', host: 'lumenoptics.ie', client: 'Lumen Optics', siteNow: 'Up', title: 'SSL certificate expires in 27 days', first: '22 Oct 06:00:05', last: '25 Oct 06:00:10', since: -1, dur: '3 days · ongoing', resolved: '—',
+    rec: { k: 'wait', t: 'Waiting for renewal', s: 'Resolves when a renewed certificate is detected.' },
+    diag: 'Valid certificate (DigiCert) expiring 21 Nov 2026. This certificate is renewed manually by the client.',
+    nFail: 1, nInc: 0, nOk: 0, failWord: 'threshold reached (30 days)', notify: '1 email at 22 Oct 06:00:09. Next threshold email at 14 days.',
+    events: [E('25 Oct 06:00:10', 'obs', 'Valid · 27 days remaining'), E('22 Oct 09:13:40', 'note', '', { note: 'Client renews manually via Blacknight — reminder sent to Lumen IT.', by: 'Tom E.' }), E('22 Oct 09:12:05', 'state', 'by Tom E.', { label: 'Acknowledged' }), E('22 Oct 06:00:05', 'state', 'Incident opened — 30-day threshold', { label: 'Opened' })] },
+  { id: 'INC-0405', type: 'dns_change', sev: 'low', state: 'muted', muteBy: 'Tom E.', muteAt: '23 Oct 11:30', host: 'kiln-coffee.com', client: 'Kiln Coffee Roasters', siteNow: 'Up', title: 'MX records changed', first: '23 Oct 11:04:20', last: '23 Oct 11:04:20', since: -1, dur: '—', resolved: '—',
+    rec: { k: 'muted', t: 'Muted', s: 'No emails are sent. Detection continues and history is kept.' },
+    diag: 'MX records changed from mx1.fastmail.com and mx2.fastmail.com to aspmx.l.google.com and 4 alternates. A, AAAA and NS records are unchanged.',
+    nFail: 1, nInc: 0, nOk: 0, failWord: 'record change detected', notify: 'Muted by Tom E. on 23 Oct 11:30 — no further emails.',
+    events: [E('23 Oct 11:30:12', 'state', 'by Tom E.', { label: 'Muted' }), E('23 Oct 11:30:02', 'note', '', { note: 'Planned move to Google Workspace — expected change.', by: 'Tom E.' }), E('23 Oct 11:04:25', 'notify', 'Alert sent to Tom E.'), E('23 Oct 11:04:20', 'state', 'Incident opened — MX change', { label: 'Opened' })] },
+  { id: 'INC-0411', type: 'downtime', sev: 'high', state: 'resolved', host: 'atlas-freight.com', client: 'Atlas Freight', siteNow: 'Up', title: 'Website down — HTTP 503 Service Unavailable', first: '24 Oct 22:08:12', last: '24 Oct 22:12:08', since: -1, dur: '8 min', resolved: '24 Oct 22:16:10', resolvedShort: '24 Oct',
+    rec: { k: 'ok', t: 'Recovered', s: 'Resolved automatically at 22:16:10 after 2 consecutive passing checks.' },
+    diag: 'HTTP 503 during a hosting-provider restart. Responses returned to normal (HTTP 200, 280–310 ms) from 22:14.',
+    nFail: 3, nInc: 0, nOk: 2, notify: 'Alert at 22:10:14 and recovery email at 22:16:14 to Priya R., Tom E.',
+    events: [E('24 Oct 22:16:14', 'notify', 'Recovery sent to Priya R., Tom E.'), E('24 Oct 22:16:10', 'state', 'after 2 consecutive passing checks', { label: 'Resolved' }), E('24 Oct 22:16:10', 'ok', 'HTTP 200 · 288 ms'), E('24 Oct 22:14:11', 'ok', 'HTTP 200 · 306 ms — 1st recovery check'), E('24 Oct 22:12:08', 'fail', 'HTTP 503 · 92 ms'), E('24 Oct 22:10:14', 'notify', 'Alert sent to Priya R., Tom E.'), E('24 Oct 22:10:09', 'state', 'after 2nd consecutive confirmed failure', { label: 'Opened' }), E('24 Oct 22:10:09', 'fail', 'HTTP 503 · 88 ms'), E('24 Oct 22:08:12', 'fail', 'HTTP 503 · 95 ms — 1st failure')] },
+  { id: 'INC-0402', type: 'downtime', sev: 'high', state: 'resolved', host: 'vela-architects.com', client: 'Vela Architects', siteNow: 'Up', title: 'Website down — connection refused', first: '20 Oct 14:02:30', last: '20 Oct 14:27:41', since: -1, dur: '29 min', resolved: '20 Oct 14:31:40', resolvedShort: '20 Oct',
+    rec: { k: 'ok', t: 'Recovered', s: 'Resolved automatically at 14:31:40 after 2 consecutive passing checks.' },
+    diag: 'TCP connection refused on port 443 during scheduled host maintenance that overran by about 25 minutes.',
+    nFail: 13, nInc: 1, nOk: 2, notify: 'Alert at 14:04:36 and recovery email at 14:31:44.',
+    events: [E('20 Oct 14:31:40', 'state', 'after 2 consecutive passing checks', { label: 'Resolved' }), E('20 Oct 14:08:15', 'note', '', { note: 'Host maintenance overran — ticket #88213 with Krystal.', by: 'Tom E.' }), E('20 Oct 14:06:02', 'state', 'by Tom E.', { label: 'Acknowledged' }), E('20 Oct 14:04:31', 'state', 'after 2nd consecutive confirmed failure', { label: 'Opened' }), E('20 Oct 14:02:30', 'fail', 'Connection refused — 1st failure')] },
+  { id: 'INC-0399', type: 'audit_issue', sev: 'medium', state: 'resolved', host: 'kiln-coffee.com', client: 'Kiln Coffee Roasters', siteNow: 'Up', title: '6 confirmed broken links', first: '15 Oct 02:38:20', last: '15 Oct 02:38:20', since: -1, dur: '7 days', resolved: '22 Oct 02:40:11', resolvedShort: '22 Oct', isAudit: true,
+    rec: { k: 'ok', t: 'Resolved by audit', s: 'The 22 Oct audit found none of the 6 links still broken.' },
+    diag: 'Links to discontinued product pages under /shop/seasonal returned 404.',
+    nFail: 6, nInc: 0, nOk: 604, failWord: 'confirmed broken links', okWord: 'links valid', notify: 'No email — audit issues are listed here and in the client report only.',
+    events: [E('22 Oct 02:40:11', 'state', 'next audit found 0 of 6 links broken', { label: 'Resolved' }), E('16 Oct 10:02:44', 'note', '', { note: 'Redirects added for old seasonal pages.', by: 'Priya R.' }), E('15 Oct 02:38:20', 'state', 'Incident opened from audit findings', { label: 'Opened' })] },
+  { id: 'INC-0397', type: 'downtime', sev: 'critical', state: 'resolved', host: 'shop.millerandkoch.com', client: 'Miller & Koch', siteNow: 'Degraded', title: 'Website down — DNS resolution failed', first: '9 Oct 10:12:04', last: '9 Oct 10:39:40', since: -1, dur: '31 min', resolved: '9 Oct 10:43:22', resolvedShort: '9 Oct',
+    rec: { k: 'ok', t: 'Recovered', s: 'Resolved automatically at 10:43:22 after 2 consecutive passing checks.' },
+    diag: 'NXDOMAIN for shop.millerandkoch.com after a CNAME was removed during a DNS migration; restored at 10:40.',
+    nFail: 15, nInc: 0, nOk: 2, notify: 'Alert at 10:14:08 and recovery email at 10:43:26.',
+    events: [E('9 Oct 10:43:22', 'state', 'after 2 consecutive passing checks', { label: 'Resolved' }), E('9 Oct 10:20:31', 'note', '', { note: 'CNAME removed by mistake in Cloudflare migration — restoring.', by: 'Priya R.' }), E('9 Oct 10:16:50', 'state', 'by Priya R.', { label: 'Acknowledged' }), E('9 Oct 10:14:04', 'state', 'after 2nd consecutive confirmed failure', { label: 'Opened' })] }
+];
+const WATCH = { id: 'watch-1', host: 'thegreenroomlondon.com', client: 'Green Room Theatre', title: 'Inconclusive results since 07:52', detail: '3 checks timed out after 10 s. Not confirmed, so no incident and no email.' };
+
+class Component extends DCLogic {
+  state = { phase: this.props.state ?? 'live', incs: INCIDENTS, stateF: 'all', sevF: 'all', typeF: 'all', clientF: 'all', q: '', selId: null, muteOpen: false, noteVal: '', evF: 'all', toast: null, w: typeof window !== 'undefined' ? window.innerWidth : 1400 };
+  closeRef = React.createRef();
+
+  componentDidMount() {
+    this.onResize = () => this.setState({ w: window.innerWidth });
+    this.onKey = e => { if (e.key === 'Escape') { if (this.state.muteOpen) this.setState({ muteOpen: false }); else if (this.state.w < 1180 && this.state.selId) this.setState({ selId: null }); } };
+    window.addEventListener('resize', this.onResize); window.addEventListener('keydown', this.onKey);
+    if (this.state.w >= 1180) this.setState({ selId: 'INC-0412' });
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); window.removeEventListener('keydown', this.onKey); clearTimeout(this.tt); }
+  componentDidUpdate(pp, ps) {
+    if (pp.state !== this.props.state) this.setState({ phase: this.props.state ?? 'live' });
+    if (this.state.selId && this.state.selId !== ps.selId && this.state.w < 1180) setTimeout(() => this.closeRef.current && this.closeRef.current.focus(), 0);
+  }
+  say(msg, undo) { clearTimeout(this.tt); this.setState({ toast: { msg, undo } }); this.tt = setTimeout(() => this.setState({ toast: null }), undo ? 7000 : 3500); }
+  patch(id, fn) { this.setState(s => ({ incs: s.incs.map(i => i.id === id ? fn(i) : i) })); }
+  snapshot(id) { const prev = this.state.incs.find(i => i.id === id); return () => { this.patch(id, () => prev); this.say('Change undone'); }; }
+  ack(id) { const undo = this.snapshot(id); this.patch(id, i => ({ ...i, state: 'acknowledged', ackBy: 'Priya R.', ackAt: '25 Oct 09:48', events: [E('25 Oct 09:48:20', 'state', 'by Priya R.', { label: 'Acknowledged' }), ...i.events] })); this.say(`${id} acknowledged · team can see you’re on it`, undo); }
+  mute(id) { const undo = this.snapshot(id); this.patch(id, i => ({ ...i, state: 'muted', muteBy: 'Priya R.', muteAt: '25 Oct 09:48', prevState: i.state, rec: i.rec.k === 'ok' ? i.rec : { ...i.rec, mutedNote: true }, events: [E('25 Oct 09:48:20', 'state', 'by Priya R. — no further emails', { label: 'Muted' }), ...i.events] })); this.setState({ muteOpen: false }); this.say(`${id} muted · moved to Muted, still monitored`, undo); }
+  unmute(id) { const undo = this.snapshot(id); this.patch(id, i => ({ ...i, state: i.prevState || (i.ackBy ? 'acknowledged' : 'open'), events: [E('25 Oct 09:48:20', 'state', 'by Priya R. — emails resume', { label: 'Unmuted' }), ...i.events] })); this.say(`${id} unmuted · emails resume`, undo); }
+
+  renderVals() {
+    const S = this.state, phase = S.phase, stale = phase === 'stale';
+    const wideNav = S.w >= 980, narrow = S.w < 1180;
+    const q = S.q.trim().toLowerCase();
+    const base = S.incs.filter(i => (S.sevF === 'all' || i.sev === S.sevF) && (S.typeF === 'all' || i.type === S.typeF) && (S.clientF === 'all' || i.client === S.clientF) && (!q || i.title.toLowerCase().includes(q) || i.host.includes(q) || i.id.toLowerCase().includes(q) || i.client.toLowerCase().includes(q)));
+    const count = st => base.filter(i => i.state === st).length;
+    const bySev = (a, b) => SEV[b.sev].r - SEV[a.sev].r || (a.first < b.first ? -1 : 1);
+    const filtersOn = S.sevF !== 'all' || S.typeF !== 'all' || S.clientF !== 'all' || !!q;
+
+    const row = i => {
+      const v = SEV[i.sev], active = i.state === 'open', resolved = i.state === 'resolved', sel = i.id === S.selId;
+      const stateL = { open: 'Open', acknowledged: 'Acknowledged', muted: 'Muted', resolved: 'Resolved' }[i.state];
+      const timeL = resolved ? `${i.resolvedShort} · ${i.dur}` : i.state === 'muted' ? `since ${i.first.slice(0, 6)}` : stale && i.type === 'downtime' ? 'as of 09:31' : i.dur.replace(' · ongoing', '');
+      return { ...i, typeL: TYPE[i.type], sevLabel: v.l, sevGlyph: v.g, sevColor: resolved || i.state === 'muted' ? C.mute : v.c, sevWeight: active ? 600 : 500,
+        titleWeight: resolved ? 500 : 600, titleColor: resolved ? '#2E3437' : C.ink, stateL, stateColor: i.state === 'open' ? C.ink : i.state === 'resolved' ? C.ok : C.mute,
+        timeL, timeColor: stale && !resolved && i.type === 'downtime' ? '#7A4300' : C.mute,
+        bg: sel ? '#E8EDE9' : '#FFFFFF', edge: sel ? 'inset 3px 0 0 #161A1C' : 'none', cur: sel ? 'true' : 'false',
+        aria: `${v.l} ${TYPE[i.type]}: ${i.title}, ${i.host}, ${stateL}`, select: () => this.setState({ selId: i.id, muteOpen: false, noteVal: '', evF: 'all' }) };
+    };
+    const watchMatch = (S.stateF === 'all' || S.stateF === 'open') && S.sevF === 'all' && S.typeF === 'all' && (S.clientF === 'all' || S.clientF === WATCH.client) && (!q || WATCH.host.includes(q) || WATCH.title.toLowerCase().includes(q));
+    const watchRow = { ...WATCH, typeL: 'Not an incident', sevLabel: 'Watching', sevGlyph: '◌', sevColor: C.mute, sevWeight: 500, titleWeight: 500, titleColor: '#2E3437', stateL: 'No alert', stateColor: C.mute, timeL: 'since 07:52', timeColor: C.mute, bg: '#FFFFFF', edge: 'none', cur: 'false', aria: `Watching: ${WATCH.title}, ${WATCH.host}. Not an incident.`, select: () => this.say(`${WATCH.host}: ${WATCH.detail}`) };
+
+    const want = st => S.stateF === 'all' || S.stateF === st;
+    const groups = [];
+    const openL = base.filter(i => i.state === 'open').sort(bySev);
+    if (want('open') && (openL.length || watchMatch)) groups.push({ title: 'NEEDS ACKNOWLEDGMENT', hint: 'Most severe first', n: openL.length, items: [...openL.map(row), ...(watchMatch ? [watchRow] : [])] });
+    const ackL = base.filter(i => i.state === 'acknowledged').sort(bySev);
+    if (want('acknowledged') && ackL.length) groups.push({ title: 'ACKNOWLEDGED — FOLLOW UP', hint: 'Someone is on it', n: ackL.length, items: ackL.map(row) });
+    const mutedL = base.filter(i => i.state === 'muted');
+    if (want('muted') && mutedL.length) groups.push({ title: 'MUTED', hint: 'Monitored, no emails', n: mutedL.length, items: mutedL.map(row) });
+    const resL = base.filter(i => i.state === 'resolved');
+    if (want('resolved') && resL.length) groups.push({ title: 'RESOLVED · LAST 30 DAYS', hint: 'Newest first', n: resL.length, items: resL.map(row) });
+
+    const tabs = [['all', 'All', base.length], ['open', 'Open', count('open')], ['acknowledged', 'Acknowledged', count('acknowledged')], ['muted', 'Muted', count('muted')], ['resolved', 'Resolved', count('resolved')]];
+    const stateTabs = tabs.map(([v, l, n]) => ({ l, n, pressed: S.stateF === v ? 'true' : 'false', bg: S.stateF === v ? C.ink : '#FFFFFF', fg: S.stateF === v ? '#FFFFFF' : C.ink, pick: () => this.setState({ stateF: v }) }));
+    const clients = [...new Set(S.incs.map(i => i.client))].sort();
+
+    let d = null;
+    const cur = S.incs.find(i => i.id === S.selId);
+    if (cur && phase !== 'loading') {
+      const v = SEV[cur.sev];
+      const stateMeta = { open: [C.ink, C.ink, 'Not yet acknowledged'], acknowledged: [C.mute, '#B9BDB8', `by ${cur.ackBy} · ${cur.ackAt}`], muted: [C.mute, '#B9BDB8', `by ${cur.muteBy} · ${cur.muteAt}`], resolved: [C.ok, '#9CC5AE', `${cur.resolved}`] }[cur.state];
+      const staleDown = stale && cur.state !== 'resolved' && cur.type === 'downtime';
+      const rec = staleDown ? { k: 'unk', t: 'Unknown — results delayed', s: 'No check results since 09:31. This incident will update automatically when results resume.' } : cur.rec;
+      const recC = { none: C.crit, wait: C.ink, ok: C.ok, muted: C.mute, unk: '#7A4300' }[rec.k], recG = { none: '◆', wait: '○', ok: '●', muted: '‖', unk: '▲' }[rec.k];
+      const evs = cur.events.filter(e => S.evF === 'all' || EV[e.kind].k === S.evF).map(e => { const m = EV[e.kind]; return { t: e.t, g: m.g, c: m.c, label: e.label || m.label, lc: m.lc, txt: e.kind === 'note' ? `by ${e.by}` : e.txt, note: e.note || '' }; });
+      d = { ...cur, typeU: TYPE[cur.type].toUpperCase(), sevLabel: v.l, sevGlyph: v.g, sevColor: cur.state === 'resolved' ? C.mute : v.c,
+        stateL: { open: 'Open', acknowledged: 'Acknowledged', muted: 'Muted', resolved: 'Resolved' }[cur.state], stateColor: stateMeta[0], stateBorder: stateMeta[1], stateBy: stateMeta[2],
+        siteNow: staleDown ? 'Status stale since 09:31' : cur.siteNow,
+        last: staleDown ? `${cur.last} · as of 09:31` : cur.last, lastColor: staleDown ? '#7A4300' : C.ink,
+        dur: staleDown ? 'At least 7 min' : cur.dur, resolved: cur.state === 'resolved' ? cur.resolved : 'Not resolved', resolvedColor: cur.state === 'resolved' ? C.ok : C.mute,
+        recText: rec.t, recSub: rec.s + (cur.state === 'muted' && rec.k !== 'muted' ? ' Emails are muted.' : ''), recColor: recC, recGlyph: recG,
+        failWord: cur.failWord || 'confirmed failed checks', okWord: cur.okWord || 'recovery checks passed', events: evs,
+        canAck: cur.state === 'open', canMute: cur.state === 'open' || cur.state === 'acknowledged', canUnmute: cur.state === 'muted', isAudit: !!cur.isAudit,
+        muteOpen: S.muteOpen, muteOpenAria: S.muteOpen ? 'true' : 'false',
+        ack: () => this.ack(cur.id), askMute: () => this.setState({ muteOpen: !S.muteOpen }), cancelMute: () => this.setState({ muteOpen: false }), mute: () => this.mute(cur.id), unmute: () => this.unmute(cur.id),
+        addNote: e => { e.preventDefault(); const n = S.noteVal.trim(); if (!n) return; this.patch(cur.id, i => ({ ...i, events: [E('25 Oct 09:48:20', 'note', '', { note: n, by: 'Priya R.' }), ...i.events] })); this.setState({ noteVal: '', evF: 'all' }); this.say('Note added to event history'); } };
+    }
+    const evTabs = [['all', 'All'], ['change', 'Changes & notes'], ['check', 'Checks']].map(([v, l]) => ({ l, pressed: S.evF === v ? 'true' : 'false', bg: S.evF === v ? C.ink : '#FFFFFF', fg: S.evF === v ? '#FFFFFF' : C.ink, pick: () => this.setState({ evF: v }) }));
+
+    const showDetail = !narrow || !!d;
+    const openCount = S.incs.filter(i => i.state === 'open').length, ackCount = S.incs.filter(i => i.state === 'acknowledged').length;
+    return {
+      wideNav, narrowNav: !wideNav, narrow,
+      isError: phase === 'error', isEmpty: phase === 'empty', hasUi: ['live', 'loading', 'stale'].includes(phase), isLoading: phase === 'loading', isListReady: phase !== 'loading', isStale: stale,
+      skel: [64, 52, 70, 45, 60, 55, 68, 48].map(w => ({ w: w + '%' })),
+      openCount, headCounts: `${openCount} open · ${ackCount} acknowledged · ${S.incs.filter(i => i.state === 'muted').length} muted · ${S.incs.filter(i => i.state === 'resolved').length} resolved in 30 days`,
+      fresh: stale ? { glyph: '▲', color: '#7A4300', text: 'Delayed · newest result 09:31:12 GMT' } : { glyph: '●', color: C.ok, text: 'Live · newest result 09:48:02 GMT' },
+      worker: stale ? { dot: '#F2A65A', text: 'Results delayed since 09:31', queue: 'Incidents can’t open or resolve until checks resume' } : { dot: '#5FD39A', text: 'Monitoring current', queue: 'Newest result 09:48:02 · next SSL sweep 12:00' },
+      stateTabs, sevF: S.sevF, typeF: S.typeF, clientF: S.clientF, q: S.q, filtersOn,
+      clientOpts: [{ v: 'all', l: 'All clients' }, ...clients.map(c => ({ v: c, l: c }))],
+      onSev: e => this.setState({ sevF: e.target.value }), onType: e => this.setState({ typeF: e.target.value }), onClient: e => this.setState({ clientF: e.target.value }), onQ: e => this.setState({ q: e.target.value }),
+      clearFilters: () => this.setState({ sevF: 'all', typeF: 'all', clientF: 'all', q: '', stateF: 'all' }),
+      groups, noMatch: groups.length === 0,
+      d, noSel: !d && !narrow, noSelText: phase === 'loading' ? 'Loading incident…' : 'Select an incident to see its diagnostic, recovery status and event history.',
+      evTabs, noteVal: S.noteVal, onNote: e => this.setState({ noteVal: e.target.value }), noteEmpty: !S.noteVal.trim(), noteOpacity: S.noteVal.trim() ? 1 : .5,
+      closeDetail: () => this.setState({ selId: null, muteOpen: false }), closeRef: this.closeRef,
+      showBackdrop: narrow && !!d,
+      dDisplay: showDetail ? 'block' : 'none', dPos: narrow ? 'fixed' : 'sticky', dTop: narrow ? '0' : '12px', dBottom: narrow ? '0' : 'auto', dWidth: narrow ? '560px' : 'auto', dMaxH: narrow ? '100vh' : 'calc(100vh - 24px)', dZ: narrow ? 41 : 1, dShadow: narrow ? '-16px 0 40px rgba(0,0,0,.14)' : 'none',
+      retry: () => { this.setState({ phase: 'loading' }); setTimeout(() => this.setState({ phase: 'live' }), 1000); },
+      toast: S.toast
+    };
+  }
+}
+</script>
+</body>
+</html>

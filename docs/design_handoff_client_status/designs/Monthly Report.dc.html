@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Website health report · September 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400;75..100,500;75..100,600;75..100,700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap">
+<script src="./doc-page.js"></script>
+<style>
+body{margin:0;color:#161A1C;-webkit-font-smoothing:antialiased;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+a{color:#161A1C;text-decoration:underline;text-underline-offset:2px}
+a:hover{color:#4A4F52}
+doc-page:not(:defined){visibility:hidden}
+</style>
+</helmet>
+
+<div lang="en-GB" style="--brand:{{ brand.fill }};--on-brand:{{ brand.on }};--brand-text:{{ brand.text }};--brand-tint:{{ brand.tint }};font-family:Archivo,sans-serif;color:#161A1C">
+<doc-page size="a4">
+
+  <section class="page" data-screen-label="01 Cover" style="display:flex;flex-direction:column;font-size:15px;line-height:1.5">
+    <div style="background:var(--brand,#23395B);color:var(--on-brand,#FFFFFF);padding:44px 56px 40px;display:flex;flex-direction:column;gap:56px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <sc-if value="{{ agency.hasLogo }}" hint-placeholder-val="{{ false }}"><span style="height:44px;padding:6px 10px;box-sizing:border-box;background:#FFFFFF;display:flex;align-items:center"><span role="img" aria-label="{{ agency.name }}" style="display:block;width:150px;height:32px;background-image:{{ agency.logoBg }};background-size:contain;background-repeat:no-repeat;background-position:left center"></span></span></sc-if><sc-if value="{{ agency.noLogo }}" hint-placeholder-val="{{ true }}"><span style="width:40px;height:40px;border:2px solid var(--on-brand,#FFFFFF);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px;letter-spacing:.02em">{{ agency.initials }}</span></sc-if>
+        <span style="display:flex;flex-direction:column;line-height:1.2"><span style="font-weight:700;font-size:16px">{{ agency.name }}</span><span style="font-size:13px;opacity:.85">Website care &amp; maintenance</span></span>
+        <span style="margin-left:auto;font-size:13px;opacity:.85;text-align:right">{{ r.period }}<br>{{ r.tz }}</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <span style="font-size:14px;letter-spacing:.08em;opacity:.9">WEBSITE HEALTH REPORT</span>
+        <h1 style="margin:0;font-size:46px;line-height:1.02;font-weight:600;font-stretch:82%;letter-spacing:-.01em">{{ r.client }}</h1>
+        <span style="font-size:16px;opacity:.92">{{ r.siteLine }}</span>
+      </div>
+    </div>
+    <div style="padding:36px 56px 0;display:grid;grid-template-columns:1fr 168px;gap:40px">
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <h2 style="margin:0;font-size:13px;letter-spacing:.08em;color:var(--brand-text,#23395B)">SUMMARY</h2>
+        <sc-for list="{{ r.summary }}" as="p" hint-placeholder-count="2"><p style="margin:0;font-size:16.5px;line-height:1.55;text-wrap:pretty">{{ p }}</p></sc-for>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px;font-size:13px;color:#4A4F52;border-left:1px solid #D5D8D4;padding-left:16px;align-self:start">
+        <span>Prepared for</span><span style="color:#161A1C;font-weight:600">{{ r.contact }}</span>
+        <span style="margin-top:10px">Prepared by</span><span style="color:#161A1C;font-weight:600">{{ agency.name }}</span>
+        <span style="margin-top:10px">Report</span><span style="color:#161A1C;font-family:'JetBrains Mono',monospace;font-size:13px">{{ r.id }}</span>
+      </div>
+    </div>
+    <div style="padding:32px 56px 0;display:flex;flex-direction:column;gap:10px">
+      <h2 style="margin:0;font-size:13px;letter-spacing:.08em;color:var(--brand-text,#23395B)">SEPTEMBER AT A GLANCE</h2>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid #161A1C">
+        <sc-for list="{{ r.glance }}" as="g" hint-placeholder-count="4">
+          <div style="padding:14px 14px 4px 0;display:flex;flex-direction:column;gap:3px;border-right:1px solid #E2E4E1;padding-left:{{ g.pl }}">
+            <span style="font-size:32px;line-height:1.05;font-weight:600;font-stretch:85%;font-variant-numeric:tabular-nums">{{ g.v }}</span>
+            <span style="font-size:14px;font-weight:600">{{ g.l }}</span>
+            <span style="font-size:13px;color:#4A4F52;line-height:1.4">{{ g.s }}</span>
+            <sc-if value="{{ g.cmp }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;color:#4A4F52">{{ g.cmp }}</span></sc-if>
+          </div>
+        </sc-for>
+      </div>
+      <sc-if value="{{ r.coverNote }}" hint-placeholder-val="{{ false }}"><p style="margin:10px 0 0;padding:10px 14px;background:#FBF3E6;border-left:3px solid #8A5A00;font-size:13.5px;line-height:1.45;color:#3A2A14">{{ r.coverNote }}</p></sc-if>
+    </div>
+    <div style="margin-top:auto;padding:16px 56px 28px;display:flex;justify-content:space-between;gap:16px;font-size:13px;color:#4A4F52;border-top:1px solid #E2E4E1">
+      <span>{{ agency.contact }}</span><span>Page 1 of 5</span>
+    </div>
+  </section>
+
+  <section class="page" data-screen-label="02 Reliability" style="display:flex;flex-direction:column;padding:28px 56px 24px;font-size:14.5px;line-height:1.5;box-sizing:border-box">
+    <div style="display:flex;justify-content:space-between;font-size:13px;color:#4A4F52;padding-bottom:8px;border-bottom:2px solid var(--brand,#23395B)"><span style="font-weight:600;color:#161A1C">{{ agency.name }}</span><span>{{ r.client }} · {{ r.period }}</span></div>
+    <div style="padding-top:16px;display:flex;flex-direction:column;gap:6px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--brand-text,#23395B)">01</span>
+      <h2 style="margin:0;font-size:30px;font-weight:600;font-stretch:85%;line-height:1.1">Was the website available?</h2>
+      <p style="margin:0;max-width:560px;color:#2E3437;text-wrap:pretty">{{ r.relIntro }}</p>
+    </div>
+    <table style="margin-top:20px;width:100%;border-collapse:collapse;font-size:14px;font-variant-numeric:tabular-nums">
+      <thead><tr style="border-bottom:1px solid #161A1C;text-align:left;font-size:13px;letter-spacing:.04em;color:#4A4F52"><th style="padding:6px 8px 6px 0;font-weight:600">WEBSITE</th><th style="padding:6px 8px;font-weight:600;text-align:right">UPTIME</th><th style="padding:6px 8px;font-weight:600;text-align:right">AUGUST</th><th style="padding:6px 8px;font-weight:600;text-align:right">CONFIRMED DOWNTIME</th><th style="padding:6px 0 6px 8px;font-weight:600;text-align:right">COVERAGE</th></tr></thead>
+      <tbody>
+        <sc-for list="{{ r.sites }}" as="s" hint-placeholder-count="2">
+          <tr style="border-bottom:1px solid #E2E4E1;vertical-align:top">
+            <td style="padding:9px 8px 9px 0"><span style="display:block;font-weight:600">{{ s.role }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#4A4F52">{{ s.host }}</span></td>
+            <td style="padding:9px 8px;text-align:right;font-size:18px;font-weight:600">{{ s.up }}</td>
+            <td style="padding:9px 8px;text-align:right;color:#4A4F52">{{ s.aug }}</td>
+            <td style="padding:9px 8px;text-align:right">{{ s.down }}</td>
+            <td style="padding:9px 0 9px 8px;text-align:right"><span style="display:block">{{ s.cov }}</span><span style="font-size:13px;color:#4A4F52">{{ s.covSub }}</span></td>
+          </tr>
+        </sc-for>
+      </tbody>
+    </table>
+
+    <div style="margin-top:24px;display:flex;flex-direction:column;gap:10px">
+      <h3 style="margin:0;font-size:15px;font-weight:600">Day by day</h3>
+      <sc-for list="{{ r.sites }}" as="s" hint-placeholder-count="2">
+        <div style="display:grid;grid-template-columns:150px 1fr;gap:12px;align-items:center">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#2E3437;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.short }}</span>
+          <div role="img" aria-label="{{ s.daysLabel }}" style="display:grid;grid-template-columns:repeat(30,1fr);gap:2px">
+            <sc-for list="{{ s.days }}" as="d" hint-placeholder-count="30"><span style="height:22px;background:{{ d.bg }};position:relative"><span style="position:absolute;left:0;right:0;bottom:-15px;text-align:center;font-size:10.5px;color:#4A4F52">{{ d.n }}</span></span></sc-for>
+          </div>
+        </div>
+      </sc-for>
+      <div style="margin-top:14px;padding-left:0;display:flex;flex-wrap:wrap;gap:4px 18px;font-size:13px;color:#2E3437">
+        <span style="display:flex;align-items:center;gap:6px;white-space:nowrap"><span style="width:12px;height:12px;background:#2E7D55"></span>All checks passed</span>
+        <span style="display:flex;align-items:center;gap:6px;white-space:nowrap"><span style="width:12px;height:12px;background:#B42318"></span>Confirmed downtime</span>
+        <span style="display:flex;align-items:center;gap:6px;white-space:nowrap"><span style="width:12px;height:12px;background:repeating-linear-gradient(45deg,#8D9396 0 2px,#E2E4E1 2px 4px)"></span>Some checks not run or inconclusive</span>
+      </div>
+    </div>
+
+    <div style="margin-top:26px;display:flex;flex-direction:column;gap:8px">
+      <h3 style="margin:0;font-size:15px;font-weight:600">Confirmed incidents</h3>
+      <sc-if value="{{ r.noIncidents }}" hint-placeholder-val="{{ false }}"><p style="margin:0;padding:12px 0;border-top:1px solid #E2E4E1;border-bottom:1px solid #E2E4E1;color:#2E3437">No confirmed incidents in September. {{ r.noIncNote }}</p></sc-if>
+      <sc-for list="{{ r.incidents }}" as="i" hint-placeholder-count="1">
+        <div style="display:grid;grid-template-columns:110px 1fr 120px;gap:14px;padding:12px 0;border-top:1px solid #161A1C;border-bottom:1px solid #E2E4E1">
+          <span style="display:flex;flex-direction:column"><span style="font-weight:600">{{ i.date }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#4A4F52">{{ i.time }}</span></span>
+          <span style="display:flex;flex-direction:column;gap:4px"><span style="font-weight:600">{{ i.what }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#4A4F52">{{ i.site }}</span><span style="color:#2E3437;text-wrap:pretty">{{ i.how }}</span></span>
+          <span style="display:flex;flex-direction:column;align-items:flex-end;text-align:right;white-space:nowrap"><span style="font-weight:600;color:#1F6B45">● {{ i.status }}</span><span style="font-size:13px;color:#4A4F52">{{ i.dur }}</span></span>
+        </div>
+      </sc-for>
+    </div>
+    <p style="margin:auto 0 0;padding-top:16px;font-size:13px;line-height:1.5;color:#4A4F52;text-wrap:pretty"><b style="color:#2E3437">How we measure this.</b> We check each website every 2 minutes from our monitoring service. Uptime is successful checks ÷ completed, conclusive checks. Checks that didn’t run or were inconclusive are left out, never counted as “up”. Downtime is estimated from the time between the first failed and first successful check, so it can be out by up to 2 minutes either way. This is a measurement from our checks, not an independent guarantee of availability.</p>
+    <div style="padding-top:12px;margin-top:12px;border-top:1px solid #E2E4E1;display:flex;justify-content:space-between;font-size:13px;color:#4A4F52"><span>{{ r.id }}</span><span>Page 2 of 5</span></div>
+  </section>
+
+  <section class="page" data-screen-label="03 Speed and security" style="display:flex;flex-direction:column;padding:28px 56px 24px;font-size:14.5px;line-height:1.5;box-sizing:border-box">
+    <div style="display:flex;justify-content:space-between;font-size:13px;color:#4A4F52;padding-bottom:8px;border-bottom:2px solid var(--brand,#23395B)"><span style="font-weight:600;color:#161A1C">{{ agency.name }}</span><span>{{ r.client }} · {{ r.period }}</span></div>
+    <div style="padding-top:16px;display:flex;flex-direction:column;gap:6px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--brand-text,#23395B)">02</span>
+      <h2 style="margin:0;font-size:30px;font-weight:600;font-stretch:85%;line-height:1.1">Was it fast and secure?</h2>
+      <p style="margin:0;max-width:560px;color:#2E3437;text-wrap:pretty">{{ r.speedIntro }}</p>
+    </div>
+    <div style="margin-top:20px;display:flex;flex-direction:column;gap:22px">
+      <sc-for list="{{ r.sites }}" as="s" hint-placeholder-count="2">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;align-items:baseline;gap:18px;border-bottom:1px solid #161A1C;padding-bottom:6px">
+            <span style="font-weight:600;white-space:nowrap">{{ s.role }}</span>
+            <span style="font-size:13.5px;font-variant-numeric:tabular-nums;white-space:nowrap">Typical <b>{{ s.resp }}</b></span>
+            <span style="font-size:13.5px;font-variant-numeric:tabular-nums;white-space:nowrap">Slowest 5% <b>{{ s.p95 }}</b></span>
+            <span style="font-size:13.5px;color:#4A4F52;white-space:nowrap">August typical {{ s.respAug }}</span>
+          </div>
+          <div role="img" aria-label="{{ s.respLabel }}" style="position:relative;height:92px;display:grid;grid-template-columns:repeat(30,1fr);gap:3px;align-items:end;border-bottom:1px solid #9AA09C">
+            <sc-for list="{{ s.bars }}" as="b" hint-placeholder-count="30"><span style="height:{{ b.h }};background:{{ b.bg }}"></span></sc-for>
+            <span style="position:absolute;left:0;right:0;bottom:{{ s.augLine }};border-top:1px dashed #161A1C"></span>
+            <span style="position:absolute;right:0;bottom:{{ s.augLine }};transform:translateY(-2px);font-size:13px;background:#FFFFFF;padding:0 4px;color:#2E3437">Aug typical</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;font-size:13px;color:#4A4F52"><span>1 Sep</span><span>15 Sep</span><span>30 Sep</span></div>
+        </div>
+      </sc-for>
+      <p style="margin:0;font-size:13px;color:#4A4F52">Bars show the daily median response time of successful checks, scaled to {{ r.scaleMax }} ms. “Typical” is the month’s median; it measures server response, not full page-load time in a visitor’s browser.</p>
+    </div>
+
+    <div style="margin-top:28px;display:flex;flex-direction:column;gap:8px">
+      <h3 style="margin:0;font-size:15px;font-weight:600">Security certificate and domain</h3>
+      <table style="width:100%;border-collapse:collapse;font-size:14px">
+        <thead><tr style="border-bottom:1px solid #161A1C;text-align:left;font-size:13px;letter-spacing:.04em;color:#4A4F52"><th style="padding:6px 8px 6px 0;font-weight:600">WEBSITE</th><th style="padding:6px 8px;font-weight:600">SSL CERTIFICATE</th><th style="padding:6px 0 6px 8px;font-weight:600">DOMAIN REGISTRATION</th></tr></thead>
+        <tbody>
+          <sc-for list="{{ r.sites }}" as="s" hint-placeholder-count="2">
+            <tr style="border-bottom:1px solid #E2E4E1;vertical-align:top">
+              <td style="padding:9px 8px 9px 0;font-family:'JetBrains Mono',monospace;font-size:13px">{{ s.host }}</td>
+              <td style="padding:9px 8px"><span style="display:block;font-weight:600;color:{{ s.sslC }}"><span aria-hidden="true">{{ s.sslG }}</span> {{ s.ssl }}</span><span style="font-size:13px;color:#4A4F52">{{ s.sslSub }}</span></td>
+              <td style="padding:9px 0 9px 8px"><span style="display:block;font-weight:600">{{ s.dom }}</span><span style="font-size:13px;color:#4A4F52">{{ s.domSub }}</span></td>
+            </tr>
+          </sc-for>
+        </tbody>
+      </table>
+      <p style="margin:0;font-size:13px;color:#4A4F52">Expiry dates come from the certificate itself and from the domain registry (RDAP). Where a registry doesn’t publish a date we say so rather than estimate one.</p>
+    </div>
+    <div style="margin-top:auto;padding-top:12px;border-top:1px solid #E2E4E1;display:flex;justify-content:space-between;font-size:13px;color:#4A4F52"><span>{{ r.id }}</span><span>Page 3 of 5</span></div>
+  </section>
+
+  <section class="page" data-screen-label="04 Audit findings" style="display:flex;flex-direction:column;padding:28px 56px 24px;font-size:14.5px;line-height:1.5;box-sizing:border-box">
+    <div style="display:flex;justify-content:space-between;font-size:13px;color:#4A4F52;padding-bottom:8px;border-bottom:2px solid var(--brand,#23395B)"><span style="font-weight:600;color:#161A1C">{{ agency.name }}</span><span>{{ r.client }} · {{ r.period }}</span></div>
+    <div style="padding-top:16px;display:flex;flex-direction:column;gap:6px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--brand-text,#23395B)">03</span>
+      <h2 style="margin:0;font-size:30px;font-weight:600;font-stretch:85%;line-height:1.1">What did the latest audit find?</h2>
+      <p style="margin:0;max-width:580px;color:#2E3437;text-wrap:pretty">{{ r.auditIntro }}</p>
+    </div>
+    <dl style="margin:18px 0 0;display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #161A1C;border-bottom:1px solid #E2E4E1">
+      <div style="padding:10px 12px 10px 0"><dt style="font-size:13px;letter-spacing:.04em;color:#4A4F52">AUDIT DATE</dt><dd style="margin:0;font-weight:600">{{ r.audit.date }}</dd></div>
+      <div style="padding:10px 12px"><dt style="font-size:13px;letter-spacing:.04em;color:#4A4F52">STATUS</dt><dd style="margin:0;font-weight:600;color:{{ r.audit.statusColor }}">{{ r.audit.status }}</dd></div>
+      <div style="padding:10px 0 10px 12px"><dt style="font-size:13px;letter-spacing:.04em;color:#4A4F52">COVERED</dt><dd style="margin:0;font-weight:600">{{ r.audit.covered }}</dd></div>
+    </dl>
+    <sc-for list="{{ r.audit.limits }}" as="l" hint-placeholder-count="1"><p style="margin:12px 0 0;padding:10px 14px;background:#FBF3E6;border-left:3px solid #8A5A00;font-size:13.5px;line-height:1.45;color:#3A2A14">{{ l }}</p></sc-for>
+
+    <div style="margin-top:22px;display:flex;flex-direction:column">
+      <div style="display:grid;grid-template-columns:96px minmax(0,1fr) minmax(0,1.1fr);gap:12px;padding:6px 0;border-bottom:1px solid #161A1C;font-size:13px;letter-spacing:.04em;color:#4A4F52;font-weight:600"><span>PRIORITY</span><span>FINDING</span><span>WHERE</span></div>
+      <sc-for list="{{ r.findings }}" as="f" hint-placeholder-count="6">
+        <div style="display:grid;grid-template-columns:96px minmax(0,1fr) minmax(0,1.1fr);gap:12px;padding:7px 0;border-bottom:1px solid #E2E4E1;align-items:baseline">
+          <span style="font-weight:600;color:{{ f.c }};font-size:13.5px"><span aria-hidden="true">{{ f.g }}</span> {{ f.p }}</span>
+          <span style="display:flex;flex-direction:column"><span style="font-weight:600">{{ f.type }}</span><span style="font-size:13px;color:#2E3437">{{ f.why }}</span></span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#2E3437;word-break:break-word">{{ f.where }}</span>
+        </div>
+      </sc-for>
+      <sc-if value="{{ r.noBroken }}" hint-placeholder-val="{{ false }}"><p style="margin:0;padding:10px 0;border-bottom:1px solid #E2E4E1;font-size:14px;color:#2E3437">{{ r.noBroken }}</p></sc-if>
+    </div>
+    <p style="margin:16px 0 0;font-size:13.5px;line-height:1.5;color:#2E3437;text-wrap:pretty"><b>When these appeared.</b> {{ r.audit.timing }}</p>
+    <div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:4px 20px;font-size:13px;color:#4A4F52"><span><b style="color:#8A5A00">▲ Fix</b> affects visitors now</span><span><b style="color:#161A1C">● Improve</b> affects how search engines list you</span><span><b style="color:#4A4F52">○ Advisory</b> worth reviewing, not an error</span></div>
+    <p style="margin:auto 0 0;padding-top:16px;font-size:13px;line-height:1.5;color:#4A4F52">These are basic technical checks — broken links, page titles, descriptions, headings and canonical tags. They are not a full SEO audit and don’t predict search rankings.</p>
+    <div style="padding-top:12px;margin-top:12px;border-top:1px solid #E2E4E1;display:flex;justify-content:space-between;font-size:13px;color:#4A4F52"><span>{{ r.id }}</span><span>Page 4 of 5</span></div>
+  </section>
+
+  <section class="page" data-screen-label="05 Next steps" style="display:flex;flex-direction:column;padding:28px 56px 24px;font-size:14.5px;line-height:1.5;box-sizing:border-box">
+    <div style="display:flex;justify-content:space-between;font-size:13px;color:#4A4F52;padding-bottom:8px;border-bottom:2px solid var(--brand,#23395B)"><span style="font-weight:600;color:#161A1C">{{ agency.name }}</span><span>{{ r.client }} · {{ r.period }}</span></div>
+    <div style="padding-top:16px;display:flex;flex-direction:column;gap:6px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--brand-text,#23395B)">04</span>
+      <h2 style="margin:0;font-size:30px;font-weight:600;font-stretch:85%;line-height:1.1">What happens next</h2>
+    </div>
+    <div style="margin-top:16px;display:flex;flex-direction:column">
+      <div style="display:grid;grid-template-columns:minmax(0,1fr) 110px 130px;gap:12px;padding:6px 0;border-bottom:1px solid #161A1C;font-size:13px;letter-spacing:.04em;color:#4A4F52;font-weight:600"><span>OPEN ITEM</span><span>WHO</span><span style="text-align:right">WHEN</span></div>
+      <sc-for list="{{ r.actions }}" as="a" hint-placeholder-count="3">
+        <div style="display:grid;grid-template-columns:minmax(0,1fr) 110px 130px;gap:12px;padding:7px 0;border-bottom:1px solid #E2E4E1;align-items:baseline">
+          <span style="display:flex;flex-direction:column"><span style="font-weight:600">{{ a.item }}</span><sc-if value="{{ a.sub }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;color:#2E3437">{{ a.sub }}</span></sc-if></span>
+          <span style="font-weight:{{ a.whoW }};color:{{ a.whoC }}">{{ a.who }}</span>
+          <span style="text-align:right;font-size:13.5px">{{ a.when }}</span>
+        </div>
+      </sc-for>
+    </div>
+    <div style="margin-top:20px;display:flex;flex-direction:column;gap:6px">
+      <h3 style="margin:0;font-size:15px;font-weight:600">Dates to know</h3>
+      <sc-for list="{{ r.dates }}" as="dt" hint-placeholder-count="2"><div style="display:grid;grid-template-columns:130px 1fr;gap:12px;font-size:14px"><span style="font-weight:600">{{ dt.d }}</span><span style="color:#2E3437">{{ dt.t }}</span></div></sc-for>
+    </div>
+
+    <div style="margin-top:30px;display:flex;flex-direction:column;gap:6px">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--brand-text,#23395B)">05</span>
+      <h2 style="margin:0;font-size:22px;font-weight:600;font-stretch:85%">About this report’s data</h2>
+    </div>
+    <dl style="margin:10px 0 0;display:flex;flex-direction:column;font-size:13px">
+      <sc-for list="{{ r.fresh }}" as="x" hint-placeholder-count="6"><div style="display:grid;grid-template-columns:150px 1fr;gap:12px;padding:4px 0;border-bottom:1px solid #E2E4E1"><dt style="font-weight:600">{{ x.k }}</dt><dd style="margin:0;color:#2E3437">{{ x.v }}</dd></div></sc-for>
+    </dl>
+    <div style="margin-top:auto;padding:16px 18px;background:var(--brand-tint,#EEF1F6);display:flex;flex-direction:column;gap:4px">
+      <span style="font-weight:600">Questions about this report?</span>
+      <span style="font-size:14px">{{ agency.contactPerson }}</span>
+      <span style="font-size:14px">{{ agency.contact }}</span>
+    </div>
+    <div style="padding-top:12px;margin-top:12px;border-top:1px solid #E2E4E1;display:flex;justify-content:space-between;gap:16px;font-size:13px;color:#4A4F52"><span>{{ r.id }} · Generated {{ r.generated }}</span><span>Page 5 of 5</span></div>
+  </section>
+
+</doc-page>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;report&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;harbour&quot;,&quot;greenroom&quot;],&quot;default&quot;:&quot;harbour&quot;,&quot;tsType&quot;:&quot;'harbour'|'greenroom'&quot;,&quot;section&quot;:&quot;Report&quot;},&quot;brandColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;options&quot;:[&quot;#23395B&quot;,&quot;#0F5C4D&quot;,&quot;#7A2E4B&quot;,&quot;#F2C14E&quot;],&quot;default&quot;:&quot;#23395B&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;White-label&quot;},&quot;agencyName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Northfold Studio&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;White-label&quot;},&quot;logoUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;White-label&quot;},&quot;contact&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;hello@northfold.studio · +44 20 7946 0321 · northfold.studio&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;White-label&quot;}}">
+const hex = h => { h = h.replace('#', ''); if (h.length === 3) h = h.split('').map(x => x + x).join(''); return [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16)); };
+const toHex = a => '#' + a.map(v => Math.max(0, Math.min(255, Math.round(v))).toString(16).padStart(2, '0')).join('');
+const lum = h => { const [r, g, b] = hex(h).map(v => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }); return .2126 * r + .7152 * g + .0722 * b; };
+const contrast = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); };
+const mix = (a, b, t) => toHex(hex(a).map((v, i) => v + (hex(b)[i] - v) * t));
+function brandTokens(fill) {
+  if (!/^#?[0-9a-f]{3}([0-9a-f]{3})?$/i.test(fill || '')) fill = '#23395B';
+  if (fill[0] !== '#') fill = '#' + fill;
+  const on = contrast(fill, '#FFFFFF') >= 4.5 ? '#FFFFFF' : '#161A1C';
+  let text = fill, t = 0;
+  while (contrast(text, '#FFFFFF') < 4.5 && t < 1) { t += .05; text = mix(fill, '#000000', t); }
+  return { fill, on, text, tint: mix(fill, '#FFFFFF', .9), ratio: contrast(fill, on).toFixed(1) };
+}
+
+const OK = '#2E7D55', DOWN = '#B42318', GAP = 'repeating-linear-gradient(45deg,#8D9396 0 2px,#E2E4E1 2px 4px)';
+const days = (special) => Array.from({ length: 30 }, (_, i) => { const n = i + 1; const k = special[n]; return { n: n % 5 === 0 || n === 1 ? n : '', bg: k === 'down' ? DOWN : k === 'gap' ? GAP : OK, k: k || 'ok' }; });
+const bars = (vals, max, hiDay) => vals.map((v, i) => ({ h: Math.round(v / max * 100) + '%', bg: i + 1 === hiDay ? '#8A5A00' : '#5B6266' }));
+
+const REPORTS = {
+  harbour: {
+    id: 'NF-2026-09-HDG', client: 'Harbour Dental Group', contact: 'Dr Sarah Okafor, Practice Manager', period: 'September 2026', tz: '1–30 Sep · Europe/London', siteLine: '2 websites · harbourdental.co.uk and bookings.harbourdental.co.uk', generated: '1 Oct 2026, 06:00 BST',
+    summary: [
+      'Both of your websites were online for almost all of September. Your main website had one confirmed outage on Wednesday 17 September, lasting about 26 minutes, and it was resolved the same morning. The booking site had no confirmed downtime.',
+      'Our audit on 28 September found three broken links on your treatment pages and two pages without a search description. They don’t take the site offline, but visitors hit dead ends and search engines show less useful listings. We’ll fix the links by 10 October; for the descriptions we need a sentence or two from you.'
+    ],
+    glance: [
+      { v: '99.97%', l: 'Uptime, both sites', s: '43,095 of 43,108 conclusive checks passed', cmp: 'August: 99.99%' },
+      { v: '26 min', l: 'Confirmed downtime', s: 'Estimated from 2-minute checks', cmp: 'August: 4 min' },
+      { v: '1', l: 'Incident, resolved', s: '17 Sep, main website', cmp: 'August: 1' },
+      { v: '3', l: 'Open items', s: '1 needs your input', cmp: '' }
+    ],
+    coverNote: '',
+    relIntro: 'Your main website had one short outage, on 17 September. Everything else this month passed our checks, apart from 86 minutes on 2 September when our own monitoring was down for maintenance — that time is left out of the figures, not counted as up.',
+    sites: [
+      { role: 'Main website', host: 'harbourdental.co.uk', short: 'harbourdental.co.uk', up: '99.94%', aug: '99.99%', down: '26 min', cov: '99.8%', covSub: '21,553 of 21,600 checks', resp: '312 ms', p95: '640 ms', respAug: '298 ms', ssl: 'Valid', sslSub: 'Until 25 May 2027 · checked 30 Sep 06:00', dom: 'Registered until 14 Mar 2027', domSub: 'Nominet registry · checked 30 Sep 02:00',
+        dayMap: { 2: 'gap', 17: 'down' }, resp30: [298, 305, 301, 296, 310, 288, 285, 312, 318, 309, 300, 294, 289, 316, 322, 315, 412, 330, 318, 306, 291, 287, 314, 320, 311, 305, 296, 292, 318, 324], hi: 17 },
+      { role: 'Online booking', host: 'bookings.harbourdental.co.uk', short: 'bookings.harbourde…', up: '100%', aug: '100%', down: 'None', cov: '99.8%', covSub: '21,555 of 21,600 checks', resp: '244 ms', p95: '410 ms', respAug: '251 ms', ssl: 'Valid', sslSub: 'Until 25 May 2027 · same certificate', dom: 'Same registration', domSub: 'Covered by harbourdental.co.uk',
+        dayMap: { 2: 'gap' }, resp30: [240, 246, 251, 238, 242, 236, 231, 249, 255, 244, 241, 239, 233, 247, 250, 246, 262, 251, 244, 240, 236, 232, 248, 252, 245, 243, 238, 235, 249, 253] }
+    ],
+    incidents: [{ date: 'Wed 17 Sep', time: '08:12 – 08:38', site: 'harbourdental.co.uk', what: 'Main website unavailable (server error 503)', how: 'Your hosting provider restarted the web server after an update. We confirmed recovery with two consecutive successful checks at 08:38.', status: 'Resolved', dur: 'about 26 min' }],
+    speedIntro: 'Response times were steady and close to August. The one slow day, 17 September, matches the outage. Both websites’ security certificates and the domain registration are valid well into next year.',
+    auditIntro: 'Each week we check your pages for broken links and basic technical search issues. This is what the last audit of the month found, written for action rather than as a raw list.',
+    audit: { date: 'Sun 28 Sep 2026, 03:30', status: 'Completed', statusColor: '#1F6B45', covered: '86 pages · 740 links',
+      limits: ['The booking site is built with JavaScript that our audit can’t fully read, so we could check only 4 of its pages. Findings below are for the main website.'],
+      timing: 'These were first found in the 28 September audit. The audits on 7, 14 and 21 September didn’t find them, so they appeared at some point in the final week of the month — not throughout September.' },
+    findings: [
+      { p: 'Fix', g: '▲', c: '#8A5A00', type: 'Broken link', why: 'Links to a page that no longer exists (404)', where: '/treatments/implants → /treatments/implant-pricing' },
+      { p: 'Fix', g: '▲', c: '#8A5A00', type: 'Broken link', why: 'Old summer offer page removed (404)', where: '/treatments/whitening → /offers/summer' },
+      { p: 'Fix', g: '▲', c: '#8A5A00', type: 'Broken link', why: 'FAQ page was renamed (404)', where: '/treatments → /treatments/invisalign-faq' },
+      { p: 'Improve', g: '●', c: '#161A1C', type: 'No search description', why: 'Search engines will pick their own snippet', where: '/careers' },
+      { p: 'Improve', g: '●', c: '#161A1C', type: 'No search description', why: 'Search engines will pick their own snippet', where: '/patient-forms' },
+      { p: 'Advisory', g: '○', c: '#4A4F52', type: 'Two main headings', why: 'Usually fine; one is clearer', where: '/about' }
+    ],
+    noBroken: '',
+    actions: [
+      { item: 'Fix the 3 broken links on treatment pages', sub: 'Redirect or update each link.', who: 'Northfold', when: 'By 10 Oct' },
+      { item: 'Search descriptions for Careers and Patient forms', sub: 'One or two sentences for each page.', who: 'You', when: 'When you can' },
+      { item: 'Review the second main heading on About', sub: '', who: 'Northfold', when: 'Next content update' }
+    ],
+    dates: [{ d: '14 Mar 2027', t: 'Domain renewal due for harbourdental.co.uk. Renewal is through your registrar account.' }, { d: '25 May 2027', t: 'Security certificate expires. It normally renews automatically about 30 days before.' }],
+    fresh: [
+      { k: 'Uptime & speed', v: 'Checked every 2 minutes, 1 Sep 00:00 to 30 Sep 23:59 (Europe/London).' },
+      { k: 'Coverage gap', v: '2 Sep 04:10–05:36: our monitoring was under maintenance. 43 checks per site didn’t run and are excluded.' },
+      { k: 'Inconclusive', v: '6 checks timed out without a clear result (4 main, 2 booking). Excluded from uptime.' },
+      { k: 'Certificate', v: 'Last checked 30 Sep 06:00.' },
+      { k: 'Domain', v: 'Nominet registry data, last checked 30 Sep 02:00.' },
+      { k: 'Audit', v: '28 Sep 03:30–03:41. Main website complete; booking site partial (4 pages).' },
+      { k: 'Comparisons', v: 'August figures are shown where both months have complete monitoring for the same websites.' }
+    ],
+    noIncNote: '', scaleMax: 500
+  },
+  greenroom: {
+    id: 'NF-2026-09-GRT', client: 'Green Room Theatre', contact: 'Marta Kowalski, General Manager', period: 'September 2026', tz: '1–30 Sep · Europe/London', siteLine: '1 website · thegreenroomlondon.com', generated: '1 Oct 2026, 06:00 BST',
+    summary: [
+      'Your website passed every check we could complete in September, with no confirmed downtime. On three nights, a security setting at your host blocked some of our checks. We’ve left those out rather than count them as “up”, so this month’s figures are based on 99.5% of planned checks.',
+      'The same setting cut our 28 September audit short: we reached 120 of the 500 pages we normally check. In those pages we found no broken links and three small search-listing issues. We can’t report on the pages we couldn’t reach, and we’ve asked your host to allow our checks so October’s audit is complete.'
+    ],
+    glance: [
+      { v: '100%', l: 'Uptime', s: 'All 21,489 conclusive checks passed', cmp: 'August: 99.98%' },
+      { v: 'None', l: 'Confirmed downtime', s: '', cmp: 'August: 4 min' },
+      { v: '99.5%', l: 'Monitoring coverage', s: '68 inconclusive · 43 not run', cmp: 'August: 99.9%' },
+      { v: 'Partial', l: 'Audit', s: '120 of 500 pages reached', cmp: '' }
+    ],
+    coverNote: 'This report has incomplete data. Uptime is based on 99.5% of planned checks, and the latest audit covered about a quarter of the site. Details on pages 2, 4 and 5.',
+    relIntro: 'No confirmed downtime. On the nights of 9, 16 and 23 September your host’s bot protection challenged some of our checks; we couldn’t tell whether the site was up, so those 68 checks are excluded.',
+    sites: [
+      { role: 'Main website', host: 'thegreenroomlondon.com', short: 'thegreenroomlondon…', up: '100%', aug: '99.98%', down: 'None', cov: '99.5%', covSub: '21,489 of 21,600 checks', resp: '412 ms', p95: '980 ms', respAug: '398 ms', ssl: 'Valid', sslSub: 'Until 21 Jan 2027 · checked 30 Sep 06:00', dom: 'Registered until 23 Aug 2027', domSub: 'Verisign registry · checked 30 Sep 02:00',
+        dayMap: { 2: 'gap', 9: 'gap', 16: 'gap', 23: 'gap' }, resp30: [398, 404, 410, 395, 402, 420, 431, 405, 446, 399, 401, 408, 415, 426, 409, 452, 403, 397, 411, 418, 424, 435, 448, 407, 400, 413, 419, 428, 404, 410] }
+    ],
+    incidents: [],
+    speedIntro: 'Response times were steady and close to August. The security certificate and domain registration are both valid into next year.',
+    auditIntro: 'Each week we check your pages for broken links and basic technical search issues. This month’s final audit was only partly completed — please read the note below before the findings.',
+    audit: { date: 'Sun 28 Sep 2026, 02:02', status: 'Partial', statusColor: '#8A5A00', covered: '120 of 500 pages',
+      limits: ['The audit stopped early after your host’s firewall challenged 38 of our requests. The findings below cover only the 120 pages we reached, mostly under /whats-on and /visit. The rest of the site wasn’t checked this month.'],
+      timing: 'Found in the 28 September audit. Earlier September audits were also partial, so we can’t say when these first appeared.' },
+    findings: [
+      { p: 'Improve', g: '●', c: '#161A1C', type: 'No canonical tag', why: 'Search engines may index duplicate versions', where: '/whats-on/autumn-season' },
+      { p: 'Improve', g: '●', c: '#161A1C', type: 'No search description', why: 'Search engines will pick their own snippet', where: '/whats-on/autumn-season' },
+      { p: 'Improve', g: '●', c: '#161A1C', type: 'No search description', why: 'Search engines will pick their own snippet', where: '/visit/access' }
+    ],
+    noBroken: 'No broken links in the 120 pages reached. This doesn’t mean there are none on the pages we couldn’t check.',
+    actions: [
+      { item: 'Allow our monitoring through your host’s bot protection', sub: 'Requested from your host on 30 Sep; this restores full checks and audits.', who: 'Northfold', when: 'In progress' },
+      { item: 'Add a canonical tag to the Autumn season page', sub: '', who: 'Northfold', when: 'By 10 Oct' },
+      { item: 'Search descriptions for Autumn season and Access', sub: 'One or two sentences for each page.', who: 'You', when: 'When you can' }
+    ],
+    dates: [{ d: '21 Jan 2027', t: 'Security certificate expires. It normally renews automatically about 30 days before.' }, { d: '23 Aug 2027', t: 'Domain renewal due for thegreenroomlondon.com.' }],
+    fresh: [
+      { k: 'Uptime & speed', v: 'Checked every 2 minutes, 1 Sep 00:00 to 30 Sep 23:59 (Europe/London).' },
+      { k: 'Coverage gaps', v: '2 Sep 04:10–05:36: our monitoring was under maintenance (43 checks not run). 9, 16 and 23 Sep overnight: 68 checks challenged by bot protection, inconclusive.' },
+      { k: 'Certificate', v: 'Last checked 30 Sep 06:00.' },
+      { k: 'Domain', v: 'Verisign registry data, last checked 30 Sep 02:00.' },
+      { k: 'Audit', v: '28 Sep 02:02–02:15. Partial: 120 of 500 pages. Stopped by firewall challenge.' },
+      { k: 'Comparisons', v: 'August uptime and speed are comparable. Audit findings are not compared because both months’ audits were partial.' }
+    ],
+    noIncNote: 'Inconclusive checks are not incidents, and none were followed by a confirmed failure.', scaleMax: 600
+  }
+};
+
+class Component extends DCLogic {
+  qs() { try { return new URLSearchParams(window.location.search); } catch (e) { return new URLSearchParams(''); } }
+  renderVals() {
+    const q = this.qs();
+    const key = q.get('r') || this.props.report || 'harbour';
+    const R = REPORTS[key] || REPORTS.harbour;
+    const brand = brandTokens(q.get('brand') ? '#' + q.get('brand').replace('#', '') : (this.props.brandColor ?? '#23395B'));
+    const name = q.get('agency') || this.props.agencyName || 'Northfold Studio';
+    const initials = name.split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+    const sites = R.sites.map(s => {
+      const d = days(s.dayMap);
+      const med = [...s.resp30].sort((a, b) => a - b)[15];
+      const augMs = parseInt(s.respAug.replace(/\D/g, ''), 10);
+      return { ...s, ...({ valid: { sslG: '●', sslC: '#1F6B45' }, expiring: { sslG: '▲', sslC: '#8A5A00' }, invalid: { sslG: '◆', sslC: '#B42318' } }[s.sslState || 'valid']), days: d, daysLabel: `${s.host}, daily availability for September: ${d.filter(x => x.k === 'down').length} days with confirmed downtime, ${d.filter(x => x.k === 'gap').length} days with checks not run or inconclusive`,
+        bars: bars(s.resp30, R.scaleMax, s.hi), augLine: Math.round(augMs / R.scaleMax * 92) + 'px', respLabel: `Daily median response for ${s.host}, typically ${s.resp}; August typical ${s.respAug}.` };
+    });
+    return {
+      brand, agency: { name, initials, logo: q.get('logo') || this.props.logoUrl || '', logoBg: (q.get('logo') || this.props.logoUrl) ? `url("${q.get('logo') || this.props.logoUrl}")` : 'none', hasLogo: !!(q.get('logo') || this.props.logoUrl), noLogo: !(q.get('logo') || this.props.logoUrl), contact: this.props.contact || 'hello@northfold.studio · +44 20 7946 0321 · northfold.studio', contactPerson: this.props.contactPerson || 'Priya Raman, Account Director' },
+      r: { ...R, sites, glance: R.glance.map((g, i) => ({ ...g, pl: i ? '14px' : '0' })), noIncidents: R.incidents.length === 0 }
+    };
+  }
+}
+</script>
+</body>
+</html>

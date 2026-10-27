@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Websites · Northfold Studio · Client Status</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400;75..100,500;75..100,600;75..100,700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F4F5F3;color:#161A1C;-webkit-font-smoothing:antialiased}
+a{color:#161A1C;text-decoration:underline;text-underline-offset:2px}
+a:hover{color:#4A4F52}
+button,select,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid #161A1C;outline-offset:2px}
+input[type=checkbox]{accent-color:#161A1C}
+</style>
+</helmet>
+
+<div style="display:flex;min-height:100vh;font-family:Archivo,sans-serif;font-size:14px;background:#F4F5F3;color:#161A1C">
+
+  <sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}">
+    <nav aria-label="Primary" style="flex:0 0 200px;position:sticky;top:0;height:100vh;box-sizing:border-box;background:#FFFFFF;border-right:1px solid #D5D8D4;display:flex;flex-direction:column;padding:16px 0">
+      <div style="padding:0 16px 4px;font-weight:700;font-stretch:80%;font-size:17px;letter-spacing:.01em">Northfold Studio</div>
+      <div style="padding:0 16px 16px;font-size:12px;color:#4A4F52">Growth plan · {{ activeCount }} of 100 sites</div>
+      <a href="Overview.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M3 12h4l3-8 4 16 3-8h4"></path></svg>Overview</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G O</span></a>
+      <a href="#" aria-current="page" style="display:flex;justify-content:space-between;padding:8px 16px;background:#161A1C;color:#FFFFFF;text-decoration:none"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9M12 3c-2.5 2.6-3.8 5.6-3.8 9s1.3 6.4 3.8 9"></path></svg>Websites</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;opacity:.7">G W</span></a>
+      <a href="Clients.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><rect x="3" y="7" width="18" height="13"></rect><path d="M8.5 7V4h7v3M3 12.5h18"></path></svg>Clients</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G C</span></a>
+      <a href="Incidents.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M12 3.5 2.5 20h19L12 3.5z"></path><path d="M12 10v4.5M12 17.2v.1"></path></svg>Incidents <span style="font-family:'JetBrains Mono',monospace;color:#C2261B;font-weight:600">4</span></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G I</span></a>
+      <a href="#" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M6 2.5h8.5L19 7v14.5H6z"></path><path d="M14 2.5V7.5h5M9 12.5h7M9 16.5h7"></path></svg>Reports</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G R</span></a>
+      <div style="height:1px;background:#E2E4E1;margin:12px 16px"></div>
+      <a href="Team.dc.html" style="padding:8px 16px;text-decoration:none;color:#4A4F52" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20.5c.7-3.6 3.3-5.8 6.5-5.8s5.8 2.2 6.5 5.8M15.5 4.6a3.5 3.5 0 0 1 0 6.8M18 15c1.9.9 3.1 2.8 3.5 5.5"></path></svg>Team</span></a>
+      <a href="Settings.dc.html" style="padding:8px 16px;text-decoration:none;color:#4A4F52" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M3 6h11M18 6h3M3 12h4M11 12h10M3 18h12M19 18h2"></path><circle cx="16" cy="6" r="2"></circle><circle cx="9" cy="12" r="2"></circle><circle cx="17" cy="18" r="2"></circle></svg>Settings</span></a>
+      <a href="Billing.dc.html" style="padding:8px 16px;text-decoration:none;color:#4A4F52" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><rect x="2.5" y="5" width="19" height="14"></rect><path d="M2.5 10h19M6 15h4"></path></svg>Billing</span></a>
+      <div style="margin-top:auto;padding:12px 16px 0;border-top:1px solid #E2E4E1;font-size:13px;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Priya Raman</span><span style="color:#4A4F52;font-size:12px">Owner · Europe/London</span><span style="margin-top:8px;font-size:12px;font-weight:600;font-stretch:80%;letter-spacing:.02em;color:#4A4F52">Client Status</span></div>
+    </nav>
+  </sc-if>
+
+  <div style="flex:1 1 auto;min-width:0;display:flex;flex-direction:column">
+    <sc-if value="{{ narrow }}" hint-placeholder-val="{{ false }}">
+      <nav aria-label="Primary" style="display:flex;gap:4px;align-items:center;padding:8px 12px;background:#FFFFFF;border-bottom:1px solid #D5D8D4;overflow-x:auto;white-space:nowrap">
+        <span style="font-weight:700;font-stretch:80%;font-size:15px;margin-right:8px">Northfold</span>
+        <a href="Overview.dc.html" style="padding:6px 10px;text-decoration:none">Overview</a><a href="#" aria-current="page" style="padding:6px 10px;background:#161A1C;color:#FFFFFF;text-decoration:none">Websites</a><a href="Clients.dc.html" style="padding:6px 10px;text-decoration:none">Clients</a><a href="Incidents.dc.html" style="padding:6px 10px;text-decoration:none">Incidents</a><a href="#" style="padding:6px 10px;text-decoration:none">Reports</a>
+      </nav>
+    </sc-if>
+
+    <header style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:18px 28px 14px">
+      <h1 style="margin:0;font-size:22px;font-weight:600;font-stretch:85%">Websites</h1>
+      <span style="font-size:13px;color:#4A4F52;font-variant-numeric:tabular-nums">{{ activeCount }} monitored · {{ pausedCount }} paused · {{ slotsFree }} of 100 plan slots free</span>
+      <span style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#1F7A4A"><span aria-hidden="true">●</span>Newest result 09:48:02 GMT</span>
+      <span style="flex:1"></span>
+      <div style="display:flex;gap:8px;align-self:center">
+        <button type="button" onClick="{{ openCsv }}" style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px" style-hover="background:#EEF0EE"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M12 15V4M7 8.5 12 4l5 4.5M4 15v5h16v-5"></path></svg>Import CSV</button>
+        <button type="button" onClick="{{ openAdd }}" style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;height:34px;padding:0 14px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-size:13px;font-weight:600" style-hover="background:#2E3437"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M12 5v14M5 12h14"></path></svg>Add website</button>
+      </div>
+    </header>
+
+    <main style="flex:1;padding:0 28px 28px;display:flex;flex-direction:column;min-width:0">
+      <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+        <div style="max-width:760px;background:#FFFFFF;border:1px solid #D5D8D4;display:flex;flex-direction:column">
+          <div style="padding:24px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid #E2E4E1">
+            <h2 style="margin:0;font-size:24px;font-weight:600;font-stretch:85%">No websites yet</h2>
+            <p style="margin:0;line-height:1.5;color:#2E3437;max-width:600px;text-wrap:pretty">Add one website to start, or import your whole client list from a CSV. We’ll validate every row and show problems before anything is added.</p>
+          </div>
+          <div style="display:flex;flex-wrap:wrap">
+            <div style="flex:1 1 280px;padding:20px 24px;display:flex;flex-direction:column;gap:10px;border-right:1px solid #E2E4E1"><span style="font-weight:600">One website</span><span style="font-size:13px;color:#4A4F52;line-height:1.45">Address, display name and client. Checks start immediately.</span><button type="button" onClick="{{ openAdd }}" style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;align-self:flex-start;height:34px;padding:0 14px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:13px"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M12 5v14M5 12h14"></path></svg>Add website</button></div>
+            <div style="flex:1 1 280px;padding:20px 24px;display:flex;flex-direction:column;gap:10px"><span style="font-weight:600">Many websites</span><span style="font-size:13px;color:#4A4F52;line-height:1.45">CSV with <span style="font-family:'JetBrains Mono',monospace;font-size:12px">url, name, client</span> columns. Up to your plan’s 100 sites.</span><button type="button" onClick="{{ openCsv }}" style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;align-self:flex-start;height:34px;padding:0 14px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px"><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M12 15V4M7 8.5 12 4l5 4.5M4 15v5h16v-5"></path></svg>Import CSV</button></div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ hasTable }}" hint-placeholder-val="{{ true }}">
+        <div role="search" aria-label="Filter websites" style="display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;padding:0 0 12px">
+          <label style="position:relative;flex:1 1 240px;max-width:340px;display:flex"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Search websites</span><svg aria-hidden="true" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;position:absolute;left:10px;top:50%;margin-top:-7.5px;pointer-events:none;color:#4A4F52"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="M15.5 15.5 21 21"></path></svg>
+            <input type="search" placeholder="Search name, hostname or client" value="{{ q }}" onChange="{{ onQ }}" style="width:100%;height:34px;border:1px solid #B9BDB8;background:#FFFFFF;padding:0 10px 0 32px;font-size:13px"></input>
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:#4A4F52">Client
+            <select value="{{ clientF }}" onChange="{{ onClient }}" style="height:34px;border:1px solid #B9BDB8;background:#FFFFFF;padding:0 8px;font-size:13px;color:#161A1C;max-width:200px">
+              <sc-for list="{{ clientOpts }}" as="o" hint-placeholder-count="8"><option value="{{ o.v }}">{{ o.l }}</option></sc-for>
+            </select>
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:#4A4F52">Status
+            <select value="{{ statusF }}" onChange="{{ onStatus }}" style="height:34px;border:1px solid #B9BDB8;background:#FFFFFF;padding:0 8px;font-size:13px;color:#161A1C">
+              <sc-for list="{{ statusOpts }}" as="o" hint-placeholder-count="6"><option value="{{ o.v }}">{{ o.l }}</option></sc-for>
+            </select>
+          </label>
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:#4A4F52">Show
+            <select value="{{ showF }}" onChange="{{ onShow }}" style="height:34px;border:1px solid #B9BDB8;background:#FFFFFF;padding:0 8px;font-size:13px;color:#161A1C">
+              <option value="all">All websites</option><option value="inc">With open incidents</option><option value="ssl">SSL expiring ≤ 30 d or invalid</option><option value="stale">Stale or no result yet</option><option value="dom">Domain expiry unavailable</option><option value="audit">Audit partial or failed</option>
+            </select>
+          </label>
+          <div role="group" aria-label="Uptime period" style="display:flex;border:1px solid #B9BDB8;background:#FFFFFF">
+            <sc-for list="{{ periods }}" as="p" hint-placeholder-count="3"><button type="button" onClick="{{ p.pick }}" aria-pressed="{{ p.pressed }}" style="white-space:nowrap;height:32px;padding:0 10px;border:none;background:{{ p.bg }};color:{{ p.fg }};cursor:pointer;font-size:12.5px;font-family:'JetBrains Mono',monospace">{{ p.l }}</button></sc-for>
+          </div>
+          <sc-if value="{{ filtersOn }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ clearFilters }}" style="white-space:nowrap;height:34px;padding:0 6px;border:none;background:none;text-decoration:underline;cursor:pointer;font-size:13px">Clear filters</button></sc-if>
+        </div>
+
+        <section aria-label="Websites" style="background:#FFFFFF;border:1px solid #D5D8D4;display:flex;flex-direction:column;min-width:0">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;min-height:44px;padding:0 12px;border-bottom:1px solid #D5D8D4;background:{{ barBg }};color:{{ barFg }}">
+            <sc-if value="{{ hasSel }}" hint-placeholder-val="{{ false }}">
+              <span aria-live="polite" style="font-weight:600;font-variant-numeric:tabular-nums">{{ selCount }} selected</span>
+              <sc-if value="{{ canSelectAll }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ selectAllMatching }}" style="white-space:nowrap;background:none;border:none;padding:0;color:#FFFFFF;text-decoration:underline;cursor:pointer;font-size:13px">Select all {{ matchCount }} matching</button></sc-if>
+              <span style="flex:1"></span>
+              <button type="button" onClick="{{ askPause }}" aria-disabled="{{ pauseDisabled }}" style="white-space:nowrap;height:30px;padding:0 12px;border:1px solid #FFFFFF;background:#FFFFFF;color:#161A1C;cursor:pointer;font-size:12.5px;font-weight:600;opacity:{{ pauseOpacity }}">Pause monitoring…</button>
+              <button type="button" onClick="{{ askResume }}" aria-disabled="{{ resumeDisabled }}" style="white-space:nowrap;height:30px;padding:0 12px;border:1px solid #8D9396;background:transparent;color:#FFFFFF;cursor:pointer;font-size:12.5px;opacity:{{ resumeOpacity }}">Resume monitoring…</button>
+              <sc-if value="{{ bulkHint }}" hint-placeholder-val="{{ false }}"><span style="font-size:12.5px;color:#D5D8D4">{{ bulkHint }}</span></sc-if>
+              <button type="button" onClick="{{ clearSel }}" style="white-space:nowrap;height:30px;padding:0 8px;border:none;background:none;color:#D5D8D4;text-decoration:underline;cursor:pointer;font-size:12.5px">Clear selection</button>
+            </sc-if>
+            <sc-if value="{{ noSel }}" hint-placeholder-val="{{ true }}">
+              <span aria-live="polite" style="font-size:13px;color:#4A4F52;font-variant-numeric:tabular-nums">{{ matchText }}</span>
+              <span style="flex:1"></span>
+              <span style="font-size:12px;color:#4A4F52">Select rows to pause or resume monitoring</span>
+            </sc-if>
+          </div>
+
+          <sc-if value="{{ stackRows }}" hint-placeholder-val="{{ false }}">
+            <ul aria-label="Websites" style="list-style:none;margin:0;padding:0">
+              <sc-for list="{{ rows }}" as="s" hint-placeholder-count="10">
+                <li style="display:grid;grid-template-columns:28px minmax(0,1fr);gap:4px 10px;padding:10px 12px;border-bottom:1px solid #E7E9E6;background:{{ s.bg }}">
+                  <input type="checkbox" checked="{{ s.sel }}" onChange="{{ s.toggle }}" aria-label="{{ s.selLabel }}" style="width:18px;height:18px;margin:2px 0 0"></input>
+                  <span style="display:flex;flex-direction:column;min-width:0;gap:2px">
+                    <button type="button" onClick="{{ s.open }}" style="align-self:flex-start;max-width:100%;padding:0;border:none;background:none;text-align:left;font-size:14px;font-weight:600;text-decoration:underline;text-decoration-color:#C9CDC8;text-underline-offset:3px;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.name }}</button>
+                    <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.host }}</span>
+                    <span style="display:flex;flex-wrap:wrap;gap:2px 12px;white-space:nowrap;font-size:13px;font-variant-numeric:tabular-nums;margin-top:2px"><span style="color:{{ s.color }};font-weight:{{ s.weight }}"><span aria-hidden="true" style="color:{{ s.glyphColor }}">{{ s.glyph }}</span> {{ s.label }}</span><span>{{ s.upTxt }}</span><span style="color:{{ s.sslColor }};font-weight:{{ s.sslWeight }}">SSL {{ s.sslTxt }}</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:{{ s.agoColor }}">{{ s.ago }}</span></span>
+                  </span>
+                </li>
+              </sc-for>
+            </ul>
+            <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}"><div style="padding:24px 12px;display:flex;flex-direction:column;gap:8px"><span style="font-weight:600">No websites match {{ noResultsWhat }}</span><button type="button" onClick="{{ clearFilters }}" style="white-space:nowrap;align-self:flex-start;height:36px;padding:0 12px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">Clear filters</button></div></sc-if>
+          </sc-if>
+          <sc-if value="{{ tableRows }}" hint-placeholder-val="{{ true }}"><div style="overflow-x:auto">
+            <div role="table" aria-label="Websites" aria-rowcount="{{ matchCount }}" style="min-width:1150px">
+              <div role="row" style="display:grid;grid-template-columns:40px minmax(260px,2.4fr) minmax(150px,1.3fr) 124px 80px 86px 84px 76px 48px 100px 96px;border-bottom:1px solid #D5D8D4;background:#FFFFFF;font-size:12px;letter-spacing:.03em;color:#4A4F52">
+                <span role="columnheader" style="position:sticky;left:0;background:#FFFFFF;display:flex;align-items:center;justify-content:center;height:36px"><input type="checkbox" ref="{{ allRef }}" checked="{{ pageAllChecked }}" onChange="{{ togglePage }}" aria-label="Select all websites on this page" style="width:16px;height:16px;margin:0;cursor:pointer"></input></span>
+                <sc-for list="{{ headers }}" as="h" hint-placeholder-count="10">
+                  <span role="columnheader" aria-sort="{{ h.ariaSort }}" style="position:{{ h.pos }};left:40px;background:#FFFFFF;display:flex;justify-content:{{ h.justify }};padding:0 8px">
+                    <button type="button" onClick="{{ h.sort }}" style="white-space:nowrap;display:flex;align-items:center;gap:4px;height:36px;padding:0;border:none;background:none;cursor:pointer;font-size:12px;letter-spacing:.03em;color:{{ h.color }};font-weight:{{ h.weight }}" style-hover="color:#161A1C">{{ h.label }}<span aria-hidden="true" style="font-size:10px;width:8px">{{ h.arrow }}</span></button>
+                  </span>
+                </sc-for>
+              </div>
+
+              <sc-if value="{{ isLoading }}" hint-placeholder-val="{{ false }}">
+                <div aria-busy="true" aria-label="Loading websites">
+                  <sc-for list="{{ skel }}" as="k" hint-placeholder-count="10"><div style="display:grid;grid-template-columns:40px minmax(260px,2.4fr) minmax(150px,1.3fr) 124px 80px 86px 84px 76px 48px 100px 96px;align-items:center;height:47px;border-bottom:1px solid #ECEEEB"><span></span><span style="padding:0 8px;display:flex;flex-direction:column;gap:6px"><span style="width:{{ k.w }};height:11px;background:#E2E4E1"></span><span style="width:40%;height:9px;background:#ECEEEB"></span></span><span style="padding:0 8px"><span style="display:block;width:70%;height:10px;background:#ECEEEB"></span></span><span style="padding:0 8px"><span style="display:block;width:50%;height:10px;background:#ECEEEB"></span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></sc-for>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isError }}" hint-placeholder-val="{{ false }}">
+                <div role="alert" style="padding:28px 16px 28px 48px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid #E2E4E1">
+                  <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#C2261B">◆ COULDN’T LOAD WEBSITES · 09:48:20 GMT</span>
+                  <span style="max-width:560px;line-height:1.5;color:#2E3437">The request timed out after 10 s. Monitoring keeps running in the background, and alerts are still emailed.</span>
+                  <button type="button" onClick="{{ retry }}" style="white-space:nowrap;align-self:flex-start;height:32px;padding:0 14px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:13px">Try again</button>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ isLive }}" hint-placeholder-val="{{ true }}">
+                <sc-for list="{{ rows }}" as="s" hint-placeholder-count="25">
+                  <div role="row" aria-selected="{{ s.selAria }}" style="display:grid;grid-template-columns:40px minmax(260px,2.4fr) minmax(150px,1.3fr) 124px 80px 86px 84px 76px 48px 100px 96px;align-items:center;min-height:{{ rowH }};border-bottom:1px solid #E7E9E6;background:{{ s.bg }};font-size:13px;font-variant-numeric:tabular-nums" style-hover="background:#F1F3F1">
+                    <span role="cell" style="position:sticky;left:0;align-self:stretch;background:inherit;display:flex;align-items:center;justify-content:center;box-shadow:{{ s.edge }}"><input type="checkbox" checked="{{ s.sel }}" onChange="{{ s.toggle }}" aria-label="{{ s.selLabel }}" style="width:16px;height:16px;margin:0;cursor:pointer"></input></span>
+                    <span role="cell" style="position:sticky;left:40px;align-self:stretch;background:inherit;padding:6px 8px;display:flex;flex-direction:column;justify-content:center;min-width:0;border-right:1px solid #F0F1EF">
+                      <button type="button" onClick="{{ s.open }}" title="{{ s.name }}" style="align-self:flex-start;max-width:100%;padding:0;border:none;background:none;cursor:pointer;text-align:left;font-size:13.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;text-decoration:underline;text-decoration-color:#C9CDC8;text-underline-offset:3px" style-hover="text-decoration-color:#161A1C">{{ s.name }}</button>
+                      <span title="{{ s.host }}" style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.hostShown }}</span>
+                    </span>
+                    <span role="cell" title="{{ s.client }}" style="padding:0 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:{{ s.clientColor }}">{{ s.client }}</span>
+                    <span role="cell" style="padding:0 8px;display:flex;flex-direction:column;line-height:1.3"><span style="color:{{ s.color }};font-weight:{{ s.weight }}"><span aria-hidden="true" style="color:{{ s.glyphColor }}">{{ s.glyph }}</span> {{ s.label }}</span><sc-if value="{{ s.sub }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:{{ s.subColor }}">{{ s.sub }}</span></sc-if></span>
+                    <span role="cell" style="padding:0 8px;text-align:right;color:{{ s.upColor }}">{{ s.upTxt }}</span>
+                    <span role="cell" style="padding:0 8px;text-align:right;color:{{ s.respColor }}">{{ s.respTxt }}</span>
+                    <span role="cell" title="{{ s.sslTitle }}" style="padding:0 8px;text-align:right;color:{{ s.sslColor }};font-weight:{{ s.sslWeight }}">{{ s.sslTxt }}</span>
+                    <span role="cell" title="{{ s.domTitle }}" style="padding:0 8px;text-align:right;color:{{ s.domColor }};font-weight:{{ s.domWeight }}">{{ s.domTxt }}</span>
+                    <span role="cell" style="padding:0 8px;text-align:right"><sc-if value="{{ s.inc }}" hint-placeholder-val="{{ false }}"><a href="#" aria-label="{{ s.incLabel }}" style="font-weight:600;color:#C2261B">{{ s.inc }}</a></sc-if><sc-if value="{{ s.noInc }}" hint-placeholder-val="{{ true }}"><span style="color:#8D9396">—</span></sc-if></span>
+                    <span role="cell" style="padding:0 8px;text-align:right;display:flex;flex-direction:column;line-height:1.3"><span>{{ s.auditDate }}</span><sc-if value="{{ s.auditSub }}" hint-placeholder-val="{{ false }}"><span style="font-size:12px;color:{{ s.auditColor }}">{{ s.auditSub }}</span></sc-if></span>
+                    <span role="cell" title="{{ s.checkedTitle }}" style="padding:0 8px;text-align:right;display:flex;flex-direction:column;line-height:1.3;font-family:'JetBrains Mono',monospace;font-size:12px"><span>{{ s.checked }}</span><span style="color:{{ s.agoColor }}">{{ s.ago }}</span></span>
+                  </div>
+                </sc-for>
+                <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+                  <div style="padding:32px 16px 32px 48px;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid #E2E4E1">
+                    <span style="font-weight:600;font-size:15px">No websites match {{ noResultsWhat }}</span>
+                    <span style="color:#4A4F52;font-size:13px">Search covers website names, hostnames and client names.</span>
+                    <div style="display:flex;gap:8px;margin-top:4px"><button type="button" onClick="{{ clearFilters }}" style="white-space:nowrap;height:32px;padding:0 12px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">Clear filters</button><button type="button" onClick="{{ openAddWithQ }}" style="white-space:nowrap;height:32px;padding:0 12px;border:none;background:none;text-decoration:underline;cursor:pointer;font-size:13px">Add “{{ q }}” as a website</button></div>
+                  </div>
+                </sc-if>
+              </sc-if>
+            </div>
+          </div>
+</sc-if>
+          <sc-if value="{{ showPager }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;padding:8px 12px;font-size:13px">
+              <span style="color:#4A4F52;font-variant-numeric:tabular-nums">{{ rangeText }}</span>
+              <label style="display:flex;align-items:center;gap:6px;color:#4A4F52">Rows
+                <select value="{{ pageSize }}" onChange="{{ onPageSize }}" style="height:30px;border:1px solid #B9BDB8;background:#FFFFFF;padding:0 6px;font-size:13px;color:#161A1C"><option value="25">25</option><option value="50">50</option><option value="100">100</option></select>
+              </label>
+              <nav aria-label="Pagination" style="margin-left:auto;display:flex;gap:2px">
+                <button type="button" onClick="{{ prev }}" disabled="{{ prevDisabled }}" aria-label="Previous page" style="white-space:nowrap;height:30px;padding:0 10px;border:1px solid #D5D8D4;background:#FFFFFF;cursor:pointer;font-size:13px;opacity:{{ prevOpacity }}">←</button>
+                <sc-for list="{{ pages }}" as="p" hint-placeholder-count="4"><button type="button" onClick="{{ p.go }}" aria-current="{{ p.cur }}" aria-label="{{ p.aria }}" style="white-space:nowrap;min-width:32px;height:30px;padding:0 8px;border:1px solid {{ p.border }};background:{{ p.bg }};color:{{ p.fg }};cursor:pointer;font-size:13px;font-variant-numeric:tabular-nums">{{ p.n }}</button></sc-for>
+                <button type="button" onClick="{{ next }}" disabled="{{ nextDisabled }}" aria-label="Next page" style="white-space:nowrap;height:30px;padding:0 10px;border:1px solid #D5D8D4;background:#FFFFFF;cursor:pointer;font-size:13px;opacity:{{ nextOpacity }}">→</button>
+              </nav>
+            </div>
+          </sc-if>
+        </section>
+        <p style="margin:10px 0 0;font-size:12px;color:#4A4F52;line-height:1.5">Uptime is check-based: successful checks ÷ completed checks in the period. Inconclusive checks are excluded and missing checks are never counted as up. A result older than two check intervals is shown as stale.</p>
+      </sc-if>
+    </main>
+
+    <footer style="display:flex;flex-wrap:wrap;gap:4px 24px;padding:6px 28px;background:#161A1C;color:#D5D8D4;font-family:'JetBrains Mono',monospace;font-size:12px">
+      <span style="white-space:nowrap"><span aria-hidden="true" style="color:#5FD39A">●</span> Monitoring current</span><span style="white-space:nowrap">Newest result 09:48:02 · next SSL sweep 12:00</span><span style="margin-left:auto;white-space:nowrap">Times in Europe/London (GMT)</span>
+    </footer>
+  </div>
+
+  <sc-if value="{{ dSite }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeDrawer }}" style="position:fixed;inset:0;background:rgba(22,26,28,.28);z-index:40"></div>
+    <div role="dialog" aria-modal="true" aria-labelledby="d-title" style="position:fixed;top:0;right:0;bottom:0;width:480px;max-width:100%;background:#FFFFFF;z-index:41;border-left:1px solid #B9BDB8;display:flex;flex-direction:column;box-shadow:-16px 0 40px rgba(0,0,0,.14)">
+      <div style="display:flex;align-items:center;gap:12px;padding:12px 20px;border-bottom:1px solid #D5D8D4">
+        <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">WEBSITE</span>
+        <button type="button" ref="{{ closeRef }}" onClick="{{ closeDrawer }}" aria-label="Close panel" style="white-space:nowrap;margin-left:auto;height:30px;padding:0 10px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:12.5px">Close <span style="font-family:'JetBrains Mono',monospace;color:#4A4F52">Esc</span></button>
+      </div>
+      <div style="flex:1;overflow-y:auto;padding:18px 20px 28px;display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <h2 id="d-title" style="margin:0;font-size:20px;font-weight:600;font-stretch:88%;line-height:1.25">{{ dSite.name }}</h2>
+          <a href="{{ dSite.href }}" target="_blank" rel="noopener" style="font-family:'JetBrains Mono',monospace;font-size:12.5px;word-break:break-all;color:#2E3437">{{ dSite.href }}</a>
+          <span style="color:#4A4F52;font-size:13px">{{ dSite.client }} · checked every 2 min</span>
+        </div>
+        <div style="padding:12px 14px;background:{{ dSite.panelBg }};border:1px solid #E2E4E1;display:flex;flex-direction:column;gap:4px">
+          <span style="font-size:17px;font-weight:600;color:{{ dSite.color }}"><span aria-hidden="true" style="color:{{ dSite.glyphColor }}">{{ dSite.glyph }}</span> {{ dSite.label }}</span>
+          <span style="font-size:13px;color:#2E3437">{{ dSite.subLong }}</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">{{ dSite.checkedTitle }}</span>
+        </div>
+        <dl style="margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:13.5px">
+          <dt style="color:#4A4F52">Uptime</dt><dd style="margin:0;font-variant-numeric:tabular-nums">{{ dSite.upAll }}</dd>
+          <dt style="color:#4A4F52">Response</dt><dd style="margin:0">{{ dSite.respTxt }} <span style="color:#4A4F52">latest</span></dd>
+          <dt style="color:#4A4F52">SSL certificate</dt><dd style="margin:0">{{ dSite.sslTitle }}</dd>
+          <dt style="color:#4A4F52">Domain</dt><dd style="margin:0">{{ dSite.domTitle }}</dd>
+          <dt style="color:#4A4F52">Open incidents</dt><dd style="margin:0">{{ dSite.incLong }}</dd>
+          <dt style="color:#4A4F52">Last audit</dt><dd style="margin:0">{{ dSite.auditLong }}</dd>
+        </dl>
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <a href="Website%20Detail.dc.html" style="white-space:nowrap;height:34px;padding:0 14px;background:#161A1C;color:#FFFFFF;display:flex;align-items:center;text-decoration:none;font-size:13px;font-weight:600">Open website page</a>
+          <sc-if value="{{ dSite.canRun }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ dSite.runCheck }}" style="white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">Run check now</button></sc-if>
+          <button type="button" onClick="{{ dSite.togglePause }}" style="white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">{{ dSite.pauseLabel }}</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ confirm }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeConfirm }}" style="position:fixed;inset:0;background:rgba(22,26,28,.4);z-index:50"></div>
+    <div role="alertdialog" aria-modal="true" aria-labelledby="c-title" aria-describedby="c-desc" style="position:fixed;top:10vh;left:50%;transform:translateX(-50%);width:560px;max-width:calc(100% - 32px);max-height:80vh;overflow-y:auto;background:#FFFFFF;border:1px solid #B9BDB8;z-index:51;box-shadow:0 20px 48px rgba(0,0,0,.2);display:flex;flex-direction:column">
+      <div style="padding:18px 20px 12px;display:flex;flex-direction:column;gap:6px">
+        <h2 id="c-title" style="margin:0;font-size:19px;font-weight:600;font-stretch:85%">{{ confirm.title }}</h2>
+        <sc-if value="{{ confirm.skipped }}" hint-placeholder-val="{{ false }}"><span style="font-size:13px;color:#4A4F52">{{ confirm.skipped }}</span></sc-if>
+      </div>
+      <ul id="c-desc" style="margin:0;padding:0 20px 14px 38px;display:flex;flex-direction:column;gap:6px;font-size:13.5px;line-height:1.45;color:#2E3437">
+        <sc-for list="{{ confirm.points }}" as="pt" hint-placeholder-count="4"><li>{{ pt }}</li></sc-for>
+      </ul>
+      <sc-if value="{{ confirm.blocked }}" hint-placeholder-val="{{ false }}">
+        <div role="alert" style="margin:0 20px 14px;padding:10px 12px;background:#FBEDEB;border:1px solid #E8B4AE;font-size:13px;line-height:1.45;color:#5B120C">{{ confirm.blocked }}</div>
+      </sc-if>
+      <div style="margin:0 20px 14px;border:1px solid #E2E4E1;max-height:160px;overflow-y:auto">
+        <div style="padding:6px 10px;font-size:12px;letter-spacing:.03em;color:#4A4F52;border-bottom:1px solid #E2E4E1;position:sticky;top:0;background:#FFFFFF">AFFECTED WEBSITES · {{ confirm.count }}</div>
+        <sc-for list="{{ confirm.items }}" as="it" hint-placeholder-count="5"><div style="display:flex;justify-content:space-between;gap:12px;padding:5px 10px;font-size:12.5px;border-bottom:1px solid #F0F1EF"><span style="font-family:'JetBrains Mono',monospace;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ it.host }}</span><span style="color:{{ it.c }};white-space:nowrap">{{ it.note }}</span></div></sc-for>
+      </div>
+      <div style="padding:12px 20px;border-top:1px solid #D5D8D4;display:flex;gap:8px;justify-content:flex-end">
+        <button type="button" ref="{{ confirmRef }}" onClick="{{ closeConfirm }}" style="white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">Cancel</button>
+        <button type="button" onClick="{{ confirm.go }}" disabled="{{ confirm.disabled }}" style="white-space:nowrap;height:34px;padding:0 14px;border:none;background:{{ confirm.btnBg }};color:#FFFFFF;cursor:pointer;font-weight:600;font-size:13px">{{ confirm.cta }}</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ addOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeAdd }}" style="position:fixed;inset:0;background:rgba(22,26,28,.36);z-index:50"></div>
+    <form role="dialog" aria-modal="true" aria-labelledby="add-title" onSubmit="{{ submitAdd }}" novalidate="" style="position:fixed;top:12vh;left:50%;transform:translateX(-50%);width:520px;max-width:calc(100% - 32px);background:#FFFFFF;border:1px solid #B9BDB8;z-index:51;box-shadow:0 20px 48px rgba(0,0,0,.2);display:flex;flex-direction:column">
+      <div style="padding:16px 20px;border-bottom:1px solid #D5D8D4;display:flex;align-items:baseline;gap:12px"><h2 id="add-title" style="margin:0;font-size:18px;font-weight:600;font-stretch:85%">Add website</h2><span style="font-size:12px;color:#4A4F52;margin-left:auto">{{ slotsFree }} of 100 slots free</span></div>
+      <div style="padding:16px 20px;display:flex;flex-direction:column;gap:14px">
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Website address
+          <input type="text" ref="{{ addRef }}" inputmode="url" placeholder="https://clientsite.com" value="{{ addUrl }}" onChange="{{ onAddUrl }}" aria-invalid="{{ addInvalid }}" aria-describedby="add-msg" style="height:38px;padding:0 10px;border:1px solid {{ addBorder }};font-weight:400;font-size:14px;font-family:'JetBrains Mono',monospace"></input>
+          <span id="add-msg" aria-live="polite" style="font-weight:400;font-size:12.5px;color:{{ addMsgColor }}">{{ addMsg }}</span>
+        </label>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Display name <span style="font-weight:400;color:#4A4F52">optional — defaults to the hostname</span>
+          <input type="text" value="{{ addName }}" onChange="{{ onAddName }}" style="height:38px;padding:0 10px;border:1px solid #B9BDB8;font-weight:400;font-size:14px"></input>
+        </label>
+        <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Client
+          <select value="{{ addClient }}" onChange="{{ onAddClient }}" style="height:38px;border:1px solid #B9BDB8;background:#FFFFFF;padding:0 8px;font-size:14px;font-weight:400">
+            <option value="">Unassigned</option>
+            <sc-for list="{{ clientNames }}" as="n" hint-placeholder-count="8"><option value="{{ n }}">{{ n }}</option></sc-for>
+          </select>
+        </label>
+      </div>
+      <div style="padding:12px 20px;border-top:1px solid #D5D8D4;display:flex;gap:8px;justify-content:flex-end">
+        <button type="button" onClick="{{ closeAdd }}" style="white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">Cancel</button>
+        <button type="submit" style="white-space:nowrap;height:34px;padding:0 14px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:13px">Add and start checks</button>
+      </div>
+    </form>
+  </sc-if>
+
+  <sc-if value="{{ csvOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeCsv }}" style="position:fixed;inset:0;background:rgba(22,26,28,.36);z-index:50"></div>
+    <div role="dialog" aria-modal="true" aria-labelledby="csv-title" style="position:fixed;top:6vh;left:50%;transform:translateX(-50%);width:880px;max-width:calc(100% - 32px);max-height:88vh;background:#FFFFFF;border:1px solid #B9BDB8;z-index:51;box-shadow:0 20px 48px rgba(0,0,0,.2);display:flex;flex-direction:column">
+      <div style="padding:14px 20px;border-bottom:1px solid #D5D8D4;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px">
+        <h2 id="csv-title" style="margin:0;font-size:18px;font-weight:600;font-stretch:85%">Import websites from CSV</h2>
+        <ol style="list-style:none;margin:0;padding:0;display:flex;gap:16px;font-size:12.5px">
+          <sc-for list="{{ csvSteps }}" as="st" hint-placeholder-count="3"><li aria-current="{{ st.cur }}" style="color:{{ st.c }};font-weight:{{ st.w }}">{{ st.n }}. {{ st.l }}</li></sc-for>
+        </ol>
+        <button type="button" ref="{{ csvRef }}" onClick="{{ closeCsv }}" aria-label="Close import" style="white-space:nowrap;margin-left:auto;height:30px;padding:0 10px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:12.5px">Close</button>
+      </div>
+
+      <sc-if value="{{ csvPick }}" hint-placeholder-val="{{ true }}">
+        <div style="padding:20px;display:flex;flex-direction:column;gap:16px;overflow-y:auto">
+          <label style="border:1.5px dashed #9AA09C;padding:28px 20px;display:flex;flex-direction:column;align-items:center;gap:8px;cursor:pointer;text-align:center" style-hover="background:#F4F5F3">
+            <span style="font-weight:600;font-size:15px">Choose a CSV file</span>
+            <span style="font-size:13px;color:#4A4F52">UTF-8, first row as headers, up to 500 rows</span>
+            <input type="file" accept=".csv,text/csv" onChange="{{ onFile }}" style="font-size:13px"></input>
+          </label>
+          <sc-if value="{{ csvFileErr }}" hint-placeholder-val="{{ false }}"><div role="alert" style="padding:10px 12px;background:#FBEDEB;border:1px solid #E8B4AE;font-size:13px;color:#5B120C">{{ csvFileErr }}</div></sc-if>
+          <div style="display:flex;flex-wrap:wrap;gap:16px 32px;font-size:13px;line-height:1.5">
+            <div style="flex:1 1 300px;display:flex;flex-direction:column;gap:4px"><span style="font-weight:600">Columns</span>
+              <span><span style="font-family:'JetBrains Mono',monospace;font-size:12px">url</span> required — http or https; https is added if missing</span>
+              <span><span style="font-family:'JetBrains Mono',monospace;font-size:12px">name</span> optional display name</span>
+              <span><span style="font-family:'JetBrains Mono',monospace;font-size:12px">client</span> optional — must match an existing client name</span>
+            </div>
+            <div style="flex:1 1 260px;display:flex;flex-direction:column;gap:4px"><span style="font-weight:600">Before importing you’ll see</span><span>Every row with its result, duplicates, blocked addresses and plan-limit conflicts. Nothing is added until you confirm.</span></div>
+          </div>
+          <div style="display:flex;gap:12px;align-items:center;font-size:13px"><button type="button" onClick="{{ useSample }}" style="white-space:nowrap;height:32px;padding:0 12px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">Use sample file (23 rows)</button><a href="#">Download template</a></div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ csvPreview }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:14px 20px;display:flex;flex-wrap:wrap;gap:8px 20px;align-items:baseline;border-bottom:1px solid #E2E4E1">
+          <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">{{ csvFileName }}</span>
+          <span style="font-weight:600;color:#1F7A4A">● {{ csvReady }} ready</span>
+          <sc-if value="{{ csvWarnN }}" hint-placeholder-val="{{ false }}"><span style="font-weight:600;color:#7A4300">▲ {{ csvWarnN }} with warnings</span></sc-if>
+          <span style="font-weight:600;color:#C2261B">◆ {{ csvErrN }} won’t be imported</span>
+          <label style="margin-left:auto;display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer"><input type="checkbox" checked="{{ csvErrOnly }}" onChange="{{ toggleErrOnly }}" style="width:16px;height:16px;margin:0"></input>Show problems only</label>
+        </div>
+        <div style="overflow:auto;flex:1;min-height:200px">
+          <div role="table" aria-label="Import preview" style="min-width:760px">
+            <div role="row" style="display:grid;grid-template-columns:44px minmax(220px,1.4fr) minmax(140px,1fr) minmax(140px,1fr) minmax(220px,1.4fr);position:sticky;top:0;background:#FFFFFF;border-bottom:1px solid #D5D8D4;font-size:12px;letter-spacing:.03em;color:#4A4F52"><span role="columnheader" style="padding:8px 8px 8px 20px">ROW</span><span role="columnheader" style="padding:8px">URL → HOSTNAME</span><span role="columnheader" style="padding:8px">NAME</span><span role="columnheader" style="padding:8px">CLIENT</span><span role="columnheader" style="padding:8px">RESULT</span></div>
+            <sc-for list="{{ csvRows }}" as="r" hint-placeholder-count="12">
+              <div role="row" style="display:grid;grid-template-columns:44px minmax(220px,1.4fr) minmax(140px,1fr) minmax(140px,1fr) minmax(220px,1.4fr);border-bottom:1px solid #EEF0ED;font-size:12.5px;align-items:baseline;background:{{ r.bg }}">
+                <span role="cell" style="padding:7px 8px 7px 20px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">{{ r.n }}</span>
+                <span role="cell" style="padding:7px 8px;display:flex;flex-direction:column;min-width:0"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;word-break:break-all;color:#2E3437">{{ r.raw }}</span><sc-if value="{{ r.host }}" hint-placeholder-val="{{ false }}"><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">→ {{ r.host }}</span></sc-if></span>
+                <span role="cell" style="padding:7px 8px">{{ r.name }}</span>
+                <span role="cell" style="padding:7px 8px;color:{{ r.clientColor }}">{{ r.clientShown }}</span>
+                <span role="cell" style="padding:7px 8px;color:{{ r.c }};font-weight:{{ r.w }}"><span aria-hidden="true">{{ r.g }}</span> {{ r.msg }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="padding:12px 20px;border-top:1px solid #D5D8D4;display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center">
+          <span style="font-size:12.5px;color:#4A4F52;flex:1 1 300px">{{ csvFoot }}</span>
+          <button type="button" onClick="{{ csvBack }}" style="white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;background:#FFFFFF;cursor:pointer;font-size:13px">Choose another file</button>
+          <button type="button" onClick="{{ csvImport }}" disabled="{{ csvNone }}" style="white-space:nowrap;height:34px;padding:0 14px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:13px">Import {{ csvReady }} websites</button>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ csvDone }}" hint-placeholder-val="{{ false }}">
+        <div role="status" style="padding:24px 20px;display:flex;flex-direction:column;gap:10px">
+          <span style="font-size:17px;font-weight:600">{{ csvImported }} websites added</span>
+          <span style="color:#2E3437;line-height:1.5;max-width:620px">First checks are queued and results arrive within 2 minutes. Until then they show as Unknown. {{ csvErrN }} rows were skipped — download the error report to fix and re-import them.</span>
+          <div style="display:flex;gap:8px;margin-top:4px"><button type="button" onClick="{{ showImported }}" style="white-space:nowrap;height:34px;padding:0 14px;border:none;background:#161A1C;color:#FFFFFF;cursor:pointer;font-weight:600;font-size:13px">Show imported websites</button><a href="#" style="white-space:nowrap;height:34px;padding:0 14px;border:1px solid #B9BDB8;display:flex;align-items:center;text-decoration:none;font-size:13px">Download error report (CSV)</a></div>
+        </div>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <div aria-live="polite" style="position:fixed;left:50%;bottom:40px;transform:translateX(-50%);z-index:60">
+    <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:16px;align-items:center;background:#161A1C;color:#FFFFFF;padding:10px 16px;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.2)"><span>{{ toast.msg }}</span><sc-if value="{{ toast.undo }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ toast.undo }}" style="white-space:nowrap;background:none;border:none;padding:0;color:#FFFFFF;text-decoration:underline;cursor:pointer;font-size:13px;font-weight:600">Undo</button></sc-if></div></sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;state&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;live&quot;,&quot;loading&quot;,&quot;empty&quot;,&quot;error&quot;],&quot;default&quot;:&quot;live&quot;,&quot;tsType&quot;:&quot;'live'|'loading'|'empty'|'error'&quot;,&quot;section&quot;:&quot;Demo state&quot;},&quot;compact&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Density&quot;}}">
+const C = { up: '#1F7A4A', degraded: '#A35A00', down: '#C2261B', unknown: '#4A4F52', paused: '#4A4F52', ink: '#161A1C', mute: '#4A4F52', faint: '#8D9396' };
+const PLAN = 100;
+const NA_TLD = { de: 'DENIC does not publish expiry dates', es: 'Red.es does not publish expiry via RDAP', ch: 'SWITCH does not publish expiry dates' };
+const RDAP = { 'co.uk': 'Nominet RDAP', com: 'Verisign RDAP', ie: '.ie RDAP', 'org.uk': 'Nominet RDAP' };
+
+function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+const tldOf = h => h.endsWith('.co.uk') ? 'co.uk' : h.endsWith('.org.uk') ? 'org.uk' : h.split('.').pop();
+const addDays = d => { const t = new Date(Date.UTC(2026, 9, 25) + d * 864e5); return t.getUTCDate() + ' ' + ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][t.getUTCMonth()] + ' ' + t.getUTCFullYear(); };
+
+function buildSites() {
+  const S = (o) => ({ https: true, st: 'up', inc: 0, sslState: 'valid', u: [100, 100, 100], ...o });
+  const named = [
+    S({ id: 's1', name: 'Harbour Dental Group', host: 'harbourdental.co.uk', client: 'Harbour Dental Group', st: 'down', sub: 'since 09:41 · 502', u: [86.11, 98.02, 99.12], resp: null, ssl: 212, dom: 139, inc: 1, audit: { d: 21, t: '21 Oct', sub: '5 findings' }, chk: '09:47:04', ago: '1 min ago' }),
+    S({ id: 's2', name: 'Harbour Dental — Bookings', host: 'bookings.harbourdental.co.uk', client: 'Harbour Dental Group', resp: 244, ssl: 212, dom: 139, audit: { d: 21, t: '21 Oct' }, chk: '09:47:10', ago: '1 min ago' }),
+    S({ id: 's3', name: 'Miller & Koch Shop', host: 'shop.millerandkoch.com', client: 'Miller & Koch', st: 'degraded', sub: 'slow since 08:58', u: [100, 99.71, 99.87], resp: 3840, ssl: 6, dom: 231, inc: 1, audit: { d: 19, t: '19 Oct' }, chk: '09:46:52', ago: '1 min ago' }),
+    S({ id: 's4', name: 'Miller & Koch', host: 'millerandkoch.com', client: 'Miller & Koch', resp: 286, u: [100, 100, 99.97], ssl: 64, dom: 231, audit: { d: 19, t: '19 Oct' }, chk: '09:47:22', ago: '1 min ago' }),
+    S({ id: 's5', name: 'Green Room Theatre', host: 'thegreenroomlondon.com', client: 'Green Room Theatre', st: 'unknown', stale: true, sub: 'no result since 07:52', u: [96.4, 99.48, 99.98], resp: null, ssl: 88, dom: 302, audit: { d: 18, t: '18 Oct', sub: 'Partial', warn: true, partial: true }, chk: '07:52:18', ago: '1 h 56 min' }),
+    S({ id: 's6', name: 'Vela Architects', host: 'vela-architects.com', client: 'Vela Architects', resp: 312, ssl: 54, dom: 188, inc: 1, audit: { d: 24, t: '24 Oct', sub: '14 broken links', warn: true }, chk: '09:47:31', ago: '1 min ago' }),
+    S({ id: 's7', name: 'Alpine Cycle Works', host: 'alpinecycleworks.com', client: 'Alpine Cycle Works', resp: 341, u: [100, 99.98, 99.99], ssl: 71, dom: 12, inc: 1, audit: { d: 20, t: '20 Oct' }, chk: '09:46:40', ago: '2 min ago' }),
+    S({ id: 's8', name: 'Alpine Cycle Works DE', host: 'alpinecycleworks.de', client: 'Alpine Cycle Works', resp: 355, u: [100, 99.98, 99.99], ssl: 71, dom: null, audit: { d: 20, t: '20 Oct' }, chk: '09:46:44', ago: '2 min ago' }),
+    S({ id: 's9', name: 'Lumen Optics', host: 'lumenoptics.ie', client: 'Lumen Optics', resp: 402, ssl: 27, dom: 97, audit: { d: 23, t: '23 Oct' }, chk: '09:47:12', ago: '1 min ago' }),
+    S({ id: 's10', name: 'Kiln Coffee Roasters', host: 'kiln-coffee.com', client: 'Kiln Coffee Roasters', resp: 198, ssl: 143, dom: 260, audit: { d: 22, t: '22 Oct', sub: '1 advisory' }, chk: '09:47:40', ago: '1 min ago' }),
+    S({ id: 's11', name: 'Riverside Veterinary', host: 'riverside-vets.co.uk', client: 'Riverside Veterinary', st: 'unknown', isNew: true, sub: 'first check queued', u: [null, null, null], resp: null, ssl: null, sslState: 'pending', dom: null, domPending: true, audit: null, chk: '—', ago: 'added 09:46' }),
+    S({ id: 's12', name: 'Ostara Wellness', host: 'ostarawellness.com', client: 'Ostara Wellness', st: 'paused', sub: 'since 3 Oct · Tom E.', u: [null, null, null], resp: null, ssl: 120, dom: 77, audit: { d: 2, t: '2 Oct' }, chk: '3 Oct', ago: '11:20' })
+  ];
+  const clients = ['Brightwater Law', 'Fenwick & Hale Solicitors', 'Corran Distillery', 'Northgate Physio', 'Saltmarsh Interiors', 'Peak District Lodges', 'Halden Engineering', 'Ellery Ceramics', 'Tidewater Marine', 'Copperleaf Dental', 'Orchard Lane Nursery', 'Atlas Freight', 'Juniper Yoga Studio', 'Merrow Estate Agents', 'Castellan Wines', 'Blackthorn Fitness', 'Thornbury Vets', 'Quayside Opticians', 'Lindqvist Furniture', 'Calder Valley Cycles', 'Sorrel Kitchen', 'Hawthorne Accountancy'];
+  const tlds = ['.co.uk', '.com', '.co.uk', '.ie', '.com', '.de', '.co.uk', '.com', '.es', '.co.uk', '.ch', '.com'];
+  const kinds = [['', ''], ['shop.', ' Shop'], ['book.', ' Bookings'], ['blog.', ' Blog']];
+  const r = rng(20261025);
+  const out = [];
+  clients.forEach((cl, ci) => {
+    let slug = cl.toLowerCase().replace(/&/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    if (cl === 'Brightwater Law') slug = 'brightwaterlaw';
+    if (cl === 'Peak District Lodges') slug = 'peakdistrict-luxury-holiday-lodges-and-cottages';
+    const tld = cl === 'Brightwater Law' ? '.co.uk' : tlds[ci % tlds.length];
+    const n = ci < 8 ? 4 : 3;
+    const dom = NA_TLD[tld.slice(1)] ? null : Math.round(40 + r() * 360);
+    const sslBase = Math.round(35 + r() * 300);
+    for (let k = 0; k < n; k++) {
+      const host = kinds[k][0] + slug + tld;
+      let name = cl + kinds[k][1];
+      if (cl === 'Peak District Lodges' && k === 2) name = 'Peak District Luxury Holiday Lodges & Cottages — Bookings';
+      const u30 = r() < 0.55 ? 100 : +(99.9 + r() * 0.099).toFixed(2);
+      const u7 = r() < 0.75 ? 100 : +(99.85 + r() * 0.149).toFixed(2);
+      const ad = 18 + Math.floor(r() * 7);
+      const s = S({ id: `g${ci}_${k}`, name, host, client: cl, resp: Math.round(150 + r() * 560 + (k === 1 ? 220 : 0)), u: [100, u7, Math.min(u7, u30)], ssl: sslBase + k * 3, dom,
+        audit: { d: ad, t: ad + ' Oct' }, chk: '09:4' + (6 + Math.floor(r() * 2)) + ':' + String(Math.floor(r() * 60)).padStart(2, '0'), ago: r() < 0.5 ? '1 min ago' : '2 min ago' });
+      out.push(s);
+    }
+  });
+  const by = h => out.find(s => s.host.startsWith(h));
+  Object.assign(by('book.blackthorn'), { sslState: 'invalid', ssl: null, inc: 1, sslWhy: 'hostname mismatch (cert issued for blackthorn-fitness.com)' });
+  Object.assign(by('ellery-ceramics'), { https: false, sslState: 'none', ssl: null });
+  Object.assign(by('shop.corran'), { audit: { d: 25, t: 'Running', sub: '41% · 205 pages', running: true } });
+  Object.assign(by('halden-engineering'), { audit: { d: 21, t: '21 Oct', sub: 'Failed', warn: true, failed: true, why: 'robots.txt disallows all paths' } });
+  Object.assign(by('copperleaf-dental'), { ssl: 19 });
+  Object.assign(by('atlas-freight'), { resp: 1920 });
+  Object.assign(by('blog.saltmarsh'), { st: 'paused', sub: 'since 14 Oct · Priya R.', u: [null, null, 99.4], resp: null, chk: '14 Oct', ago: '16:02' });
+  Object.assign(by('blog.peakdistrict'), { audit: { d: 23, t: '23 Oct', sub: 'Partial', warn: true, partial: true, why: 'JavaScript-rendered pages — coverage incomplete' } });
+  return [...named, ...out];
+}
+
+const SAMPLE_CSV = `url,name,client
+harbourdental.co.uk,Harbour Dental Group,Harbour Dental Group
+https://shop.kiln-coffee.com,Kiln Coffee Shop,Kiln Coffee Roasters
+events.vela-architects.com,Vela Events,Vela Architects
+ftp://files.millerandkoch.com,M&K file server,Miller & Koch
+192.168.1.20,Harbour staging,Harbour Dental Group
+hollisortho.com,Hollis Orthodontics,Hollis Orthodontics
+https://www.hollisortho.com/book,Hollis booking,Hollis Orthodontics
+kingfisher-angling.co.uk,Kingfisher Angling,Kingfisher Angling
+shop.kingfisher-angling.co.uk,Kingfisher Angling Shop,Kingfisher Angling
+lumenoptics.ie/contact,Lumen contact page,Lumen Optics
+alpinecycleworks.at,Alpine Cycle Works AT,Alpine Cycle Works
+alpinecycleworks.nl,Alpine Cycle Works NL,Alpine Cycle Works
+,Wren Hearing blog,Wren Hearing
+thecopperkettle-tearooms.co.uk,Copper Kettle Tearooms,Copperleaf Dental
+book.thecopperkettle-tearooms.co.uk,Copper Kettle bookings,
+marlowe-school.org.uk,Marlowe Theatre School,
+apply.marlowe-school.org.uk,Marlowe applications,
+greyfriars-dental.co.uk,Greyfriars Dental,Copperleaf Dental
+bramble-rye.co,Bramble & Rye,
+staging.bramble-rye.co,Bramble & Rye staging,
+http://localhost:3000,Local dev,
+ashbygardencentre.co.uk,Ashby Garden Centre,
+shop.ashbygardencentre.co.uk,Ashby Garden Centre Shop,`;
+
+function parseCsv(text) {
+  const lines = text.replace(/\r/g, '').split('\n').filter(l => l.trim().length);
+  const split = l => { const o = []; let cur = '', q = false; for (const ch of l) { if (ch === '"') q = !q; else if (ch === ',' && !q) { o.push(cur); cur = ''; } else cur += ch; } o.push(cur); return o.map(x => x.trim()); };
+  const head = split(lines[0]).map(h => h.toLowerCase());
+  const iu = head.indexOf('url'), inm = head.indexOf('name'), ic = head.indexOf('client');
+  if (iu < 0) return { err: 'No “url” column found in the first row.' };
+  return { rows: lines.slice(1).map((l, i) => { const c = split(l); return { n: i + 2, raw: c[iu] || '', name: inm >= 0 ? c[inm] || '' : '', client: ic >= 0 ? c[ic] || '' : '' }; }) };
+}
+function checkUrl(raw) {
+  let s = (raw || '').trim();
+  if (!s) return { err: 'URL is required' };
+  if (!/^[a-z][a-z0-9+.-]*:\/\//i.test(s)) s = 'https://' + s;
+  let u; try { u = new URL(s); } catch (e) { return { err: 'Not a valid web address' }; }
+  if (!/^https?:$/.test(u.protocol)) return { err: `${u.protocol.replace(':', '')}:// isn’t supported — http or https only` };
+  if (u.username || u.password) return { err: 'Contains a username or password' };
+  const h = u.hostname;
+  if (h === 'localhost' || /^(127\.|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|169\.254\.|0\.)/.test(h) || h.endsWith('.local') || h.endsWith('.internal')) return { err: 'Private or local address — blocked for safety', blocked: true };
+  if (!h.includes('.')) return { err: 'Needs a public domain name' };
+  return { host: h.replace(/^www\./, ''), https: u.protocol === 'https:' };
+}
+
+const STATUS_RANK = s => s.st === 'down' ? 0 : s.st === 'degraded' ? 1 : s.stale ? 2 : s.isNew ? 4 : s.st === 'paused' ? 5 : 3;
+
+class Component extends DCLogic {
+  state = { phase: this.props.state ?? 'live', sites: buildSites(), q: '', clientF: 'all', statusF: 'all', showF: 'all', period: 2, sort: { key: 'status', dir: 1 }, page: 0, pageSize: 25, sel: {}, drawer: null, confirm: null, addOpen: false, addUrl: '', addName: '', addClient: '', addErr: '', csvOpen: false, csvStep: 'pick', csvRows: [], csvFileName: '', csvFileErr: '', csvErrOnly: false, csvImported: 0, toast: null, w: typeof window !== 'undefined' ? window.innerWidth : 1400 };
+  closeRef = React.createRef(); addRef = React.createRef(); allRef = React.createRef(); confirmRef = React.createRef(); csvRef = React.createRef();
+
+  componentDidMount() {
+    this.onResize = () => this.setState({ w: window.innerWidth });
+    this.onKey = e => { if (e.key !== 'Escape') return; const s = this.state; if (s.confirm) this.setState({ confirm: null }); else if (s.addOpen) this.setState({ addOpen: false }); else if (s.csvOpen) this.setState({ csvOpen: false }); else if (s.drawer) this.closeDrawer(); };
+    window.addEventListener('resize', this.onResize); window.addEventListener('keydown', this.onKey);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); window.removeEventListener('keydown', this.onKey); clearTimeout(this.tt); }
+  componentDidUpdate(pp, ps) {
+    if (pp.state !== this.props.state) this.setState({ phase: this.props.state ?? 'live' });
+    const f = (cond, ref) => { if (cond) setTimeout(() => ref.current && ref.current.focus(), 0); };
+    if (this.state.drawer && ps.drawer !== this.state.drawer) { if (!ps.drawer) this.lastFocus = document.activeElement; f(true, this.closeRef); }
+    f(this.state.addOpen && !ps.addOpen, this.addRef); f(this.state.confirm && !ps.confirm, this.confirmRef); f(this.state.csvOpen && !ps.csvOpen, this.csvRef);
+    if (this.allRef.current) this.allRef.current.indeterminate = !!this._indet;
+  }
+  closeDrawer() { this.setState({ drawer: null }); const el = this.lastFocus; if (el && el.focus) setTimeout(() => el.focus(), 0); }
+  say(msg, undo) { clearTimeout(this.tt); this.setState({ toast: { msg, undo } }); this.tt = setTimeout(() => this.setState({ toast: null }), undo ? 7000 : 3500); }
+  setF(o) { this.setState({ ...o, page: 0 }); }
+
+  matches() {
+    const S = this.state, q = S.q.trim().toLowerCase();
+    return S.sites.filter(s => (S.clientF === 'all' || s.client === S.clientF)
+      && (S.statusF === 'all' || (S.statusF === 'stale' ? (s.stale || s.isNew) : s.st === S.statusF && !s.stale))
+      && (!q || s.name.toLowerCase().includes(q) || s.host.includes(q) || s.client.toLowerCase().includes(q))
+      && (S.showF === 'all' || (S.showF === 'inc' && s.inc > 0) || (S.showF === 'ssl' && (s.sslState === 'invalid' || (s.ssl !== null && s.ssl <= 30)))
+        || (S.showF === 'stale' && (s.stale || s.isNew)) || (S.showF === 'dom' && s.dom === null && !s.domPending) || (S.showF === 'audit' && s.audit && (s.audit.partial || s.audit.failed))));
+  }
+  sorted(list) {
+    const { key, dir } = this.state.sort, p = this.state.period;
+    const nv = v => v === null || v === undefined ? Infinity : v;
+    const f = { status: s => STATUS_RANK(s), name: s => s.name.toLowerCase(), client: s => s.client.toLowerCase(), up: s => nv(s.u[p]), resp: s => nv(s.resp), ssl: s => s.sslState === 'invalid' ? -1 : nv(s.ssl), dom: s => nv(s.dom), inc: s => -s.inc, audit: s => s.audit ? -s.audit.d : Infinity, chk: s => STATUS_RANK(s) === 5 ? Infinity : (s.stale ? -1 : 0) }[key];
+    return [...list].sort((a, b) => { const x = f(a), y = f(b); const c = x < y ? -1 : x > y ? 1 : 0; return c * dir || STATUS_RANK(a) - STATUS_RANK(b) || a.name.localeCompare(b.name); });
+  }
+
+  view(s) {
+    const p = this.state.period;
+    const st = s.stale ? { color: C.ink, glyph: '○', glyphColor: C.unknown, label: 'Stale', weight: 600 }
+      : s.isNew ? { color: C.mute, glyph: '○', glyphColor: C.unknown, label: 'Unknown', weight: 400 }
+      : { up: { color: C.ink, glyph: '●', glyphColor: C.up, label: 'Up', weight: 400 }, degraded: { color: C.degraded, glyph: '▲', glyphColor: C.degraded, label: 'Degraded', weight: 600 }, down: { color: C.down, glyph: '◆', glyphColor: C.down, label: 'Down', weight: 600 }, paused: { color: C.mute, glyph: '‖', glyphColor: C.mute, label: 'Paused', weight: 400 } }[s.st];
+    const u = s.u[p];
+    const ssl = s.sslState === 'invalid' ? { t: 'Invalid', c: C.down, w: 600, title: 'Invalid — ' + s.sslWhy } : s.sslState === 'none' ? { t: 'No HTTPS', c: C.mute, w: 400, title: 'Site is served over http:// only — no certificate to check' } : s.sslState === 'pending' ? { t: '—', c: C.faint, w: 400, title: 'Pending first check' }
+      : { t: s.ssl + ' d', c: s.ssl <= 7 ? C.down : s.ssl <= 30 ? C.degraded : C.ink, w: s.ssl <= 30 ? 600 : 400, title: `Valid · expires ${addDays(s.ssl)} (${s.ssl} days)` };
+    const tld = tldOf(s.host);
+    const dom = s.domPending ? { t: '—', c: C.faint, w: 400, title: 'Pending first domain check' } : s.dom === null ? { t: 'n/a', c: C.mute, w: 400, title: 'Not available — ' + (NA_TLD[tld] || 'registry data unavailable') + '. No date is estimated.' }
+      : { t: s.dom + ' d', c: s.dom <= 7 ? C.down : s.dom <= 30 ? C.degraded : C.ink, w: s.dom <= 30 ? 600 : 400, title: `Expires ${addDays(s.dom)} (${s.dom} days) · ${RDAP[tld] || 'RDAP'}` };
+    const a = s.audit;
+    const sel = !!this.state.sel[s.id];
+    const hostShown = s.host;
+    return { ...s, ...st, sel, selAria: sel ? 'true' : 'false', selLabel: `Select ${s.name}`, hostShown,
+      sub: s.sub || '', subColor: s.stale ? C.degraded : C.mute,
+      upTxt: u === null || u === undefined ? '—' : (u === 100 ? '100%' : u.toFixed(2) + '%'), upColor: u === null || u === undefined ? C.faint : u < 99 ? C.down : u < 99.9 ? C.degraded : C.ink,
+      respTxt: s.resp === null ? '—' : s.resp.toLocaleString('en-GB') + ' ms', respColor: s.resp === null ? C.faint : s.resp >= 3000 ? C.degraded : C.ink,
+      sslTxt: ssl.t, sslColor: ssl.c, sslWeight: ssl.w, sslTitle: ssl.title, domTxt: dom.t, domColor: dom.c, domWeight: dom.w, domTitle: dom.title,
+      inc: s.inc ? String(s.inc) : '', noInc: !s.inc, incLabel: `${s.inc} open incident${s.inc > 1 ? 's' : ''} for ${s.name}`,
+      auditDate: a ? a.t : '—', auditSub: a && a.sub ? a.sub : '', auditColor: a && a.warn ? C.degraded : C.mute,
+      checked: s.chk, ago: s.ago, agoColor: s.stale ? C.degraded : C.mute,
+      checkedTitle: s.st === 'paused' ? `Last check ${s.chk} ${s.ago} — paused, no new checks` : s.isNew ? 'No checks yet — first check queued' : `Last check 25 Oct ${s.chk} GMT${s.stale ? ' — stale (older than 2 intervals)' : ''}`,
+      clientColor: s.client === 'Unassigned' ? C.mute : C.ink,
+      bg: sel ? '#E8EDE9' : s.st === 'down' ? '#FBEDEB' : '#FFFFFF', edge: sel ? 'inset 3px 0 0 #161A1C' : 'none',
+      toggle: () => this.setState(x => { const m = { ...x.sel }; if (m[s.id]) delete m[s.id]; else m[s.id] = true; return { sel: m }; }),
+      open: () => this.setState({ drawer: s.id }) };
+  }
+
+  askBulk(kind, ids) {
+    const S = this.state, list = S.sites.filter(s => ids.includes(s.id));
+    const active = list.filter(s => s.st !== 'paused'), paused = list.filter(s => s.st === 'paused');
+    const activeCount = S.sites.filter(s => s.st !== 'paused').length, free = PLAN - activeCount;
+    if (kind === 'pause') {
+      const incs = active.reduce((n, s) => n + s.inc, 0);
+      this.setState({ confirm: { kind, ids: active.map(s => s.id), title: `Pause monitoring for ${active.length} website${active.length > 1 ? 's' : ''}?`, skipped: paused.length ? `${paused.length} selected website${paused.length > 1 ? 's are' : ' is'} already paused and won’t change.` : '',
+        points: ['Uptime, SSL and domain checks stop, and scheduled audits are skipped.', incs ? `No alerts are sent while paused. ${incs} open incident${incs > 1 ? 's stay' : ' stays'} open but won’t update.` : 'No alerts are sent while paused.', 'All history is kept. October reports will show the paused time as a monitoring gap, not as uptime.', `Frees ${active.length} of your ${PLAN} plan slots. You can resume at any time.`],
+        items: active.map(s => ({ host: s.host, note: s.inc ? `${s.inc} open incident` : s.client, c: s.inc ? C.down : C.mute })), count: active.length, cta: `Pause ${active.length} website${active.length > 1 ? 's' : ''}`, btnBg: '#161A1C', disabled: false, blocked: '' } });
+    } else {
+      const over = paused.length - free;
+      this.setState({ confirm: { kind, ids: paused.map(s => s.id), title: `Resume monitoring for ${paused.length} website${paused.length > 1 ? 's' : ''}?`, skipped: active.length ? `${active.length} selected website${active.length > 1 ? 's are' : ' is'} already monitored and won’t change.` : '',
+        points: ['Checks restart within 2 minutes. Status shows Unknown until each first result arrives.', 'The paused period stays recorded as a gap in history and reports.', `Uses ${paused.length} of your ${free} free plan slot${free === 1 ? '' : 's'}.`],
+        blocked: over > 0 ? `Only ${free} slots are free on Growth (${PLAN} sites). Deselect ${over} website${over > 1 ? 's' : ''} or upgrade your plan to resume all of them.` : '',
+        items: paused.map(s => ({ host: s.host, note: s.sub || 'paused', c: C.mute })), count: paused.length, cta: `Resume ${paused.length} website${paused.length > 1 ? 's' : ''}`, btnBg: over > 0 ? '#8D9396' : '#161A1C', disabled: over > 0 } });
+    }
+  }
+  applyBulk() {
+    const c = this.state.confirm; if (!c || c.disabled) return;
+    const prev = this.state.sites.filter(s => c.ids.includes(s.id)).map(s => ({ ...s }));
+    const restore = () => { this.setState(x => ({ sites: x.sites.map(s => prev.find(p => p.id === s.id) || s) })); this.say('Change undone'); };
+    this.setState(x => ({ confirm: null, sel: {}, sites: x.sites.map(s => !c.ids.includes(s.id) ? s : c.kind === 'pause'
+      ? { ...s, st: 'paused', stale: false, sub: 'since 25 Oct · Priya R.', chk: s.chk, ago: s.ago }
+      : { ...s, st: 'unknown', isNew: true, stale: false, sub: 'first check queued', chk: '—', ago: 'resumed 09:48' }) }));
+    this.say(c.kind === 'pause' ? `Paused ${c.ids.length} website${c.ids.length > 1 ? 's' : ''} · history kept` : `Resumed ${c.ids.length} website${c.ids.length > 1 ? 's' : ''} · first checks queued`, restore);
+  }
+
+  evalCsv(rows) {
+    const S = this.state, existing = new Set(S.sites.map(s => s.host)), clients = new Set(S.sites.map(s => s.client));
+    let free = PLAN - S.sites.filter(s => s.st !== 'paused').length;
+    const seen = {};
+    return rows.map(r => {
+      const v = checkUrl(r.raw);
+      if (v.err) return { ...r, kind: 'err', msg: v.err };
+      if (existing.has(v.host)) return { ...r, host: v.host, kind: 'err', msg: 'Already monitored' };
+      if (seen[v.host]) return { ...r, host: v.host, kind: 'err', msg: `Duplicate of row ${seen[v.host]}` };
+      seen[v.host] = r.n;
+      if (free <= 0) return { ...r, host: v.host, kind: 'err', msg: `Over plan limit — ${PLAN} sites on Growth` };
+      free--;
+      if (r.client && !clients.has(r.client)) return { ...r, host: v.host, https: v.https, kind: 'warn', msg: `Ready · client “${r.client}” not found → Unassigned`, clientOk: false };
+      return { ...r, host: v.host, https: v.https, kind: 'ok', msg: v.https ? 'Ready' : 'Ready · http only, no SSL check', clientOk: true };
+    });
+  }
+  loadCsv(text, name) { const p = parseCsv(text); if (p.err) return this.setState({ csvFileErr: p.err }); if (!p.rows.length) return this.setState({ csvFileErr: 'The file has headers but no rows.' }); this.setState({ csvStep: 'preview', csvRows: this.evalCsv(p.rows), csvFileName: name, csvFileErr: '', csvErrOnly: false }); }
+  importCsv() {
+    const ok = this.state.csvRows.filter(r => r.kind !== 'err');
+    const add = ok.map((r, i) => ({ id: 'c' + Date.now() + i, name: r.name || r.host, host: r.host, client: r.kind === 'warn' || !r.client ? 'Unassigned' : r.client, st: 'unknown', isNew: true, https: r.https, sslState: r.https ? 'pending' : 'none', ssl: null, dom: null, domPending: true, inc: 0, u: [null, null, null], resp: null, audit: null, sub: 'first check queued', chk: '—', ago: 'added 09:48' }));
+    this.setState(x => ({ sites: [...x.sites, ...add], csvStep: 'done', csvImported: add.length }));
+  }
+  addOne(e) {
+    e.preventDefault(); const S = this.state; const v = checkUrl(S.addUrl);
+    if (v.err) return this.setState({ addErr: v.err + '.' });
+    if (S.sites.some(s => s.host === v.host)) return this.setState({ addErr: `${v.host} is already monitored.` });
+    if (PLAN - S.sites.filter(s => s.st !== 'paused').length <= 0) return this.setState({ addErr: 'Your plan is full (100 sites). Pause a site or upgrade first.' });
+    const s = { id: 'a' + Date.now(), name: S.addName.trim() || v.host, host: v.host, client: S.addClient || 'Unassigned', st: 'unknown', isNew: true, https: v.https, sslState: v.https ? 'pending' : 'none', ssl: null, dom: null, domPending: true, inc: 0, u: [null, null, null], resp: null, audit: null, sub: 'first check queued', chk: '—', ago: 'added 09:48' };
+    this.setState(x => ({ sites: [...x.sites, s], addOpen: false, phase: x.phase === 'empty' ? 'live' : x.phase, q: '', clientF: 'all', statusF: 'all', showF: 'all', sort: { key: 'status', dir: 1 }, page: 0 }));
+    this.say(`${v.host} added · first check queued`);
+  }
+
+  renderVals() {
+    const S = this.state, phase = S.phase;
+    const wide = S.w >= 980;
+    const activeCount = S.sites.filter(s => s.st !== 'paused').length, pausedCount = S.sites.length - activeCount, slotsFree = PLAN - activeCount;
+    const all = this.sorted(this.matches());
+    const total = all.length, pages = Math.max(1, Math.ceil(total / S.pageSize)), page = Math.min(S.page, pages - 1);
+    const slice = all.slice(page * S.pageSize, page * S.pageSize + S.pageSize);
+    const rows = phase === 'live' ? slice.map(s => this.view(s)) : [];
+    const selIds = Object.keys(S.sel), selCount = selIds.length;
+    const pageSel = slice.filter(s => S.sel[s.id]).length;
+    this._indet = pageSel > 0 && pageSel < slice.length;
+    const selSites = S.sites.filter(s => S.sel[s.id]);
+    const anyActive = selSites.some(s => s.st !== 'paused'), anyPaused = selSites.some(s => s.st === 'paused');
+    const q = S.q.trim();
+    const filtersOn = !!q || S.clientF !== 'all' || S.statusF !== 'all' || S.showF !== 'all';
+    const PL = ['24 h', '7 d', '30 d'];
+    const H = [['name', 'WEBSITE', 'flex-start'], ['client', 'CLIENT', 'flex-start'], ['status', 'STATUS', 'flex-start'], ['up', 'UPTIME ' + PL[S.period].toUpperCase(), 'flex-end'], ['resp', 'RESPONSE', 'flex-end'], ['ssl', 'SSL', 'flex-end'], ['dom', 'DOMAIN', 'flex-end'], ['inc', 'INC.', 'flex-end'], ['audit', 'LAST AUDIT', 'flex-end'], ['chk', 'LAST CHECK', 'flex-end']];
+    const headers = H.map(([key, label, justify]) => { const on = S.sort.key === key; return { label, justify, pos: key === 'name' ? 'sticky' : 'static', arrow: on ? (S.sort.dir > 0 ? '↑' : '↓') : '', color: on ? C.ink : C.mute, weight: on ? 600 : 400, ariaSort: on ? (S.sort.dir > 0 ? 'ascending' : 'descending') : 'none', sort: () => this.setState(x => ({ sort: { key, dir: x.sort.key === key ? -x.sort.dir : 1 }, page: 0 })) }; });
+    const clientNames = [...new Set(S.sites.map(s => s.client))].filter(c => c !== 'Unassigned').sort();
+    const cnt = f => S.sites.filter(f).length;
+
+    let dSite = null;
+    if (S.drawer) {
+      const s0 = S.sites.find(s => s.id === S.drawer);
+      if (s0) { const v = this.view(s0);
+        dSite = { ...v, href: (s0.https === false ? 'http://' : 'https://') + s0.host, panelBg: s0.st === 'down' ? '#FBEDEB' : '#F4F5F3',
+          subLong: s0.stale ? 'No result since 07:52 — last 3 checks timed out after 10 s (inconclusive)' : s0.sub ? s0.sub.charAt(0).toUpperCase() + s0.sub.slice(1) : 'All recent checks passed',
+          upAll: s0.u.map((u, i) => `${PL[i]} ${u === null || u === undefined ? '—' : u === 100 ? '100%' : u.toFixed(2) + '%'}`).join('  ·  '),
+          incLong: s0.inc ? `${s0.inc} open` : 'None', auditLong: s0.audit ? `${s0.audit.t}${s0.audit.sub ? ' · ' + s0.audit.sub : ''}${s0.audit.why ? ' — ' + s0.audit.why : ''}` : 'Scheduled after first successful check',
+          canRun: s0.st !== 'paused', runCheck: () => this.say(`Check queued for ${s0.host} · result in under a minute`),
+          pauseLabel: s0.st === 'paused' ? 'Resume monitoring…' : 'Pause monitoring…', togglePause: () => this.askBulk(s0.st === 'paused' ? 'resume' : 'pause', [s0.id]) };
+      }
+    }
+    const csvRowsAll = S.csvRows.map(r => ({ ...r, raw: r.raw || '(empty)', name: r.name || '—', clientShown: r.client || 'Unassigned', clientColor: r.kind === 'warn' ? '#7A4300' : r.client ? C.ink : C.mute,
+      g: r.kind === 'err' ? '◆' : r.kind === 'warn' ? '▲' : '●', c: r.kind === 'err' ? C.down : r.kind === 'warn' ? '#7A4300' : C.up, w: r.kind === 'ok' ? 400 : 600, bg: r.kind === 'err' ? '#FDF5F4' : '#FFFFFF', host: r.host || '' }));
+    const csvReady = S.csvRows.filter(r => r.kind !== 'err').length, csvErrN = S.csvRows.filter(r => r.kind === 'err').length, csvWarnN = S.csvRows.filter(r => r.kind === 'warn').length;
+    const v = checkUrl(S.addUrl);
+    const stepI = { pick: 0, preview: 1, done: 2 }[S.csvStep];
+
+    return {
+      wide, narrow: !wide, activeCount, pausedCount, slotsFree,
+      isEmpty: phase === 'empty', hasTable: phase !== 'empty', isLoading: phase === 'loading', isError: phase === 'error', isLive: phase === 'live',
+      skel: Array.from({ length: 10 }, (_, i) => ({ w: [62, 48, 70, 55, 66, 44, 58, 72, 50, 64][i] + '%' })),
+      q: S.q, clientF: S.clientF, statusF: S.statusF, showF: S.showF, filtersOn,
+      onQ: e => this.setF({ q: e.target.value }), onClient: e => this.setF({ clientF: e.target.value }), onStatus: e => this.setF({ statusF: e.target.value }), onShow: e => this.setF({ showF: e.target.value }),
+      clearFilters: () => this.setF({ q: '', clientF: 'all', statusF: 'all', showF: 'all' }),
+      clientOpts: [{ v: 'all', l: `All clients (${clientNames.length})` }, ...clientNames.map(n => ({ v: n, l: n })), ...(S.sites.some(s => s.client === 'Unassigned') ? [{ v: 'Unassigned', l: 'Unassigned' }] : [])],
+      statusOpts: [{ v: 'all', l: 'All statuses' }, { v: 'down', l: `◆ Down (${cnt(s => s.st === 'down')})` }, { v: 'degraded', l: `▲ Degraded (${cnt(s => s.st === 'degraded')})` }, { v: 'stale', l: `○ Stale / unknown (${cnt(s => s.stale || s.isNew)})` }, { v: 'up', l: `● Up (${cnt(s => s.st === 'up' && !s.stale)})` }, { v: 'paused', l: `‖ Paused (${cnt(s => s.st === 'paused')})` }],
+      periods: PL.map((l, i) => ({ l, pressed: S.period === i ? 'true' : 'false', bg: S.period === i ? C.ink : '#FFFFFF', fg: S.period === i ? '#FFFFFF' : C.ink, pick: () => this.setState({ period: i }) })),
+      headers, rows, stackRows: S.w < 720 && phase === 'live', tableRows: !(S.w < 720 && phase === 'live'), rowH: this.props.compact ? '38px' : '46px', noResults: phase === 'live' && total === 0,
+      noResultsWhat: q ? `“${q}”` : 'these filters', openAddWithQ: () => this.setState({ addOpen: true, addUrl: q, addName: '', addClient: '', addErr: '' }),
+      matchCount: total, matchText: filtersOn ? `${total} of ${S.sites.length} websites match` : `${S.sites.length} websites · sorted by ${H.find(h => h[0] === S.sort.key)[1].toLowerCase()}`,
+      hasSel: selCount > 0, noSel: selCount === 0, selCount, barBg: selCount ? C.ink : '#FFFFFF', barFg: selCount ? '#FFFFFF' : C.ink,
+      canSelectAll: slice.length > 0 && pageSel === slice.length && selCount < total,
+      selectAllMatching: () => this.setState({ sel: Object.fromEntries(all.map(s => [s.id, true])) }),
+      pageAllChecked: slice.length > 0 && pageSel === slice.length, allRef: this.allRef,
+      togglePage: () => this.setState(x => { const m = { ...x.sel }; const allOn = slice.every(s => m[s.id]); slice.forEach(s => { if (allOn) delete m[s.id]; else m[s.id] = true; }); return { sel: m }; }),
+      clearSel: () => this.setState({ sel: {} }),
+      askPause: () => anyActive ? this.askBulk('pause', selIds) : this.say('Nothing to pause — every selected website is already paused'), askResume: () => anyPaused ? this.askBulk('resume', selIds) : this.say('Nothing to resume — every selected website is already monitored'),
+      bulkHint: !anyActive ? 'All selected are paused' : !anyPaused ? 'None of the selected are paused' : '',
+      pauseDisabled: !anyActive, resumeDisabled: !anyPaused, pauseOpacity: 1, resumeOpacity: 1,
+      showPager: phase === 'live' && total > 0, pageSize: String(S.pageSize), onPageSize: e => this.setState({ pageSize: +e.target.value, page: 0 }),
+      rangeText: `${page * S.pageSize + 1}–${Math.min(total, (page + 1) * S.pageSize)} of ${total}`,
+      pages: Array.from({ length: pages }, (_, i) => ({ n: i + 1, cur: i === page ? 'page' : 'false', aria: `Page ${i + 1}`, bg: i === page ? C.ink : '#FFFFFF', fg: i === page ? '#FFFFFF' : C.ink, border: i === page ? C.ink : '#D5D8D4', go: () => this.setState({ page: i }) })),
+      prev: () => this.setState({ page: Math.max(0, page - 1) }), next: () => this.setState({ page: Math.min(pages - 1, page + 1) }),
+      prevDisabled: page === 0, nextDisabled: page >= pages - 1, prevOpacity: page === 0 ? .4 : 1, nextOpacity: page >= pages - 1 ? .4 : 1,
+      retry: () => { this.setState({ phase: 'loading' }); setTimeout(() => this.setState({ phase: 'live' }), 1000); },
+      dSite, closeDrawer: () => this.closeDrawer(), closeRef: this.closeRef,
+      confirm: S.confirm ? { ...S.confirm, go: () => this.applyBulk() } : null, closeConfirm: () => this.setState({ confirm: null }), confirmRef: this.confirmRef,
+      addOpen: S.addOpen, addRef: this.addRef, addUrl: S.addUrl, addName: S.addName, addClient: S.addClient, clientNames,
+      addMsg: S.addErr || (S.addUrl && !v.err ? `Will monitor ${v.https ? 'https' : 'http'}://${v.host}` : 'http:// or https:// only — https is added if you leave it out.'),
+      addMsgColor: S.addErr ? C.down : C.mute, addInvalid: S.addErr ? 'true' : 'false', addBorder: S.addErr ? C.down : '#B9BDB8',
+      openAdd: () => this.setState({ addOpen: true, addUrl: '', addName: '', addClient: '', addErr: '' }), closeAdd: () => this.setState({ addOpen: false }),
+      onAddUrl: e => this.setState({ addUrl: e.target.value, addErr: '' }), onAddName: e => this.setState({ addName: e.target.value }), onAddClient: e => this.setState({ addClient: e.target.value }),
+      submitAdd: e => this.addOne(e),
+      csvOpen: S.csvOpen, csvRef: this.csvRef, openCsv: () => this.setState({ csvOpen: true, csvStep: 'pick', csvRows: [], csvFileErr: '' }), closeCsv: () => this.setState({ csvOpen: false }),
+      csvSteps: ['Choose file', 'Review rows', 'Done'].map((l, i) => ({ n: i + 1, l, cur: i === stepI ? 'step' : 'false', c: i === stepI ? C.ink : C.mute, w: i === stepI ? 600 : 400 })),
+      csvPick: S.csvStep === 'pick', csvPreview: S.csvStep === 'preview', csvDone: S.csvStep === 'done', csvFileErr: S.csvFileErr, csvFileName: S.csvFileName,
+      onFile: e => { const f = e.target.files && e.target.files[0]; if (!f) return; if (!/\.csv$/i.test(f.name)) return this.setState({ csvFileErr: `${f.name} isn’t a .csv file.` }); const rd = new FileReader(); rd.onload = () => this.loadCsv(String(rd.result), f.name); rd.readAsText(f); },
+      useSample: () => this.loadCsv(SAMPLE_CSV, 'northfold-new-clients.csv'),
+      csvRows: S.csvErrOnly ? csvRowsAll.filter(r => r.kind !== 'ok') : csvRowsAll, csvReady, csvErrN, csvWarnN, csvNone: csvReady === 0, csvErrOnly: S.csvErrOnly, toggleErrOnly: () => this.setState(x => ({ csvErrOnly: !x.csvErrOnly })),
+      csvFoot: `${csvReady} websites will be added and checks start immediately. ${slotsFree - csvReady} plan slots will remain. Rows with problems are skipped — you can download them to fix.`,
+      csvBack: () => this.setState({ csvStep: 'pick', csvRows: [] }), csvImport: () => this.importCsv(), csvImported: S.csvImported,
+      showImported: () => this.setState({ csvOpen: false, q: '', clientF: 'all', showF: 'stale', statusF: 'all', page: 0 }),
+      toast: S.toast
+    };
+  }
+}
+</script>
+</body>
+</html>

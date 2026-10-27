@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Settings · Northfold Studio · Client Status</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@75..100,400;75..100,500;75..100,600;75..100,700&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F4F5F3;color:#161A1C;-webkit-font-smoothing:antialiased}
+a{color:#161A1C;text-decoration:underline;text-underline-offset:2px}
+a:hover{color:#4A4F52}
+button,select,input,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid #161A1C;outline-offset:2px}
+input[type=checkbox],input[type=radio]{accent-color:#161A1C}
+</style>
+</helmet>
+
+<div style="display:flex;min-height:100vh;font-family:Archivo,sans-serif;font-size:14px;background:#F4F5F3;color:#161A1C">
+  <sc-if value="{{ wideNav }}" hint-placeholder-val="{{ true }}">
+    <nav aria-label="Primary" style="flex:0 0 200px;position:sticky;top:0;height:100vh;box-sizing:border-box;background:#FFFFFF;border-right:1px solid #D5D8D4;display:flex;flex-direction:column;padding:16px 0">
+      <div style="padding:0 16px 4px;font-weight:700;font-stretch:80%;font-size:17px;letter-spacing:.01em">Northfold Studio</div>
+      <div style="padding:0 16px 16px;font-size:12px;color:#4A4F52">Growth plan · 84 of 100 sites</div>
+      <a href="Overview.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M3 12h4l3-8 4 16 3-8h4"></path></svg>Overview</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G O</span></a>
+      <a href="Websites.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9M12 3c-2.5 2.6-3.8 5.6-3.8 9s1.3 6.4 3.8 9"></path></svg>Websites</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G W</span></a>
+      <a href="Clients.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><rect x="3" y="7" width="18" height="13"></rect><path d="M8.5 7V4h7v3M3 12.5h18"></path></svg>Clients</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G C</span></a>
+      <a href="Incidents.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M12 3.5 2.5 20h19L12 3.5z"></path><path d="M12 10v4.5M12 17.2v.1"></path></svg>Incidents <span style="font-family:'JetBrains Mono',monospace;color:#C2261B;font-weight:600">4</span></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G I</span></a>
+      <a href="Reports.dc.html" style="display:flex;justify-content:space-between;padding:8px 16px;text-decoration:none" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M6 2.5h8.5L19 7v14.5H6z"></path><path d="M14 2.5V7.5h5M9 12.5h7M9 16.5h7"></path></svg>Reports</span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52">G R</span></a>
+      <div style="height:1px;background:#E2E4E1;margin:12px 16px"></div>
+      <a href="Team.dc.html" style="padding:8px 16px;text-decoration:none;color:#4A4F52" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20.5c.7-3.6 3.3-5.8 6.5-5.8s5.8 2.2 6.5 5.8M15.5 4.6a3.5 3.5 0 0 1 0 6.8M18 15c1.9.9 3.1 2.8 3.5 5.5"></path></svg>Team</span></a>
+      <a href="Settings.dc.html" aria-current="page" style="padding:8px 16px;text-decoration:none;background:#161A1C;color:#FFFFFF"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><path d="M3 6h11M18 6h3M3 12h4M11 12h10M3 18h12M19 18h2"></path><circle cx="16" cy="6" r="2"></circle><circle cx="9" cy="12" r="2"></circle><circle cx="17" cy="18" r="2"></circle></svg>Settings</span></a>
+      <a href="Billing.dc.html" style="padding:8px 16px;text-decoration:none;color:#4A4F52" style-hover="background:#EEF0EE"><span style="display:flex;align-items:center;gap:10px"><svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="square" stroke-linejoin="miter" style="flex:0 0 auto;"><rect x="2.5" y="5" width="19" height="14"></rect><path d="M2.5 10h19M6 15h4"></path></svg>Billing</span></a>
+      <div style="margin-top:auto;padding:12px 16px 0;border-top:1px solid #E2E4E1;font-size:13px;display:flex;flex-direction:column;gap:2px"><span style="font-weight:600">Priya Raman</span><span style="color:#4A4F52;font-size:12px">Owner · Europe/London</span><span style="margin-top:8px;font-size:12px;font-weight:600;font-stretch:80%;letter-spacing:.02em;color:#4A4F52">Client Status</span></div>
+    </nav>
+  </sc-if>
+
+  <div style="flex:1 1 auto;min-width:0;display:flex;flex-direction:column">
+    <sc-if value="{{ narrowNav }}" hint-placeholder-val="{{ false }}">
+      <nav aria-label="Primary" style="display:flex;gap:4px;align-items:center;padding:8px 12px;background:#FFFFFF;border-bottom:1px solid #D5D8D4;overflow-x:auto;white-space:nowrap">
+        <span style="font-weight:700;font-stretch:80%;font-size:15px;margin-right:8px">Northfold</span>
+        <a href="Overview.dc.html" style="padding:6px 10px;text-decoration:none">Overview</a><a href="Websites.dc.html" style="padding:6px 10px;text-decoration:none">Websites</a><a href="Clients.dc.html" style="padding:6px 10px;text-decoration:none">Clients</a><a href="Incidents.dc.html" style="padding:6px 10px;text-decoration:none">Incidents</a><a href="Reports.dc.html" style="padding:6px 10px;text-decoration:none">Reports</a><a href="Settings.dc.html" aria-current="page" style="padding:6px 10px;background:#161A1C;color:#FFFFFF;text-decoration:none">Settings</a>
+      </nav>
+    </sc-if>
+
+    <header style="display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px;padding:18px 28px 0">
+      <h1 style="margin:0;font-size:22px;font-weight:600;font-stretch:85%">Settings</h1>
+      <span style="font-size:13px;color:#4A4F52">Workspace defaults. Individual websites can override alerts on their own page.</span>
+    </header>
+    <div role="tablist" aria-label="Settings sections" style="display:flex;padding:14px 28px 0;border-bottom:1px solid #D5D8D4;overflow-x:auto;overflow-y:hidden">
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="3"><button type="button" role="tab" aria-selected="{{ t.sel }}" onClick="{{ t.pick }}" style="white-space:nowrap;height:38px;padding:0 14px;border:none;border-bottom:2px solid {{ t.edge }};background:none;cursor:pointer;font-size:13.5px;font-weight:{{ t.w }};color:{{ t.c }}">{{ t.l }}</button></sc-for>
+    </div>
+
+    <main style="flex:1;padding:20px 28px 96px;min-width:0">
+      <sc-if value="{{ isAlerts }}" hint-placeholder-val="{{ true }}">
+        <div role="tabpanel" aria-label="Alerts" style="max-width:860px;display:flex;flex-direction:column;gap:24px">
+          <section aria-labelledby="h-rec" style="background:#FFFFFF;border:1px solid #D5D8D4">
+            <div style="padding:12px 16px;border-bottom:1px solid #D5D8D4;display:flex;flex-direction:column;gap:2px"><h2 id="h-rec" style="margin:0;font-size:15px;font-weight:600">Who gets alert emails</h2><span style="font-size:12.5px;color:#4A4F52">Team members only. Clients never receive alerts — they get the monthly report.</span></div>
+            <sc-for list="{{ recips }}" as="p" hint-placeholder-count="3">
+              <label style="display:grid;grid-template-columns:20px minmax(0,1fr) auto;gap:10px;padding:10px 16px;border-bottom:1px solid #E7E9E6;align-items:center;cursor:pointer">
+                <input type="checkbox" checked="{{ p.on }}" onChange="{{ p.toggle }}" style="width:16px;height:16px;margin:0"></input>
+                <span style="display:flex;flex-direction:column;min-width:0"><span style="font-weight:600">{{ p.name }} <span style="font-weight:400;color:#4A4F52;font-size:12.5px">{{ p.role }}</span></span><span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:#4A4F52;overflow:hidden;text-overflow:ellipsis">{{ p.email }}</span></span>
+                <span style="font-size:12.5px;color:{{ p.sc }};text-align:right">{{ p.status }}</span>
+              </label>
+            </sc-for>
+            <sc-if value="{{ noRecip }}" hint-placeholder-val="{{ false }}"><p role="alert" style="margin:0;padding:10px 16px;background:#FBF1E4;font-size:13px;color:#3A2A14;border-bottom:1px solid #E2C9A3">▲ Nobody will be emailed about downtime. Select at least one person.</p></sc-if>
+            <div style="padding:10px 16px;font-size:12.5px;color:#4A4F52">Add people in <a href="Team.dc.html">Team</a>.</div>
+          </section>
+
+          <section aria-labelledby="h-ev" style="background:#FFFFFF;border:1px solid #D5D8D4">
+            <div style="padding:12px 16px;border-bottom:1px solid #D5D8D4"><h2 id="h-ev" style="margin:0;font-size:15px;font-weight:600">What sends an email</h2></div>
+            <div role="table" aria-label="Alert events">
+              <div role="row" style="display:grid;grid-template-columns:minmax(0,1fr) 84px 84px;padding:8px 16px;border-bottom:1px solid #D5D8D4;font-size:12px;letter-spacing:.03em;color:#4A4F52"><span role="columnheader">EVENT</span><span role="columnheader" style="text-align:center">OPENED</span><span role="columnheader" style="text-align:center">RESOLVED</span></div>
+              <sc-for list="{{ events }}" as="e" hint-placeholder-count="5">
+                <div role="row" style="display:grid;grid-template-columns:minmax(0,1fr) 84px 84px;padding:10px 16px;border-bottom:1px solid #E7E9E6;align-items:center">
+                  <span role="cell" style="display:flex;flex-direction:column"><span style="font-weight:600">{{ e.l }}</span><span style="font-size:12.5px;color:#4A4F52">{{ e.rule }}</span></span>
+                  <span role="cell" style="text-align:center"><input type="checkbox" checked="{{ e.open }}" onChange="{{ e.tOpen }}" aria-label="{{ e.aOpen }}" style="width:16px;height:16px;margin:0"></input></span>
+                  <span role="cell" style="text-align:center"><sc-if value="{{ e.hasRes }}" hint-placeholder-val="{{ true }}"><input type="checkbox" checked="{{ e.res }}" onChange="{{ e.tRes }}" aria-label="{{ e.aRes }}" style="width:16px;height:16px;margin:0"></input></sc-if><sc-if value="{{ e.noRes }}" hint-placeholder-val="{{ false }}"><span style="font-size:12.5px;color:#4A4F52">—</span></sc-if></span>
+                </div>
+              </sc-for>
+            </div>
+            <p style="margin:0;padding:10px 16px;font-size:12.5px;color:#4A4F52;line-height:1.45">Inconclusive results (timeouts, rate limits, bot challenges) never send email. Audit findings appear in the app and the monthly report only.</p>
+          </section>
+
+          <section aria-labelledby="h-cd" style="background:#FFFFFF;border:1px solid #D5D8D4;padding:14px 16px;display:flex;flex-direction:column;gap:10px">
+            <h2 id="h-cd" style="margin:0;font-size:15px;font-weight:600">Repeat alerts</h2>
+            <label style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-size:13.5px">Minimum time between emails for the same incident
+              <select value="{{ cooldown }}" onChange="{{ onCooldown }}" style="height:34px;border:1px solid #B9BDB8;background:#FFFFFF;padding:0 8px;font-size:13.5px"><option value="30">30 minutes</option><option value="60">60 minutes (default)</option><option value="240">4 hours</option><option value="0">Never repeat</option></select>
+            </label>
+            <p style="margin:0;font-size:13px;color:#2E3437;line-height:1.5">{{ cooldownNote }}</p>
+          </section>
+
+          <section aria-labelledby="h-ov" style="background:#FFFFFF;border:1px solid #D5D8D4">
+            <div style="padding:12px 16px;border-bottom:1px solid #D5D8D4;display:flex;align-items:baseline;gap:10px"><h2 id="h-ov" style="margin:0;font-size:15px;font-weight:600">Websites with their own alert settings</h2><span style="font-family:'JetBrains Mono',monospace;font-size:13px;color:#4A4F52">3</span></div>
+            <sc-for list="{{ overrides }}" as="o" hint-placeholder-count="3">
+              <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:12px;padding:10px 16px;border-bottom:1px solid #E7E9E6;font-size:13px;align-items:baseline">
+                <a href="Website%20Detail.dc.html" style="font-family:'JetBrains Mono',monospace;font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ o.host }}</a>
+                <span style="color:#2E3437">{{ o.diff }}</span>
+              </div>
+            </sc-for>
+          </section>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isBrand }}" hint-placeholder-val="{{ false }}">
+        <div role="tabpanel" aria-label="Report branding" style="display:flex;flex-wrap:wrap;gap:24px;align-items:flex-start">
+          <div style="flex:1 1 440px;max-width:560px;display:flex;flex-direction:column;gap:20px">
+            <section aria-labelledby="h-id" style="background:#FFFFFF;border:1px solid #D5D8D4;padding:14px 16px;display:flex;flex-direction:column;gap:14px">
+              <h2 id="h-id" style="margin:0;font-size:15px;font-weight:600">Agency identity</h2>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Agency name on reports<input type="text" value="{{ b.name }}" onChange="{{ onName }}" style="height:36px;padding:0 10px;border:1px solid #B9BDB8;font-weight:400;font-size:14px"></input></label>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <span style="font-size:13px;font-weight:600">Logo</span>
+                <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+                  <span style="width:150px;height:44px;border:1px dashed #9AA09C;display:flex;align-items:center;justify-content:center;background:#FAFAF9;font-size:12.5px;color:#4A4F52;text-align:center;line-height:1.2">{{ logoLabel }}</span>
+                  <label style="white-space:nowrap;height:34px;padding:0 12px;border:1px solid #B9BDB8;background:#FFFFFF;display:flex;align-items:center;cursor:pointer;font-size:13px">Choose file<input type="file" accept="image/png,image/svg+xml" onChange="{{ onLogo }}" style="position:absolute;width:1px;height:1px;opacity:0"></input></label>
+                  <sc-if value="{{ b.logo }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ clearLogo }}" style="white-space:nowrap;border:none;background:none;padding:0;text-decoration:underline;cursor:pointer;font-size:13px">Remove</button></sc-if>
+                </div>
+                <span style="font-size:12.5px;color:#4A4F52">PNG or SVG, at least 300 px wide, under 1 MB. Shown on a white plate so it stays legible on any brand colour. Without a logo, reports show your initials.</span>
+                <sc-if value="{{ logoErr }}" hint-placeholder-val="{{ false }}"><span role="alert" style="font-size:12.5px;color:#C2261B">{{ logoErr }}</span></sc-if>
+              </div>
+            </section>
+
+            <section aria-labelledby="h-col" style="background:#FFFFFF;border:1px solid #D5D8D4;padding:14px 16px;display:flex;flex-direction:column;gap:12px">
+              <h2 id="h-col" style="margin:0;font-size:15px;font-weight:600">Brand colour</h2>
+              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+                <sc-for list="{{ swatches }}" as="s" hint-placeholder-count="5"><button type="button" onClick="{{ s.pick }}" aria-label="{{ s.aria }}" aria-pressed="{{ s.pressed }}" style="width:32px;height:32px;border:2px solid {{ s.ring }};background:{{ s.v }};cursor:pointer;padding:0;outline-offset:2px"></button></sc-for>
+                <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:#4A4F52">Hex<input type="text" value="{{ b.color }}" onChange="{{ onHex }}" aria-invalid="{{ hexInvalid }}" style="width:96px;height:32px;padding:0 8px;border:1px solid {{ hexBorder }};font-family:'JetBrains Mono',monospace;font-size:13px"></input></label>
+              </div>
+              <dl style="margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:13px">
+                <dt style="color:#4A4F52">Cover text</dt><dd style="margin:0"><span style="font-weight:600;color:{{ c.okColor }}">{{ c.onGlyph }} {{ c.onText }}</span></dd>
+                <dt style="color:#4A4F52">Headings &amp; rules</dt><dd style="margin:0">{{ c.textNote }}</dd>
+                <dt style="color:#4A4F52">Status colours</dt><dd style="margin:0">Fixed — green, amber and red keep their meaning in every report.</dd>
+              </dl>
+            </section>
+
+            <section aria-labelledby="h-ft" style="background:#FFFFFF;border:1px solid #D5D8D4;padding:14px 16px;display:flex;flex-direction:column;gap:14px">
+              <h2 id="h-ft" style="margin:0;font-size:15px;font-weight:600">Contact &amp; footer</h2>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">“Questions about this report?” contact<input type="text" value="{{ b.person }}" onChange="{{ onPerson }}" style="height:36px;padding:0 10px;border:1px solid #B9BDB8;font-weight:400;font-size:14px"></input></label>
+              <label style="display:flex;flex-direction:column;gap:6px;font-size:13px;font-weight:600">Footer line<input type="text" value="{{ b.footer }}" onChange="{{ onFooter }}" maxlength="90" style="height:36px;padding:0 10px;border:1px solid #B9BDB8;font-weight:400;font-size:14px"></input><span style="font-weight:400;font-size:12.5px;color:#4A4F52">{{ footerCount }} of 90 characters · printed on every page</span></label>
+            </section>
+          </div>
+
+          <aside aria-label="Cover preview" style="flex:0 1 340px;min-width:280px;position:sticky;top:20px;display:flex;flex-direction:column;gap:8px">
+            <span style="font-size:12px;letter-spacing:.03em;color:#4A4F52">COVER PREVIEW</span>
+            <div style="background:#FFFFFF;border:1px solid #D5D8D4;box-shadow:0 1px 2px rgba(0,0,0,.06);aspect-ratio:210 / 297;display:flex;flex-direction:column;overflow:hidden">
+              <div style="background:{{ c.fill }};color:{{ c.on }};padding:18px 20px 18px;display:flex;flex-direction:column;gap:22px">
+                <div style="display:flex;align-items:center;gap:8px">
+                  <sc-if value="{{ b.logo }}" hint-placeholder-val="{{ false }}"><span style="height:24px;padding:3px 6px;box-sizing:border-box;background:#FFFFFF;color:#161A1C;display:flex;align-items:center;font-size:10.5px;font-weight:700">{{ b.logoName }}</span></sc-if>
+                  <sc-if value="{{ noLogo }}" hint-placeholder-val="{{ true }}"><span style="width:22px;height:22px;border:1.5px solid {{ c.on }};display:flex;align-items:center;justify-content:center;font-weight:700;font-size:9px">{{ initials }}</span></sc-if>
+                  <span style="font-weight:700;font-size:11px">{{ b.name }}</span>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:8px;letter-spacing:.08em">WEBSITE HEALTH REPORT</span><span style="font-size:20px;font-weight:600;font-stretch:82%;line-height:1.05">Harbour Dental Group</span><span style="font-size:9px">September 2026</span></div>
+              </div>
+              <div style="padding:14px 20px;display:flex;flex-direction:column;gap:6px">
+                <span style="font-size:8px;letter-spacing:.08em;font-weight:600;color:{{ c.text }}">SUMMARY</span>
+                <span style="height:5px;background:#E2E4E1;width:92%"></span><span style="height:5px;background:#E2E4E1;width:86%"></span><span style="height:5px;background:#E2E4E1;width:70%"></span>
+                <span style="margin-top:8px;border-top:1.5px solid #161A1C;padding-top:6px;display:flex;gap:12px;font-size:12px;font-weight:600;font-stretch:85%"><span>99.97%</span><span>26 min</span><span style="color:#1F6B45">● 1</span></span>
+              </div>
+              <div style="margin-top:auto;padding:8px 20px;border-top:1px solid #E2E4E1;font-size:8px;color:#4A4F52;display:flex;justify-content:space-between;gap:8px"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ b.footer }}</span><span style="white-space:nowrap">Page 1 of 5</span></div>
+            </div>
+            <a href="{{ sampleHref }}" target="_blank" style="font-size:13px">Open full sample report with these settings</a>
+          </aside>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isSched }}" hint-placeholder-val="{{ false }}">
+        <div role="tabpanel" aria-label="Report schedule" style="max-width:760px;display:flex;flex-direction:column;gap:20px">
+          <section aria-labelledby="h-sc" style="background:#FFFFFF;border:1px solid #D5D8D4;padding:14px 16px;display:flex;flex-direction:column;gap:12px">
+            <h2 id="h-sc" style="margin:0;font-size:15px;font-weight:600">Monthly reports</h2>
+            <dl style="margin:0;display:grid;grid-template-columns:170px 1fr;gap:8px 16px;font-size:13.5px">
+              <dt style="color:#4A4F52">Generated</dt><dd style="margin:0">1st of each month, 06:00 Europe/London — for the month before</dd>
+              <dt style="color:#4A4F52">Next run</dt><dd style="margin:0;font-weight:600">1 Nov 2026, 06:00 · 31 clients</dd>
+            </dl>
+            <fieldset style="margin:0;padding:0;border:none;display:flex;flex-direction:column;gap:10px;min-width:0">
+              <legend style="font-size:13.5px;font-weight:600;margin-bottom:8px">Delivery</legend>
+              <label style="display:flex;gap:8px;align-items:flex-start;font-size:13.5px;line-height:1.45;cursor:pointer"><input type="radio" name="del" value="review" checked="{{ delReview }}" onChange="{{ onDel }}" style="margin:3px 0 0"></input><span style="flex:1;min-width:0">Hold every report for review <span style="color:#4A4F52">— nothing is sent until someone presses Send.</span></span></label>
+              <label style="display:flex;gap:8px;align-items:flex-start;font-size:13.5px;line-height:1.45;cursor:pointer"><input type="radio" name="del" value="auto" checked="{{ delAuto }}" onChange="{{ onDel }}" style="margin:3px 0 0"></input><span style="flex:1;min-width:0">Send automatically at 07:00 <span style="color:#4A4F52">— except reports with data gaps or unconfirmed recipients, which are always held.</span></span></label>
+            </fieldset>
+            <label style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;font-size:13.5px">Private web link in the email expires after
+              <select value="{{ linkDays }}" onChange="{{ onLinkDays }}" style="height:34px;border:1px solid #B9BDB8;background:#FFFFFF;padding:0 8px;font-size:13.5px"><option value="30">30 days</option><option value="60">60 days</option><option value="90">90 days</option></select>
+            </label>
+          </section>
+        </div>
+      </sc-if>
+    </main>
+
+    <sc-if value="{{ dirty }}" hint-placeholder-val="{{ false }}">
+      <div role="region" aria-label="Unsaved changes" style="position:sticky;bottom:0;z-index:20;display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;padding:10px 28px;background:#161A1C;color:#FFFFFF">
+        <span style="font-size:13.5px">{{ dirtyText }}</span>
+        <span style="flex:1"></span>
+        <button type="button" onClick="{{ discard }}" style="white-space:nowrap;height:34px;padding:0 12px;border:1px solid #6B7174;background:transparent;color:#FFFFFF;cursor:pointer;font-size:13px">Discard</button>
+        <button type="button" onClick="{{ save }}" disabled="{{ saveBlocked }}" style="white-space:nowrap;height:34px;padding:0 14px;border:none;background:#FFFFFF;color:#161A1C;cursor:pointer;font-weight:600;font-size:13px">Save changes</button>
+      </div>
+    </sc-if>
+
+    <footer style="display:flex;flex-wrap:wrap;gap:4px 24px;padding:6px 28px;background:#161A1C;color:#D5D8D4;font-family:'JetBrains Mono',monospace;font-size:12px;border-top:1px solid #2E3437">
+      <span style="white-space:nowrap"><span aria-hidden="true" style="color:#5FD39A">●</span> Monitoring current</span><span style="white-space:nowrap">Newest result 09:48:02 · next SSL sweep 12:00</span><span style="margin-left:auto;white-space:nowrap">Times in Europe/London (GMT)</span>
+    </footer>
+  </div>
+
+  <div aria-live="polite" style="position:fixed;left:50%;bottom:48px;transform:translateX(-50%);z-index:60">
+    <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}"><div style="background:#161A1C;color:#FFFFFF;padding:10px 16px;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.2);border:1px solid #4A4F52">{{ toast }}</div></sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;tab&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;alerts&quot;,&quot;brand&quot;,&quot;sched&quot;],&quot;default&quot;:&quot;alerts&quot;,&quot;tsType&quot;:&quot;'alerts'|'brand'|'sched'&quot;,&quot;section&quot;:&quot;Demo&quot;}}">
+const hex = h => { h = h.replace('#', ''); if (h.length === 3) h = h.split('').map(x => x + x).join(''); return [0, 2, 4].map(i => parseInt(h.slice(i, i + 2), 16)); };
+const lum = h => { const [r, g, b] = hex(h).map(v => { v /= 255; return v <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4); }); return .2126 * r + .7152 * g + .0722 * b; };
+const contrast = (a, b) => { const x = lum(a), y = lum(b); return (Math.max(x, y) + .05) / (Math.min(x, y) + .05); };
+const mix = (a, b, t) => '#' + hex(a).map((v, i) => Math.round(v + (hex(b)[i] - v) * t).toString(16).padStart(2, '0')).join('');
+const VALID = /^#[0-9a-f]{6}$/i;
+const SW = [['#23395B', 'Navy'], ['#0F5C4D', 'Pine'], ['#7A2E4B', 'Plum'], ['#B4532A', 'Rust'], ['#F2C14E', 'Mustard']];
+const EVENTS = [
+  { k: 'down', l: 'Downtime', rule: 'After 2 consecutive failed checks · resolves after 2 passes', open: true, res: true },
+  { k: 'sslInvalid', l: 'SSL certificate invalid', rule: 'Expired, untrusted or wrong hostname', open: true, res: true },
+  { k: 'sslExp', l: 'SSL certificate expiring', rule: '30, 14, 7 and 1 days before', open: true, res: false },
+  { k: 'domExp', l: 'Domain expiring', rule: '30, 14, 7 and 1 days before · only where the registry publishes a date', open: true, res: false },
+  { k: 'dns', l: 'DNS records changed', rule: 'A, AAAA, MX or NS', open: true, res: null }
+];
+const INIT = {
+  recips: [{ name: 'Priya Raman', role: 'Owner', email: 'priya@northfold.studio', on: true, status: 'Verified', sc: '#4A4F52' }, { name: 'Tom Ellis', role: 'Admin', email: 'tom@northfold.studio', on: true, status: 'Verified', sc: '#4A4F52' }, { name: 'Aisha Bello', role: 'Member', email: 'aisha@northfold.studio', on: false, status: 'Invite pending', sc: '#A35A00' }],
+  ev: Object.fromEntries(EVENTS.map(e => [e.k, { open: e.open, res: e.res }])), cooldown: '60',
+  brand: { name: 'Northfold Studio', color: '#23395B', logo: '', logoName: '', person: 'Priya Raman, Account Director', footer: 'hello@northfold.studio · +44 20 7946 0321 · northfold.studio' },
+  del: 'auto', linkDays: '30'
+};
+
+class Component extends DCLogic {
+  state = { tab: this.props.tab ?? 'alerts', saved: INIT, cur: INIT, hexDraft: null, logoErr: '', toast: '', w: typeof window !== 'undefined' ? window.innerWidth : 1400 };
+  componentDidMount() { this.onResize = () => this.setState({ w: window.innerWidth }); window.addEventListener('resize', this.onResize); }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); clearTimeout(this.tt); }
+  componentDidUpdate(pp) { if (pp.tab !== this.props.tab && this.props.tab) this.setState({ tab: this.props.tab }); }
+  say(m) { clearTimeout(this.tt); this.setState({ toast: m }); this.tt = setTimeout(() => this.setState({ toast: '' }), 3500); }
+  set(fn) { this.setState(s => ({ cur: fn(s.cur) })); }
+  setB(k, v) { this.set(c => ({ ...c, brand: { ...c.brand, [k]: v } })); }
+  renderVals() {
+    const S = this.state, cur = S.cur, b = cur.brand;
+    const color = VALID.test(b.color) ? b.color : '#23395B';
+    const on = contrast(color, '#FFFFFF') >= 4.5 ? '#FFFFFF' : '#161A1C';
+    let text = color, t = 0; while (contrast(text, '#FFFFFF') < 4.5 && t < 1) { t += .05; text = mix(color, '#000000', t); }
+    const ratio = contrast(color, on).toFixed(1);
+    const diffs = [];
+    if (JSON.stringify(cur.recips) !== JSON.stringify(S.saved.recips)) diffs.push('alert recipients');
+    if (JSON.stringify(cur.ev) !== JSON.stringify(S.saved.ev)) diffs.push('alert events');
+    if (cur.cooldown !== S.saved.cooldown) diffs.push('repeat interval');
+    if (JSON.stringify(cur.brand) !== JSON.stringify(S.saved.brand)) diffs.push('report branding');
+    if (cur.del !== S.saved.del || cur.linkDays !== S.saved.linkDays) diffs.push('report schedule');
+    const noRecip = !cur.recips.some(r => r.on);
+    const hexShown = S.hexDraft ?? b.color, hexBad = S.hexDraft !== null && !VALID.test(S.hexDraft);
+    const cdN = { '30': 'Up to 2 emails an hour per open incident.', '60': 'Up to 1 email an hour per open incident, then a recovery email when it resolves.', '240': 'Up to 1 email every 4 hours per open incident.', '0': 'One email when an incident opens and one when it resolves. Nothing in between.' }[cur.cooldown];
+    const initials = (b.name || 'A').split(/\s+/).map(w => w[0]).join('').slice(0, 2).toUpperCase();
+    return {
+      wideNav: S.w >= 980, narrowNav: S.w < 980,
+      tabs: [['alerts', 'Alerts'], ['brand', 'Report branding'], ['sched', 'Report schedule']].map(([k, l]) => ({ l, sel: S.tab === k ? 'true' : 'false', edge: S.tab === k ? '#161A1C' : 'transparent', w: S.tab === k ? 600 : 400, c: S.tab === k ? '#161A1C' : '#4A4F52', pick: () => this.setState({ tab: k }) })),
+      isAlerts: S.tab === 'alerts', isBrand: S.tab === 'brand', isSched: S.tab === 'sched',
+      recips: cur.recips.map((r, i) => ({ ...r, toggle: () => this.set(c => ({ ...c, recips: c.recips.map((x, j) => j === i ? { ...x, on: !x.on } : x) })) })), noRecip,
+      events: EVENTS.map(e => { const v = cur.ev[e.k]; return { ...e, open: v.open, res: !!v.res, hasRes: e.res !== null, noRes: e.res === null, aOpen: `${e.l}: email when opened`, aRes: `${e.l}: email when resolved`,
+        tOpen: () => this.set(c => ({ ...c, ev: { ...c.ev, [e.k]: { ...c.ev[e.k], open: !c.ev[e.k].open } } })), tRes: () => this.set(c => ({ ...c, ev: { ...c.ev, [e.k]: { ...c.ev[e.k], res: !c.ev[e.k].res } } })) }; }),
+      cooldown: cur.cooldown, onCooldown: e => { const v = e.target.value; this.set(c => ({ ...c, cooldown: v })); }, cooldownNote: cdN,
+      overrides: [{ host: 'shop.millerandkoch.com', diff: 'Also emails anna@millerandkoch.com’s agency contact Tom E. only · 30-minute repeat' }, { host: 'thegreenroomlondon.com', diff: 'Timeout raised to 20 s (host is slow overnight)' }, { host: 'kiln-coffee.com', diff: 'DNS change alerts off (planned migration)' }],
+      b: { ...b, color: hexShown }, initials, noLogo: !b.logo, logoLabel: b.logo ? b.logoName : 'No logo — initials shown', logoErr: S.logoErr,
+      onName: e => this.setB('name', e.target.value), onPerson: e => this.setB('person', e.target.value), onFooter: e => this.setB('footer', e.target.value), footerCount: b.footer.length,
+      onLogo: e => { const f = e.target.files && e.target.files[0]; if (!f) return; if (!/image\/(png|svg\+xml)/.test(f.type)) return this.setState({ logoErr: `${f.name} isn’t a PNG or SVG.` }); if (f.size > 1048576) return this.setState({ logoErr: `${f.name} is ${(f.size / 1048576).toFixed(1)} MB — the limit is 1 MB.` }); this.setState({ logoErr: '' }); this.setB('logo', 'uploaded'); this.setB('logoName', f.name); },
+      clearLogo: () => { this.setB('logo', ''); this.setB('logoName', ''); },
+      swatches: SW.map(([v, n]) => ({ v, aria: `${n} ${v}`, pressed: b.color.toLowerCase() === v.toLowerCase() ? 'true' : 'false', ring: b.color.toLowerCase() === v.toLowerCase() ? '#161A1C' : '#FFFFFF', pick: () => { this.setState({ hexDraft: null }); this.setB('color', v); } })),
+      onHex: e => { let v = e.target.value.trim(); if (v && v[0] !== '#') v = '#' + v; this.setState({ hexDraft: v }); if (VALID.test(v)) this.setB('color', v.toUpperCase()); },
+      hexInvalid: hexBad ? 'true' : 'false', hexBorder: hexBad ? '#C2261B' : '#B9BDB8',
+      c: { fill: color, on, text, okColor: '#1F7A4A', onGlyph: '●', onText: `${on === '#FFFFFF' ? 'White' : 'Dark'} text, ${ratio} : 1 — passes AA${on === '#161A1C' ? ' (switched to dark for this light colour)' : ''}`, textNote: text.toLowerCase() === color.toLowerCase() ? `Uses ${color} as is` : `Darkened to ${text.toUpperCase()} so text on white passes AA` },
+      sampleHref: `Monthly%20Report.dc.html?brand=${color.replace('#', '')}&agency=${encodeURIComponent(b.name)}`,
+      delReview: cur.del === 'review', delAuto: cur.del === 'auto', onDel: e => { const v = e.target.value; this.set(c => ({ ...c, del: v })); }, linkDays: cur.linkDays, onLinkDays: e => { const v = e.target.value; this.set(c => ({ ...c, linkDays: v })); },
+      dirty: diffs.length > 0, dirtyText: noRecip ? '▲ Unsaved — no one would receive alert emails' : `Unsaved changes to ${diffs.join(', ')}`, saveBlocked: noRecip,
+      discard: () => this.setState({ cur: S.saved, hexDraft: null, logoErr: '' }),
+      save: () => { if (noRecip) return; this.setState({ saved: cur, hexDraft: null }); this.say(diffs.includes('report branding') ? 'Saved · branding applies to reports generated from now on' : 'Saved · applies from the next check'); },
+      toast: S.toast
+    };
+  }
+}
+</script>
+</body>
+</html>
