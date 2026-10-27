@@ -13,6 +13,12 @@ export type RunnerOptions = {
   concurrency: number;
   /** Concurrent audits — long crawls get their own lane so they never starve checks. */
   auditConcurrency?: number;
+  /**
+   * Claim again as soon as a job finishes instead of waiting for the next claim
+   * tick (the worker). Without it a slot sits idle for up to a tick after every
+   * check, which the load test showed halves throughput.
+   */
+  refill?: boolean;
   deps: HandlerDeps;
 };
 
@@ -37,6 +43,56 @@ async function onFinalFailure(db: PrismaClient, job: ClaimedJob) {
 export function createRunner(db: PrismaClient, opts: RunnerOptions) {
   const inFlight = new Set<Promise<void>>();
   const auditsInFlight = new Set<Promise<void>>();
+  let stopped = false;
+  let claiming: Promise<number> | null = null;
+  let claimAgain = false;
+
+  const lanes = [
+    { set: inFlight, limit: opts.concurrency, filter: { exclude: LONG_TYPES } },
+    { set: auditsInFlight, limit: opts.auditConcurrency ?? 2, filter: { only: LONG_TYPES } },
+  ];
+
+  function start(job: ClaimedJob, set: Set<Promise<void>>) {
+    const p = execute(job).finally(() => {
+      set.delete(p);
+      if (opts.refill && !stopped) void claim().catch((error) => log.error("refill claim failed", { error }));
+    });
+    set.add(p);
+  }
+
+  async function claimOnce() {
+    let started = 0;
+    for (const lane of lanes) {
+      const free = lane.limit - lane.set.size;
+      if (free <= 0) continue;
+      const jobs = await claimJobs(db, opts.workerId, free, opts.deps.now(), lane.filter);
+      for (const job of jobs) start(job, lane.set);
+      started += jobs.length;
+    }
+    return started;
+  }
+
+  /** Never runs twice at once (that could claim past the concurrency limit); a call made meanwhile reruns it. */
+  async function claim(): Promise<number> {
+    if (stopped) return 0;
+    if (claiming) {
+      claimAgain = true;
+      return 0;
+    }
+    claiming = (async () => {
+      let started = 0;
+      do {
+        claimAgain = false;
+        started += await claimOnce();
+      } while (claimAgain && !stopped);
+      return started;
+    })();
+    try {
+      return await claiming;
+    } finally {
+      claiming = null;
+    }
+  }
 
   async function execute(job: ClaimedJob) {
     const started = Date.now();
@@ -62,23 +118,10 @@ export function createRunner(db: PrismaClient, opts: RunnerOptions) {
       return scheduleDueWork(db, now);
     },
     /** Claims as many jobs as there is free capacity for, per lane, and starts them. */
-    async claim() {
-      let started = 0;
-      const lanes = [
-        { set: inFlight, limit: opts.concurrency, filter: { exclude: LONG_TYPES } },
-        { set: auditsInFlight, limit: opts.auditConcurrency ?? 2, filter: { only: LONG_TYPES } },
-      ];
-      for (const lane of lanes) {
-        const free = lane.limit - lane.set.size;
-        if (free <= 0) continue;
-        const jobs = await claimJobs(db, opts.workerId, free, opts.deps.now(), lane.filter);
-        for (const job of jobs) {
-          const p = execute(job).finally(() => lane.set.delete(p));
-          lane.set.add(p);
-        }
-        started += jobs.length;
-      }
-      return started;
+    claim,
+    /** Stops claiming (graceful shutdown); running jobs finish — wait for them with drain(). */
+    stop() {
+      stopped = true;
     },
     /** Claims and starts jobs of specific types only (scripts and tests). */
     async claimTypes(types: string[]) {

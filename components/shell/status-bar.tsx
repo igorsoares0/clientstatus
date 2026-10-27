@@ -6,6 +6,7 @@ import { siteCounts } from "@/lib/data/sites";
 import { getWorkerState } from "@/lib/heartbeat";
 import { getPlan } from "@/lib/plans";
 import { requireMembership } from "@/lib/session";
+import { hasAccess } from "@/lib/billing/access";
 
 // Footer status bar (design "Global shell"): dark ink, mono 12px. Never shows
 // internal queue metrics, and never claims monitoring is current when the
@@ -28,8 +29,13 @@ export async function StatusBar() {
   const resultsLate =
     counts.active > 0 && newest !== null && now.getTime() - newest.getTime() > 2 * intervalMs + 60_000;
 
-  const view =
-    worker.kind === "never-started"
+  const view = !hasAccess(workspace.accessEndsAt, now)
+    ? {
+        dot: "text-bar-delayed",
+        text: "Monitoring stopped — no active plan",
+        detail: "Showing last known values",
+      }
+    : worker.kind === "never-started"
       ? {
           dot: "text-bar-delayed",
           text: "Monitoring not started",

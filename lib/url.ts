@@ -21,7 +21,7 @@ const MAX_URL_LENGTH = 2048;
 const LOCAL_SUFFIXES = [".localhost", ".local", ".internal", ".lan", ".home.arpa", ".intranet", ".corp"];
 
 function isPrivateIPv4(ip: string): boolean {
-  const [a, b] = ip.split(".").map(Number);
+  const [a, b, c] = ip.split(".").map(Number);
   return (
     a === 0 ||
     a === 10 ||
@@ -29,20 +29,47 @@ function isPrivateIPv4(ip: string): boolean {
     (a === 100 && b >= 64 && b <= 127) || // carrier-grade NAT
     (a === 169 && b === 254) || // link-local, cloud metadata
     (a === 172 && b >= 16 && b <= 31) ||
+    (a === 192 && b === 0 && (c === 0 || c === 2)) || // IETF protocol assignments, documentation
     (a === 192 && b === 168) ||
     (a === 198 && (b === 18 || b === 19)) || // benchmarking
+    (a === 198 && b === 51 && c === 100) || // documentation
+    (a === 203 && b === 0 && c === 113) || // documentation
     a >= 224 // multicast and reserved
   );
 }
 
+/** Expands any valid IPv6 literal (compressed, mixed dotted form) to eight 16-bit groups. */
+function ipv6Groups(ip: string): number[] {
+  let v = ip.toLowerCase().split("%")[0]!;
+  const dotted = v.match(/(\d+)\.(\d+)\.(\d+)\.(\d+)$/);
+  if (dotted) {
+    const [a, b, c, d] = dotted.slice(1).map(Number) as [number, number, number, number];
+    v = `${v.slice(0, dotted.index)}${((a << 8) | b).toString(16)}:${((c << 8) | d).toString(16)}`;
+  }
+  const [head, tail] = v.includes("::") ? v.split("::") : [v, undefined];
+  const h = head ? head.split(":") : [];
+  const t = tail === undefined ? [] : tail ? tail.split(":") : [];
+  const zeros = tail === undefined ? [] : Array(8 - h.length - t.length).fill("0");
+  return [...h, ...zeros, ...t].map((g) => parseInt(g, 16));
+}
+
+const v4 = (hi: number, lo: number) => `${hi >> 8}.${hi & 255}.${lo >> 8}.${lo & 255}`;
+
 function isPrivateIPv6(ip: string): boolean {
-  const v = ip.toLowerCase();
-  if (v === "::" || v === "::1") return true;
-  if (v.startsWith("fe8") || v.startsWith("fe9") || v.startsWith("fea") || v.startsWith("feb")) return true; // link-local
-  if (v.startsWith("fc") || v.startsWith("fd")) return true; // unique local
-  if (v.startsWith("ff")) return true; // multicast
-  const mapped = v.match(/^::ffff:(\d+\.\d+\.\d+\.\d+)$/);
-  return mapped ? isPrivateIPv4(mapped[1]) : false;
+  const g = ipv6Groups(ip);
+  const zeroPrefix = (n: number) => g.slice(0, n).every((x) => x === 0);
+  if (zeroPrefix(8)) return true; // ::
+  if (zeroPrefix(7) && g[7] === 1) return true; // ::1
+  if ((g[0]! & 0xffc0) === 0xfe80) return true; // link-local fe80::/10
+  if ((g[0]! & 0xfe00) === 0xfc00) return true; // unique local fc00::/7
+  if ((g[0]! & 0xff00) === 0xff00) return true; // multicast
+  if (g[0] === 0x2001 && g[1] === 0x0db8) return true; // documentation
+  if (g[0] === 0x0100 && zeroPrefix(4)) return true; // discard-only 100::/64
+  // IPv4 embedded in IPv6: mapped ::ffff:a.b.c.d, compatible ::a.b.c.d, NAT64 64:ff9b::/96 and 6to4 2002::/16.
+  if (zeroPrefix(5) && (g[5] === 0xffff || g[5] === 0)) return isPrivateIPv4(v4(g[6]!, g[7]!));
+  if (g[0] === 0x64 && g[1] === 0xff9b && g.slice(2, 6).every((x) => x === 0)) return isPrivateIPv4(v4(g[6]!, g[7]!));
+  if (g[0] === 0x2002) return isPrivateIPv4(v4(g[1]!, g[2]!));
+  return false;
 }
 
 /** True for loopback, private, link-local, multicast and reserved IP literals. */

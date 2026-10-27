@@ -1,4 +1,5 @@
 import type { PrismaClient } from "@/lib/generated/prisma/client";
+import { workspaceWithAccess } from "@/lib/billing/access";
 import { UserFacingError } from "@/lib/data/errors";
 import { currentMonth, localParts, previousMonth, type Period } from "@/lib/reports/period";
 
@@ -70,7 +71,11 @@ async function clientsWithSites(db: PrismaClient, workspaceId: string, period: P
 }
 
 export async function scheduleMonthlyReports(db: PrismaClient, now = new Date()) {
-  const workspaces = await db.workspace.findMany({ select: { id: true, timezone: true } });
+  // Workspaces without an active plan get no new reports; earlier ones stay readable.
+  const workspaces = await db.workspace.findMany({
+    where: workspaceWithAccess(now),
+    select: { id: true, timezone: true },
+  });
   let created = 0;
   for (const ws of workspaces) {
     const local = localParts(now, ws.timezone);

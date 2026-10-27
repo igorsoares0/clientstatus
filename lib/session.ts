@@ -5,6 +5,7 @@ import { cache } from "react";
 import { auth } from "@/lib/auth";
 import { db } from "@/lib/db";
 import type { TenantContext } from "@/lib/data/tenant";
+import type { SubscriptionStatus } from "@/lib/generated/prisma/enums";
 
 // Data Access Layer entry points. Authorization happens here, close to the
 // data — proxy.ts only does an optimistic cookie check. React `cache` dedupes
@@ -30,6 +31,8 @@ export type WorkspaceSummary = {
   timezone: string;
   planKey: string;
   trialEndsAt: Date | null;
+  accessEndsAt: Date | null;
+  subscription: { status: SubscriptionStatus } | null;
 };
 
 export type Membership = TenantContext & {
@@ -42,7 +45,17 @@ const getMembershipFor = cache(async (userId: string) =>
     where: { userId },
     select: {
       role: true,
-      workspace: { select: { id: true, name: true, timezone: true, planKey: true, trialEndsAt: true } },
+      workspace: {
+        select: {
+          id: true,
+          name: true,
+          timezone: true,
+          planKey: true,
+          trialEndsAt: true,
+          accessEndsAt: true,
+          subscription: { select: { status: true } },
+        },
+      },
     },
   }),
 );

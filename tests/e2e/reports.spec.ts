@@ -116,6 +116,9 @@ test("preview report: generate, review gaps, confirm recipients, send, open the 
   const res = await pub.goto(link);
   expect(res?.headers()["x-robots-tag"]).toContain("noindex");
   expect(res?.headers()["referrer-policy"]).toBe("no-referrer");
+  // The app-wide headers in next.config.ts must not replace the report's own, stricter policy.
+  expect(res?.headers()["content-security-policy"]).toContain("default-src 'none'");
+  expect(res?.headers()["x-content-type-options"]).toBe("nosniff");
   await expect(pub.getByRole("heading", { level: 1, name: "Harbour Dental Group" })).toBeVisible();
   await expect(pub.getByText(/WEBSITE HEALTH REPORT · PREVIEW/)).toBeVisible();
   expect((await pub.request.get(`${link}/pdf`)).headers()["content-type"]).toBe("application/pdf");

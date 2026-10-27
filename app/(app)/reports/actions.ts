@@ -2,6 +2,7 @@
 
 import { refresh } from "next/cache";
 import { z } from "zod";
+import { assertCanOperate } from "@/lib/billing/access";
 import { toActionError, type ActionResult } from "@/lib/action-result";
 import { db } from "@/lib/db";
 import { addRecipient } from "@/lib/data/reports";
@@ -32,6 +33,7 @@ export async function sendReportAction(
       select: { id: true },
     });
     if (!report) return { ok: false, error: "That report doesn’t exist." };
+    await assertCanOperate(db, ctx);
     const { token, sent } = await sendReport(db, reportId, {
       now: () => new Date(),
       actorUserId: ctx.userId,
@@ -82,6 +84,7 @@ export async function generatePreviewAction(clientId: string): Promise<ActionRes
       select: { id: true },
     });
     if (!client) return { ok: false, error: "That client doesn’t exist or is archived." };
+    await assertCanOperate(db, ctx);
     const report = await requestPreview(db, ctx.workspaceId, clientId);
     refresh();
     return { ok: true, reportId: report.id };
@@ -94,6 +97,7 @@ export async function retryReportAction(reportId: string): Promise<ActionResult>
   const ctx = await requireMembership();
   try {
     assertRole(ctx, "admin");
+    await assertCanOperate(db, ctx);
     const { count } = await db.monthlyReport.updateMany({
       where: { id: reportId, workspaceId: ctx.workspaceId, status: "failed" },
       data: { status: "generating", errorSummary: null },

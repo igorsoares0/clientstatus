@@ -1,3 +1,4 @@
+import { assertCanOperate } from "@/lib/billing/access";
 import type { PrismaClient } from "@/lib/generated/prisma/client";
 import type { FindingSeverity } from "@/lib/generated/prisma/enums";
 import { notFound, UserFacingError } from "@/lib/data/errors";
@@ -34,6 +35,7 @@ export async function requestManualAudit(db: PrismaClient, ctx: TenantContext, s
   });
   if (!site) throw notFound("website");
   if (site.status !== "active") throw new UserFacingError("Resume monitoring to run an audit.", "invalid");
+  await assertCanOperate(db, ctx, now);
   const busy = await db.auditRun.findFirst({
     where: { siteId, status: { in: ["queued", "running"] } },
     select: { id: true },

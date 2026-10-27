@@ -1,6 +1,7 @@
 "use server";
 
 import { refresh } from "next/cache";
+import { after } from "next/server";
 import { z } from "zod";
 import { toActionError, type ActionResult } from "@/lib/action-result";
 import { parseImportCsv } from "@/lib/csv";
@@ -17,8 +18,12 @@ import {
 } from "@/lib/data/sites";
 import { requestManualAudit } from "@/lib/data/audits";
 import { requestManualCheck } from "@/lib/data/monitoring";
+import { logger } from "@/lib/log";
+import { warnIfNearPlanLimit } from "@/lib/notify/usage";
 import { requireMembership } from "@/lib/session";
 import { normalizeSiteUrl } from "@/lib/url";
+
+const log = logger("websites");
 
 const idList = z.array(z.uuid()).min(1).max(500);
 const optionalText = (max: number) =>
@@ -27,6 +32,13 @@ const optionalText = (max: number) =>
     .trim()
     .max(max, `Keep it under ${max} characters.`)
     .transform((v) => v || undefined);
+
+/** The 90%-of-plan email goes out after the response, so a slow mail queue never delays the action. */
+function afterAddingSites(workspaceId: string) {
+  after(() =>
+    warnIfNearPlanLimit(db, workspaceId).catch((error) => log.error("usage warning failed", { workspaceId, error })),
+  );
+}
 
 export type AddSiteState = ActionResult<{ siteId: string; hostname: string }> | null;
 
@@ -56,6 +68,7 @@ export async function addSiteAction(_prev: AddSiteState, formData: FormData): Pr
       clientId: parsed.data.clientId,
       clientName: parsed.data.clientName,
     });
+    afterAddingSites(ctx.workspaceId);
     refresh();
     return { ok: true, siteId: site.id, hostname: site.normalizedHostname };
   } catch (error) {
@@ -71,6 +84,7 @@ export async function setSitesPausedAction(siteIds: string[], paused: boolean): 
   if (!ids.success) return { ok: false, error: "Select at least one website." };
   try {
     const result = paused ? await pauseSites(db, ctx, ids.data) : await resumeSites(db, ctx, ids.data);
+    if (!paused) afterAddingSites(ctx.workspaceId);
     refresh();
     return { ok: true, ...result };
   } catch (error) {
@@ -126,6 +140,7 @@ export async function restoreSiteAction(siteId: string): Promise<ActionResult> {
   const ctx = await requireMembership();
   try {
     await restoreSite(db, ctx, siteId);
+    afterAddingSites(ctx.workspaceId);
     refresh();
     return { ok: true };
   } catch (error) {
@@ -154,6 +169,7 @@ export async function commitImportAction(csvText: string): Promise<ImportCommit>
   if (!parsed.ok) return { ok: false, error: parsed.error };
   try {
     const result = await commitImport(db, ctx, parsed.rows);
+    afterAddingSites(ctx.workspaceId);
     refresh();
     return { ok: true, ...result };
   } catch (error) {

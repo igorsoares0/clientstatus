@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRef, useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { UnsavedBar } from "@/components/ui/unsaved-bar";
@@ -15,10 +16,13 @@ export function BrandingForm({
   canManage,
   initial,
   logoDataUri,
+  footerAllowed,
 }: {
   canManage: boolean;
   initial: State;
   logoDataUri: string | null;
+  /** Starter plans can't set a custom footer (FR-BILL-04); the server enforces it too. */
+  footerAllowed: boolean;
 }) {
   const toast = useToast();
   const [saved, setSaved] = useState(initial);
@@ -194,12 +198,20 @@ export function BrandingForm({
             <input
               value={cur.footer}
               maxLength={90}
+              disabled={!footerAllowed}
               onChange={(e) => setCur((c) => ({ ...c, footer: e.target.value }))}
-              placeholder="hello@agency.com · +44 20 0000 0000"
+              placeholder={footerAllowed ? "hello@agency.com · +44 20 0000 0000" : "Prepared with Client Status"}
               className={input}
             />
             <span className="text-[12.5px] font-normal text-muted">
-              {cur.footer.length} of 90 characters · printed on the report
+              {footerAllowed ? (
+                `${cur.footer.length} of 90 characters · printed on the report`
+              ) : (
+                <>
+                  Custom footers come with Growth and Pro. On Starter, reports end with “Prepared with Client Status”.{" "}
+                  <Link href="/billing#plans">Compare plans</Link>
+                </>
+              )}
             </span>
           </label>
         </section>

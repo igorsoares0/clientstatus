@@ -1,6 +1,7 @@
 import type { PrismaClient } from "@/lib/generated/prisma/client";
 import { Prisma } from "@/lib/generated/prisma/client";
 import type { DownPolicy, SiteStatus } from "@/lib/generated/prisma/enums";
+import { assertCanOperate } from "@/lib/billing/access";
 import { findOrCreateClientByName } from "@/lib/data/clients";
 import { notFound, UserFacingError } from "@/lib/data/errors";
 import type { TenantContext } from "@/lib/data/tenant";
@@ -82,6 +83,7 @@ export async function createSite(db: PrismaClient, ctx: TenantContext, input: Ne
   try {
     return await db.$transaction(async (tx) => {
       await lockWorkspace(tx, ctx.workspaceId);
+      await assertCanOperate(tx, ctx);
       const existing = await tx.site.findFirst({
         where: { workspaceId: ctx.workspaceId, liveHostKey: input.url.hostname },
         select: { status: true },
@@ -199,6 +201,7 @@ export async function pauseSites(
 export async function resumeSites(db: PrismaClient, ctx: TenantContext, siteIds: string[]): Promise<BulkResult> {
   return db.$transaction(async (tx) => {
     await lockWorkspace(tx, ctx.workspaceId);
+    await assertCanOperate(tx, ctx);
     const targets = await tx.site.findMany({
       where: { id: { in: siteIds }, workspaceId: ctx.workspaceId, status: "paused" },
       select: { id: true },
@@ -246,6 +249,7 @@ export async function restoreSite(db: PrismaClient, ctx: TenantContext, siteId: 
         select: { normalizedHostname: true, clientId: true, client: { select: { status: true } } },
       });
       if (!site) throw notFound("website");
+      await assertCanOperate(tx, ctx);
       const plan = await planFor(tx, ctx.workspaceId);
       if ((await activeCount(tx, ctx.workspaceId)) >= plan.maxActiveSites)
         throw planLimitError(plan.name, plan.maxActiveSites);

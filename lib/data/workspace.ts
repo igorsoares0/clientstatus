@@ -29,7 +29,14 @@ export async function createWorkspaceForUser(
     try {
       return await db.$transaction(async (tx) => {
         const workspace = await tx.workspace.create({
-          data: { name: input.name, slug, timezone: input.timezone, planKey: TRIAL_PLAN, trialEndsAt },
+          data: {
+            name: input.name,
+            slug,
+            timezone: input.timezone,
+            planKey: TRIAL_PLAN,
+            trialEndsAt,
+            accessEndsAt: trialEndsAt,
+          },
           select: { id: true },
         });
         await tx.workspaceMember.create({ data: { workspaceId: workspace.id, userId, role: "owner" } });

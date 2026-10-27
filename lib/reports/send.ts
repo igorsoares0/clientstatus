@@ -1,4 +1,5 @@
 import type { PrismaClient } from "@/lib/generated/prisma/client";
+import { hasAccess } from "@/lib/billing/access";
 import { UserFacingError } from "@/lib/data/errors";
 import { env } from "@/lib/env";
 import { formatLongDate } from "@/lib/format";
@@ -45,7 +46,7 @@ export async function sendReport(
     where: { id: reportId },
     include: {
       client: { select: { id: true, name: true, status: true } },
-      workspace: { select: { name: true, timezone: true, reportContact: true } },
+      workspace: { select: { name: true, timezone: true, reportContact: true, accessEndsAt: true } },
     },
   });
   if (!report || !report.storageKey || !report.data)
@@ -60,6 +61,7 @@ export async function sendReport(
     // Automatic sends never go out with gaps, unconfirmed or bouncing recipients — they wait for review.
     if (report.kind !== "monthly" || report.status !== "needs_review" || report.disclosures.length)
       return { token: null, sent: 0 };
+    if (!hasAccess(report.workspace.accessEndsAt, now)) return { token: null, sent: 0 };
     if (!all.length || all.some((r) => !r.confirmedAt || r.lastBouncedAt)) return { token: null, sent: 0 };
   } else {
     recipients = all.filter((r) => opts.recipientIds?.includes(r.id));

@@ -88,7 +88,7 @@ test("sign up → verify email → create workspace → use the shell → sign o
   await expect(page.getByRole("cell", { name: "Owner" })).toBeVisible();
 
   await sidebar.getByRole("link", { name: "Billing" }).click();
-  await expect(page.getByText("$99")).toBeVisible();
+  await expect(page.getByRole("region", { name: "Growth plan" }).getByText("$99")).toBeVisible();
 
   // 6. Sign out, then back in.
   await sidebar.getByRole("button", { name: "Sign out" }).click();

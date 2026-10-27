@@ -1,6 +1,11 @@
 import { z } from "zod";
 
 // Shared by the web app and the worker, so no "server-only" import here.
+const optional = z
+  .string()
+  .optional()
+  .transform((v) => v?.trim() || undefined);
+
 const schema = z.object({
   NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
   DATABASE_URL: z.url({ protocol: /^postgres(ql)?$/ }),
@@ -14,6 +19,19 @@ const schema = z.object({
   EMAIL_DELIVERY: z.preprocess((v) => v || undefined, z.enum(["resend", "mailbox"]).optional()),
   EMAIL_FROM: z.string().min(3),
   WORKER_HEALTH_PORT: z.coerce.number().int().min(1).max(65535).default(3001),
+  /** Paddle billing. All optional: without them the Billing page explains billing isn't configured. */
+  PADDLE_ENVIRONMENT: z.preprocess((v) => v || undefined, z.enum(["sandbox", "production"]).default("sandbox")),
+  PADDLE_API_KEY: optional,
+  PADDLE_WEBHOOK_SECRET: optional,
+  /** Client-side token for Paddle.js (safe to expose; passed to the checkout component). */
+  PADDLE_CLIENT_TOKEN: optional,
+  PADDLE_PRICE_STARTER: optional,
+  PADDLE_PRICE_GROWTH: optional,
+  PADDLE_PRICE_PRO: optional,
+  /** Comma-separated emails allowed into the internal ops page (/ops). */
+  OPS_ADMIN_EMAILS: optional,
+  /** Private beta: comma-separated emails or @domains allowed to sign up. Empty = open sign-up. */
+  SIGNUP_ALLOWLIST: optional,
 });
 
 export type Env = z.infer<typeof schema>;

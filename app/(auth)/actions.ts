@@ -5,7 +5,10 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { auth } from "@/lib/auth";
+import { allowAccountEmail, allowSignIn, allowSignUp } from "@/lib/auth-limits";
 import { logger } from "@/lib/log";
+import { clientIp } from "@/lib/rate-limit";
+import { isSignupAllowed, SIGNUP_CLOSED_MESSAGE } from "@/lib/signup-allowlist";
 import { emailSchema, nameSchema, passwordSchema } from "@/lib/validation";
 
 const log = logger("auth");
@@ -50,6 +53,10 @@ export async function signUpAction(_prev: FormState, formData: FormData): Promis
   const values = { name: raw.name, email: raw.email };
   const parsed = signUpSchema.safeParse(raw);
   if (!parsed.success) return { fieldErrors: fieldErrors(parsed.error), values };
+  if (!isSignupAllowed(parsed.data.email)) return { formError: SIGNUP_CLOSED_MESSAGE, values };
+  if (!allowSignUp(clientIp(await headers()))) {
+    return { formError: "Too many sign-ups from this network. Try again in an hour.", values };
+  }
 
   try {
     await auth.api.signUpEmail({
@@ -64,6 +71,7 @@ export async function signUpAction(_prev: FormState, formData: FormData): Promis
     if (code === "PASSWORD_TOO_SHORT" || code === "PASSWORD_TOO_LONG") {
       return { fieldErrors: { password: "Use between 12 and 128 characters." }, values };
     }
+    if (code === "SIGNUP_NOT_ALLOWED") return { formError: SIGNUP_CLOSED_MESSAGE, values };
     log.error("sign-up failed", { code, error });
     return { formError: "We couldn’t create your account. Try again in a moment.", values };
   }
@@ -77,6 +85,9 @@ export async function signInAction(_prev: FormState, formData: FormData): Promis
   const values = { email: raw.email };
   const parsed = signInSchema.safeParse(raw);
   if (!parsed.success) return { fieldErrors: fieldErrors(parsed.error), values };
+  if (!allowSignIn(clientIp(await headers()), parsed.data.email)) {
+    return { formError: "Too many attempts. Wait 15 minutes and try again.", values };
+  }
 
   try {
     await auth.api.signInEmail({ body: parsed.data, headers: await headers() });
@@ -96,6 +107,9 @@ export async function signInAction(_prev: FormState, formData: FormData): Promis
 export async function resendVerificationAction(_prev: FormState, formData: FormData): Promise<FormState> {
   const parsed = emailSchema.safeParse(String(formData.get("email") ?? ""));
   if (!parsed.success) return { formError: "We don’t know which address to send to. Sign up again." };
+  if (!allowAccountEmail("verify", parsed.data)) {
+    return { formError: "We’ve sent several emails already. Check your spam folder, or try again in an hour." };
+  }
   try {
     await auth.api.sendVerificationEmail({
       body: { email: parsed.data, callbackURL: "/onboarding/workspace" },
@@ -112,6 +126,8 @@ export async function requestPasswordResetAction(_prev: FormState, formData: For
   const raw = String(formData.get("email") ?? "");
   const parsed = emailSchema.safeParse(raw);
   if (!parsed.success) return { fieldErrors: { email: parsed.error.issues[0]?.message }, values: { email: raw } };
+  // Over the limit we answer exactly as usual, so the response never reveals anything.
+  if (!allowAccountEmail("reset", parsed.data)) return { done: true, values: { email: parsed.data } };
   try {
     await auth.api.requestPasswordReset({
       body: { email: parsed.data, redirectTo: "/reset-password" },

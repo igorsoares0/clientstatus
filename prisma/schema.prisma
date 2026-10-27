@@ -85,9 +85,12 @@ model Workspace {
   slug                String    @unique
   /// IANA timezone used for report boundaries and displayed timestamps.
   timezone            String
-  /// Key into lib/plans.ts. Billing (Paddle) updates this in Phase 5.
+  /// Key into lib/plans.ts. Kept in sync with the Paddle subscription (lib/billing/apply.ts).
   planKey             String    @default("growth")
   trialEndsAt         DateTime?
+  /// When monitoring and new work stop (trial end, past-due grace end, cancellation).
+  /// NULL = no end (paid and current). Data stays readable after it passes.
+  accessEndsAt        DateTime?
   logoUrl             String?
   brandPrimaryColor   String?
   brandSecondaryColor String?
@@ -108,7 +111,10 @@ model Workspace {
   incidents            Incident[]
   notificationSettings NotificationSettings?
   reports              MonthlyReport[]
+  subscription         Subscription?
+  billingTransactions  BillingTransaction[]
 
+  @@index([accessEndsAt])
   @@map("workspace")
 }
 
@@ -670,6 +676,78 @@ model Job {
   @@index([status, runAt, priority])
   @@index([status, lockedAt])
   @@map("job")
+}
+
+// ─── Billing (Paddle) ─────────────────────────────────────────────────────
+
+enum SubscriptionStatus {
+  trialing
+  active
+  past_due
+  paused
+  canceled
+}
+
+/// One per workspace: the Paddle subscription it is linked to.
+model Subscription {
+  id                     String             @id @default(uuid(7))
+  workspaceId            String             @unique
+  workspace              Workspace          @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  provider               String             @default("paddle")
+  providerCustomerId     String
+  providerSubscriptionId String             @unique
+  planKey                String
+  status                 SubscriptionStatus
+  currentPeriodStart     DateTime?
+  currentPeriodEnd       DateTime?
+  /// Paddle scheduled change ("cancel" | "pause" | "resume") and when it takes effect.
+  scheduledChange        String?
+  scheduledChangeAt      DateTime?
+  /// First time we saw this subscription past due; the grace period runs from here.
+  pastDueSince           DateTime?
+  canceledAt             DateTime?
+  pausedAt               DateTime?
+  /// Paddle's updated_at of the entity we last applied: older events are ignored.
+  providerUpdatedAt      DateTime
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
+
+  @@map("subscription")
+}
+
+/// Processed webhook event ids, so duplicates are acknowledged without re-applying.
+model BillingEvent {
+  id          String   @id
+  eventType   String
+  occurredAt  DateTime
+  /// "applied" | "ignored" (stale, unknown workspace or not ours).
+  outcome     String
+  workspaceId String?
+  processedAt DateTime @default(now())
+
+  @@index([processedAt])
+  @@map("billing_event")
+}
+
+/// Invoices and failed payments, for the Billing page. Amounts in the currency's minor unit.
+model BillingTransaction {
+  id                String    @id
+  workspaceId       String
+  workspace         Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  status            String
+  invoiceNumber     String?
+  total             Int
+  currency          String
+  billedAt          DateTime
+  cardBrand         String?
+  cardLast4         String?
+  cardExpiry        String?
+  providerUpdatedAt DateTime
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+
+  @@index([workspaceId, billedAt])
+  @@map("billing_transaction")
 }
 
 // ─── Operations ───────────────────────────────────────────────────────────

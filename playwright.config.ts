@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { defineConfig, devices } from "@playwright/test";
+import { E2E_OPS_EMAIL, E2E_PADDLE_WEBHOOK_SECRET } from "./tests/e2e/constants";
 
 const PORT = 3100;
 const baseURL = `http://localhost:${PORT}`;
@@ -24,6 +25,16 @@ export default defineConfig({
       DATABASE_URL: process.env.TEST_DATABASE_URL!,
       BETTER_AUTH_URL: baseURL,
       EMAIL_DELIVERY: "mailbox",
+      // Billing on, with test-only values: webhooks are signed by the tests, nothing calls Paddle.
+      PADDLE_ENVIRONMENT: "sandbox",
+      PADDLE_API_KEY: "e2e-not-a-real-key",
+      PADDLE_WEBHOOK_SECRET: E2E_PADDLE_WEBHOOK_SECRET,
+      PADDLE_CLIENT_TOKEN: "test_e2e_client_token",
+      PADDLE_PRICE_STARTER: "pri_e2e_starter",
+      PADDLE_PRICE_GROWTH: "pri_e2e_growth",
+      PADDLE_PRICE_PRO: "pri_e2e_pro",
+      OPS_ADMIN_EMAILS: E2E_OPS_EMAIL,
+      SIGNUP_ALLOWLIST: "",
     },
   },
 });

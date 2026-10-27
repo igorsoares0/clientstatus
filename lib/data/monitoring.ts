@@ -1,3 +1,4 @@
+import { assertCanOperate } from "@/lib/billing/access";
 import type { PrismaClient } from "@/lib/generated/prisma/client";
 import { notFound, UserFacingError } from "@/lib/data/errors";
 import type { TenantContext } from "@/lib/data/tenant";
@@ -146,6 +147,7 @@ export async function requestManualCheck(db: PrismaClient, ctx: TenantContext, s
   });
   if (!site) throw notFound("website");
   if (site.status !== "active") throw new UserFacingError("Resume monitoring to run a check.", "invalid");
+  await assertCanOperate(db, ctx, now);
   const after = site.state?.manualCheckAfter;
   if (after && after > now) {
     const s = Math.ceil((after.getTime() - now.getTime()) / 1000);

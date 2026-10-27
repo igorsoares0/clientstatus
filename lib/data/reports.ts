@@ -2,6 +2,7 @@ import type { Prisma, PrismaClient } from "@/lib/generated/prisma/client";
 import { notFound, UserFacingError } from "@/lib/data/errors";
 import { assertRole, type TenantContext } from "@/lib/data/tenant";
 import { recordAudit } from "@/lib/data/workspace-tx";
+import { getPlan } from "@/lib/plans";
 import { hashReportToken, isWellFormedToken } from "@/lib/reports/token";
 
 /** A sent report behind a live private link, or null (unknown, revoked or expired). */
@@ -142,8 +143,19 @@ export async function updateNotificationSettings(db: PrismaClient, ctx: TenantCo
 
 export type BrandingUpdate = { name: string; color: string | null; contact: string | null; footer: string | null };
 
+export const FOOTER_PLAN_MESSAGE =
+  "A custom footer is included with Growth and Pro. On Starter, reports end with “Prepared with Client Status” instead.";
+
 export async function updateBranding(db: PrismaClient, ctx: TenantContext, input: BrandingUpdate) {
   assertRole(ctx, "admin");
+  const ws = await db.workspace.findUniqueOrThrow({
+    where: { id: ctx.workspaceId },
+    select: { planKey: true, reportFooter: true },
+  });
+  // FR-BILL-04: report branding is plan-limited on the server, not only in the form.
+  if (getPlan(ws.planKey).reportBranding === "basic" && input.footer && input.footer !== ws.reportFooter) {
+    throw new UserFacingError(FOOTER_PLAN_MESSAGE, "plan_limit", "footer");
+  }
   await db.workspace.update({
     where: { id: ctx.workspaceId },
     data: {

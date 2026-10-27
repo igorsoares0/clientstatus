@@ -18,6 +18,8 @@ export type ClaimedJob = {
   payload: Prisma.JsonValue;
   attempts: number;
   maxAttempts: number;
+  /** When the job was due (queue-age metrics and the load test). */
+  runAt: Date;
 };
 
 export type NewJob = {
@@ -84,7 +86,7 @@ export async function claimJobs(
       LIMIT ${limit}
       FOR UPDATE SKIP LOCKED
     )
-    RETURNING "id", "workspaceId", "jobType", "resourceType", "resourceId", "payload", "attempts", "maxAttempts"`;
+    RETURNING "id", "workspaceId", "jobType", "resourceType", "resourceId", "payload", "attempts", "maxAttempts", "runAt"`;
 }
 
 /** Keeps a long-running job's lease alive. */
@@ -158,4 +160,49 @@ export async function queueMetrics(db: PrismaClient, now = new Date()) {
     failedLast24h: failed24h,
     oldestDueAgeSeconds: oldest ? Math.round((now.getTime() - oldest.runAt.getTime()) / 1000) : 0,
   };
+}
+
+export type RequeueResult = "requeued" | "not_failed" | "busy";
+
+/**
+ * Safely retries a failed job (FR-OPS-04): fresh attempts, due now, and the
+ * domain row it gave up on goes back to its in-progress state. Refuses when the
+ * same work is already pending or running, so nothing runs twice.
+ */
+export async function requeueFailedJob(db: PrismaClient, jobId: string, now = new Date()): Promise<RequeueResult> {
+  try {
+    return await db.$transaction(async (tx) => {
+      const job = await tx.job.findUnique({ where: { id: jobId } });
+      if (!job || job.status !== "failed") return "not_failed";
+      await tx.job.update({
+        where: { id: jobId },
+        data: {
+          status: "pending",
+          attempts: 0,
+          runAt: now,
+          completedAt: null,
+          lockedAt: null,
+          lockedBy: null,
+          lastError: "Requeued manually",
+          activeKey: `${job.jobType}:${job.resourceId}`,
+        },
+      });
+      if (job.jobType === "email_send") {
+        await tx.emailDelivery.updateMany({
+          where: { id: job.resourceId, status: "failed" },
+          data: { status: "pending" },
+        });
+      }
+      if (job.jobType === "report_generate") {
+        await tx.monthlyReport.updateMany({
+          where: { id: job.resourceId, status: "failed" },
+          data: { status: "generating", errorSummary: null },
+        });
+      }
+      return "requeued";
+    });
+  } catch (error) {
+    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") return "busy";
+    throw error;
+  }
 }

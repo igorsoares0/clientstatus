@@ -126,6 +126,21 @@ async function upsertExpiryIncident(
   }
 }
 
+/**
+ * Next regular check on the site's own fixed slot: every site gets a stable
+ * phase within its interval (from its id), so checks are spread evenly instead
+ * of bunching, and queueing or response time never stretches the interval. A
+ * check that ran late skips to the following slot rather than running twice in
+ * quick succession.
+ */
+export function nextRegularCheck(siteId: string, intervalMs: number, now: Date): Date {
+  const phase = jitterFor(siteId, intervalMs);
+  const sinceSlot = (((now.getTime() - phase) % intervalMs) + intervalMs) % intervalMs;
+  let next = now.getTime() - sinceSlot + intervalMs;
+  if (next - now.getTime() < intervalMs / 2) next += intervalMs;
+  return new Date(next);
+}
+
 export async function recordUptime(db: PrismaClient, site: SiteRef, result: UptimeResult, now = new Date()) {
   return db.$transaction(async (tx) => {
     await tx.monitorCheck.create({
@@ -184,7 +199,10 @@ export async function recordUptime(db: PrismaClient, site: SiteRef, result: Upti
           ? { lastResponseMs: result.durationMs }
           : {}),
         ...(result.httpStatus !== null ? { lastHttpStatus: result.httpStatus } : {}),
-        nextCheckAt: new Date(now.getTime() + (decision.nextDelayMs ?? site.intervalMs)),
+        nextCheckAt:
+          decision.nextDelayMs !== null
+            ? new Date(now.getTime() + decision.nextDelayMs)
+            : nextRegularCheck(site.id, site.intervalMs, now),
       },
     });
   });

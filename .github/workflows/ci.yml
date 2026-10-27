@@ -34,6 +34,8 @@ jobs:
       - name: Create test database
         run: PGPASSWORD=clientstatus psql -h localhost -U clientstatus -d clientstatus -c "CREATE DATABASE clientstatus_test"
       - run: npm ci
+      # Spec §8.2: dependency security checks in CI (production dependencies, high and critical).
+      - run: npm audit --omit=dev --audit-level=high
       - run: npm run format:check
       - run: npm run lint
       - run: npm run typecheck

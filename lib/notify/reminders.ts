@@ -1,4 +1,5 @@
 import type { PrismaClient } from "@/lib/generated/prisma/client";
+import { workspaceWithAccess } from "@/lib/billing/access";
 import { notifyIncident } from "@/lib/notify/incidents";
 import { getNotificationSettings } from "@/lib/notify/settings";
 
@@ -10,7 +11,12 @@ const REPEATING = ["downtime", "ssl_invalid"] as const;
 
 export async function queueReminders(db: PrismaClient, now = new Date()) {
   const open = await db.incident.findMany({
-    where: { status: "open", type: { in: [...REPEATING] }, lastNotifiedAt: { not: null } },
+    where: {
+      status: "open",
+      type: { in: [...REPEATING] },
+      lastNotifiedAt: { not: null },
+      workspace: workspaceWithAccess(now),
+    },
     select: { id: true, workspaceId: true, lastNotifiedAt: true },
     take: 500,
   });

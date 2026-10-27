@@ -5,6 +5,7 @@ import { PageBody, PanelSkeleton } from "@/components/shell/page";
 import { db } from "@/lib/db";
 import { getNotificationSettings } from "@/lib/notify/settings";
 import { first, type Params } from "@/lib/search-params";
+import { getPlan } from "@/lib/plans";
 import { requireMembership } from "@/lib/session";
 import { getObject } from "@/lib/storage";
 import { AlertsForm } from "./alerts-form";
@@ -109,6 +110,7 @@ async function Settings({ searchParams }: { searchParams: Promise<Params> }) {
             footer: ws.reportFooter ?? "",
           }}
           logoDataUri={logoDataUri}
+          footerAllowed={getPlan(ctx.workspace.planKey).reportBranding !== "basic"}
         />
       ) : (
         <ScheduleForm

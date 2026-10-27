@@ -4,9 +4,10 @@ Website health monitoring and white-label monthly reports for agencies. Product 
 [`docs/Spec-Driven-Development.md`](docs/Spec-Driven-Development.md) (source of truth). Design handoff:
 [`docs/design_handoff_client_status/`](docs/design_handoff_client_status/README.md).
 
-**Status:** Phases 0–4. Foundation, auth, onboarding, clients and websites, monitoring (uptime, SSL, domain
-expiry, incidents), technical audits (bounded crawler, broken links, basic SEO), email alerts and branded monthly
-reports (PDF, private links, scheduled delivery) are done. Paddle billing and hardening come next (spec §15).
+**Status:** Phases 0–5. Foundation, auth, onboarding, clients and websites, monitoring (uptime, SSL, domain
+expiry, incidents), technical audits (bounded crawler, broken links, basic SEO), email alerts, branded monthly reports
+(PDF, private links, scheduled delivery), Paddle billing with plan enforcement, security tests, an internal ops
+dashboard and load tests are done. Next: private beta with a small group of agencies (spec §15 Phase 5–6).
 
 ## Stack
 
@@ -40,7 +41,13 @@ secret in `RESEND_WEBHOOK_SECRET`.
 ```bash
 npm run lint && npm run typecheck && npm test   # unit + integration (uses TEST_DATABASE_URL)
 npm run test:e2e                                # builds and runs on :3100 against the test database
+npm run load-test -- --workspaces 5 --plan pro   # worker throughput vs plan intervals (own local database)
 ```
+
+Security tests (spec §13) live in `tests/unit/security.test.ts` (SSRF inputs, IP classification, rate limits, token
+strength), `tests/integration/ssrf.test.ts` (DNS rebinding, hostile redirects), `tests/integration/isolation.test.ts`
+(every data function against another workspace's ids) and `tests/e2e/billing.spec.ts` (webhook signatures,
+cross-tenant pages). Load-test results: [`docs/load-test.md`](docs/load-test.md).
 
 ## Layout
 
@@ -57,6 +64,8 @@ npm run test:e2e                                # builds and runs on :3100 again
 | `worker/`         | Background worker: scheduler, Postgres job queue, checks, audits, emails, reports       |
 | `lib/notify/`     | Alert settings, email templates, incident alerts and reminders                          |
 | `lib/reports/`    | Monthly report aggregation, HTML/PDF rendering, scheduling, sending and private links   |
+| `lib/billing/`    | Paddle client and webhook verification, subscription state, grace and access rules      |
+| `lib/ops/`        | Internal metrics for `/ops` and the worker's `/metrics`                                 |
 | `prisma/`         | Schema and migrations                                                                   |
 
 Authorization rule: `proxy.ts` only checks that a session cookie exists. Every page and action must go through
@@ -103,3 +112,62 @@ Authorization rule: `proxy.ts` only checks that a session cookie exists. Every p
   data gaps and every recipient was confirmed on an earlier delivery and hasn't bounced.
 - Private links are 32 random bytes; only their SHA-256 hash is stored, so a link is shown once and can be rotated or
   revoked. Links expire after 30/60/90 days and are served with `noindex` and `no-referrer`.
+
+## Billing (Paddle)
+
+- Plans and limits live in `lib/plans.ts`; Paddle only knows one monthly USD price per plan (`PADDLE_PRICE_*`).
+- **Setup (sandbox):** create an API key (Developer tools → Authentication) and a notification destination pointing
+  at `https://<public-url>/api/webhooks/paddle` for `subscription.*` and `transaction.completed`, `transaction.paid`,
+  `transaction.past_due`, `transaction.payment_failed`. Put the key and the destination's secret in `PADDLE_API_KEY` and
+  `PADDLE_WEBHOOK_SECRET`. Locally, expose port 3000 with a tunnel (`cloudflared tunnel --url http://localhost:3000`).
+  Sandbox test card: `4242 4242 4242 4242`, any future expiry, any CVC.
+- **Checkout:** owners pick a plan on Billing; Paddle's overlay checkout carries a signed workspace id in
+  `custom_data`, so nobody can attach a subscription to another workspace. After payment the browser asks the server to
+  confirm the transaction straight away; the webhook arrives too and is deduplicated.
+- **Webhooks:** signature checked (HMAC-SHA256, 5-minute window), each `event_id` processed once, and entities older
+  than what's stored (Paddle `updated_at`) ignored, so duplicates and out-of-order delivery are safe. A second live
+  subscription never replaces the first (it is logged for a manual refund).
+- **Plan changes:** in-app, prorated immediately, with a preview of the amount first. Downgrades are refused until the
+  active websites fit the smaller plan. Cancellation, payment method, billing details and invoices are in Paddle's
+  customer portal.
+
+### Grace and downgrade rules (FR-BILL-05/06)
+
+| Situation                          | Monitoring, alerts, new reports  | Adding websites, checks, audits, sends |
+| ---------------------------------- | -------------------------------- | -------------------------------------- |
+| Trial (14 days, Growth limits)     | Yes                              | Yes, within limits                     |
+| Paid and current                   | Yes                              | Yes, within limits                     |
+| Payment failed                     | Yes, for 14 days from failure    | Yes, for 14 days                       |
+| Cancelled                          | Until the end of the paid period | Until then                             |
+| Trial ended / cancelled / paused   | **Stopped**                      | **Refused**, with the reason           |
+| Over the limit after a plan change | Yes, nothing is stopped          | New websites refused until under limit |
+
+Everything stays readable without an active plan; data is not deleted automatically. All of this reduces to one
+column, `workspace.accessEndsAt` (`lib/billing/access.ts`); the scheduler, reminders, monthly reports and every
+"start new work" action check it.
+
+Plan-limited features, enforced on the server: active websites (create, import, resume, restore), uptime interval,
+audit pages/depth/requests/time and frequency, manual audits per week, report branding (Starter: no custom footer,
+reports end with "Prepared with Client Status"). Owners get one email per month when websites reach 90% of the plan.
+Team members: limits are configured but there is no invitation flow yet (spec P1).
+
+## Operations
+
+- `/ops` (staff in `OPS_ADMIN_EMAILS` only, 404 for everyone else): workers, queue depth and oldest due job per type,
+  check failure/inconclusive rate and latency, email failures, billing webhook outcomes, failed jobs with a safe
+  **Requeue** (refused if the same work is already queued). Every ops action is logged with the staff email.
+- Worker: `GET :3001/health` (liveness, for the process manager) and `GET :3001/metrics` (the same numbers as `/ops`,
+  JSON). Keep port 3001 internal.
+
+## Security hardening
+
+- Security headers on every response (`next.config.ts`): `nosniff`, `frame-ancestors 'self'`, referrer policy,
+  permissions policy, HSTS in production. Report routes add a stricter CSP.
+- Rate limits: sign-in (per address+IP, per IP, and per address), sign-up per IP, password-reset and verification
+  emails per address, report links per IP, CSV imports and manual audits per workspace. In-process limiters: fine for
+  one web instance; move to Postgres or Redis before running several.
+- SSRF: IPv6 addresses are fully expanded before classification, so mapped (`::ffff:7f00:1`), NAT64, 6to4 and
+  non-canonical loopback forms are blocked at input and again at connection time.
+- Private beta: set `SIGNUP_ALLOWLIST` (emails or `@domains`). Enforced in the sign-up action and in Better Auth's
+  user-creation hook, because `/api/auth/sign-up/email` is reachable directly.
+- CI runs `npm audit --omit=dev --audit-level=high`.

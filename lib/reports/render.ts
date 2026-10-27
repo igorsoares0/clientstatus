@@ -13,6 +13,8 @@ export type Branding = {
   logoDataUri: string | null;
   contact: string | null;
   footer: string | null;
+  /** Starter plan (basic branding): a small "Prepared with Client Status" line on the last page. */
+  credit?: boolean;
 };
 
 const C = {
@@ -416,7 +418,7 @@ ${opts.forPdf ? "" : SCREEN_NARROW_CSS}`;
   ${disclosures}
   <dl class="facts">${fresh.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}</dl>
   <div class="contact"><span class="strong">Questions about this report?</span><br>${esc(branding.contact ?? branding.agencyName)}</div>
-  <div class="footline"><span class="mono">${code}</span><span>${footerLine}</span></div>
+  <div class="footline"><span class="mono">${code}</span><span>${footerLine || (branding.credit ? "Prepared with Client Status" : "")}</span></div>
 </section>
 </body></html>`;
 }

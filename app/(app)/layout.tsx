@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { BillingNotice } from "@/components/shell/billing-notice";
 import { KeyboardShortcuts } from "@/components/shell/keyboard-shortcuts";
 import { Sidebar, SidebarFallback } from "@/components/shell/sidebar";
 import { StatusBar, StatusBarFallback } from "@/components/shell/status-bar";
@@ -18,6 +19,9 @@ export default function AppLayout({ children }: LayoutProps<"/">) {
           <Sidebar />
         </Suspense>
         <div className="flex min-w-0 flex-1 flex-col">
+          <Suspense fallback={null}>
+            <BillingNotice />
+          </Suspense>
           <div id="main" className="flex flex-1 flex-col">
             {children}
           </div>

@@ -107,3 +107,28 @@ export function reportMail(r: ReportMailInput): Mail {
     }),
   };
 }
+
+export type UsageMailInput = { workspaceName: string; planName: string; active: number; max: number; url: string };
+
+/** Sent to owners once per plan and month when active websites reach 90% of the plan. */
+export function usageMail(u: UsageMailInput): Mail {
+  const left = u.max - u.active;
+  const subject = `${u.workspaceName}: ${u.active} of ${u.max} websites on ${u.planName}`;
+  const lines = [
+    `You’re monitoring ${u.active} of the ${u.max} websites your ${u.planName} plan includes${left > 0 ? ` — ${left} ${left === 1 ? "slot" : "slots"} left` : ""}.`,
+    `At ${u.max}, new websites can’t be added until a slot is freed or the plan changes. Existing monitoring is never stopped.`,
+  ];
+  const footer = "Sent to workspace owners · Client Status";
+  return {
+    subject,
+    text: `${subject}\n\n${lines.join("\n\n")}\n\nReview your plan: ${u.url}\n\n${footer}`,
+    html: layout({
+      preheader: lines[0]!,
+      heading: subject,
+      lines,
+      action: { label: "Review plan", url: u.url },
+      footer,
+      tone: "warn",
+    }),
+  };
+}

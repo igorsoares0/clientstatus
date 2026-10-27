@@ -19,10 +19,12 @@
     "db:generate": "prisma generate",
     "worker": "tsx --env-file=.env worker/index.ts",
     "account:test": "tsx --env-file=.env scripts/create-test-account.ts",
+    "load-test": "tsx --env-file=.env scripts/load-test.ts",
     "postinstall": "prisma generate",
     "jobs:run-once": "tsx --env-file=.env scripts/run-jobs-once.ts"
   },
   "dependencies": {
+    "@paddle/paddle-js": "^1.6.5",
     "@prisma/adapter-pg": "^7.10.1",
     "@prisma/client": "^7.10.1",
     "better-auth": "^1.7.13",

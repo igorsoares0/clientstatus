@@ -1,3 +1,4 @@
+import { assertCanOperate } from "@/lib/billing/access";
 import type { PrismaClient } from "@/lib/generated/prisma/client";
 import { clientNameKey } from "@/lib/data/clients";
 import { siteNameKey } from "@/lib/data/sites";
@@ -97,6 +98,7 @@ export async function previewImport(db: PrismaClient, ctx: TenantContext, rows: 
 }
 
 export async function commitImport(db: PrismaClient, ctx: TenantContext, rows: ImportRow[], now = new Date()) {
+  await assertCanOperate(db, ctx, now);
   const recent = await db.auditLog.count({
     where: {
       workspaceId: ctx.workspaceId,

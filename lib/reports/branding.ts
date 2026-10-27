@@ -1,4 +1,5 @@
 import type { PrismaClient } from "@/lib/generated/prisma/client";
+import { getPlan } from "@/lib/plans";
 import type { Branding } from "@/lib/reports/render";
 import { getObject } from "@/lib/storage";
 
@@ -6,8 +7,16 @@ import { getObject } from "@/lib/storage";
 export async function loadBranding(db: PrismaClient, workspaceId: string): Promise<Branding> {
   const ws = await db.workspace.findUniqueOrThrow({
     where: { id: workspaceId },
-    select: { name: true, brandPrimaryColor: true, logoStorageKey: true, reportContact: true, reportFooter: true },
+    select: {
+      name: true,
+      brandPrimaryColor: true,
+      logoStorageKey: true,
+      reportContact: true,
+      reportFooter: true,
+      planKey: true,
+    },
   });
+  const basic = getPlan(ws.planKey).reportBranding === "basic";
   let logoDataUri: string | null = null;
   if (ws.logoStorageKey) {
     try {
@@ -23,6 +32,8 @@ export async function loadBranding(db: PrismaClient, workspaceId: string): Promi
     color: ws.brandPrimaryColor,
     logoDataUri,
     contact: ws.reportContact,
-    footer: ws.reportFooter,
+    // A footer saved on a bigger plan is kept but not printed after a downgrade.
+    footer: basic ? null : ws.reportFooter,
+    credit: basic,
   };
 }

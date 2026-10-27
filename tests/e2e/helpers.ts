@@ -8,8 +8,11 @@ export const visible = { visible: true } as const;
 export const PASSWORD = "correct horse battery";
 
 /** New verified account with a workspace, skipping the first-website step. Ends on /overview. */
-export async function onboard(page: Page, agency = "Northfold Studio"): Promise<string> {
-  const email = `e2e-${Date.now()}-${Math.random().toString(36).slice(2, 7)}@example.com`;
+export async function onboard(
+  page: Page,
+  agency = "Northfold Studio",
+  email = `e2e-${Date.now()}-${Math.random().toString(36).slice(2, 7)}@example.com`,
+): Promise<string> {
   await page.goto("/sign-up");
   await page.getByLabel("Your name").fill("Priya Raman");
   await page.getByLabel("Work email").fill(email);

@@ -4,6 +4,19 @@
 
 export type PlanKey = "starter" | "growth" | "pro";
 
+/**
+ * Report branding (spec §5): basic = logo, colour and contact line, with a small
+ * "Prepared with Client Status" credit; standard = adds a custom footer and drops
+ * the credit; advanced = standard plus the custom report domain once it ships (P1).
+ */
+export type ReportBranding = "basic" | "standard" | "advanced";
+
+export const BRANDING_LABEL: Record<ReportBranding, string> = {
+  basic: "Logo, colour and contact line",
+  standard: "Full branding, custom footer, no Client Status credit",
+  advanced: "Full white-label (custom report domain planned)",
+};
+
 export type Plan = {
   key: PlanKey;
   name: string;
@@ -21,6 +34,7 @@ export type Plan = {
   manualAuditsPerWeek: number;
   /** Wall-clock cap per audit; crawling is paced (~1 page/s), so this bounds coverage too. */
   maxAuditMinutes: number;
+  reportBranding: ReportBranding;
 };
 
 export const PLANS: Record<PlanKey, Plan> = {
@@ -37,6 +51,7 @@ export const PLANS: Record<PlanKey, Plan> = {
     auditEveryDays: 7,
     manualAuditsPerWeek: 1,
     maxAuditMinutes: 15,
+    reportBranding: "basic",
   },
   growth: {
     key: "growth",
@@ -51,6 +66,7 @@ export const PLANS: Record<PlanKey, Plan> = {
     auditEveryDays: 7,
     manualAuditsPerWeek: 3,
     maxAuditMinutes: 30,
+    reportBranding: "standard",
   },
   pro: {
     key: "pro",
@@ -65,6 +81,7 @@ export const PLANS: Record<PlanKey, Plan> = {
     auditEveryDays: 3,
     manualAuditsPerWeek: 10,
     maxAuditMinutes: 45,
+    reportBranding: "advanced",
   },
 };
 

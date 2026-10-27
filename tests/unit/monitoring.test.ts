@@ -1,4 +1,6 @@
+import { randomUUID } from "node:crypto";
 import { describe, expect, it } from "vitest";
+import { nextRegularCheck } from "@/lib/monitoring/apply";
 import { classifyError, classifyResponse, SLOW_RESPONSE_MS, type UptimeResult } from "@/lib/monitoring/classify";
 import { decideUptime, expirySeverity, jitterFor, nextSweep, type UptimeCounters } from "@/lib/monitoring/decide";
 import { parseBootstrap, parseRdapDomain, rdapServerFor } from "@/lib/monitoring/rdap";
@@ -285,5 +287,35 @@ describe("scheduling helpers", () => {
     expect(nextSweep(now, 6, 0, 0).toISOString()).toBe("2026-10-25T12:00:00.000Z");
     expect(nextSweep(now, 24, 2, 0).toISOString()).toBe("2026-10-26T02:00:00.000Z");
     expect(jitterFor("abc", 1000)).toBe(jitterFor("abc", 1000));
+  });
+});
+
+describe("nextRegularCheck", () => {
+  const MIN = 60_000;
+  const id = "01a17bae-c06d-77bb-abdf-0cf832f7be12";
+  const phase = jitterFor(id, MIN);
+
+  it("keeps each site on its own fixed slot, whatever time the check finished", () => {
+    const slot = Date.UTC(2026, 9, 27, 10, 0, 0) + phase;
+    for (const late of [0, 3_000, 9_000, 25_000]) {
+      expect(nextRegularCheck(id, MIN, new Date(slot + late)).getTime()).toBe(slot + MIN);
+    }
+  });
+
+  it("skips to the following slot after running very late, never checking twice in quick succession", () => {
+    const slot = Date.UTC(2026, 9, 27, 10, 0, 0) + phase;
+    expect(nextRegularCheck(id, MIN, new Date(slot + 50_000)).getTime()).toBe(slot + 2 * MIN);
+  });
+
+  it("spreads sites across the interval instead of bunching them", () => {
+    const now = new Date(Date.UTC(2026, 9, 27, 10, 0, 0));
+    const perSecond = new Map<number, number>();
+    for (let i = 0; i < 300; i++) {
+      const s = Math.floor(nextRegularCheck(randomUUID(), MIN, now).getTime() / 1000);
+      perSecond.set(s, (perSecond.get(s) ?? 0) + 1);
+    }
+    // 300 sites over 60 seconds is 5 a second on average; nothing like all at once.
+    expect(perSecond.size).toBeGreaterThan(50);
+    expect(Math.max(...perSecond.values())).toBeLessThan(20);
   });
 });

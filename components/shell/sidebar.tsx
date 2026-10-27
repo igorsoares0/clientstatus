@@ -3,7 +3,8 @@ import { db } from "@/lib/db";
 import { unacknowledgedCount } from "@/lib/data/incidents";
 import { siteCounts } from "@/lib/data/sites";
 import { getPlan } from "@/lib/plans";
-import { requireMembership } from "@/lib/session";
+import { requireMembership, type WorkspaceSummary } from "@/lib/session";
+import { hasAccess } from "@/lib/billing/access";
 import { SidebarLinks, TopBarLinks } from "./nav-links";
 
 const ROLE_LABEL = { owner: "Owner", admin: "Admin", member: "Member" } as const;
@@ -13,7 +14,7 @@ export async function Sidebar() {
   const { workspace, user, role } = ctx;
   const plan = getPlan(workspace.planKey);
   const [{ active }, unacknowledged] = await Promise.all([siteCounts(db, ctx), unacknowledgedCount(db, ctx)]);
-  const onTrial = workspace.trialEndsAt !== null && workspace.trialEndsAt > new Date();
+  const line = planLine(workspace, plan.name, `${active} of ${plan.maxActiveSites} sites`);
 
   return (
     <>
@@ -24,9 +25,7 @@ export async function Sidebar() {
         <div className="truncate px-4 pb-1 text-[17px] font-bold tracking-[.01em] font-stretch-80%">
           {workspace.name}
         </div>
-        <div className="px-4 pb-4 text-xs text-muted tabular">
-          {plan.name} {onTrial ? "trial" : "plan"} · {active} of {plan.maxActiveSites} sites
-        </div>
+        <div className={`px-4 pb-4 text-xs tabular ${line.alert ? "text-down" : "text-muted"}`}>{line.text}</div>
         <SidebarLinks unacknowledgedIncidents={unacknowledged} />
         <div className="mt-auto flex flex-col gap-0.5 border-t border-rule px-4 pt-3 text-[13px]">
           <span className="truncate font-semibold">{user.name}</span>
@@ -62,6 +61,15 @@ export async function Sidebar() {
       </nav>
     </>
   );
+}
+
+/** Design: "Growth plan · 84 of 100 sites", with the billing problem appended when there is one. */
+function planLine(workspace: WorkspaceSummary, planName: string, usage: string): { text: string; alert: boolean } {
+  if (!hasAccess(workspace.accessEndsAt)) return { text: "No active plan · monitoring stopped", alert: true };
+  const status = workspace.subscription?.status;
+  if (status === "past_due") return { text: `${planName} plan · ${usage} · payment failed`, alert: true };
+  const live = status === "active" || status === "trialing";
+  return { text: `${planName} ${live ? "plan" : "trial"} · ${usage}`, alert: false };
 }
 
 export function SidebarFallback() {

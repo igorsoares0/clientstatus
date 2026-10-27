@@ -6,7 +6,7 @@
 export class UserFacingError extends Error {
   constructor(
     message: string,
-    readonly code: "not_found" | "duplicate" | "plan_limit" | "invalid" | "forbidden" | "rate_limited",
+    readonly code: "not_found" | "duplicate" | "plan_limit" | "invalid" | "forbidden" | "rate_limited" | "billing",
     readonly field?: string,
   ) {
     super(message);

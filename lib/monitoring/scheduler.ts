@@ -1,4 +1,5 @@
 import type { PrismaClient } from "@/lib/generated/prisma/client";
+import { workspaceWithAccess } from "@/lib/billing/access";
 import { enqueue, type NewJob } from "@/lib/jobs/queue";
 import { queueReminders } from "@/lib/notify/reminders";
 import { getPlan } from "@/lib/plans";
@@ -31,14 +32,20 @@ export async function ensureSiteStates(db: PrismaClient, now = new Date()) {
 
 export async function scheduleDueWork(db: PrismaClient, now = new Date()) {
   await ensureSiteStates(db, now);
-  const activeSite = { status: "active" as const };
+  // Only websites of workspaces with an active plan or trial are monitored (FR-BILL-06).
+  const activeSite = { status: "active" as const, workspace: workspaceWithAccess(now) };
 
   const [uptimeDue, sslDue, domainDue, auditDue] = await Promise.all([
     db.siteState.findMany({
       where: { nextCheckAt: { lte: now }, site: activeSite },
       orderBy: { nextCheckAt: "asc" },
       take: BATCH,
-      select: { siteId: true, workspaceId: true, site: { select: { workspace: { select: { planKey: true } } } } },
+      select: {
+        siteId: true,
+        workspaceId: true,
+        nextCheckAt: true,
+        site: { select: { workspace: { select: { planKey: true } } } },
+      },
     }),
     db.siteState.findMany({
       where: { nextSslCheckAt: { lte: now }, site: activeSite },
@@ -68,6 +75,8 @@ export async function scheduleDueWork(db: PrismaClient, now = new Date()) {
       resourceId: s.siteId,
       priority: 5,
       maxAttempts: 2,
+      // The real due time, not this tick, so job age measures how late the check actually is.
+      runAt: s.nextCheckAt,
     })),
     ...sslDue.map((s) => ({
       workspaceId: s.workspaceId,
@@ -95,7 +104,7 @@ export async function scheduleDueWork(db: PrismaClient, now = new Date()) {
   ];
   const queued = await enqueue(
     db,
-    jobs.map((j) => ({ ...j, runAt: now })),
+    jobs.map((j) => ({ ...j, runAt: j.runAt ?? now })),
   );
 
   // Provisional next times, grouped by plan interval.

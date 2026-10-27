@@ -14,7 +14,7 @@ export default async function setup() {
   const client = new Client({ connectionString: url });
   await client.connect();
   await client.query(
-    'TRUNCATE "report_delivery", "monthly_report", "client_recipient", "email_delivery", "notification_settings", "job", "audit_finding", "audit_run", "incident_event", "incident", "monitor_check", "site_state", "site", "client", "audit_log", "workspace_member", "workspace", "session", "account", "verification", "user", "worker_heartbeat" CASCADE',
+    'TRUNCATE "billing_event", "billing_transaction", "subscription", "report_delivery", "monthly_report", "client_recipient", "email_delivery", "notification_settings", "job", "audit_finding", "audit_run", "incident_event", "incident", "monitor_check", "site_state", "site", "client", "audit_log", "workspace_member", "workspace", "session", "account", "verification", "user", "worker_heartbeat" CASCADE',
   );
   await client.end();
 }
