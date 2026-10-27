@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { billingState, computeAccess, hasAccess, type SubscriptionFacts } from "@/lib/billing/access";
 import { checkoutCustomData, workspaceFromCustomData } from "@/lib/billing/checkout-token";
 import { parseBillingConfig, planForPrice } from "@/lib/billing/config";
-import { signPayload, verifySignature, webhookEvent } from "@/lib/billing/paddle";
+import { parsePlanChangePreview, signPayload, verifySignature, webhookEvent } from "@/lib/billing/paddle";
 import { parseEnv } from "@/lib/env";
 
 const SECRET = "pdl_ntfset_test_secret";
@@ -171,5 +171,49 @@ describe("grace and downgrade rules", () => {
         now,
       ),
     ).toMatchObject({ kind: "canceling" });
+    // Paused or cancelled inside the trial: says so, instead of passing for a plain trial.
+    const trialLeft = new Date("2026-11-09T00:00:00Z");
+    const pausedAt = new Date("2026-10-26T00:00:00Z");
+    expect(
+      billingState({ trialEndsAt: trialLeft, accessEndsAt: trialLeft }, { ...active, status: "paused", pausedAt }, now),
+    ).toEqual({ kind: "ending", endsAt: trialLeft, reason: "paused" });
+    expect(
+      billingState({ trialEndsAt: trialLeft, accessEndsAt: trialLeft }, { ...active, status: "canceled" }, now),
+    ).toEqual({ kind: "ending", endsAt: trialLeft, reason: "canceled" });
+  });
+});
+
+describe("plan change preview", () => {
+  const summary = (action: string, amount: string) => ({
+    currency_code: "USD",
+    update_summary: { result: { action, amount, currency_code: "USD" } },
+  });
+  const totals = (credit: string, grand_total: string) => ({
+    immediate_transaction: { details: { totals: { credit, grand_total } } },
+  });
+
+  it("reports the card charge after account credit", () => {
+    expect(parsePlanChangePreview({ ...summary("charge", "5443"), ...totals("0", "5443") })).toEqual({
+      action: "charge",
+      amount: 5443,
+      currency: "USD",
+      creditUsed: 0,
+      dueNow: 5443,
+    });
+    // Seen in the sandbox: credit from an earlier downgrade covered the whole upgrade.
+    expect(parsePlanChangePreview({ ...summary("charge", "5443"), ...totals("5443", "0") })).toMatchObject({
+      creditUsed: 5443,
+      dueNow: 0,
+    });
+    expect(parsePlanChangePreview({ ...summary("charge", "5443"), ...totals("2000", "3443") })).toMatchObject({
+      creditUsed: 2000,
+      dueNow: 3443,
+    });
+  });
+
+  it("handles credits, no change and a missing immediate transaction", () => {
+    expect(parsePlanChangePreview(summary("credit", "5444"))).toMatchObject({ action: "credit", amount: 5444 });
+    expect(parsePlanChangePreview({ currency_code: "USD", update_summary: null })).toMatchObject({ action: "none" });
+    expect(parsePlanChangePreview(summary("charge", "5443"))).toMatchObject({ creditUsed: 0, dueNow: 5443 });
   });
 });

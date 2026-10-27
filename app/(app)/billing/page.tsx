@@ -58,6 +58,12 @@ function chipFor(state: BillingState, tz: string): Chip {
         cls: "border-warn-border text-degraded",
         sub: `Monitoring stops ${d(state.endsAt)} · data is kept`,
       };
+    case "ending":
+      return {
+        label: state.reason === "paused" ? "Paused" : "Canceled",
+        cls: "border-warn-border text-degraded",
+        sub: `Trial days left · monitoring stops ${d(state.endsAt)}`,
+      };
     case "past_due":
       return {
         label: "Payment failed",
@@ -93,6 +99,14 @@ function bannerFor(state: BillingState, tz: string, usage: { active: number; max
         title: `Subscription ends ${d(state.endsAt)}`,
         text: "Monitoring, alerts and new reports stop then. Your websites, history and reports are kept, and you can resume any time.",
         cta: "portal",
+      };
+    case "ending":
+      return {
+        glyph: "▲",
+        tone: "warn",
+        title: state.reason === "paused" ? "Subscription paused" : "Subscription canceled",
+        text: `Your unused trial days still count, so monitoring, alerts and reports continue until ${d(state.endsAt)}. Then they stop — websites, history and reports are kept.${state.reason === "paused" ? " Resume the subscription in the billing portal to keep going." : ""}`,
+        cta: state.reason === "paused" ? "portal" : "plans",
       };
     case "lapsed": {
       const title =
@@ -163,7 +177,11 @@ async function Billing() {
           {isOwner && banner.cta === "portal" && sub ? (
             <PortalButton
               variant="primary"
-              label={state.kind === "canceling" ? "Manage subscription" : "Update payment method"}
+              label={
+                state.kind === "canceling" || state.kind === "ending" || sub.status === "paused"
+                  ? "Manage subscription"
+                  : "Update payment method"
+              }
             />
           ) : null}
           {isOwner && banner.cta === "plans" ? (
@@ -255,6 +273,10 @@ async function Billing() {
             ) : sub?.status === "past_due" ? (
               <p className="m-0 text-[13px] text-muted">
                 Update the payment method first — plan changes are blocked while a payment is outstanding.
+              </p>
+            ) : sub?.status === "paused" ? (
+              <p className="m-0 text-[13px] text-muted">
+                The subscription is paused. Resume it in the billing portal to change plan.
               </p>
             ) : hasLiveSub ? (
               <ChangePlan currentPlan={planKey} activeSites={counts.active} />

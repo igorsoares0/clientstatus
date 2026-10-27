@@ -68,8 +68,9 @@ function planLine(workspace: WorkspaceSummary, planName: string, usage: string):
   if (!hasAccess(workspace.accessEndsAt)) return { text: "No active plan · monitoring stopped", alert: true };
   const status = workspace.subscription?.status;
   if (status === "past_due") return { text: `${planName} plan · ${usage} · payment failed`, alert: true };
-  const live = status === "active" || status === "trialing";
-  return { text: `${planName} ${live ? "plan" : "trial"} · ${usage}`, alert: false };
+  if (status === "paused" || status === "canceled")
+    return { text: `${planName} plan · ${usage} · ${status}`, alert: false };
+  return { text: `${planName} ${status ? "plan" : "trial"} · ${usage}`, alert: false };
 }
 
 export function SidebarFallback() {

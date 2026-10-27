@@ -83,6 +83,9 @@ async function liveSubscription(db: PrismaClient, ctx: TenantContext) {
   if (sub.status === "past_due") {
     throw new UserFacingError("Update your payment method before changing plan — the last payment failed.", "billing");
   }
+  if (sub.status === "paused") {
+    throw new UserFacingError("Resume the subscription in the billing portal before changing plan.", "billing");
+  }
   return sub;
 }
 

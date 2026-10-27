@@ -21,6 +21,16 @@ function money(amount: number, currency: string) {
   return new Intl.NumberFormat("en-US", { style: "currency", currency }).format(amount / 100);
 }
 
+/** Upgrade wording: account credit left by earlier downgrades pays first. */
+function chargeText({ amount, creditUsed, dueNow, currency }: PlanChangePreview) {
+  const price = money(amount, currency);
+  if (creditUsed <= 0) return `You’ll be charged ${price} today for the rest of this billing period.`;
+  if (dueNow <= 0) {
+    return `The ${price} for the rest of this billing period comes out of your account credit, so nothing is charged today.`;
+  }
+  return `The rest of this billing period costs ${price}: ${money(creditUsed, currency)} comes out of your account credit and ${money(dueNow, currency)} is charged today.`;
+}
+
 /**
  * Opens a Paddle-hosted page in a new tab. The tab is opened synchronously on
  * click (so popup blockers allow it) and pointed at the URL once we have it.
@@ -287,7 +297,7 @@ export function ChangePlan({ currentPlan, activeSites }: { currentPlan: PlanKey;
               <p className="m-0">
                 Switch to <b>{PLANS[target].name}</b> now.{" "}
                 {preview.action === "charge"
-                  ? `You’ll be charged ${money(preview.amount, preview.currency)} today for the rest of this billing period.`
+                  ? chargeText(preview)
                   : preview.action === "credit"
                     ? `${money(preview.amount, preview.currency)} is credited to your next invoices.`
                     : "Nothing is charged today."}

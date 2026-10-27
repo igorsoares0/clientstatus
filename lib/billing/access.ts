@@ -67,6 +67,8 @@ export type BillingState =
   | { kind: "trial"; endsAt: Date | null }
   | { kind: "active"; renewsAt: Date | null }
   | { kind: "canceling"; endsAt: Date }
+  // Paused or cancelled while unused trial days remain: running until they're used up.
+  | { kind: "ending"; endsAt: Date; reason: "canceled" | "paused" }
   | { kind: "past_due"; graceEndsAt: Date }
   | { kind: "lapsed"; since: Date | null; reason: "trial_ended" | "canceled" | "paused" | "payment_failed" };
 
@@ -86,7 +88,10 @@ export function billingState(
           : "canceled";
     return { kind: "lapsed", since: ws.accessEndsAt, reason };
   }
-  if (!sub || sub.status === "canceled" || sub.status === "paused") return { kind: "trial", endsAt: ws.accessEndsAt };
+  if (!sub) return { kind: "trial", endsAt: ws.accessEndsAt };
+  if (sub.status === "canceled" || sub.status === "paused") {
+    return { kind: "ending", endsAt: ws.accessEndsAt!, reason: sub.status };
+  }
   if (sub.status === "past_due") return { kind: "past_due", graceEndsAt: ws.accessEndsAt! };
   if (ws.accessEndsAt) return { kind: "canceling", endsAt: ws.accessEndsAt };
   return { kind: "active", renewsAt: sub.currentPeriodEnd };

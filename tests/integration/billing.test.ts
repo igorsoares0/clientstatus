@@ -267,7 +267,7 @@ describe("billing actions", () => {
     await db.workspace.update({ where: { id: ctx.workspaceId }, data: { planKey: "growth" } });
     for (let i = 0; i < 26; i++) await addSite(ctx, `site-${i}.example.com`);
     const provider = fakeProvider({
-      previewPlanChange: async () => ({ action: "charge", amount: 2500, currency: "USD" }),
+      previewPlanChange: async () => ({ action: "charge", amount: 2500, currency: "USD", creditUsed: 0, dueNow: 2500 }),
       changePlan: async (_id, priceId) =>
         subscriptionEntity.parse(
           subscriptionData(ctx.workspaceId, {
@@ -282,6 +282,8 @@ describe("billing actions", () => {
       action: "charge",
       amount: 2500,
       currency: "USD",
+      creditUsed: 0,
+      dueNow: 2500,
     });
     await changePlan(db, ctx, provider, config, "pro");
     expect((await db.workspace.findUniqueOrThrow({ where: { id: ctx.workspaceId } })).planKey).toBe("pro");

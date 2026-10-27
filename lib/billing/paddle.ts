@@ -111,7 +111,52 @@ export class PaddleApiError extends Error {
   }
 }
 
-export type PlanChangePreview = { action: "charge" | "credit" | "none"; amount: number; currency: string };
+/**
+ * A prorated plan change. For a charge, `amount` is the prorated price, `creditUsed` the part paid from the
+ * customer's Paddle credit balance (left by earlier downgrades) and `dueNow` what the card is charged today.
+ */
+export type PlanChangePreview = {
+  action: "charge" | "credit" | "none";
+  amount: number;
+  currency: string;
+  creditUsed: number;
+  dueNow: number;
+};
+
+const planChangePreviewResponse = z.object({
+  update_summary: z
+    .object({
+      result: z.object({
+        action: z.enum(["charge", "credit"]),
+        amount: z.string(),
+        currency_code: z.string(),
+      }),
+    })
+    .nullish(),
+  immediate_transaction: z
+    .object({ details: z.object({ totals: z.object({ credit: z.string(), grand_total: z.string() }) }) })
+    .nullish(),
+  currency_code: z.string(),
+});
+
+/** Reads Paddle's subscription preview, including credit applied from the customer's balance. */
+export function parsePlanChangePreview(body: unknown): PlanChangePreview {
+  const data = planChangePreviewResponse.parse(body);
+  const result = data.update_summary?.result;
+  if (!result) return { action: "none", amount: 0, currency: data.currency_code, creditUsed: 0, dueNow: 0 };
+  const amount = Number(result.amount);
+  if (result.action === "credit") {
+    return { action: "credit", amount, currency: result.currency_code, creditUsed: 0, dueNow: 0 };
+  }
+  const totals = data.immediate_transaction?.details.totals;
+  return {
+    action: "charge",
+    amount,
+    currency: result.currency_code,
+    creditUsed: totals ? Number(totals.credit) : 0,
+    dueNow: totals ? Number(totals.grand_total) : amount,
+  };
+}
 
 /** The Paddle calls the app makes. An interface so tests can supply a fake. */
 export interface BillingProvider {
@@ -159,28 +204,12 @@ export function paddleApi(config: BillingConfig, fetchImpl: Fetch = fetch): Bill
       return transactionEntity.parse(await call("GET", `/transactions/${encodeURIComponent(id)}`));
     },
     async previewPlanChange(subscriptionId, priceId) {
-      const data = z
-        .object({
-          update_summary: z
-            .object({
-              result: z.object({
-                action: z.enum(["charge", "credit"]),
-                amount: z.string(),
-                currency_code: z.string(),
-              }),
-            })
-            .nullish(),
-          currency_code: z.string(),
-        })
-        .parse(
-          await call("PATCH", `/subscriptions/${encodeURIComponent(subscriptionId)}/preview`, {
-            items: [{ price_id: priceId, quantity: 1 }],
-            ...proration,
-          }),
-        );
-      const result = data.update_summary?.result;
-      if (!result) return { action: "none", amount: 0, currency: data.currency_code };
-      return { action: result.action, amount: Number(result.amount), currency: result.currency_code };
+      return parsePlanChangePreview(
+        await call("PATCH", `/subscriptions/${encodeURIComponent(subscriptionId)}/preview`, {
+          items: [{ price_id: priceId, quantity: 1 }],
+          ...proration,
+        }),
+      );
     },
     async changePlan(subscriptionId, priceId) {
       return subscriptionEntity.parse(
