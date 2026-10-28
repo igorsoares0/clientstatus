@@ -115,20 +115,24 @@ Authorization rule: `proxy.ts` only checks that a session cookie exists. Every p
 
 ## Billing (Paddle)
 
-- Plans and limits live in `lib/plans.ts`; Paddle only knows one monthly USD price per plan (`PADDLE_PRICE_*`).
+- Plans, prices and limits live in `lib/plans.ts` (table in spec §5). Paddle has a monthly and a yearly USD price per
+  plan: `PADDLE_PRICE_STARTER`/`GROWTH`/`PRO` and `PADDLE_PRICE_*_YEARLY`. The yearly three are optional but go
+  together; without them checkout offers monthly only.
 - **Setup (sandbox):** create an API key (Developer tools → Authentication) and a notification destination pointing
   at `https://<public-url>/api/webhooks/paddle` for `subscription.*` and `transaction.completed`, `transaction.paid`,
   `transaction.past_due`, `transaction.payment_failed`. Put the key and the destination's secret in `PADDLE_API_KEY` and
   `PADDLE_WEBHOOK_SECRET`. Locally, expose port 3000 with a tunnel (`cloudflared tunnel --url http://localhost:3000`).
   Sandbox test card: `4242 4242 4242 4242`, any future expiry, any CVC.
-- **Checkout:** owners pick a plan on Billing; Paddle's overlay checkout carries a signed workspace id in
+- **Checkout:** owners pick Monthly or Yearly ("2 months free") and a plan on Billing; Paddle's overlay checkout carries a signed workspace id in
   `custom_data`, so nobody can attach a subscription to another workspace. After payment the browser asks the server to
   confirm the transaction straight away; the webhook arrives too and is deduplicated.
 - **Webhooks:** signature checked (HMAC-SHA256, 5-minute window), each `event_id` processed once, and entities older
   than what's stored (Paddle `updated_at`) ignored, so duplicates and out-of-order delivery are safe. A second live
   subscription never replaces the first (it is logged for a manual refund).
-- **Plan changes:** in-app, prorated immediately, with a preview of the amount first. Downgrades are refused until the
-  active websites fit the smaller plan. Cancellation, payment method, billing details and invoices are in Paddle's
+- **Plan changes:** in-app, prorated immediately, with a preview of the amount first (including any account credit
+  Paddle applies). A change keeps the subscription's billing interval unless the owner switches it; the interval is
+  stored on `subscription.billingInterval` from the webhook. Downgrades are refused until the active websites fit the
+  smaller plan. There's no add-on above Pro: at its limit the app suggests contacting us (`SUPPORT_EMAIL`). Cancellation, payment method, billing details and invoices are in Paddle's
   customer portal.
 
 ### Grace and downgrade rules (FR-BILL-05/06)

@@ -5,6 +5,7 @@ import { useActionState, useState } from "react";
 import { Panel } from "@/components/onboarding-frame";
 import { Button } from "@/components/ui/button";
 import { Field, FormAlert, TextInput } from "@/components/ui/field";
+import { PLANS, TRIAL_DAYS, TRIAL_PLAN } from "@/lib/plans";
 import { passwordHint } from "@/lib/validation";
 import { signUpAction, type FormState } from "../actions";
 
@@ -22,7 +23,7 @@ export function SignUpForm() {
     <form action={action} noValidate>
       <Panel
         title="Create your account"
-        intro="14-day trial with full Growth features. No card needed until it ends."
+        intro={`${TRIAL_DAYS}-day trial with full ${PLANS[TRIAL_PLAN].name} features. No card needed until it ends.`}
         footer={
           <>
             <Button type="submit" size="lg" disabled={pending}>

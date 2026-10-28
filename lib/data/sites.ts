@@ -6,7 +6,8 @@ import { findOrCreateClientByName } from "@/lib/data/clients";
 import { notFound, UserFacingError } from "@/lib/data/errors";
 import type { TenantContext } from "@/lib/data/tenant";
 import { lockWorkspace, recordAudit, type Tx } from "@/lib/data/workspace-tx";
-import { getPlan } from "@/lib/plans";
+import { env } from "@/lib/env";
+import { getPlan, moreSitesHint, type Plan } from "@/lib/plans";
 import { defaultSiteName, type NormalizedUrl } from "@/lib/url";
 
 // Websites (FR-SITE-01..09). Every member may add, edit and pause websites
@@ -28,9 +29,9 @@ async function activeCount(tx: Tx, workspaceId: string) {
   return tx.site.count({ where: { workspaceId, status: "active" } });
 }
 
-function planLimitError(planName: string, max: number) {
+function planLimitError(plan: Plan) {
   return new UserFacingError(
-    `Your plan is full (${max} sites on ${planName}). Pause a site or upgrade first.`,
+    `Your plan is full (${plan.maxActiveSites} sites on ${plan.name}). Pause a site or ${moreSitesHint(plan, env().SUPPORT_EMAIL)}.`,
     "plan_limit",
   );
 }
@@ -93,8 +94,7 @@ export async function createSite(db: PrismaClient, ctx: TenantContext, input: Ne
         throw new UserFacingError(`${input.url.hostname} is already monitored${where}.`, "duplicate", "url");
       }
       const plan = await planFor(tx, ctx.workspaceId);
-      if ((await activeCount(tx, ctx.workspaceId)) >= plan.maxActiveSites)
-        throw planLimitError(plan.name, plan.maxActiveSites);
+      if ((await activeCount(tx, ctx.workspaceId)) >= plan.maxActiveSites) throw planLimitError(plan);
 
       let clientId: string | null = null;
       if (input.clientId) {
@@ -212,7 +212,7 @@ export async function resumeSites(db: PrismaClient, ctx: TenantContext, siteIds:
       const free = plan.maxActiveSites - (await activeCount(tx, ctx.workspaceId));
       if (ids.length > free) {
         throw new UserFacingError(
-          `Only ${Math.max(free, 0)} slot${free === 1 ? " is" : "s are"} free on ${plan.name} (${plan.maxActiveSites} sites). Resume fewer websites or upgrade your plan.`,
+          `Only ${Math.max(free, 0)} slot${free === 1 ? " is" : "s are"} free on ${plan.name} (${plan.maxActiveSites} sites). Resume fewer websites or ${moreSitesHint(plan, env().SUPPORT_EMAIL)}.`,
           "plan_limit",
         );
       }
@@ -251,8 +251,7 @@ export async function restoreSite(db: PrismaClient, ctx: TenantContext, siteId: 
       if (!site) throw notFound("website");
       await assertCanOperate(tx, ctx);
       const plan = await planFor(tx, ctx.workspaceId);
-      if ((await activeCount(tx, ctx.workspaceId)) >= plan.maxActiveSites)
-        throw planLimitError(plan.name, plan.maxActiveSites);
+      if ((await activeCount(tx, ctx.workspaceId)) >= plan.maxActiveSites) throw planLimitError(plan);
       await tx.site.update({
         where: { id: siteId },
         data: {

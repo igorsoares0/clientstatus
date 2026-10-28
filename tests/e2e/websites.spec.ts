@@ -35,7 +35,7 @@ test("add, find, edit, pause, archive and restore websites", async ({ page }) =>
 
   await addWebsite(page, "http://plain-shop.co.uk");
   await expect(page.getByText("1 monitored", { exact: false })).toBeHidden();
-  await expect(page.getByText(/2 monitored · 0 paused · 98 of 100 plan slots free/)).toBeVisible();
+  await expect(page.getByText(/2 monitored · 0 paused · 48 of 50 plan slots free/)).toBeVisible();
 
   const table = page.locator("table").filter(visible);
   await expect(table.getByRole("row")).toHaveCount(3);
@@ -65,7 +65,7 @@ test("add, find, edit, pause, archive and restore websites", async ({ page }) =>
   // Pause with confirmation, undo from the toast, then pause for real.
   await page.getByRole("button", { name: "Pause monitoring…" }).click();
   const confirm = page.getByRole("region", { name: "Confirm pause" });
-  await expect(confirm.getByText("Frees 1 of your 100 plan slots.")).toBeVisible();
+  await expect(confirm.getByText("Frees 1 of your 50 plan slots.")).toBeVisible();
   await confirm.getByRole("button", { name: "Pause monitoring" }).click();
   await expect(page.getByText("kiln-coffee.com paused · history kept")).toBeVisible();
   await page.getByRole("button", { name: "Undo" }).click();
@@ -148,7 +148,7 @@ test("CSV import previews every row and imports only valid ones", async ({ page 
   await expect(dialog.getByRole("link", { name: "Download skipped rows" })).toBeVisible();
   await dialog.getByRole("button", { name: "Show websites" }).click();
   await expect(page.locator("table").filter(visible).getByRole("row")).toHaveCount(3);
-  await expect(page.getByText(/2 monitored · 0 paused · 98 of 100 plan slots free/)).toBeVisible();
+  await expect(page.getByText(/2 monitored · 0 paused · 48 of 50 plan slots free/)).toBeVisible();
 });
 
 test("clients: add, assign a website, edit notes, archive with paused sites, restore", async ({ page }) => {

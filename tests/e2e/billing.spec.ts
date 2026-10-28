@@ -111,13 +111,24 @@ test("Paddle webhooks drive the plan: subscribe, invoice, failed payment, cancel
   await expect(page.getByText(/Renews 14 Nov 2026/)).toBeVisible();
   await expect(page.getByText("Visa ending 4417")).toBeVisible();
   await expect(page.getByText("325-10012")).toBeVisible();
-  await expect(page.getByRole("meter", { name: "Plan usage" })).toHaveAttribute("aria-valuemax", "300");
+  await expect(page.getByRole("meter", { name: "Plan usage" })).toHaveAttribute("aria-valuemax", "150");
   await expect(
     page
       .getByRole("navigation", { name: "Primary" })
       .filter(visible)
-      .getByText(/Pro plan · 0 of 300 sites/),
+      .getByText(/Pro plan · 0 of 150 sites/),
   ).toBeVisible();
+  await expect(page.getByText("/ month, billed monthly")).toBeVisible();
+
+  // Switching to the yearly price (in the Paddle portal) shows up as yearly billing.
+  await webhook(
+    request,
+    "subscription.updated",
+    subscription(workspaceId, { items: [{ price: { id: "pri_e2e_pro_yearly" } }] }),
+  );
+  await page.reload();
+  await expect(page.getByText("/ year, billed yearly")).toBeVisible();
+  await expect(page.getByRole("region", { name: "Pro plan" }).getByText("$1,990")).toBeVisible();
 
   // A failed payment keeps everything running, with a banner on every page.
   await webhook(request, "subscription.past_due", subscription(workspaceId, { status: "past_due" }));
@@ -151,6 +162,17 @@ test("Paddle webhooks drive the plan: subscribe, invoice, failed payment, cancel
   await expect(page.getByRole("alert").filter({ hasText: "Subscription ended" })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Choose a plan" })).toBeVisible();
   await expect(page.getByRole("button", { name: "Choose Growth" })).toBeVisible();
+
+  // Monthly by default; yearly shows ten months' price ("2 months free").
+  const plans = page.locator("#plans");
+  await expect(plans.getByRole("button", { name: "Monthly" })).toHaveAttribute("aria-pressed", "true");
+  const card = (name: string) => plans.getByRole("listitem").filter({ has: page.getByRole("heading", { name }) });
+  await expect(card("Growth")).toContainText("$99 / month");
+  await plans.getByRole("button", { name: /Yearly/ }).click();
+  await expect(plans.getByRole("button", { name: /Yearly 2 months free/ })).toHaveAttribute("aria-pressed", "true");
+  await expect(card("Growth")).toContainText("$990 / year");
+  await expect(card("Pro")).toContainText("$1,990 / year");
+  await expect(plans.getByText(/Billed yearly in USD/)).toBeVisible();
 });
 
 test("plan limits: a full Starter workspace can't add another website", async ({ page }) => {
@@ -161,18 +183,18 @@ test("plan limits: a full Starter workspace can't add another website", async ({
     `INSERT INTO site (id, "workspaceId", name, "nameKey", "baseUrl", "normalizedHostname", "liveHostKey", "updatedAt")
      SELECT gen_random_uuid()::text, $1, 'site-' || n || '.example.com', 'site-' || n || '.example.com',
             'https://site-' || n || '.example.com', 'site-' || n || '.example.com', 'site-' || n || '.example.com', now()
-     FROM generate_series(1, 25) AS n`,
+     FROM generate_series(1, 15) AS n`,
     [workspaceId],
   );
   await page.goto("/websites?add=1");
   const dialog = page.getByRole("dialog", { name: "Add website" });
-  await expect(dialog.getByText("0 of 25 slots free")).toBeVisible();
+  await expect(dialog.getByText("0 of 15 slots free")).toBeVisible();
   await dialog.getByLabel("Website address").fill("one-too-many.example.com");
   await dialog.getByRole("button", { name: "Add website" }).click();
-  await expect(dialog.getByText(/Your plan is full \(25 sites on Starter\)/)).toBeVisible();
+  await expect(dialog.getByText(/Your plan is full \(15 sites on Starter\)/)).toBeVisible();
 
   await page.goto("/billing");
-  await expect(page.getByRole("alert").filter({ hasText: "Plan limit reached — 25 of 25 websites" })).toBeVisible();
+  await expect(page.getByRole("alert").filter({ hasText: "Plan limit reached — 15 of 15 websites" })).toBeVisible();
 });
 
 test("another workspace's pages and files are not found", async ({ page, browser }) => {

@@ -33,6 +33,7 @@ production worker size before the beta ([private-beta.md](private-beta.md)).
 | 10 Growth workspaces, 8 slots         | 1,000 |  8.3 /s  |  8.0 /s  |        3.8 s / 4.9 s |      121.0 s |
 | 5 Pro workspaces, 32 slots            | 1,500 | 25.0 /s  | 24.4 /s  |        3.4 s / 5.0 s |       59.9 s |
 | 10 Pro workspaces, 64 slots           | 3,000 | 50.0 /s  | 47.7 /s  |        3.5 s / 5.0 s |       60.1 s |
+| 5 Pro workspaces at 150 sites, 32 slots (28 Oct 2026) | 750 | 12.5 /s | 11.5 /s | 2.8 s / 4.8 s | 60.1 s |
 
 - Achieved sits a little under needed only inside the measured window, while sites move from the start-up burst to
   their own slot (that move also makes interval p95 ≈ 85 s once). The queue ends empty in every scenario.
@@ -42,11 +43,11 @@ production worker size before the beta ([private-beta.md](private-beta.md)).
 **Capacity rule of thumb:** one worker does roughly **1 check/s per slot** with this latency mix (≈ 0.63 s network +
 ≈ 0.3 s database per check). Size `WORKER_CONCURRENCY` at 1.3–1.5 × the checks/s you need:
 
-| Plan    | One full workspace | Workspaces per worker at 32 slots | at 64 slots |
-| ------- | -----------------: | --------------------------------: | ----------: |
-| Starter |   25 sites / 5 min → 0.08 /s |                         ~300 |        ~600 |
-| Growth  | 100 sites / 2 min → 0.83 /s |                          ~28 |         ~56 |
-| Pro     |   300 sites / 1 min → 5 /s  |                            ~5 |         ~10 |
+| Plan    | One full workspace (plan limits of 28 Oct 2026) | Workspaces per worker at 32 slots | at 64 slots |
+| ------- | ----------------------------------------------: | --------------------------------: | ----------: |
+| Starter |                       15 sites / 5 min → 0.05 /s |                              ~460 |        ~920 |
+| Growth  |                       50 sites / 2 min → 0.42 /s |                               ~55 |        ~110 |
+| Pro     |                      150 sites / 1 min → 2.5 /s |                                ~9 |         ~18 |
 
 Workspaces rarely sit at their limit, so real headroom is larger. Watch "oldest due" on `/ops`: above ~10 s on a
 1-minute plan means add slots or a second worker (workers share the queue safely).
@@ -58,11 +59,15 @@ site hits its time cap on every scheduled audit:
 
 | Plan    | Audits / day (full workspace) | Worst-case audit time / day | Typical (≈ 5 min per audit) |
 | ------- | ----------------------------: | --------------------------: | --------------------------: |
-| Starter |               25 / 7 d ≈ 3.6 |                     54 min |                      18 min |
-| Growth  |             100 / 7 d ≈ 14.3 |                    7.1 h |                       1.2 h |
-| Pro     |               300 / 3 d = 100 |                     **75 h** |                     8.3 h |
+| Starter |               15 / 7 d ≈ 2.1 |                     32 min |                      11 min |
+| Growth  |               50 / 7 d ≈ 7.1 |                     3.6 h |                      36 min |
+| Pro     |             150 / 7 d ≈ 21.4 |                      16 h |                       1.8 h |
 
-One audit slot gives 24 h of crawling a day; the worker now runs 4 (`WORKER_AUDIT_CONCURRENCY`), i.e. 96 h/day. A
-single full Pro workspace at worst case would use most of that, so before launch either confirm real crawl times in the
-beta (`/ops` shows audit jobs and their age) or lower Pro's audit frequency or time cap. Audits never take uptime slots:
-they run in their own lane.
+One audit slot gives 24 h of crawling a day; the worker runs 4 (`WORKER_AUDIT_CONCURRENCY`), i.e. 96 h/day, so one
+worker covers about six full Pro workspaces even in the worst case. Audits never take uptime slots: they run in their
+own lane.
+
+**Why the plans changed (28 Oct 2026).** With the first plan hypotheses (Pro: 300 sites, audits every 3 days), one
+full Pro workspace was 100 audits a day and up to **75 h** of crawling — most of a worker's 96 h on its own. Pro now
+holds 150 sites and audits weekly like the other plans (≈ 21 audits a day, 16 h worst case), Growth 50 and Starter 15.
+Confirm real crawl times in the beta (`/ops` shows audit jobs and their age) before raising either again.

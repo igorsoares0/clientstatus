@@ -9,7 +9,17 @@ import { billingConfig } from "@/lib/billing/config";
 import { db } from "@/lib/db";
 import { formatLongDate } from "@/lib/format";
 import { RETENTION_DAYS } from "@/lib/monitoring/scheduler";
-import { BRANDING_LABEL, getPlan, isPlanKey, type PlanKey } from "@/lib/plans";
+import { env } from "@/lib/env";
+import {
+  BRANDING_LABEL,
+  getPlan,
+  isLargestPlan,
+  isPlanKey,
+  moreSitesHint,
+  planPrice,
+  type Plan,
+  type PlanKey,
+} from "@/lib/plans";
 import { requireMembership } from "@/lib/session";
 import { ChangePlan, InvoiceButton, PlanPicker, PortalButton } from "./billing-controls";
 
@@ -81,7 +91,7 @@ function chipFor(state: BillingState, tz: string): Chip {
 
 type Banner = { glyph: string; tone: "warn" | "down"; title: string; text: string; cta: "portal" | "plans" | null };
 
-function bannerFor(state: BillingState, tz: string, usage: { active: number; max: number }): Banner | null {
+function bannerFor(state: BillingState, tz: string, plan: Plan, active: number): Banner | null {
   const d = (date: Date | null) => (date ? formatLongDate(date, tz) : "");
   switch (state.kind) {
     case "past_due":
@@ -126,13 +136,13 @@ function bannerFor(state: BillingState, tz: string, usage: { active: number; max
       };
     }
     default:
-      if (usage.active >= usage.max) {
+      if (active >= plan.maxActiveSites) {
         return {
           glyph: "▲",
           tone: "warn",
-          title: `Plan limit reached — ${usage.active} of ${usage.max} websites`,
-          text: "All existing websites keep being monitored. To add more, pause or archive one, or move to a larger plan.",
-          cta: "plans",
+          title: `Plan limit reached — ${active} of ${plan.maxActiveSites} websites`,
+          text: `All existing websites keep being monitored. To add more, pause or archive one, or ${moreSitesHint(plan, env().SUPPORT_EMAIL)}.`,
+          cta: isLargestPlan(plan) ? null : "plans",
         };
       }
       return null;
@@ -153,7 +163,8 @@ async function Billing() {
   const plan = getPlan(planKey);
   const { state, subscription: sub } = overview;
   const chip = chipFor(state, tz);
-  const banner = bannerFor(state, tz, { active: counts.active, max: plan.maxActiveSites });
+  const banner = bannerFor(state, tz, plan, counts.active);
+  const period = sub && sub.status !== "canceled" ? sub.billingInterval : "month";
   const hasLiveSub = sub !== null && sub.status !== "canceled";
   const checkout =
     config && isOwner && !hasLiveSub ? await checkoutOptions(db, { ...ctx, email: ctx.user.email }, config) : null;
@@ -202,8 +213,10 @@ async function Billing() {
               <span className={`border px-2 py-px font-semibold ${chip.cls}`}>{chip.label}</span>
               {chip.sub ? <span className="text-[13px] text-muted">{chip.sub}</span> : null}
               <span className="ml-auto text-lg font-semibold font-stretch-88% tabular">
-                ${plan.priceUsdMonthly}{" "}
-                <span className="text-[13px] font-normal text-muted">/ month, billed monthly</span>
+                ${planPrice(plan, period).toLocaleString("en-US")}{" "}
+                <span className="text-[13px] font-normal text-muted">
+                  / {period}, billed {period === "year" ? "yearly" : "monthly"}
+                </span>
               </span>
             </div>
             <div className="flex flex-col gap-2 p-4">
@@ -234,7 +247,9 @@ async function Billing() {
               </span>
             </div>
             <dl className="m-0 grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-x-5 gap-y-3 px-4 pb-4 text-[13.5px]">
-              <Fact term="CHECK INTERVAL">Every {plan.uptimeIntervalSeconds / 60} minutes</Fact>
+              <Fact term="CHECK INTERVAL">
+                Every {plan.uptimeIntervalSeconds === 60 ? "minute" : `${plan.uptimeIntervalSeconds / 60} minutes`}
+              </Fact>
               <Fact term="AUDITS">
                 Every {plan.auditEveryDays} days · {plan.maxPagesPerAudit.toLocaleString("en-US")} pages ·{" "}
                 {plan.manualAuditsPerWeek} manual reruns / week <span className="text-muted">({auditsUsed} used)</span>
@@ -279,7 +294,12 @@ async function Billing() {
                 The subscription is paused. Resume it in the billing portal to change plan.
               </p>
             ) : hasLiveSub ? (
-              <ChangePlan currentPlan={planKey} activeSites={counts.active} />
+              <ChangePlan
+                currentPlan={planKey}
+                currentPeriod={sub!.billingInterval}
+                yearlyAvailable={config.prices.year !== null}
+                activeSites={counts.active}
+              />
             ) : checkout ? (
               <PlanPicker
                 environment={config.environment}

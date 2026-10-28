@@ -16,6 +16,7 @@ import {
 } from "@/lib/data/sites";
 import { ForbiddenError } from "@/lib/data/tenant";
 import { parseImportCsv } from "@/lib/csv";
+import { PLANS, type PlanKey } from "@/lib/plans";
 import { normalizeSiteUrl } from "@/lib/url";
 import { addMember, db, resetDb, workspaceWithOwner } from "./helpers";
 
@@ -97,34 +98,61 @@ describe("createSite", () => {
 
 describe("plan limits (active sites only)", () => {
   it("blocks adding past the limit, counts paused sites as free, and limits resume", async () => {
-    const ctx = await workspaceWithOwner("Owner", "starter"); // 25 active sites
-    await fillActive(ctx, 25);
+    const ctx = await workspaceWithOwner("Owner", "starter"); // 15 active sites
+    await fillActive(ctx, 15);
     await expect(createSite(db, ctx, { url: url("one-too-many.example.com") })).rejects.toMatchObject({
       code: "plan_limit",
-      message: "Your plan is full (25 sites on Starter). Pause a site or upgrade first.",
+      message: "Your plan is full (15 sites on Starter). Pause a site or upgrade your plan.",
     });
 
     const { items } = await listSites(db, ctx, { pageSize: 25 });
     const pausedIds = items.slice(0, 2).map((s) => s.id);
     expect((await pauseSites(db, ctx, pausedIds)).changed).toHaveLength(2);
-    expect(await siteCounts(db, ctx)).toMatchObject({ active: 23, paused: 2 });
+    expect(await siteCounts(db, ctx)).toMatchObject({ active: 13, paused: 2 });
 
     await createSite(db, ctx, { url: url("fits-now.example.com") });
     await expect(resumeSites(db, ctx, pausedIds)).rejects.toMatchObject({ code: "plan_limit" });
-    expect(await siteCounts(db, ctx)).toMatchObject({ active: 24, paused: 2 }); // all-or-nothing
+    expect(await siteCounts(db, ctx)).toMatchObject({ active: 14, paused: 2 }); // all-or-nothing
     expect((await resumeSites(db, ctx, pausedIds.slice(0, 1))).changed).toHaveLength(1);
   });
 
   it("serialises concurrent adds so the last slot is only taken once", async () => {
     const ctx = await workspaceWithOwner("Owner", "starter");
-    await fillActive(ctx, 24);
+    await fillActive(ctx, 14);
     const results = await Promise.allSettled([
       createSite(db, ctx, { url: url("race-a.example.com") }),
       createSite(db, ctx, { url: url("race-b.example.com") }),
       createSite(db, ctx, { url: url("race-c.example.com") }),
     ]);
     expect(results.filter((r) => r.status === "fulfilled")).toHaveLength(1);
-    expect((await siteCounts(db, ctx)).active).toBe(25);
+    expect((await siteCounts(db, ctx)).active).toBe(15);
+  });
+
+  const limits: [PlanKey, number, RegExp][] = [
+    ["starter", 15, /Pause a site or upgrade your plan\.$/],
+    ["growth", 50, /Pause a site or upgrade your plan\.$/],
+    // No add-on above the largest plan: the message points to us instead of an upgrade.
+    ["pro", 150, /Pause a site or contact us about more than 150 sites\.$/],
+  ];
+
+  it.each(limits)("%s holds exactly %i active websites, added one by one or by CSV", async (planKey, max, hint) => {
+    expect(PLANS[planKey].maxActiveSites).toBe(max);
+    const ctx = await workspaceWithOwner("Owner", planKey);
+    await fillActive(ctx, max - 1);
+
+    const parsed = parseImportCsv("url\nlast-slot.example.com\nover.example.com");
+    if (!parsed.ok) throw new Error(parsed.error);
+    const preview = await previewImport(db, ctx, parsed.rows);
+    expect(preview.map((r) => [r.kind, r.message])).toEqual([
+      ["ok", "Ready"],
+      ["err", `Over plan limit — ${max} sites on ${PLANS[planKey].name}`],
+    ]);
+    expect((await commitImport(db, ctx, parsed.rows)).imported).toBe(1);
+    expect((await siteCounts(db, ctx)).active).toBe(max);
+
+    const full = createSite(db, ctx, { url: url("one-too-many.example.com") });
+    await expect(full).rejects.toMatchObject({ code: "plan_limit" });
+    await expect(full).rejects.toThrow(hint);
   });
 });
 
@@ -296,17 +324,17 @@ http://plain.example.com,,
 
   it("marks rows over the plan limit and re-checks on commit", async () => {
     const ctx = await workspaceWithOwner("Owner", "starter");
-    await fillActive(ctx, 24);
+    await fillActive(ctx, 14);
     const parsed = parseImportCsv("url\nfirst.example.com\nsecond.example.com");
     if (!parsed.ok) throw new Error(parsed.error);
     const preview = await previewImport(db, ctx, parsed.rows);
     expect(preview.map((r) => r.kind)).toEqual(["ok", "err"]);
-    expect(preview[1].message).toBe("Over plan limit — 25 sites on Starter");
+    expect(preview[1].message).toBe("Over plan limit — 15 sites on Starter");
 
     // Someone takes the last slot between preview and commit.
     await createSite(db, ctx, { url: url("sneaky.example.com") });
     const result = await commitImport(db, ctx, parsed.rows);
     expect(result.imported).toBe(0);
-    expect((await siteCounts(db, ctx)).active).toBe(25);
+    expect((await siteCounts(db, ctx)).active).toBe(15);
   });
 });

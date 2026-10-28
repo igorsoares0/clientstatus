@@ -6,7 +6,8 @@ import { useEffect, useRef, useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast";
 import type { PlanChangePreview } from "@/lib/billing/paddle";
-import { PLANS, type PlanKey } from "@/lib/plans";
+import type { BillingConfig } from "@/lib/billing/config";
+import { PLAN_ORDER, PLANS, monthsFreeYearly, planPrice, type BillingInterval, type PlanKey } from "@/lib/plans";
 import {
   changePlanAction,
   confirmCheckoutAction,
@@ -14,8 +15,6 @@ import {
   portalUrlAction,
   previewPlanChangeAction,
 } from "./actions";
-
-const PLAN_ORDER: PlanKey[] = ["starter", "growth", "pro"];
 
 function money(amount: number, currency: string) {
   return new Intl.NumberFormat("en-US", { style: "currency", currency }).format(amount / 100);
@@ -74,9 +73,54 @@ export function InvoiceButton({ transactionId }: { transactionId: string }) {
   );
 }
 
-type PlanCardProps = { planKey: PlanKey; activeSites: number; current?: boolean; children: React.ReactNode };
+/** Monthly / Yearly switch shared by checkout and plan changes. */
+function IntervalToggle({
+  value,
+  onChange,
+  disabled,
+}: {
+  value: BillingInterval;
+  onChange: (interval: BillingInterval) => void;
+  disabled?: boolean;
+}) {
+  // Every plan is priced the same way, so any plan gives the saving.
+  const free = monthsFreeYearly(PLANS.growth);
+  const options = [
+    ["month", "Monthly", null],
+    ["year", "Yearly", `${free} months free`],
+  ] as const;
+  return (
+    <div
+      role="group"
+      aria-label="Billing period"
+      className="flex w-fit flex-wrap border border-border-strong bg-surface"
+    >
+      {options.map(([v, label, note]) => (
+        <button
+          key={v}
+          type="button"
+          aria-pressed={value === v}
+          disabled={disabled}
+          onClick={() => onChange(v)}
+          className={`flex h-8 items-center gap-1.5 border-0 px-3 text-[13px] ${value === v ? "bg-ink text-white" : "bg-surface text-ink"}`}
+        >
+          {label}
+          {note ? <span className={`text-xs ${value === v ? "opacity-80" : "text-up"}`}>{note}</span> : null}
+        </button>
+      ))}
+    </div>
+  );
+}
 
-function PlanOption({ planKey, activeSites, current, children }: PlanCardProps) {
+type PlanCardProps = {
+  planKey: PlanKey;
+  interval: BillingInterval;
+  activeSites: number;
+  current?: boolean;
+  children: React.ReactNode;
+};
+
+function PlanOption({ planKey, interval, activeSites, current, children }: PlanCardProps) {
   const plan = PLANS[planKey];
   const tooSmall = activeSites > plan.maxActiveSites;
   return (
@@ -84,8 +128,8 @@ function PlanOption({ planKey, activeSites, current, children }: PlanCardProps) 
       <div className="flex items-baseline justify-between gap-2">
         <h3 className="m-0 text-base font-semibold">{plan.name}</h3>
         <span className="font-semibold tabular">
-          ${plan.priceUsdMonthly}
-          <span className="text-xs font-normal text-muted"> / month</span>
+          ${planPrice(plan, interval).toLocaleString("en-US")}
+          <span className="text-xs font-normal text-muted"> / {interval}</span>
         </span>
       </div>
       <ul className="m-0 flex list-none flex-col gap-1 p-0 text-[13px] text-ink-2">
@@ -121,12 +165,13 @@ export function PlanPicker({
   clientToken: string;
   email: string;
   customData: Record<string, string>;
-  prices: Record<PlanKey, string>;
+  prices: BillingConfig["prices"];
   activeSites: number;
 }) {
   const router = useRouter();
   const toast = useToast();
   const paddle = useRef<Paddle | undefined>(undefined);
+  const [period, setPeriod] = useState<BillingInterval>("month");
   const [ready, setReady] = useState(false);
   const [phase, setPhase] = useState<"idle" | "confirming" | "waiting">("idle");
   const [error, setError] = useState<string | null>(null);
@@ -183,7 +228,7 @@ export function PlanPicker({
   function choose(planKey: PlanKey) {
     setError(null);
     paddle.current?.Checkout.open({
-      items: [{ priceId: prices[planKey], quantity: 1 }],
+      items: [{ priceId: (prices[period] ?? prices.month)[planKey], quantity: 1 }],
       customer: { email },
       customData,
       settings: { displayMode: "overlay", theme: "light", allowLogout: false, showAddTaxId: true },
@@ -206,9 +251,10 @@ export function PlanPicker({
           {error}
         </p>
       ) : null}
+      {prices.year ? <IntervalToggle value={period} onChange={setPeriod} /> : null}
       <ul className="m-0 grid list-none grid-cols-1 gap-3 p-0 tbl:grid-cols-3">
         {PLAN_ORDER.map((key) => (
-          <PlanOption key={key} planKey={key} activeSites={activeSites}>
+          <PlanOption key={key} planKey={key} interval={period} activeSites={activeSites}>
             <Button
               size="sm"
               className="w-full"
@@ -221,17 +267,29 @@ export function PlanPicker({
         ))}
       </ul>
       <p className="m-0 text-xs text-muted">
-        Billed monthly in USD by Paddle, our reseller; tax is added at checkout where it applies. Cancel any time in the
-        billing portal.
+        Billed {period === "year" ? "yearly" : "monthly"} in USD by Paddle, our reseller; tax is added at checkout where
+        it applies. Cancel any time in the billing portal.
       </p>
     </div>
   );
 }
 
-/** Live subscription: switch plan with a prorated preview first. */
-export function ChangePlan({ currentPlan, activeSites }: { currentPlan: PlanKey; activeSites: number }) {
+/** Live subscription: switch plan or billing period with a prorated preview first. */
+export function ChangePlan({
+  currentPlan,
+  currentPeriod,
+  yearlyAvailable,
+  activeSites,
+}: {
+  currentPlan: PlanKey;
+  currentPeriod: BillingInterval;
+  yearlyAvailable: boolean;
+  activeSites: number;
+}) {
   const router = useRouter();
   const toast = useToast();
+  // Plan changes keep the current billing period unless the owner switches it here.
+  const [period, setPeriod] = useState<BillingInterval>(currentPeriod);
   const [target, setTarget] = useState<PlanKey | null>(null);
   const [preview, setPreview] = useState<PlanChangePreview | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -242,7 +300,7 @@ export function ChangePlan({ currentPlan, activeSites }: { currentPlan: PlanKey;
     setPreview(null);
     setError(null);
     start(async () => {
-      const r = await previewPlanChangeAction(planKey);
+      const r = await previewPlanChangeAction(planKey, period);
       if (!r.ok) return setError(r.error);
       setPreview(r.preview);
     });
@@ -251,21 +309,37 @@ export function ChangePlan({ currentPlan, activeSites }: { currentPlan: PlanKey;
   function confirm() {
     if (!target) return;
     start(async () => {
-      const r = await changePlanAction(target);
+      const r = await changePlanAction(target, period);
       if (!r.ok) return setError(r.error);
-      toast.show(`Plan changed to ${PLANS[target].name}`);
+      toast.show(`Plan changed to ${PLANS[target].name}, billed ${period === "year" ? "yearly" : "monthly"}`);
       setTarget(null);
       setPreview(null);
       router.refresh();
     });
   }
 
+  function switchPeriod(next: BillingInterval) {
+    setPeriod(next);
+    setTarget(null);
+    setPreview(null);
+    setError(null);
+  }
+
+  function actionLabel(key: PlanKey) {
+    if (key === currentPlan) return `Switch to ${period === "year" ? "yearly" : "monthly"} billing`;
+    const up = PLAN_ORDER.indexOf(key) > PLAN_ORDER.indexOf(currentPlan);
+    return `${up ? "Upgrade" : "Downgrade"} to ${PLANS[key].name}`;
+  }
+
   return (
     <div className="flex flex-col gap-3">
+      {yearlyAvailable || currentPeriod === "year" ? (
+        <IntervalToggle value={period} onChange={switchPeriod} disabled={pending} />
+      ) : null}
       <ul className="m-0 grid list-none grid-cols-1 gap-3 p-0 tbl:grid-cols-3">
         {PLAN_ORDER.map((key) => (
-          <PlanOption key={key} planKey={key} activeSites={activeSites} current={key === currentPlan}>
-            {key === currentPlan ? (
+          <PlanOption key={key} planKey={key} interval={period} activeSites={activeSites} current={key === currentPlan}>
+            {key === currentPlan && period === currentPeriod ? (
               <span className="text-[13px] font-semibold">Current plan</span>
             ) : (
               <Button
@@ -275,8 +349,7 @@ export function ChangePlan({ currentPlan, activeSites }: { currentPlan: PlanKey;
                 disabled={pending || activeSites > PLANS[key].maxActiveSites}
                 onClick={() => pick(key)}
               >
-                {PLAN_ORDER.indexOf(key) > PLAN_ORDER.indexOf(currentPlan) ? "Upgrade" : "Downgrade"} to{" "}
-                {PLANS[key].name}
+                {actionLabel(key)}
               </Button>
             )}
           </PlanOption>
@@ -295,13 +368,20 @@ export function ChangePlan({ currentPlan, activeSites }: { currentPlan: PlanKey;
           {preview ? (
             <>
               <p className="m-0">
-                Switch to <b>{PLANS[target].name}</b> now.{" "}
+                Switch to <b>{PLANS[target].name}</b>, billed {period === "year" ? "yearly" : "monthly"}, now.{" "}
                 {preview.action === "charge"
                   ? chargeText(preview)
                   : preview.action === "credit"
                     ? `${money(preview.amount, preview.currency)} is credited to your next invoices.`
                     : "Nothing is charged today."}
               </p>
+              {period !== currentPeriod ? (
+                // Paddle starts a new billing period when the interval changes (seen in the sandbox).
+                <p className="m-0">
+                  Switching between monthly and yearly starts a new billing period today, so your renewal date moves to{" "}
+                  {period === "year" ? "a year" : "a month"} from now.
+                </p>
+              ) : null}
               <p className="m-0 text-muted">New limits apply straight away. Existing monitoring keeps running.</p>
               <div className="flex gap-2">
                 <Button size="sm" disabled={pending} onClick={confirm}>

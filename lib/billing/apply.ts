@@ -40,8 +40,9 @@ export async function applySubscription(
   config: BillingConfig,
   now: Date,
 ): Promise<ApplyOutcome> {
-  const planKey = planForPrice(config, sub.items[0]!.price.id);
-  if (!planKey) return { outcome: "ignored", workspaceId: null, reason: "unknown price" };
+  const price = planForPrice(config, sub.items[0]!.price.id);
+  if (!price) return { outcome: "ignored", workspaceId: null, reason: "unknown price" };
+  const { planKey, interval } = price;
 
   const linked = await tx.subscription.findUnique({ where: { providerSubscriptionId: sub.id } });
   const workspaceId = linked?.workspaceId ?? workspaceFromCustomData(sub.custom_data);
@@ -71,6 +72,7 @@ export async function applySubscription(
     providerCustomerId: sub.customer_id,
     providerSubscriptionId: sub.id,
     planKey,
+    billingInterval: interval,
     status: sub.status,
     currentPeriodStart: sub.current_billing_period?.starts_at ?? null,
     currentPeriodEnd: sub.current_billing_period?.ends_at ?? null,
@@ -89,7 +91,12 @@ export async function applySubscription(
   await tx.subscription.upsert({ where: { workspaceId }, create: { workspaceId, ...data }, update: data });
   await syncWorkspaceAccess(tx, workspaceId);
 
-  if (!current || current.status !== sub.status || current.planKey !== planKey) {
+  if (
+    !current ||
+    current.status !== sub.status ||
+    current.planKey !== planKey ||
+    current.billingInterval !== interval
+  ) {
     await tx.auditLog.create({
       data: {
         workspaceId,
@@ -97,7 +104,7 @@ export async function applySubscription(
         action: "billing.subscription_changed",
         resourceType: "subscription",
         resourceId: sub.id,
-        metadata: { status: sub.status, planKey, previousStatus: current?.status ?? null },
+        metadata: { status: sub.status, planKey, interval, previousStatus: current?.status ?? null },
       },
     });
   }

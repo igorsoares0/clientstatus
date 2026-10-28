@@ -16,6 +16,7 @@ export function SiteActions({
   slotsFree,
   maxSites,
   planName,
+  moreSites,
   status,
 }: {
   siteId: string;
@@ -24,6 +25,8 @@ export function SiteActions({
   slotsFree: number;
   maxSites: number;
   planName: string;
+  /** What to do for more slots: upgrade, or contact us on the largest plan. */
+  moreSites: string;
   status: ReactNode;
 }) {
   const toast = useToast();
@@ -84,7 +87,7 @@ export function SiteActions({
         )}
         {(state === "paused" || state === "archived") && slotsFree <= 0 ? (
           <span className="self-center text-[12.5px] text-muted">
-            Your plan is full ({maxSites} sites on {planName}). Pause another site or upgrade first.
+            Your plan is full ({maxSites} sites on {planName}). Pause another site or {moreSites}.
           </span>
         ) : null}
       </div>

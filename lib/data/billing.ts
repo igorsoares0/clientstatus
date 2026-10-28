@@ -2,11 +2,11 @@ import type { PrismaClient } from "@/lib/generated/prisma/client";
 import { billingState } from "@/lib/billing/access";
 import { applySubscription, applyTransaction } from "@/lib/billing/apply";
 import { checkoutCustomData, workspaceFromCustomData, type CheckoutCustomData } from "@/lib/billing/checkout-token";
-import type { BillingConfig } from "@/lib/billing/config";
+import { priceFor, type BillingConfig } from "@/lib/billing/config";
 import type { BillingProvider, PlanChangePreview } from "@/lib/billing/paddle";
 import { UserFacingError, notFound } from "@/lib/data/errors";
 import { assertRole, type TenantContext } from "@/lib/data/tenant";
-import { PLANS, type PlanKey } from "@/lib/plans";
+import { PLANS, type BillingInterval, type PlanKey } from "@/lib/plans";
 
 // Billing reads and owner-only actions. Plan changes, cancellation and payment
 // methods are Paddle's: we start checkout, preview/apply plan switches and
@@ -45,7 +45,7 @@ export async function checkoutOptions(
   db: PrismaClient,
   ctx: TenantContext & { email: string },
   config: BillingConfig,
-): Promise<{ customData: CheckoutCustomData; email: string; prices: Record<PlanKey, string> }> {
+): Promise<{ customData: CheckoutCustomData; email: string; prices: BillingConfig["prices"] }> {
   assertRole(ctx, "owner");
   const sub = await db.subscription.findUnique({ where: { workspaceId: ctx.workspaceId }, select: { status: true } });
   if (sub && sub.status !== "canceled")
@@ -102,18 +102,34 @@ async function assertPlanFits(db: PrismaClient, ctx: TenantContext, planKey: Pla
   }
 }
 
+/** The Paddle price to switch to. The interval stays what the subscription has unless one is given. */
+function targetPrice(
+  config: BillingConfig,
+  sub: { planKey: string; billingInterval: BillingInterval },
+  planKey: PlanKey,
+  interval: BillingInterval | undefined,
+) {
+  const to = interval ?? sub.billingInterval;
+  const priceId = priceFor(config, planKey, to);
+  if (!priceId) throw new UserFacingError("Yearly billing isn’t available yet.", "invalid");
+  const unchanged = sub.planKey === planKey && sub.billingInterval === to;
+  return { priceId, interval: to, unchanged };
+}
+
 export async function previewPlanChange(
   db: PrismaClient,
   ctx: TenantContext,
   provider: BillingProvider,
   config: BillingConfig,
   planKey: PlanKey,
+  interval?: BillingInterval,
 ): Promise<PlanChangePreview> {
   assertRole(ctx, "owner");
   const sub = await liveSubscription(db, ctx);
-  if (sub.planKey === planKey) throw new UserFacingError(`You’re already on ${PLANS[planKey].name}.`, "invalid");
+  const target = targetPrice(config, sub, planKey, interval);
+  if (target.unchanged) throw new UserFacingError(`You’re already on ${PLANS[planKey].name}.`, "invalid");
   await assertPlanFits(db, ctx, planKey);
-  return provider.previewPlanChange(sub.providerSubscriptionId, config.prices[planKey]);
+  return provider.previewPlanChange(sub.providerSubscriptionId, target.priceId);
 }
 
 export async function changePlan(
@@ -122,13 +138,15 @@ export async function changePlan(
   provider: BillingProvider,
   config: BillingConfig,
   planKey: PlanKey,
+  interval?: BillingInterval,
   now = new Date(),
 ): Promise<void> {
   assertRole(ctx, "owner");
   const sub = await liveSubscription(db, ctx);
-  if (sub.planKey === planKey) return;
+  const target = targetPrice(config, sub, planKey, interval);
+  if (target.unchanged) return;
   await assertPlanFits(db, ctx, planKey);
-  const updated = await provider.changePlan(sub.providerSubscriptionId, config.prices[planKey]);
+  const updated = await provider.changePlan(sub.providerSubscriptionId, target.priceId);
   await db.$transaction(async (tx) => {
     await applySubscription(tx, updated, config, now);
     await tx.auditLog.create({
@@ -138,7 +156,7 @@ export async function changePlan(
         action: "billing.plan_change_requested",
         resourceType: "subscription",
         resourceId: sub.providerSubscriptionId,
-        metadata: { from: sub.planKey, to: planKey },
+        metadata: { from: sub.planKey, to: planKey, fromInterval: sub.billingInterval, toInterval: target.interval },
       },
     });
   });

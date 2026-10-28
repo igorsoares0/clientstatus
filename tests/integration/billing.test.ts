@@ -25,7 +25,10 @@ const config: BillingConfig = {
   apiKey: "test",
   webhookSecret: "test",
   clientToken: "test",
-  prices: { starter: "pri_starter", growth: "pri_growth", pro: "pri_pro" },
+  prices: {
+    month: { starter: "pri_starter", growth: "pri_growth", pro: "pri_pro" },
+    year: { starter: "pri_starter_y", growth: "pri_growth_y", pro: "pri_pro_y" },
+  },
 };
 
 const DAY = 24 * 60 * 60_000;
@@ -118,6 +121,31 @@ describe("Paddle webhooks", () => {
     expect(
       await db.auditLog.count({ where: { workspaceId: ctx.workspaceId, action: "billing.subscription_changed" } }),
     ).toBe(1);
+  });
+
+  it("records the billing interval from the price, and follows a switch to yearly", async () => {
+    const ctx = await workspaceWithOwner();
+    await process(event("subscription.created", subscriptionData(ctx.workspaceId)));
+    expect(await db.subscription.findUniqueOrThrow({ where: { workspaceId: ctx.workspaceId } })).toMatchObject({
+      planKey: "pro",
+      billingInterval: "month",
+    });
+
+    const yearly = subscriptionData(ctx.workspaceId, {
+      items: [{ price: { id: "pri_growth_y" } }],
+      updated_at: "2026-10-15T00:00:00Z",
+    });
+    expect(await process(event("subscription.updated", yearly))).toBe("applied");
+    expect(await db.subscription.findUniqueOrThrow({ where: { workspaceId: ctx.workspaceId } })).toMatchObject({
+      planKey: "growth",
+      billingInterval: "year",
+    });
+    expect((await db.workspace.findUniqueOrThrow({ where: { id: ctx.workspaceId } })).planKey).toBe("growth");
+    const audit = await db.auditLog.findFirstOrThrow({
+      where: { workspaceId: ctx.workspaceId, action: "billing.subscription_changed" },
+      orderBy: { createdAt: "desc" },
+    });
+    expect(audit.metadata).toMatchObject({ planKey: "growth", interval: "year" });
   });
 
   it("acknowledges duplicate deliveries without applying them twice", async () => {
@@ -265,7 +293,7 @@ describe("billing actions", () => {
   it("blocks downgrades that can't hold the active websites, and applies upgrades straight away", async () => {
     const ctx = await subscribed("pri_growth");
     await db.workspace.update({ where: { id: ctx.workspaceId }, data: { planKey: "growth" } });
-    for (let i = 0; i < 26; i++) await addSite(ctx, `site-${i}.example.com`);
+    for (let i = 0; i < 16; i++) await addSite(ctx, `site-${i}.example.com`);
     const provider = fakeProvider({
       previewPlanChange: async () => ({ action: "charge", amount: 2500, currency: "USD", creditUsed: 0, dueNow: 2500 }),
       changePlan: async (_id, priceId) =>
@@ -287,6 +315,43 @@ describe("billing actions", () => {
     });
     await changePlan(db, ctx, provider, config, "pro");
     expect((await db.workspace.findUniqueOrThrow({ where: { id: ctx.workspaceId } })).planKey).toBe("pro");
+  });
+
+  it("keeps the billing interval on a plan change unless the owner switches it", async () => {
+    const ctx = await subscribed("pri_growth_y");
+    const requested: string[] = [];
+    const provider = fakeProvider({
+      previewPlanChange: async (_id, priceId) => {
+        requested.push(priceId);
+        return { action: "charge", amount: 1, currency: "USD", creditUsed: 0, dueNow: 1 };
+      },
+      changePlan: async (_id, priceId) => {
+        requested.push(priceId);
+        return subscriptionEntity.parse(
+          subscriptionData(ctx.workspaceId, {
+            items: [{ price: { id: priceId } }],
+            updated_at: new Date().toISOString(),
+          }),
+        );
+      },
+    });
+    await previewPlanChange(db, ctx, provider, config, "pro");
+    await changePlan(db, ctx, provider, config, "pro");
+    expect(requested).toEqual(["pri_pro_y", "pri_pro_y"]);
+    expect(await db.subscription.findUniqueOrThrow({ where: { workspaceId: ctx.workspaceId } })).toMatchObject({
+      planKey: "pro",
+      billingInterval: "year",
+    });
+
+    // Same plan, other interval: a billing-period switch. Same plan and interval: nothing to do.
+    await changePlan(db, ctx, provider, config, "pro", "month");
+    expect(requested.at(-1)).toBe("pri_pro");
+    await expect(previewPlanChange(db, ctx, provider, config, "pro", "month")).rejects.toThrow(/already on Pro/);
+
+    // Without yearly prices configured, switching to yearly is refused before reaching Paddle.
+    const monthlyOnly = { ...config, prices: { ...config.prices, year: null } };
+    await expect(changePlan(db, ctx, provider, monthlyOnly, "growth", "year")).rejects.toThrow(/Yearly billing/);
+    expect(requested).toHaveLength(3);
   });
 
   it("only owners manage billing", async () => {
@@ -322,13 +387,14 @@ describe("billing actions", () => {
 describe("costly features follow the plan", () => {
   it("emails owners once per plan and month when websites reach 90% of the plan", async () => {
     const ctx = await workspaceWithOwner("Owner", "starter");
-    for (let i = 0; i < 22; i++) await addSite(ctx, `client-${i}.example.com`);
+    // Starter holds 15: the warning goes out at 14 (90%, rounded up).
+    for (let i = 0; i < 13; i++) await addSite(ctx, `client-${i}.example.com`);
     expect(await warnIfNearPlanLimit(db, ctx.workspaceId)).toBe(0);
-    await addSite(ctx, "client-22.example.com");
+    await addSite(ctx, "client-13.example.com");
     expect(await warnIfNearPlanLimit(db, ctx.workspaceId)).toBe(1);
     expect(await warnIfNearPlanLimit(db, ctx.workspaceId)).toBe(0);
     const mail = await db.emailDelivery.findFirstOrThrow({ where: { templateType: "plan_usage" } });
-    expect(mail.subject).toMatch(/23 of 25 websites on Starter/);
+    expect(mail.subject).toMatch(/14 of 15 websites on Starter/);
   });
 
   it("keeps the custom report footer for Growth and Pro", async () => {

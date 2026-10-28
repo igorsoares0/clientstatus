@@ -75,21 +75,43 @@ describe("billing config", () => {
     expect(parseBillingConfig(parseEnv(base))).toBeNull();
     expect(parseBillingConfig(parseEnv({ ...base, PADDLE_API_KEY: "k", PADDLE_WEBHOOK_SECRET: "s" }))).toBeNull();
   });
-  it("maps prices to plans and ignores foreign prices", () => {
-    const config = parseBillingConfig(
-      parseEnv({
-        ...base,
-        PADDLE_API_KEY: "k",
-        PADDLE_WEBHOOK_SECRET: "s",
-        PADDLE_CLIENT_TOKEN: "t",
-        PADDLE_PRICE_STARTER: "pri_a",
-        PADDLE_PRICE_GROWTH: "pri_b",
-        PADDLE_PRICE_PRO: "pri_c",
-      }),
-    )!;
+  const monthly = {
+    ...base,
+    PADDLE_API_KEY: "k",
+    PADDLE_WEBHOOK_SECRET: "s",
+    PADDLE_CLIENT_TOKEN: "t",
+    PADDLE_PRICE_STARTER: "pri_a",
+    PADDLE_PRICE_GROWTH: "pri_b",
+    PADDLE_PRICE_PRO: "pri_c",
+  };
+  const yearly = {
+    PADDLE_PRICE_STARTER_YEARLY: "pri_ay",
+    PADDLE_PRICE_GROWTH_YEARLY: "pri_by",
+    PADDLE_PRICE_PRO_YEARLY: "pri_cy",
+  };
+
+  it("maps monthly prices to plans and ignores foreign prices", () => {
+    const config = parseBillingConfig(parseEnv(monthly))!;
     expect(config.environment).toBe("sandbox");
-    expect(planForPrice(config, "pri_b")).toBe("growth");
+    expect(config.prices.year).toBeNull();
+    expect(planForPrice(config, "pri_b")).toEqual({ planKey: "growth", interval: "month" });
+    expect(planForPrice(config, "pri_by")).toBeNull();
     expect(planForPrice(config, "pri_someone_else")).toBeNull();
+  });
+
+  it("maps all six prices to plan and billing interval", () => {
+    const config = parseBillingConfig(parseEnv({ ...monthly, ...yearly }))!;
+    expect(planForPrice(config, "pri_a")).toEqual({ planKey: "starter", interval: "month" });
+    expect(planForPrice(config, "pri_c")).toEqual({ planKey: "pro", interval: "month" });
+    expect(planForPrice(config, "pri_ay")).toEqual({ planKey: "starter", interval: "year" });
+    expect(planForPrice(config, "pri_by")).toEqual({ planKey: "growth", interval: "year" });
+    expect(planForPrice(config, "pri_cy")).toEqual({ planKey: "pro", interval: "year" });
+  });
+
+  it("rejects a partial yearly set and values that aren't price ids", () => {
+    expect(() => parseEnv({ ...monthly, PADDLE_PRICE_PRO_YEARLY: "pri_cy" })).toThrow(/all three yearly/);
+    expect(() => parseEnv({ ...monthly, PADDLE_PRICE_GROWTH: "99" })).toThrow(/Paddle price id/);
+    expect(() => parseEnv({ ...monthly, ...yearly, PADDLE_PRICE_PRO_YEARLY: "" })).toThrow(/all three yearly/);
   });
 });
 

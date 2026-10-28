@@ -256,22 +256,26 @@ Pricing is a hypothesis to validate with agencies. All limits must be stored in 
 
 | Feature | Agency Starter | Agency Growth | Agency Pro |
 |---|---:|---:|---:|
-| Price/month | US$49 | US$99 | US$149 |
-| Active websites | 25 | 100 | 300 |
+| Price/month | US$49 | US$99 | US$199 |
+| Price/year (2 months free) | US$490 | US$990 | US$1,990 |
+| Active websites | 15 | 50 | 150 |
 | Uptime interval | 5 minutes | 2 minutes | 1 minute |
 | Basic SSL monitoring | Yes | Yes | Yes |
 | Domain expiry data | When available | When available | When available |
-| Link/SEO audits | Weekly | More frequent, bounded | More frequent, bounded |
+| Link/SEO audits | Weekly | Weekly | Weekly |
 | Monthly PDF reports | Yes | Yes | Yes |
 | Agency branding | Logo and basic branding | Full standard branding | Advanced white-label |
 | Shareable report links | Yes | Yes | Yes |
-| Team members | 1 initially | Up to 3 | Up to 10 |
+| Team members | 1 | Up to 3 | Up to 10 |
 | Monthly email automation | Yes | Yes | Yes |
 | Audit budget | Limited | Higher | Highest |
 | Custom report domain | No | No | P1 / planned |
 
 Important:
-- The proposed uptime intervals are product hypotheses and must be load-tested before launch.
+- The uptime intervals were load-tested before launch (`docs/load-test.md`); re-test on production hardware.
+- Pro audits are weekly, not every 3 days: a full Pro workspace crawling every 3 days could use most of one worker's audit capacity.
+- Above Pro's 150 websites there is no paid add-on; agencies that need more contact us.
+- The trial is 14 days with Growth limits; no card needed.
 - The number of pages crawled per audit must be limited per plan and configurable.
 - Do not advertise “unlimited” checks or crawls.
 - Avoid including a third-party paid performance API in the base plan until its cost is understood.

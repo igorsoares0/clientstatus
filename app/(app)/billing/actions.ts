@@ -8,7 +8,7 @@ import { PaddleApiError, paddleApi, type PlanChangePreview } from "@/lib/billing
 import { db } from "@/lib/db";
 import { changePlan, confirmCheckout, invoiceUrl, portalUrl, previewPlanChange } from "@/lib/data/billing";
 import { logger } from "@/lib/log";
-import { isPlanKey, type PlanKey } from "@/lib/plans";
+import { isBillingInterval, isPlanKey, type BillingInterval, type PlanKey } from "@/lib/plans";
 import { requireMembership } from "@/lib/session";
 
 const log = logger("billing-action");
@@ -30,6 +30,7 @@ function billingError(error: unknown, context: string) {
 }
 
 const planSchema = z.string().refine(isPlanKey);
+const intervalSchema = z.string().refine(isBillingInterval);
 
 export async function confirmCheckoutAction(transactionId: string): Promise<ActionResult<{ applied: boolean }>> {
   const ctx = await requireMembership();
@@ -45,25 +46,40 @@ export async function confirmCheckoutAction(transactionId: string): Promise<Acti
   }
 }
 
-export async function previewPlanChangeAction(planKey: string): Promise<ActionResult<{ preview: PlanChangePreview }>> {
+export async function previewPlanChangeAction(
+  planKey: string,
+  interval: string,
+): Promise<ActionResult<{ preview: PlanChangePreview }>> {
   const ctx = await requireMembership();
   const p = providerFor();
   if (!p) return NOT_CONFIGURED;
-  if (!planSchema.safeParse(planKey).success) return { ok: false, error: "Choose a plan." };
+  if (!planSchema.safeParse(planKey).success || !intervalSchema.safeParse(interval).success) {
+    return { ok: false, error: "Choose a plan." };
+  }
   try {
-    return { ok: true, preview: await previewPlanChange(db, ctx, p.provider, p.config, planKey as PlanKey) };
+    const preview = await previewPlanChange(
+      db,
+      ctx,
+      p.provider,
+      p.config,
+      planKey as PlanKey,
+      interval as BillingInterval,
+    );
+    return { ok: true, preview };
   } catch (error) {
     return billingError(error, "preview plan change");
   }
 }
 
-export async function changePlanAction(planKey: string): Promise<ActionResult> {
+export async function changePlanAction(planKey: string, interval: string): Promise<ActionResult> {
   const ctx = await requireMembership();
   const p = providerFor();
   if (!p) return NOT_CONFIGURED;
-  if (!planSchema.safeParse(planKey).success) return { ok: false, error: "Choose a plan." };
+  if (!planSchema.safeParse(planKey).success || !intervalSchema.safeParse(interval).success) {
+    return { ok: false, error: "Choose a plan." };
+  }
   try {
-    await changePlan(db, ctx, p.provider, p.config, planKey as PlanKey);
+    await changePlan(db, ctx, p.provider, p.config, planKey as PlanKey, interval as BillingInterval);
     refresh();
     return { ok: true };
   } catch (error) {

@@ -67,7 +67,7 @@ test("sign up → verify email → create workspace → use the shell → sign o
   await expect(page.getByRole("heading", { level: 1, name: "Overview" })).toBeVisible();
   const sidebar = page.getByRole("navigation", { name: "Primary" }).filter(visible);
   await expect(sidebar.getByText("Northfold Studio")).toBeVisible();
-  await expect(sidebar.getByText("Growth trial · 1 of 100 sites")).toBeVisible();
+  await expect(sidebar.getByText("Growth trial · 1 of 50 sites")).toBeVisible();
   await expect(sidebar.getByRole("link", { name: "Overview" })).toHaveAttribute("aria-current", "page");
   await expect(page.getByRole("heading", { name: /1 website awaiting first check/ })).toBeVisible();
   await expect(page.getByText("Website added")).toBeVisible();
@@ -106,9 +106,9 @@ test("sign up → verify email → create workspace → use the shell → sign o
   await page.goto("/overview");
 
   // 7. Below 980px the sidebar becomes a horizontal top bar.
-  await expect(page.getByText("Growth trial · 1 of 100 sites")).toBeVisible();
+  await expect(page.getByText("Growth trial · 1 of 50 sites")).toBeVisible();
   await page.setViewportSize({ width: 800, height: 900 });
-  await expect(page.getByText("Growth trial · 1 of 100 sites")).toBeHidden();
+  await expect(page.getByText("Growth trial · 1 of 50 sites")).toBeHidden();
   const topBar = page.getByRole("navigation", { name: "Primary" }).filter(visible);
   await expect(topBar).toHaveCount(1);
   await topBar.getByRole("link", { name: "Clients" }).click();

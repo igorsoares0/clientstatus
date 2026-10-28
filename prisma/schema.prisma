@@ -689,6 +689,11 @@ enum SubscriptionStatus {
 }
 
 /// One per workspace: the Paddle subscription it is linked to.
+enum BillingInterval {
+  month
+  year
+}
+
 model Subscription {
   id                     String             @id @default(uuid(7))
   workspaceId            String             @unique
@@ -697,6 +702,8 @@ model Subscription {
   providerCustomerId     String
   providerSubscriptionId String             @unique
   planKey                String
+  /// Billing period of the current Paddle price; plan changes keep it unless the owner switches.
+  billingInterval        BillingInterval    @default(month)
   status                 SubscriptionStatus
   currentPeriodStart     DateTime?
   currentPeriodEnd       DateTime?

@@ -6,32 +6,56 @@ const optional = z
   .optional()
   .transform((v) => v?.trim() || undefined);
 
-const schema = z.object({
-  NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
-  DATABASE_URL: z.url({ protocol: /^postgres(ql)?$/ }),
-  BETTER_AUTH_SECRET: z.string().min(32, "BETTER_AUTH_SECRET must be at least 32 characters"),
-  BETTER_AUTH_URL: z.url(),
-  RESEND_API_KEY: z
+/** Paddle price ids look like pri_01h…; anything else is a copy-paste mistake. */
+const priceId = optional.pipe(
+  z
     .string()
-    .optional()
-    .transform((v) => v || undefined),
-  /** "mailbox" writes emails to .dev-mailbox/ instead of sending (dev and e2e). Defaults by NODE_ENV. */
-  EMAIL_DELIVERY: z.preprocess((v) => v || undefined, z.enum(["resend", "mailbox"]).optional()),
-  EMAIL_FROM: z.string().min(3),
-  WORKER_HEALTH_PORT: z.coerce.number().int().min(1).max(65535).default(3001),
-  /** Paddle billing. All optional: without them the Billing page explains billing isn't configured. */
-  PADDLE_ENVIRONMENT: z.preprocess((v) => v || undefined, z.enum(["sandbox", "production"]).default("sandbox")),
-  PADDLE_API_KEY: optional,
-  PADDLE_WEBHOOK_SECRET: optional,
-  /** Client-side token for Paddle.js (safe to expose; passed to the checkout component). */
-  PADDLE_CLIENT_TOKEN: optional,
-  PADDLE_PRICE_STARTER: optional,
-  PADDLE_PRICE_GROWTH: optional,
-  PADDLE_PRICE_PRO: optional,
-  /** Comma-separated emails allowed into the internal ops page (/ops). */
-  OPS_ADMIN_EMAILS: optional,
-  /** Private beta: comma-separated emails or @domains allowed to sign up. Empty = open sign-up. */
-});
+    .regex(/^pri_[a-z\d_]+$/, "must be a Paddle price id (pri_…)")
+    .optional(),
+);
+
+const schema = z
+  .object({
+    NODE_ENV: z.enum(["development", "test", "production"]).default("development"),
+    DATABASE_URL: z.url({ protocol: /^postgres(ql)?$/ }),
+    BETTER_AUTH_SECRET: z.string().min(32, "BETTER_AUTH_SECRET must be at least 32 characters"),
+    BETTER_AUTH_URL: z.url(),
+    RESEND_API_KEY: z
+      .string()
+      .optional()
+      .transform((v) => v || undefined),
+    /** "mailbox" writes emails to .dev-mailbox/ instead of sending (dev and e2e). Defaults by NODE_ENV. */
+    EMAIL_DELIVERY: z.preprocess((v) => v || undefined, z.enum(["resend", "mailbox"]).optional()),
+    EMAIL_FROM: z.string().min(3),
+    WORKER_HEALTH_PORT: z.coerce.number().int().min(1).max(65535).default(3001),
+    /** Paddle billing. All optional: without them the Billing page explains billing isn't configured. */
+    PADDLE_ENVIRONMENT: z.preprocess((v) => v || undefined, z.enum(["sandbox", "production"]).default("sandbox")),
+    PADDLE_API_KEY: optional,
+    PADDLE_WEBHOOK_SECRET: optional,
+    /** Client-side token for Paddle.js (safe to expose; passed to the checkout component). */
+    PADDLE_CLIENT_TOKEN: optional,
+    /** Paddle price ids, one per plan and billing interval. Yearly is optional, but all three or none. */
+    PADDLE_PRICE_STARTER: priceId,
+    PADDLE_PRICE_GROWTH: priceId,
+    PADDLE_PRICE_PRO: priceId,
+    PADDLE_PRICE_STARTER_YEARLY: priceId,
+    PADDLE_PRICE_GROWTH_YEARLY: priceId,
+    PADDLE_PRICE_PRO_YEARLY: priceId,
+    /** Comma-separated emails allowed into the internal ops page (/ops). */
+    OPS_ADMIN_EMAILS: optional,
+    /** Shown when a workspace on the largest plan runs out of website slots. */
+    SUPPORT_EMAIL: optional.pipe(z.email().optional()),
+  })
+  .superRefine((e, ctx) => {
+    const yearly = [e.PADDLE_PRICE_STARTER_YEARLY, e.PADDLE_PRICE_GROWTH_YEARLY, e.PADDLE_PRICE_PRO_YEARLY];
+    if (yearly.some(Boolean) && !yearly.every(Boolean)) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["PADDLE_PRICE_STARTER_YEARLY"],
+        message: "set all three yearly Paddle prices (starter, growth, pro) or none",
+      });
+    }
+  });
 
 export type Env = z.infer<typeof schema>;
 

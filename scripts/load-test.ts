@@ -24,7 +24,8 @@ const { values: args } = parseArgs({
     workspaces: { type: "string", default: "1" },
     plan: { type: "string", default: "pro" },
     sites: { type: "string" },
-    concurrency: { type: "string", default: process.env.WORKER_CONCURRENCY ?? "8" },
+    // Same default as the worker (worker/index.ts).
+    concurrency: { type: "string", default: process.env.WORKER_CONCURRENCY || "32" },
     minutes: { type: "string", default: "3" },
   },
 });

@@ -12,7 +12,8 @@ import { medianResponse, PERIODS, recentChecks, siteUptime, uptimeBuckets, type 
 import { getSite, siteCounts } from "@/lib/data/sites";
 import { formatClock, formatLongDate, formatShortDate } from "@/lib/format";
 import { formatPercent } from "@/lib/monitoring/uptime";
-import { getPlan } from "@/lib/plans";
+import { env } from "@/lib/env";
+import { getPlan, moreSitesHint } from "@/lib/plans";
 import { first, hrefWith, type Params } from "@/lib/search-params";
 import { requireMembership } from "@/lib/session";
 import { domainCell, siteStatusView, sslCell } from "@/lib/site-status";
@@ -234,6 +235,7 @@ async function WebsiteDetail({
           slotsFree={plan.maxActiveSites - counts.active}
           maxSites={plan.maxActiveSites}
           planName={plan.name}
+          moreSites={moreSitesHint(plan, env().SUPPORT_EMAIL)}
           status={
             <div role="status" className={`flex flex-wrap items-baseline gap-x-5 gap-y-1 border px-3.5 py-2.5 ${tint}`}>
               <span className="text-[17px] font-semibold">
