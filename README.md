@@ -7,7 +7,8 @@ Website health monitoring and white-label monthly reports for agencies. Product 
 **Status:** Phases 0–5. Foundation, auth, onboarding, clients and websites, monitoring (uptime, SSL, domain
 expiry, incidents), technical audits (bounded crawler, broken links, basic SEO), email alerts, branded monthly reports
 (PDF, private links, scheduled delivery), Paddle billing with plan enforcement, security tests, an internal ops
-dashboard and load tests are done. Next: private beta with a small group of agencies (spec §15 Phase 5–6).
+dashboard and load tests are done. There is no private beta: the launch is public with open sign-up
+([`docs/launch.md`](docs/launch.md)). Phase 6 (post-launch) waits for real usage and paying customers.
 
 ## Stack
 

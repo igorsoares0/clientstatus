@@ -13,7 +13,7 @@ starts versus when it was due), the real interval between two checks of the same
 interval is excluded: every site starts due at once.
 
 Environment: one worker process, Postgres 17 in Docker, WSL2 on a laptop. Production hardware will differ; re-run on the
-production worker size before the beta ([private-beta.md](private-beta.md)).
+production worker size before launch ([launch.md](launch.md)).
 
 ## What the first runs found (and the fixes)
 
@@ -70,4 +70,4 @@ own lane.
 **Why the plans changed (28 Oct 2026).** With the first plan hypotheses (Pro: 300 sites, audits every 3 days), one
 full Pro workspace was 100 audits a day and up to **75 h** of crawling — most of a worker's 96 h on its own. Pro now
 holds 150 sites and audits weekly like the other plans (≈ 21 audits a day, 16 h worst case), Growth 50 and Starter 15.
-Confirm real crawl times in the beta (`/ops` shows audit jobs and their age) before raising either again.
+Confirm real crawl times after launch (`/ops` shows audit jobs and their age) before raising either again.

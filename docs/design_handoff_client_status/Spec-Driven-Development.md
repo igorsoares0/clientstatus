@@ -851,7 +851,7 @@ Rules:
 
 ## 14. Acceptance Criteria for v1
 
-The MVP is ready for private beta when:
+The MVP is ready for launch when (originally "for private beta"; there is no private beta — see Phase 5):
 
 1. An agency can create an account and workspace.
 2. The agency can create clients and add multiple websites.
@@ -914,11 +914,11 @@ The MVP is ready for private beta when:
 - Tenant-isolation and SSRF security tests.
 - Worker health monitoring and operational dashboards.
 - Load tests for plan-level site/crawl assumptions.
-- Private beta with a small group of agencies.
+- ~~Private beta with a small group of agencies.~~ Replaced by a public launch with open sign-up and the 14-day trial (decided 28 Oct 2026); see `docs/launch.md`.
 
 ### Phase 6 — Post-launch validation
 Prioritize based on real usage:
-- Team invitations and role permissions if not included in beta.
+- Team invitations and role permissions.
 - Custom report domains.
 - Slack/webhook notifications.
 - Visual monitoring or performance integrations only if customer demand and economics justify them.
