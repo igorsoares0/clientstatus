@@ -1,15 +1,32 @@
 import type { PrismaClient } from "@/lib/generated/prisma/client";
-import { hasAccess } from "@/lib/billing/access";
+import { hasAccess, isPaidSubscription } from "@/lib/billing/access";
 import { UserFacingError } from "@/lib/data/errors";
+import { lockWorkspace } from "@/lib/data/workspace-tx";
 import { env } from "@/lib/env";
 import { formatLongDate } from "@/lib/format";
 import { getNotificationSettings } from "@/lib/notify/settings";
 import { reportMail } from "@/lib/notify/templates";
+import { getPlan } from "@/lib/plans";
 import type { StoredReport } from "@/lib/reports/generate";
-import { newReportToken } from "@/lib/reports/token";
+import { newReportToken, REPORT_TOKEN_PLACEHOLDER, sealReportToken } from "@/lib/reports/token";
 
 // Report delivery (FR-REP-08/09, spec §9.6): recipients are confirmed once
 // before automatic delivery; every send can include a private, expiring link.
+
+const DAY_MS = 86_400_000;
+/** Report emails a workspace without a paid subscription may queue per 24 hours. */
+export const TRIAL_REPORT_EMAILS_PER_DAY = 25;
+/** The same person gets the same report at most this often per 24 hours. */
+const SENDS_PER_RECIPIENT_PER_DAY = 2;
+
+/**
+ * Daily cap on report emails, so the product can't be used to mass-mail arbitrary
+ * addresses. Paid plans get room for a client per website, each with a full
+ * recipient list (10), which covers the monthly run on the 1st.
+ */
+export function reportEmailsPerDay(planKey: string, paid: boolean): number {
+  return paid ? getPlan(planKey).maxActiveSites * 10 : TRIAL_REPORT_EMAILS_PER_DAY;
+}
 
 export type SendOptions = {
   now: () => Date;
@@ -46,7 +63,16 @@ export async function sendReport(
     where: { id: reportId },
     include: {
       client: { select: { id: true, name: true, status: true } },
-      workspace: { select: { name: true, timezone: true, reportContact: true, accessEndsAt: true } },
+      workspace: {
+        select: {
+          name: true,
+          timezone: true,
+          reportContact: true,
+          accessEndsAt: true,
+          planKey: true,
+          subscription: { select: { status: true } },
+        },
+      },
     },
   });
   if (!report || !report.storageKey || !report.data)
@@ -77,17 +103,50 @@ export async function sendReport(
   const link = includeLink ? newReportToken() : null;
   const linkExpiresAt = link ? new Date(now.getTime() + linkDays * 86_400_000) : null;
   const data = report.data as unknown as StoredReport;
+  const linkTokenSealed = link ? sealReportToken(link.token, report.id) : null;
   const mail = reportMail({
     agencyName: report.workspace.name,
     clientName: report.client.name,
     periodLabel: report.periodLabel,
     summary: data.summary ?? [],
-    linkUrl: link ? reportLinkUrl(link.token) : null,
+    // The stored body never holds the token: the worker swaps it in when sending (lib/notify/send.ts).
+    linkUrl: link ? reportLinkUrl(REPORT_TOKEN_PLACEHOLDER) : null,
     linkExpires: linkExpiresAt ? formatLongDate(linkExpiresAt, report.workspace.timezone) : null,
     contact: report.workspace.reportContact,
   });
 
+  const paid = isPaidSubscription(report.workspace.subscription?.status);
+  const limit = reportEmailsPerDay(report.workspace.planKey, paid);
+
   const sent = await db.$transaction(async (tx) => {
+    // Quotas are counted under the workspace lock, so parallel sends can't each see room left.
+    await lockWorkspace(tx, report.workspaceId);
+    const recent = { templateType: "report", scheduledAt: { gt: new Date(now.getTime() - DAY_MS) } };
+    const today = await tx.emailDelivery.count({ where: { workspaceId: report.workspaceId, ...recent } });
+    if (today + recipients.length > limit) {
+      // Automatic sends wait for review instead; the team can send once the day's quota frees up.
+      if (opts.automatic) return 0;
+      throw new UserFacingError(
+        paid
+          ? `You’ve reached today’s limit of ${limit} report emails. Try again tomorrow.`
+          : `Trial workspaces can send up to ${limit} report emails a day. Choose a plan in Billing to send more, or try again tomorrow.`,
+        "rate_limited",
+      );
+    }
+    const repeats = await tx.emailDelivery.groupBy({
+      by: ["recipient"],
+      where: { reportId: report.id, recipient: { in: recipients.map((r) => r.email) }, ...recent },
+      _count: true,
+    });
+    const tooOften = repeats.find((r) => r._count >= SENDS_PER_RECIPIENT_PER_DAY);
+    if (tooOften) {
+      if (opts.automatic) return 0;
+      throw new UserFacingError(
+        `${tooOften.recipient} has already received this report twice today. Try again tomorrow.`,
+        "rate_limited",
+      );
+    }
+
     if (opts.confirmRecipients) {
       await tx.clientRecipient.updateMany({
         where: { id: { in: recipients.map((r) => r.id) }, confirmedAt: null },
@@ -106,6 +165,7 @@ export async function sendReport(
           htmlBody: mail.html,
           attachmentKey: report.storageKey,
           attachmentName: fileName(report.client.name, report.periodLabel),
+          linkTokenSealed,
           reportId: report.id,
           scheduledAt: now,
         },
@@ -137,7 +197,7 @@ export async function sendReport(
     });
     return recipients.length;
   });
-  return { token: link?.token ?? null, sent };
+  return { token: sent ? (link?.token ?? null) : null, sent };
 }
 
 /** Replaces the private link with a new one (the old one stops working). Returns the token, shown once. */

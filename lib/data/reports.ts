@@ -1,7 +1,7 @@
 import type { Prisma, PrismaClient } from "@/lib/generated/prisma/client";
 import { notFound, UserFacingError } from "@/lib/data/errors";
 import { assertRole, type TenantContext } from "@/lib/data/tenant";
-import { recordAudit } from "@/lib/data/workspace-tx";
+import { lockWorkspace, recordAudit } from "@/lib/data/workspace-tx";
 import { getPlan } from "@/lib/plans";
 import { hashReportToken, isWellFormedToken } from "@/lib/reports/token";
 
@@ -81,6 +81,8 @@ export async function listRecipients(db: PrismaClient, ctx: TenantContext, clien
   });
 }
 
+const MAX_RECIPIENTS = 10;
+
 export async function addRecipient(
   db: PrismaClient,
   ctx: TenantContext,
@@ -94,14 +96,20 @@ export async function addRecipient(
   });
   if (!client) throw notFound("client");
   const email = input.email.trim().toLowerCase();
-  const count = await db.clientRecipient.count({ where: { clientId } });
-  if (count >= 10) throw new UserFacingError("A client can have up to 10 report recipients.", "invalid");
   try {
-    const r = await db.clientRecipient.create({
-      data: { workspaceId: ctx.workspaceId, clientId, email, name: input.name?.trim() || null },
+    return await db.$transaction(async (tx) => {
+      // Count and insert under the workspace lock, so parallel adds can't pass the limit.
+      await lockWorkspace(tx, ctx.workspaceId);
+      const count = await tx.clientRecipient.count({ where: { clientId } });
+      if (count >= MAX_RECIPIENTS) {
+        throw new UserFacingError(`A client can have up to ${MAX_RECIPIENTS} report recipients.`, "invalid");
+      }
+      const r = await tx.clientRecipient.create({
+        data: { workspaceId: ctx.workspaceId, clientId, email, name: input.name?.trim() || null },
+      });
+      await recordAudit(tx, ctx, "recipient.added", "client", clientId);
+      return r;
     });
-    await recordAudit(db, ctx, "recipient.added", "client", clientId);
-    return r;
   } catch (error) {
     if ((error as { code?: string }).code === "P2002")
       throw new UserFacingError(`${email} is already a recipient.`, "duplicate", "email");

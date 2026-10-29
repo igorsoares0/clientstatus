@@ -50,7 +50,7 @@ function toData(job: NewJob): Prisma.JobCreateManyInput {
 }
 
 /** Enqueues jobs, silently skipping ones whose activeKey is already pending or running. Returns how many were added. */
-export async function enqueue(db: PrismaClient, jobs: NewJob[]): Promise<number> {
+export async function enqueue(db: Pick<PrismaClient, "job">, jobs: NewJob[]): Promise<number> {
   if (jobs.length === 0) return 0;
   const { count } = await db.job.createMany({ data: jobs.map(toData), skipDuplicates: true });
   return count;

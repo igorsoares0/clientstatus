@@ -7,7 +7,7 @@ import { goneResponse, reportHtmlResponse } from "@/lib/reports/serve";
 
 // Public, unauthenticated private-link view of a sent report (FR-REP-09).
 export async function GET(req: NextRequest, ctx: RouteContext<"/r/[token]">) {
-  if (!allow(`report-link:${clientIp(req.headers)}`, 60, 60_000))
+  if (!(await allow(`report-link:${clientIp(req.headers)}`, 60, 60_000)))
     return new Response("Too many requests", { status: 429 });
   const { token } = await ctx.params;
   const report = await findReportByToken(db, token);

@@ -28,6 +28,18 @@ const schema = z
     EMAIL_DELIVERY: z.preprocess((v) => v || undefined, z.enum(["resend", "mailbox"]).optional()),
     EMAIL_FROM: z.string().min(3),
     WORKER_HEALTH_PORT: z.coerce.number().int().min(1).max(65535).default(3001),
+    /**
+     * Reverse proxies in front of the web app that append to X-Forwarded-For (lib/rate-limit.ts).
+     * 1 = one proxy or load balancer; 2 = e.g. Cloudflare in front of nginx.
+     */
+    TRUSTED_PROXY_HOPS: z.coerce.number().int().min(1).max(5).default(1),
+    /** Header your edge sets to the client address, overwriting any sent by the client (e.g. cf-connecting-ip). */
+    CLIENT_IP_HEADER: optional.pipe(
+      z
+        .string()
+        .regex(/^[a-z0-9-]+$/, "must be a lowercase header name")
+        .optional(),
+    ),
     /** Paddle billing. All optional: without them the Billing page explains billing isn't configured. */
     PADDLE_ENVIRONMENT: z.preprocess((v) => v || undefined, z.enum(["sandbox", "production"]).default("sandbox")),
     PADDLE_API_KEY: optional,

@@ -7,8 +7,8 @@ import { z } from "zod";
 import { auth } from "@/lib/auth";
 import { allowAccountEmail, allowSignIn, allowSignUp } from "@/lib/auth-limits";
 import { logger } from "@/lib/log";
-import { clientIp } from "@/lib/rate-limit";
-import { emailSchema, nameSchema, passwordSchema } from "@/lib/validation";
+import { clientIp, withResolvedIp } from "@/lib/rate-limit";
+import { emailSchema, nameSchema, passwordSchema, safeNextPath } from "@/lib/validation";
 
 const log = logger("auth");
 
@@ -35,12 +35,6 @@ function errorCode(error: unknown): string | undefined {
   return body?.code;
 }
 
-/** Only allow same-site relative paths as post-login destinations. */
-function safeNext(value: FormDataEntryValue | null): string {
-  const next = typeof value === "string" ? value : "";
-  return next.startsWith("/") && !next.startsWith("//") && !next.startsWith("/\\") ? next : "/overview";
-}
-
 const signUpSchema = z.object({ name: nameSchema, email: emailSchema, password: passwordSchema });
 
 export async function signUpAction(_prev: FormState, formData: FormData): Promise<FormState> {
@@ -52,14 +46,14 @@ export async function signUpAction(_prev: FormState, formData: FormData): Promis
   const values = { name: raw.name, email: raw.email };
   const parsed = signUpSchema.safeParse(raw);
   if (!parsed.success) return { fieldErrors: fieldErrors(parsed.error), values };
-  if (!allowSignUp(clientIp(await headers()))) {
+  if (!(await allowSignUp(clientIp(await headers())))) {
     return { formError: "Too many sign-ups from this network. Try again in an hour.", values };
   }
 
   try {
     await auth.api.signUpEmail({
       body: { ...parsed.data, callbackURL: "/onboarding/workspace" },
-      headers: await headers(),
+      headers: withResolvedIp(await headers()),
     });
   } catch (error) {
     const code = errorCode(error);
@@ -82,12 +76,12 @@ export async function signInAction(_prev: FormState, formData: FormData): Promis
   const values = { email: raw.email };
   const parsed = signInSchema.safeParse(raw);
   if (!parsed.success) return { fieldErrors: fieldErrors(parsed.error), values };
-  if (!allowSignIn(clientIp(await headers()), parsed.data.email)) {
+  if (!(await allowSignIn(clientIp(await headers()), parsed.data.email))) {
     return { formError: "Too many attempts. Wait 15 minutes and try again.", values };
   }
 
   try {
-    await auth.api.signInEmail({ body: parsed.data, headers: await headers() });
+    await auth.api.signInEmail({ body: parsed.data, headers: withResolvedIp(await headers()) });
   } catch (error) {
     const code = errorCode(error);
     if (code === "EMAIL_NOT_VERIFIED") redirect(`/verify?email=${encodeURIComponent(parsed.data.email)}`);
@@ -98,19 +92,19 @@ export async function signInAction(_prev: FormState, formData: FormData): Promis
     log.error("sign-in failed", { code, error });
     return { formError: "We couldn’t sign you in. Try again in a moment.", values };
   }
-  redirect(safeNext(formData.get("next")));
+  redirect(safeNextPath(formData.get("next")));
 }
 
 export async function resendVerificationAction(_prev: FormState, formData: FormData): Promise<FormState> {
   const parsed = emailSchema.safeParse(String(formData.get("email") ?? ""));
   if (!parsed.success) return { formError: "We don’t know which address to send to. Sign up again." };
-  if (!allowAccountEmail("verify", parsed.data)) {
+  if (!(await allowAccountEmail("verify", parsed.data))) {
     return { formError: "We’ve sent several emails already. Check your spam folder, or try again in an hour." };
   }
   try {
     await auth.api.sendVerificationEmail({
       body: { email: parsed.data, callbackURL: "/onboarding/workspace" },
-      headers: await headers(),
+      headers: withResolvedIp(await headers()),
     });
   } catch (error) {
     // Don't reveal whether the address exists or is already verified.
@@ -124,11 +118,11 @@ export async function requestPasswordResetAction(_prev: FormState, formData: For
   const parsed = emailSchema.safeParse(raw);
   if (!parsed.success) return { fieldErrors: { email: parsed.error.issues[0]?.message }, values: { email: raw } };
   // Over the limit we answer exactly as usual, so the response never reveals anything.
-  if (!allowAccountEmail("reset", parsed.data)) return { done: true, values: { email: parsed.data } };
+  if (!(await allowAccountEmail("reset", parsed.data))) return { done: true, values: { email: parsed.data } };
   try {
     await auth.api.requestPasswordReset({
       body: { email: parsed.data, redirectTo: "/reset-password" },
-      headers: await headers(),
+      headers: withResolvedIp(await headers()),
     });
   } catch (error) {
     log.warn("password reset request failed", { code: errorCode(error) });
@@ -152,7 +146,7 @@ export async function resetPasswordAction(_prev: FormState, formData: FormData):
   try {
     await auth.api.resetPassword({
       body: { token: parsed.data.token, newPassword: parsed.data.password },
-      headers: await headers(),
+      headers: withResolvedIp(await headers()),
     });
   } catch (error) {
     const code = errorCode(error);
@@ -166,7 +160,7 @@ export async function resetPasswordAction(_prev: FormState, formData: FormData):
 
 export async function signOutAction(): Promise<void> {
   try {
-    await auth.api.signOut({ headers: await headers() });
+    await auth.api.signOut({ headers: withResolvedIp(await headers()) });
   } catch (error) {
     log.warn("sign-out failed", { code: errorCode(error) });
   }

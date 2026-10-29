@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { formatShortDate, plural, shortPersonName } from "@/lib/format";
-import { emailSchema, isValidTimezone, passwordHint, passwordSchema, slugify } from "@/lib/validation";
+import { emailSchema, isValidTimezone, passwordHint, passwordSchema, safeNextPath, slugify } from "@/lib/validation";
 
 describe("password rules", () => {
   it("requires 12 to 128 characters", () => {
@@ -59,5 +59,33 @@ describe("formatting helpers", () => {
     expect(shortPersonName("Cher")).toBe("Cher");
     expect(plural(1, "website")).toBe("1 website");
     expect(plural(3, "website")).toBe("3 websites");
+  });
+});
+
+describe("post-login destination", () => {
+  it("keeps paths on this site", () => {
+    expect(safeNextPath("/websites?status=down")).toBe("/websites?status=down");
+    expect(safeNextPath("/reports/abc#sent")).toBe("/reports/abc#sent");
+    expect(safeNextPath("/a/../clients")).toBe("/clients");
+  });
+  it("refuses anything that would resolve to another site", () => {
+    for (const next of [
+      "//evil.example",
+      "/\\evil.example",
+      "/\tevil.example",
+      "/\t/evil.example",
+      "/\n/evil.example",
+      "/\r/evil.example",
+      "/.//evil.example",
+      "/a/..//evil.example",
+      "/%2e//evil.example",
+      "https://evil.example",
+      "javascript:alert(1)",
+      "evil.example",
+      "",
+      null,
+    ]) {
+      expect(safeNextPath(next)).toBe("/overview");
+    }
   });
 });

@@ -294,6 +294,28 @@ describe("audit jobs", () => {
     });
     await expect(requestManualAudit(db, ctx, site.id)).rejects.toMatchObject({ code: "rate_limited" });
   });
+
+  it("doesn't let concurrent requests exceed the weekly allowance", async () => {
+    const ctx = await workspaceWithOwner("Owner", "starter"); // 1 manual audit a week
+    const sites = await Promise.all(
+      Array.from({ length: 10 }, (_, i) =>
+        db.site.create({
+          data: {
+            workspaceId: ctx.workspaceId,
+            name: `s${i}`,
+            nameKey: `s${i}`,
+            baseUrl: `https://s${i}.example.com`,
+            normalizedHostname: `s${i}.example.com`,
+            liveHostKey: `s${i}.example.com`,
+          },
+        }),
+      ),
+    );
+    const results = await Promise.allSettled(sites.map((s) => requestManualAudit(db, ctx, s.id)));
+    expect(results.filter((r) => r.status === "fulfilled")).toHaveLength(1);
+    expect(await db.auditRun.count({ where: { workspaceId: ctx.workspaceId, trigger: "manual" } })).toBe(1);
+    expect(await db.job.count({ where: { workspaceId: ctx.workspaceId, jobType: "site_audit" } })).toBe(1);
+  });
 });
 
 describe("JavaScript-rendered detection", () => {

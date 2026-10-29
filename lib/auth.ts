@@ -4,6 +4,7 @@ import { nextCookies } from "better-auth/next-js";
 import { db } from "@/lib/db";
 import { actionEmail, sendEmail } from "@/lib/email";
 import { env } from "@/lib/env";
+import { betterAuthRateLimitStorage, RESOLVED_IP_HEADER } from "@/lib/rate-limit";
 import { PASSWORD_MAX, PASSWORD_MIN } from "@/lib/validation";
 
 const VERIFICATION_TTL_SECONDS = 24 * 60 * 60; // Onboarding copy: "valid for 24 hours"
@@ -53,8 +54,10 @@ export const auth = betterAuth({
     },
   },
   // Direct HTTP calls to the auth API (spec §8.2). Server actions add their own limits (lib/auth-limits.ts).
+  // Counters are shared with the app's limiter in Postgres, so they hold across web instances.
   rateLimit: {
     enabled: env().NODE_ENV === "production",
+    customStorage: betterAuthRateLimitStorage(),
     window: 60,
     max: 100,
     customRules: {
@@ -64,6 +67,9 @@ export const auth = betterAuth({
       "/send-verification-email": { window: 3600, max: 10 },
     },
   },
+  // The client address comes only from the header we set after resolving the proxy chain
+  // (app/api/auth/[...all]/route.ts, lib/rate-limit.ts), never from raw X-Forwarded-For.
+  advanced: { ipAddress: { ipAddressHeaders: [RESOLVED_IP_HEADER] } },
   // Must stay last so Set-Cookie works from Server Actions.
   plugins: [nextCookies()],
 });

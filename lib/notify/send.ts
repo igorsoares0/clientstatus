@@ -1,6 +1,7 @@
 import type { PrismaClient } from "@/lib/generated/prisma/client";
 import { sendEmail } from "@/lib/email";
 import { sanitizeError } from "@/lib/jobs/queue";
+import { openReportToken, REPORT_TOKEN_PLACEHOLDER } from "@/lib/reports/token";
 import { getObject } from "@/lib/storage";
 
 // Sends one queued email. Provider errors throw so the job queue retries with
@@ -22,6 +23,15 @@ export async function sendQueuedEmail(db: PrismaClient, deliveryId: string, now 
     }
   }
 
+  // Report links: the token exists only sealed, and only until the email is sent.
+  let { textBody, htmlBody } = d;
+  if (d.linkTokenSealed) {
+    if (!d.reportId) throw new Error("Sealed report link without a report");
+    const token = openReportToken(d.linkTokenSealed, d.reportId);
+    textBody = textBody.replaceAll(REPORT_TOKEN_PLACEHOLDER, token);
+    htmlBody = htmlBody.replaceAll(REPORT_TOKEN_PLACEHOLDER, token);
+  }
+
   const attachments = d.attachmentKey
     ? [{ filename: d.attachmentName ?? "report.pdf", content: await getObject(d.attachmentKey) }]
     : undefined;
@@ -29,14 +39,21 @@ export async function sendQueuedEmail(db: PrismaClient, deliveryId: string, now 
     const { providerMessageId } = await sendEmail({
       to: d.recipient,
       subject: d.subject,
-      text: d.textBody,
-      html: d.htmlBody,
+      text: textBody,
+      html: htmlBody,
       idempotencyKey: `delivery/${d.id}`,
       attachments,
     });
     await db.emailDelivery.update({
       where: { id: d.id },
-      data: { status: "sent", sentAt: now, providerMessageId, attempts: { increment: 1 }, lastError: null },
+      data: {
+        status: "sent",
+        sentAt: now,
+        providerMessageId,
+        attempts: { increment: 1 },
+        lastError: null,
+        linkTokenSealed: null,
+      },
     });
   } catch (error) {
     await db.emailDelivery.update({

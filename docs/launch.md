@@ -9,6 +9,10 @@ watch afterwards.
 - [ ] Production Postgres (Neon) migrated with `npm run db:deploy`; daily backups on.
 - [ ] Web app and worker deployed separately, sharing `STORAGE_DIR` (PDFs, logos). `npx playwright install chromium
       --with-deps` on the worker host.
+- [ ] `TRUSTED_PROXY_HOPS` matches the proxies in front of the web app (or `CLIENT_IP_HEADER` names the header the edge
+      sets), and the web app isn't reachable around them: rate limits key on that address.
+- [ ] Deploys run `npm run db:deploy` first, then the worker, then the web app: the worker must understand what the
+      web app queues (e.g. sealed report links).
 - [ ] Worker port 3001 private; `/health` wired to the process manager and an external uptime check on the web app's
       `/api/health`.
 - [ ] Resend: verified sending domain (SPF, DKIM, DMARC), `EMAIL_DELIVERY=resend`, bounce webhook with
@@ -26,12 +30,13 @@ watch afterwards.
   the cause).
 - Billing webhooks "ignored" counter: anything other than duplicates needs a look in the logs.
 - False positives: incidents that resolved within two checks, and inconclusive-heavy sites (bot protection).
-- Sign-up abuse: the auth rate limits are per process (`lib/rate-limit.ts`); move them to Postgres or Redis before
-  running more than one web instance.
+- Abuse: bursts of trial sign-ups, report email volume per workspace, and bounces and complaints (`/ops` email
+  failures). Trials can send 25 report emails and generate 20 previews a day; the limits are in
+  `lib/reports/send.ts`, `lib/reports/schedule.ts` and `lib/auth-limits.ts`.
 
 ## Decisions to settle from real usage (spec §17)
 
 Final crawl budgets and audit frequency per plan · retention for checks and findings · grace/downgrade rules (current:
 14 days past due, access to period end after cancelling) · whether reports auto-send by default (current: hold for
-review) · final pricing. Spec §15 Phase 6 items (Slack/webhook alerts, custom report domains, …) are prioritised the
+review) · report email and preview allowances (current: 25 emails and 20 previews a day on trials) · final pricing. Spec §15 Phase 6 items (Slack/webhook alerts, custom report domains, …) are prioritised the
 same way.

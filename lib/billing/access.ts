@@ -54,6 +54,11 @@ export function computeAccess(
   }
 }
 
+/** A paying customer (or one in Paddle's card-on-file trial), as opposed to our free trial or a lapsed plan. */
+export function isPaidSubscription(status: SubscriptionStatus | null | undefined): boolean {
+  return status === "active" || status === "trialing" || status === "past_due";
+}
+
 export function hasAccess(accessEndsAt: Date | null, now = new Date()): boolean {
   return accessEndsAt === null || accessEndsAt > now;
 }

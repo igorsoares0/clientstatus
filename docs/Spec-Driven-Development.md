@@ -597,14 +597,16 @@ The crawler and URL checker make outbound requests based on user-supplied URLs. 
 
 - Enforce workspace authorization on every server operation.
 - Validate all external input with typed schemas.
-- Rate-limit login, report-token access, manual audits, CSV imports, and expensive operations.
+- Rate-limit login, report-token access, manual audits, CSV imports, and expensive operations. Limits must hold across all web instances and under concurrent requests, keyed on a client address clients can't forge.
+- Cap outgoing report email per workspace and per recipient, with a lower allowance for free trials, so the product can't be used to mass-mail arbitrary addresses.
+- Redirect after sign-in only to paths on this site.
 - Verify Paddle webhook signatures and make processing idempotent.
 - Store secrets in environment variables or a secrets manager, never in source control.
 - Use secure session cookies and CSRF protections as appropriate to the selected auth implementation.
 - Keep dependencies updated and run dependency/security checks in CI.
 - Escape user-supplied content in reports and UI.
 - Never expose internal notes in customer-facing reports.
-- Store only a hash of private report tokens; support revocation and expiry.
+- Store only a hash of private report tokens; support revocation and expiry. The plain token must not be stored anywhere else (queued emails keep it encrypted until sent).
 - Redact sensitive data from logs.
 
 ### 8.3 Privacy and retention

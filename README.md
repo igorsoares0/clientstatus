@@ -47,8 +47,8 @@ npm run load-test -- --workspaces 5 --plan pro   # worker throughput vs plan int
 
 Security tests (spec §13) live in `tests/unit/security.test.ts` (SSRF inputs, IP classification, rate limits, token
 strength), `tests/integration/ssrf.test.ts` (DNS rebinding, hostile redirects), `tests/integration/isolation.test.ts`
-(every data function against another workspace's ids) and `tests/e2e/billing.spec.ts` (webhook signatures,
-cross-tenant pages). Load-test results: [`docs/load-test.md`](docs/load-test.md).
+(every data function against another workspace's ids), `tests/integration/rate-limit.test.ts` (shared counters under
+concurrency) and `tests/e2e/billing.spec.ts` (webhook signatures, cross-tenant pages). Load-test results: [`docs/load-test.md`](docs/load-test.md).
 
 ## Layout
 
@@ -111,8 +111,18 @@ Authorization rule: `proxy.ts` only checks that a session cookie exists. Every p
   paused time) are disclosed in the report, never estimated.
 - Default delivery is **hold for review**. With automatic delivery, a report is sent at 07:00 local only when it has no
   data gaps and every recipient was confirmed on an earlier delivery and hasn't bounced.
-- Private links are 32 random bytes; only their SHA-256 hash is stored, so a link is shown once and can be rotated or
-  revoked. Links expire after 30/60/90 days and are served with `noindex` and `no-referrer`.
+- Private links are 32 random bytes; only their SHA-256 hash identifies the report, so a link is shown once and can be
+  rotated or revoked. Links expire after 30/60/90 days and are served with `noindex` and `no-referrer`.
+- Queued report emails store a placeholder instead of the token. The token itself is sealed (AES-256-GCM, key derived
+  from `BETTER_AUTH_SECRET`, bound to the report) until the worker sends the email, then cleared. Changing
+  `BETTER_AUTH_SECRET` makes report emails still queued at that moment fail.
+- Sending limits (`lib/reports/send.ts`), so the product can't be used to mass-mail arbitrary addresses: a workspace
+  without a paid subscription queues at most 25 report emails per 24 hours; paid plans 10 × the plan's website limit
+  (150 / 500 / 1,500), enough for the monthly run. The same person gets the same report at most twice per 24 hours.
+  Over a limit, manual sends are refused with the reason and automatic sends wait for review.
+- Previews (`lib/reports/schedule.ts`): one at a time per client and at most 3 rendering per workspace; 20 per 24 hours
+  without a paid subscription, 100 with one. Monthly reports go ahead of previews and audits in the worker's long-job
+  lane.
 
 ## Billing (Paddle)
 
@@ -169,8 +179,15 @@ Team members: limits are configured but there is no invitation flow yet (spec P1
 - Security headers on every response (`next.config.ts`): `nosniff`, `frame-ancestors 'self'`, referrer policy,
   permissions policy, HSTS in production. Report routes add a stricter CSP.
 - Rate limits: sign-in (per address+IP, per IP, and per address), sign-up per IP, password-reset and verification
-  emails per address, report links per IP, CSV imports and manual audits per workspace. In-process limiters: fine for
-  one web instance; move to Postgres or Redis before running several.
+  emails per address, report links per IP, and Better Auth's own limits on direct `/api/auth/*` calls. The counters
+  are shared in Postgres (`rate_limit_bucket`: one atomic upsert per check, keys stored as SHA-256 hashes, expired
+  windows pruned daily), so they hold across web instances.
+- Quotas counted from the data (manual audits per week, CSV imports, report recipients, previews, report emails) are
+  checked under a per-workspace lock, so concurrent requests can't overshoot them.
+- Client address (`lib/rate-limit.ts`): read from the right of `X-Forwarded-For`, past `TRUSTED_PROXY_HOPS` proxies
+  (default 1), or from `CLIENT_IP_HEADER` when the edge sets one. Better Auth reads only the resolved address, from a
+  header the app sets itself. The web app must be reachable only through those proxies, or the address can be forged.
+- Post-login redirects (`next`) only go to paths on this site (`safeNextPath` in `lib/validation.ts`).
 - SSRF: IPv6 addresses are fully expanded before classification, so mapped (`::ffff:7f00:1`), NAT64, 6to4 and
   non-canonical loopback forms are blocked at input and again at connection time.
 - CI runs `npm audit --omit=dev --audit-level=high`.

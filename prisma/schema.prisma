@@ -552,6 +552,9 @@ model EmailDelivery {
   htmlBody          String
   attachmentKey     String?
   attachmentName    String?
+  /// Private report link token, sealed (lib/reports/token.ts). Bodies hold a placeholder
+  /// instead of the token; this is cleared once the email is sent.
+  linkTokenSealed   String?
   incidentId        String?
   reportId          String?
   scheduledAt       DateTime    @default(now())
@@ -758,6 +761,17 @@ model BillingTransaction {
 }
 
 // ─── Operations ───────────────────────────────────────────────────────────
+
+/// Fixed-window rate-limit counters (lib/rate-limit.ts), shared by every web instance.
+model RateLimitBucket {
+  /// SHA-256 of the limit key, which can contain an email or IP address.
+  key     String   @id
+  count   Int
+  resetAt DateTime
+
+  @@index([resetAt])
+  @@map("rate_limit_bucket")
+}
 
 /// One row per worker process, refreshed on an interval. The status bar reads
 /// it so the UI never presents results as current when the worker is silent.

@@ -8,7 +8,7 @@ export const db = createPrismaClient(process.env.TEST_DATABASE_URL!);
 
 export async function resetDb() {
   await db.$executeRawUnsafe(
-    'TRUNCATE "billing_event", "billing_transaction", "subscription", "report_delivery", "monthly_report", "client_recipient", "email_delivery", "notification_settings", "job", "audit_finding", "audit_run", "incident_event", "incident", "monitor_check", "site_state", "site", "client", "audit_log", "workspace_member", "workspace", "session", "account", "verification", "user" CASCADE',
+    'TRUNCATE "billing_event", "billing_transaction", "subscription", "report_delivery", "monthly_report", "client_recipient", "email_delivery", "notification_settings", "job", "audit_finding", "audit_run", "incident_event", "incident", "monitor_check", "site_state", "site", "client", "audit_log", "workspace_member", "workspace", "session", "account", "verification", "user", "rate_limit_bucket" CASCADE',
   );
 }
 

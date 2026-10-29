@@ -48,6 +48,24 @@ export function isValidTimezone(tz: string): boolean {
 
 export const timezoneSchema = z.string().refine(isValidTimezone, "Choose a valid timezone.");
 
+/**
+ * Post-login destination: a path on this site, or `fallback`. Browsers drop tabs and newlines
+ * and read "\" as "/" when resolving, so "/\t/evil.example" would otherwise leave the site.
+ */
+export function safeNextPath(value: unknown, fallback = "/overview"): string {
+  if (typeof value !== "string" || !value.startsWith("/") || /[\u0000-\u001f\u007f\\]/.test(value)) return fallback;
+  const base = "http://n";
+  let url: URL;
+  try {
+    url = new URL(value, base);
+  } catch {
+    return fallback;
+  }
+  // Dot segments can normalise "/.//evil.example" to "//evil.example", so check the result too.
+  const path = `${url.pathname}${url.search}${url.hash}`;
+  return url.origin === base && !path.startsWith("//") ? path : fallback;
+}
+
 /** URL-safe slug from a workspace name; uniqueness is handled by the caller. */
 export function slugify(name: string): string {
   const base = name

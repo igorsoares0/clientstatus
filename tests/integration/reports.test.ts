@@ -9,13 +9,30 @@ import { buildReportData } from "@/lib/reports/aggregate";
 import { generateReport } from "@/lib/reports/generate";
 import { monthPeriod } from "@/lib/reports/period";
 import { closePdfBrowser } from "@/lib/reports/pdf";
-import { createReport, scheduleMonthlyReports } from "@/lib/reports/schedule";
-import { revokeReportLink, rotateReportLink, sendReport } from "@/lib/reports/send";
-import { findReportByToken } from "@/lib/data/reports";
+import {
+  createReport,
+  PREVIEWS_GENERATING_AT_ONCE,
+  requestPreview,
+  scheduleMonthlyReports,
+  TRIAL_PREVIEWS_PER_DAY,
+} from "@/lib/reports/schedule";
+import { revokeReportLink, rotateReportLink, sendReport, TRIAL_REPORT_EMAILS_PER_DAY } from "@/lib/reports/send";
+import { addRecipient, findReportByToken } from "@/lib/data/reports";
+import type { OutgoingEmail } from "@/lib/email";
+import { sendQueuedEmail } from "@/lib/notify/send";
+import { openReportToken, REPORT_TOKEN_PLACEHOLDER } from "@/lib/reports/token";
 import { db, resetDb, workspaceWithOwner } from "./helpers";
 
 // Seeding two months of 2-minute checks and rendering PDFs takes a few seconds.
 vi.setConfig({ testTimeout: 90_000 });
+
+// Captures what would go to the provider, so tests can see the email as sent.
+const sendEmail = vi.hoisted(() =>
+  vi.fn<(email: OutgoingEmail) => Promise<{ providerMessageId: string | null }>>(async () => ({
+    providerMessageId: "msg_test",
+  })),
+);
+vi.mock("@/lib/email", async (original) => ({ ...(await original<typeof import("@/lib/email")>()), sendEmail }));
 
 let storage = "";
 beforeAll(() => {
@@ -278,7 +295,19 @@ describe("report generation and delivery", () => {
       attachmentKey: ready.storageKey,
       attachmentName: "harbour-dental-group-september-2026-website-health.pdf",
     });
-    expect(mail.textBody).toContain(`/r/${token}`);
+    // Stored rows never hold the token in the clear: a placeholder, and the token sealed to this report.
+    for (const column of [mail.textBody, mail.htmlBody, mail.linkTokenSealed!]) expect(column).not.toContain(token!);
+    expect(mail.textBody).toContain(`/r/${REPORT_TOKEN_PLACEHOLDER}`);
+    expect(() => openReportToken(mail.linkTokenSealed!, "another-report")).toThrow();
+    await sendQueuedEmail(db, mail.id, now());
+    const delivered = sendEmail.mock.calls.at(-1)![0];
+    expect(delivered.text).toContain(`/r/${token}`);
+    expect(delivered.html).toContain(`/r/${token}`);
+    expect(delivered.text).not.toContain(REPORT_TOKEN_PLACEHOLDER);
+    expect(await db.emailDelivery.findUniqueOrThrow({ where: { id: mail.id } })).toMatchObject({
+      status: "sent",
+      linkTokenSealed: null,
+    });
     const stored = await db.monthlyReport.findUniqueOrThrow({ where: { id: report.id } });
     expect(stored.privateTokenHash).not.toContain(token!);
 
@@ -289,6 +318,108 @@ describe("report generation and delivery", () => {
     expect((await findReportByToken(db, fresh, new Date("2026-10-03T00:00:00Z")))?.id).toBe(report.id);
     await revokeReportLink(db, report.id, ctx.workspaceId);
     expect(await findReportByToken(db, fresh, new Date("2026-10-03T00:00:00Z"))).toBeNull();
+  });
+
+  it("limits how often a report goes to the same person and how many report emails a trial sends a day", async () => {
+    const ctx = await workspaceWithOwner("Northfold");
+    const { client } = await seedClient(ctx);
+    const report = await createReport(db, {
+      workspaceId: ctx.workspaceId,
+      clientId: client.id,
+      period: SEP,
+      kind: "monthly",
+      now: new Date("2026-10-01T06:00:00Z"),
+    });
+    await generateReport(db, report.id, { now: () => new Date("2026-10-01T06:00:05Z") });
+    const r1 = await db.clientRecipient.create({
+      data: {
+        workspaceId: ctx.workspaceId,
+        clientId: client.id,
+        email: "sarah@harbour.example",
+        confirmedAt: new Date(),
+      },
+    });
+    const send = (at: string) => sendReport(db, report.id, { now: () => new Date(at), recipientIds: [r1.id] });
+
+    await send("2026-10-01T09:00:00Z");
+    await send("2026-10-01T10:00:00Z");
+    await expect(send("2026-10-01T11:00:00Z")).rejects.toMatchObject({ code: "rate_limited" });
+    expect((await send("2026-10-02T10:30:00Z")).sent).toBe(1); // a day after the first send
+
+    // A trial's daily allowance counts every report email in the workspace.
+    await db.emailDelivery.createMany({
+      data: Array.from({ length: TRIAL_REPORT_EMAILS_PER_DAY }, (_, i) => ({
+        workspaceId: ctx.workspaceId,
+        recipient: `other${i}@example.com`,
+        templateType: "report",
+        deduplicationKey: `seed:${i}`,
+        subject: "s",
+        textBody: "t",
+        htmlBody: "h",
+        scheduledAt: new Date("2026-10-05T08:00:00Z"),
+      })),
+    });
+    await expect(send("2026-10-05T09:00:00Z")).rejects.toMatchObject({
+      code: "rate_limited",
+      message: expect.stringMatching(/^Trial workspaces can send up to 25/),
+    });
+  });
+
+  it("serialises recipient adds and preview requests, so limits hold under concurrency", async () => {
+    const ctx = await workspaceWithOwner("Northfold");
+    const { client } = await seedClient(ctx);
+    const adds = await Promise.allSettled(
+      Array.from({ length: 15 }, (_, i) => addRecipient(db, ctx, client.id, { email: `r${i}@example.com` })),
+    );
+    expect(adds.filter((r) => r.status === "fulfilled")).toHaveLength(10);
+    expect(await db.clientRecipient.count({ where: { clientId: client.id } })).toBe(10);
+
+    const previews = await Promise.allSettled(
+      Array.from({ length: 5 }, () => requestPreview(db, ctx.workspaceId, client.id, new Date("2026-10-10T12:00:00Z"))),
+    );
+    expect(previews.filter((r) => r.status === "fulfilled")).toHaveLength(1);
+    expect(await db.monthlyReport.count({ where: { clientId: client.id, kind: "preview" } })).toBe(1);
+  });
+
+  it("caps the previews one workspace can queue, and puts monthly reports first in the lane", async () => {
+    const ctx = await workspaceWithOwner("Northfold");
+    const clients: { id: string }[] = [];
+    for (let i = 0; i < 4; i++) clients.push(await createClient(db, ctx, { name: `Client ${i}` }));
+    const now = new Date();
+    for (const c of clients.slice(0, PREVIEWS_GENERATING_AT_ONCE)) await requestPreview(db, ctx.workspaceId, c.id, now);
+    await expect(requestPreview(db, ctx.workspaceId, clients[3]!.id, now)).rejects.toMatchObject({
+      code: "rate_limited",
+    });
+
+    // Once renders finish, the trial's daily allowance still applies.
+    await db.monthlyReport.updateMany({ where: { workspaceId: ctx.workspaceId }, data: { status: "needs_review" } });
+    await db.monthlyReport.createMany({
+      data: Array.from({ length: TRIAL_PREVIEWS_PER_DAY - PREVIEWS_GENERATING_AT_ONCE }, (_, i) => ({
+        workspaceId: ctx.workspaceId,
+        clientId: clients[0]!.id,
+        kind: "preview",
+        code: `SEED-${i}`,
+        periodStart: SEP.start,
+        periodEnd: SEP.end,
+        periodLabel: SEP.label,
+        status: "needs_review" as const,
+      })),
+    });
+    await expect(requestPreview(db, ctx.workspaceId, clients[3]!.id, now)).rejects.toMatchObject({
+      code: "rate_limited",
+      message: expect.stringMatching(/^Trial workspaces can generate 20 previews a day/),
+    });
+
+    const monthly = await createReport(db, {
+      workspaceId: ctx.workspaceId,
+      clientId: clients[3]!.id,
+      period: SEP,
+      kind: "monthly",
+      now,
+    });
+    const jobs = await db.job.findMany({ where: { workspaceId: ctx.workspaceId, jobType: "report_generate" } });
+    const monthlyJob = jobs.find((j) => j.resourceId === monthly.id)!;
+    expect(jobs.filter((j) => j !== monthlyJob).every((j) => j.priority < monthlyJob.priority)).toBe(true);
   });
 
   it("marks clients without any checks as no data instead of inventing figures", async () => {
