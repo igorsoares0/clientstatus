@@ -37,6 +37,30 @@ including the verification and password-reset links. Set `EMAIL_DELIVERY=resend`
 emails, and point a Resend webhook (`email.bounced`, `email.complained`) at `/api/webhooks/resend` with its signing
 secret in `RESEND_WEBHOOK_SECRET`.
 
+## Deploy (Docker / Coolify)
+
+`Dockerfile` builds two targets from the same code: `web` (Next.js standalone server, port 3000) and `worker`
+(background worker with headless Chromium for PDFs, health on 3001). `docker-compose.prod.yml` runs them in the order
+from [`docs/launch.md`](docs/launch.md): a one-off `migrate` service (`prisma migrate deploy`), then the worker, then
+the web app once the worker is healthy. Both mount the `storage` volume at `/data/storage`, so they share one host.
+
+On Coolify: new resource → Docker Compose → this repository, compose file `docker-compose.prod.yml`. Give only `web` a
+domain (port 3000), never the worker. Set the variables once for the stack; `DATABASE_URL`, `BETTER_AUTH_SECRET`,
+`BETTER_AUTH_URL`, `RESEND_API_KEY`, `EMAIL_FROM`, `SUPPORT_EMAIL` and `LEGAL_NAME` are required (`SUPPORT_EMAIL` is
+the contact on `/bot` and the legal pages, `LEGAL_NAME` the seller named on them). `TRUSTED_PROXY_HOPS` defaults to 1 for Coolify's proxy; with Cloudflare in front, set
+`CLIENT_IP_HEADER=cf-connecting-ip`. Back up the `storage` volume along with the database.
+
+`/bot` is the public page the crawler's User-Agent links to (`lib/monitoring/safe-fetch.ts`): what it requests, how to
+opt out via robots.txt, and whom to contact.
+
+`/terms`, `/privacy` and `/refunds` are public (Paddle's domain review needs them). Shared facts — last-updated date,
+refund window, notice period and the list of service providers — live in `lib/legal.ts`; retention, trial and grace
+numbers are read from the code that enforces them. Update `SUBPROCESSORS` if the database moves off Hetzner (e.g. Neon).
+
+`/` is the public landing page (`app/page.tsx`, pieces in `components/landing.tsx`); `proxy.ts` sends visitors with a
+session cookie to `/overview`. Prices come from `lib/plans.ts`. The report images in `public/landing/` are screenshots
+of the real renderer with fictional data: re-create them with `npm run landing:images` after changing the report design.
+
 ## Checks
 
 ```bash

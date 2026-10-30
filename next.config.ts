@@ -17,6 +17,8 @@ const pagePolicyHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  // Self-contained server for the Docker image (Dockerfile, target "web").
+  output: "standalone",
   poweredByHeader: false,
   headers() {
     return [

@@ -55,8 +55,10 @@ const schema = z
     PADDLE_PRICE_PRO_YEARLY: priceId,
     /** Comma-separated emails allowed into the internal ops page (/ops). */
     OPS_ADMIN_EMAILS: optional,
-    /** Shown when a workspace on the largest plan runs out of website slots. */
+    /** Shown when a workspace on the largest plan runs out of website slots, and on /bot and the legal pages. */
     SUPPORT_EMAIL: optional.pipe(z.email().optional()),
+    /** Full legal name of the seller, named as the contracting party on /terms and controller on /privacy. */
+    LEGAL_NAME: optional,
   })
   .superRefine((e, ctx) => {
     const yearly = [e.PADDLE_PRICE_STARTER_YEARLY, e.PADDLE_PRICE_GROWTH_YEARLY, e.PADDLE_PRICE_PRO_YEARLY];

@@ -1,0 +1,89 @@
+# Production stack (Coolify: Docker Compose build pack, this file). docker-compose.yml is the local database only.
+# Order per docs/launch.md: migrations, then the worker, then the web app. Web and worker share the storage volume
+# (PDFs, logos), so they run on the same host. Only `web` gets a domain; the worker's port stays internal.
+# Variables are set once for the whole stack; ${VAR:?} ones are required.
+
+services:
+  migrate:
+    build:
+      context: .
+      target: worker
+    command: ["node_modules/.bin/prisma", "migrate", "deploy"]
+    environment:
+      - DATABASE_URL=${DATABASE_URL:?}
+    restart: "no"
+    exclude_from_hc: true
+
+  worker:
+    build:
+      context: .
+      target: worker
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    volumes:
+      - storage:/data/storage
+    environment:
+      - DATABASE_URL=${DATABASE_URL:?}
+      - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET:?}
+      - BETTER_AUTH_URL=${BETTER_AUTH_URL:?}
+      - EMAIL_DELIVERY=${EMAIL_DELIVERY:-resend}
+      - RESEND_API_KEY=${RESEND_API_KEY:?}
+      - EMAIL_FROM=${EMAIL_FROM:?}
+      - RESEND_WEBHOOK_SECRET=${RESEND_WEBHOOK_SECRET}
+      - WORKER_HEALTH_PORT=${WORKER_HEALTH_PORT:-3001}
+      - WORKER_CONCURRENCY=${WORKER_CONCURRENCY:-32}
+      - WORKER_AUDIT_CONCURRENCY=${WORKER_AUDIT_CONCURRENCY:-4}
+      - PADDLE_ENVIRONMENT=${PADDLE_ENVIRONMENT:-production}
+      - PADDLE_API_KEY=${PADDLE_API_KEY}
+      - PADDLE_WEBHOOK_SECRET=${PADDLE_WEBHOOK_SECRET}
+      - PADDLE_CLIENT_TOKEN=${PADDLE_CLIENT_TOKEN}
+      - PADDLE_PRICE_STARTER=${PADDLE_PRICE_STARTER}
+      - PADDLE_PRICE_GROWTH=${PADDLE_PRICE_GROWTH}
+      - PADDLE_PRICE_PRO=${PADDLE_PRICE_PRO}
+      - PADDLE_PRICE_STARTER_YEARLY=${PADDLE_PRICE_STARTER_YEARLY}
+      - PADDLE_PRICE_GROWTH_YEARLY=${PADDLE_PRICE_GROWTH_YEARLY}
+      - PADDLE_PRICE_PRO_YEARLY=${PADDLE_PRICE_PRO_YEARLY}
+      - OPS_ADMIN_EMAILS=${OPS_ADMIN_EMAILS}
+      - SUPPORT_EMAIL=${SUPPORT_EMAIL:?}
+
+  web:
+    build:
+      context: .
+      target: web
+    depends_on:
+      worker:
+        condition: service_healthy
+    restart: unless-stopped
+    volumes:
+      - storage:/data/storage
+    expose:
+      - "3000"
+    environment:
+      - DATABASE_URL=${DATABASE_URL:?}
+      - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET:?}
+      - BETTER_AUTH_URL=${BETTER_AUTH_URL:?}
+      - EMAIL_DELIVERY=${EMAIL_DELIVERY:-resend}
+      - RESEND_API_KEY=${RESEND_API_KEY:?}
+      - EMAIL_FROM=${EMAIL_FROM:?}
+      - RESEND_WEBHOOK_SECRET=${RESEND_WEBHOOK_SECRET}
+      # Coolify's Traefik is one proxy hop. Behind Cloudflare as well, set CLIENT_IP_HEADER=cf-connecting-ip.
+      - TRUSTED_PROXY_HOPS=${TRUSTED_PROXY_HOPS:-1}
+      - CLIENT_IP_HEADER=${CLIENT_IP_HEADER}
+      - PADDLE_ENVIRONMENT=${PADDLE_ENVIRONMENT:-production}
+      - PADDLE_API_KEY=${PADDLE_API_KEY}
+      - PADDLE_WEBHOOK_SECRET=${PADDLE_WEBHOOK_SECRET}
+      - PADDLE_CLIENT_TOKEN=${PADDLE_CLIENT_TOKEN}
+      - PADDLE_PRICE_STARTER=${PADDLE_PRICE_STARTER}
+      - PADDLE_PRICE_GROWTH=${PADDLE_PRICE_GROWTH}
+      - PADDLE_PRICE_PRO=${PADDLE_PRICE_PRO}
+      - PADDLE_PRICE_STARTER_YEARLY=${PADDLE_PRICE_STARTER_YEARLY}
+      - PADDLE_PRICE_GROWTH_YEARLY=${PADDLE_PRICE_GROWTH_YEARLY}
+      - PADDLE_PRICE_PRO_YEARLY=${PADDLE_PRICE_PRO_YEARLY}
+      - OPS_ADMIN_EMAILS=${OPS_ADMIN_EMAILS}
+      - SUPPORT_EMAIL=${SUPPORT_EMAIL:?}
+      - LEGAL_NAME=${LEGAL_NAME:?}
+
+volumes:
+  storage:

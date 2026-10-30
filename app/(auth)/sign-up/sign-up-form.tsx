@@ -30,6 +30,10 @@ export function SignUpForm() {
               {pending ? "Creating account…" : "Create account"}
             </Button>
             <span className="text-[12.5px] text-muted">
+              By creating an account you agree to the <Link href="/terms">Terms of Service</Link> and{" "}
+              <Link href="/privacy">Privacy Policy</Link>.
+            </span>
+            <span className="text-[12.5px] text-muted">
               Already have one? <Link href="/sign-in">Sign in</Link>
             </span>
           </>

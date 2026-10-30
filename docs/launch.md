@@ -8,7 +8,12 @@ watch afterwards.
 
 - [ ] Production Postgres (Neon) migrated with `npm run db:deploy`; daily backups on.
 - [ ] Web app and worker deployed separately, sharing `STORAGE_DIR` (PDFs, logos). `npx playwright install chromium
-      --with-deps` on the worker host.
+      --with-deps` on the worker host. With Docker/Coolify, `docker-compose.prod.yml` does both (README → Deploy).
+- [ ] `/terms`, `/privacy` and `/refunds` show `LEGAL_NAME` and `SUPPORT_EMAIL` (no "not set" markers), and
+      `SUBPROCESSORS` in `lib/legal.ts` matches the real providers. Submit the domain for Paddle's review early: it can
+      take days.
+- [ ] `/bot` opens publicly with the `SUPPORT_EMAIL` contact, and the domain in the crawler's User-Agent
+      (`lib/monitoring/safe-fetch.ts`) is ours. Abuse emails to the server host are answered the same day.
 - [ ] `TRUSTED_PROXY_HOPS` matches the proxies in front of the web app (or `CLIENT_IP_HEADER` names the header the edge
       sets), and the web app isn't reachable around them: rate limits key on that address.
 - [ ] Deploys run `npm run db:deploy` first, then the worker, then the web app: the worker must understand what the

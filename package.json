@@ -17,17 +17,19 @@
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
     "db:generate": "prisma generate",
-    "worker": "tsx --env-file=.env worker/index.ts",
+    "worker": "tsx --env-file-if-exists=.env worker/index.ts",
     "account:test": "tsx --env-file=.env scripts/create-test-account.ts",
     "load-test": "tsx --env-file=.env scripts/load-test.ts",
     "postinstall": "prisma generate",
-    "jobs:run-once": "tsx --env-file=.env scripts/run-jobs-once.ts"
+    "jobs:run-once": "tsx --env-file=.env scripts/run-jobs-once.ts",
+    "landing:images": "tsx scripts/landing-images.ts"
   },
   "dependencies": {
     "@paddle/paddle-js": "^1.6.5",
     "@prisma/adapter-pg": "^7.10.1",
     "@prisma/client": "^7.10.1",
     "better-auth": "^1.7.13",
+    "dotenv": "^18.0.9",
     "htmlparser2": "^12.0.0",
     "next": "16.4.3",
     "pg": "^8.23.1",
@@ -39,6 +41,7 @@
     "robots-parser": "^3.0.1",
     "server-only": "^0.0.1",
     "tldts": "^7.4.19",
+    "tsx": "^4.23.15",
     "undici": "^8.12.3",
     "zod": "^4.6.7"
   },
@@ -49,12 +52,10 @@
     "@types/pg": "^8.23.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "dotenv": "^18.0.9",
     "eslint": "^9",
     "eslint-config-next": "16.4.3",
     "prettier": "^3.9.10",
     "tailwindcss": "^4",
-    "tsx": "^4.23.15",
     "typescript": "^5",
     "vitest": "^5.0.5"
   }
