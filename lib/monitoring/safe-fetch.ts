@@ -9,7 +9,7 @@ import { isPrivateIp } from "@/lib/url";
 // - Every redirect hop is re-validated; credentials and non-HTTP schemes are refused.
 // - Response bytes, redirect count and total time are bounded.
 
-export const USER_AGENT = "ClientStatusBot/1.0 (+https://clientstatus.app/bot)";
+export const USER_AGENT = "ClientStatusBot/1.0 (+https://useclientstatus.com/bot)";
 
 export class BlockedAddressError extends Error {
   constructor(readonly host: string) {
