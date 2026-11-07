@@ -39,8 +39,9 @@ jobs:
       - run: npm run format:check
       - run: npm run lint
       - run: npm run typecheck
-      - run: npm test
+      # Before the unit/integration tests too: tests/integration/reports.test.ts renders real PDFs with Chromium.
       - run: npx playwright install --with-deps chromium
+      - run: npm test
       - run: npm run test:e2e
       - uses: actions/upload-artifact@v4
         if: failure()
