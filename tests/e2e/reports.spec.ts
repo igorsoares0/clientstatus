@@ -7,7 +7,7 @@ import { onboard, visible } from "./helpers";
 
 /** Runs queued jobs of the given types once, like the worker would. */
 function runJobs(...types: string[]) {
-  execFileSync("npx", ["tsx", "--env-file=.env", "scripts/run-jobs-once.ts", ...types], {
+  execFileSync("npx", ["tsx", "--env-file-if-exists=.env", "scripts/run-jobs-once.ts", ...types], {
     env: {
       ...process.env,
       DATABASE_URL: process.env.TEST_DATABASE_URL!,
