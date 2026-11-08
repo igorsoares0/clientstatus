@@ -27,6 +27,12 @@ describe("parseEnv", () => {
     expect(env.RESEND_API_KEY).toBeUndefined();
     expect(env.EMAIL_DELIVERY).toBeUndefined();
   });
+
+  it("uses the defaults for blank numeric values", () => {
+    const env = parseEnv({ ...valid, WORKER_HEALTH_PORT: "", TRUSTED_PROXY_HOPS: " " });
+    expect(env.WORKER_HEALTH_PORT).toBe(3001);
+    expect(env.TRUSTED_PROXY_HOPS).toBe(1);
+  });
 });
 
 describe("emailDelivery", () => {

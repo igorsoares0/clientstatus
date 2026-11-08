@@ -6,6 +6,9 @@ const optional = z
   .optional()
   .transform((v) => v?.trim() || undefined);
 
+/** Blank counts as unset, so the default applies (hosts such as Coolify pass unset variables as ""). */
+const blank = (v: unknown) => (typeof v === "string" && v.trim() === "" ? undefined : v);
+
 /** Paddle price ids look like pri_01h…; anything else is a copy-paste mistake. */
 const priceId = optional.pipe(
   z
@@ -27,12 +30,12 @@ const schema = z
     /** "mailbox" writes emails to .dev-mailbox/ instead of sending (dev and e2e). Defaults by NODE_ENV. */
     EMAIL_DELIVERY: z.preprocess((v) => v || undefined, z.enum(["resend", "mailbox"]).optional()),
     EMAIL_FROM: z.string().min(3),
-    WORKER_HEALTH_PORT: z.coerce.number().int().min(1).max(65535).default(3001),
+    WORKER_HEALTH_PORT: z.preprocess(blank, z.coerce.number().int().min(1).max(65535).default(3001)),
     /**
      * Reverse proxies in front of the web app that append to X-Forwarded-For (lib/rate-limit.ts).
      * 1 = one proxy or load balancer; 2 = e.g. Cloudflare in front of nginx.
      */
-    TRUSTED_PROXY_HOPS: z.coerce.number().int().min(1).max(5).default(1),
+    TRUSTED_PROXY_HOPS: z.preprocess(blank, z.coerce.number().int().min(1).max(5).default(1)),
     /** Header your edge sets to the client address, overwriting any sent by the client (e.g. cf-connecting-ip). */
     CLIENT_IP_HEADER: optional.pipe(
       z
