@@ -4,15 +4,16 @@ import { ButtonLink } from "@/components/ui/button";
 import { type SiteStatus, StatusGlyph } from "@/components/ui/status";
 import { LEGAL_PAGES } from "@/lib/legal";
 import { BRANDING_LABEL, monthsFreeYearly, PLAN_ORDER, PLANS, type Plan, TRIAL_DAYS } from "@/lib/plans";
+import { RESOURCE_HUBS } from "@/lib/seo";
 
 // Public landing page pieces (app/page.tsx). Same design system as the app: square corners,
 // tables over cards, colour only for status. Sample data is fictional and uses .example domains.
 
 export const NAV = [
-  { href: "#features", label: "Features" },
-  { href: "#report", label: "Report" },
-  { href: "#pricing", label: "Pricing" },
-  { href: "#faq", label: "FAQ" },
+  { href: "/#features", label: "Features" },
+  { href: "/#report", label: "Report" },
+  { href: "/#pricing", label: "Pricing" },
+  { href: "/#faq", label: "FAQ" },
 ] as const;
 
 export function Container({ children, className = "" }: { children: ReactNode; className?: string }) {
@@ -305,6 +306,18 @@ export function SiteFooter() {
           <Link href="/bot">Our crawler</Link>
         </nav>
       </Container>
+      {RESOURCE_HUBS.length > 0 ? (
+        <Container className="border-t border-rule py-4 text-[12.5px]">
+          <nav aria-label="Resources" className="flex flex-wrap items-baseline gap-x-4 gap-y-1">
+            <span className="font-mono text-[11.5px] tracking-[0.06em] text-muted uppercase">Resources</span>
+            {RESOURCE_HUBS.map((h) => (
+              <Link key={h.href} href={h.href}>
+                {h.label}
+              </Link>
+            ))}
+          </nav>
+        </Container>
+      ) : null}
     </footer>
   );
 }

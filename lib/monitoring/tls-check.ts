@@ -105,6 +105,17 @@ export function evaluateCertificate(f: CertFacts, now: Date, timeZone = "UTC"): 
   };
 }
 
+/** The server answered but no TLS session could be set up (wrong protocol, no shared cipher…). */
+export const HANDSHAKE_FAILED: SslResult = {
+  status: "failure",
+  state: "invalid",
+  expiresAt: null,
+  issuer: null,
+  daysLeft: null,
+  category: "handshake",
+  summary: "TLS handshake failed",
+};
+
 function issuerName(cert: PeerCertificate): string | null {
   const i = cert.issuer as unknown as Record<string, string | string[]> | undefined;
   const pick = (v: string | string[] | undefined) => (Array.isArray(v) ? v[0] : v);
@@ -191,17 +202,7 @@ export function checkCertificate(hostname: string, opts: TlsOptions, now = new D
           status: "failure",
           state: "invalid",
         });
-      if (/^(ERR_TLS|ERR_SSL|EPROTO)/.test(code ?? "")) {
-        return finish({
-          status: "failure",
-          state: "invalid",
-          expiresAt: null,
-          issuer: null,
-          daysLeft: null,
-          category: "handshake",
-          summary: "TLS handshake failed",
-        });
-      }
+      if (/^(ERR_TLS|ERR_SSL|EPROTO)/.test(code ?? "")) return finish(HANDSHAKE_FAILED);
       finish(inconclusive(`Couldn’t connect for the SSL check (${code})`, "network"));
     });
   });

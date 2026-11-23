@@ -1,0 +1,352 @@
+{
+  "checkedAt": "2026-11-23",
+  "bootstrapPublication": "2026-11-20T23:00:03Z",
+  "tlds": [
+    {
+      "tld": "com",
+      "category": "Generic top-level domain",
+      "manager": "VeriSign Global Registry Services",
+      "rdapServer": "https://rdap.verisign.com/com/v1/",
+      "test": {
+        "result": "published",
+        "domain": "nic.com",
+        "expiresAt": "2034-02-08"
+      }
+    },
+    {
+      "tld": "net",
+      "category": "Generic top-level domain",
+      "manager": "VeriSign Global Registry Services",
+      "rdapServer": "https://rdap.verisign.com/net/v1/",
+      "test": {
+        "result": "published",
+        "domain": "nic.net",
+        "expiresAt": "2027-10-22"
+      }
+    },
+    {
+      "tld": "org",
+      "category": "Generic top-level domain",
+      "manager": "Public Interest Registry (PIR)",
+      "rdapServer": "https://rdap.publicinterestregistry.org/rdap/",
+      "test": {
+        "result": "published",
+        "domain": "nic.org",
+        "expiresAt": "2030-06-10"
+      }
+    },
+    {
+      "tld": "info",
+      "category": "Generic top-level domain",
+      "manager": "Identity Digital Limited",
+      "rdapServer": "https://rdap.identitydigital.services/rdap/",
+      "test": {
+        "result": "published",
+        "domain": "nic.info",
+        "expiresAt": "2027-07-27"
+      }
+    },
+    {
+      "tld": "biz",
+      "category": "Generic top-level domain",
+      "manager": "Registry Services, LLC",
+      "rdapServer": "https://rdap.nic.biz/",
+      "test": {
+        "result": "published",
+        "domain": "nic.biz",
+        "expiresAt": "2026-11-06"
+      }
+    },
+    {
+      "tld": "io",
+      "category": "Country-code top-level domain",
+      "manager": "Internet Computer Bureau Limited",
+      "rdapServer": null,
+      "test": {
+        "result": "no-rdap",
+        "domain": null
+      }
+    },
+    {
+      "tld": "co",
+      "category": "Country-code top-level domain",
+      "manager": "Ministry of Information and Communications Technologies (MinTIC)",
+      "rdapServer": null,
+      "test": {
+        "result": "no-rdap",
+        "domain": null
+      }
+    },
+    {
+      "tld": "app",
+      "category": "Generic top-level domain",
+      "manager": "Charleston Road Registry Inc.",
+      "rdapServer": "https://pubapi.registry.google/rdap/",
+      "test": {
+        "result": "published",
+        "domain": "nic.app",
+        "expiresAt": "2027-06-22"
+      }
+    },
+    {
+      "tld": "dev",
+      "category": "Generic top-level domain",
+      "manager": "Charleston Road Registry Inc.",
+      "rdapServer": "https://pubapi.registry.google/rdap/",
+      "test": {
+        "result": "published",
+        "domain": "nic.dev",
+        "expiresAt": "2027-01-05"
+      }
+    },
+    {
+      "tld": "ai",
+      "category": "Country-code top-level domain",
+      "manager": "Government of Anguilla",
+      "rdapServer": "https://rdap.identitydigital.services/rdap/",
+      "test": {
+        "result": "published",
+        "domain": "nic.ai",
+        "expiresAt": "2027-12-13"
+      }
+    },
+    {
+      "tld": "xyz",
+      "category": "Generic top-level domain",
+      "manager": "XYZ.COM LLC",
+      "rdapServer": "https://rdap.centralnic.com/xyz/",
+      "test": {
+        "result": "published",
+        "domain": "nic.xyz",
+        "expiresAt": "2027-09-11"
+      }
+    },
+    {
+      "tld": "me",
+      "category": "Country-code top-level domain",
+      "manager": "Government of Montenegro",
+      "rdapServer": null,
+      "test": {
+        "result": "no-rdap",
+        "domain": null
+      }
+    },
+    {
+      "tld": "tv",
+      "category": "Country-code top-level domain",
+      "manager": "Ministry of Transport, Energy, Communications and Innovations",
+      "rdapServer": "https://rdap.nic.tv/",
+      "test": {
+        "result": "published",
+        "domain": "nic.tv",
+        "expiresAt": "2032-01-19"
+      }
+    },
+    {
+      "tld": "us",
+      "category": "Country-code top-level domain",
+      "manager": "Registry Services, LLC",
+      "rdapServer": null,
+      "test": {
+        "result": "no-rdap",
+        "domain": null
+      }
+    },
+    {
+      "tld": "ca",
+      "category": "Country-code top-level domain",
+      "manager": "Canadian Internet Registration Authority (CIRA) Autorité Canadienne pour les enregistrements Internet (ACEI)",
+      "rdapServer": "https://rdap.ca.fury.ca/rdap/",
+      "test": {
+        "result": "published",
+        "domain": "google.ca",
+        "expiresAt": "2027-04-28"
+      }
+    },
+    {
+      "tld": "uk",
+      "category": "Country-code top-level domain",
+      "manager": "Nominet UK",
+      "rdapServer": "https://rdap.nominet.uk/uk/",
+      "test": {
+        "result": "published",
+        "domain": "google.uk",
+        "expiresAt": "2027-06-11"
+      }
+    },
+    {
+      "tld": "ie",
+      "category": "Country-code top-level domain",
+      "manager": "IE Domain Registry CLG",
+      "rdapServer": null,
+      "test": {
+        "result": "no-rdap",
+        "domain": null
+      }
+    },
+    {
+      "tld": "de",
+      "category": "Country-code top-level domain",
+      "manager": "DENIC eG",
+      "rdapServer": null,
+      "test": {
+        "result": "no-rdap",
+        "domain": null
+      }
+    },
+    {
+      "tld": "fr",
+      "category": "Country-code top-level domain",
+      "manager": "Association Française pour le Nommage Internet en Coopération (A.F.N.I.C.)",
+      "rdapServer": "https://rdap.nic.fr/",
+      "test": {
+        "result": "published",
+        "domain": "nic.fr",
+        "expiresAt": "2029-12-31"
+      }
+    },
+    {
+      "tld": "nl",
+      "category": "Country-code top-level domain",
+      "manager": "SIDN (Stichting Internet Domeinregistratie Nederland)",
+      "rdapServer": "https://rdap.sidn.nl/",
+      "test": {
+        "result": "not-published",
+        "domain": "nic.nl",
+        "domains": ["nic.nl", "google.nl", "wikipedia.nl", "amazon.nl"]
+      }
+    },
+    {
+      "tld": "be",
+      "category": "Country-code top-level domain",
+      "manager": "DNS Belgium vzw/asbl",
+      "rdapServer": null,
+      "test": {
+        "result": "no-rdap",
+        "domain": null
+      }
+    },
+    {
+      "tld": "es",
+      "category": "Country-code top-level domain",
+      "manager": "Red.es",
+      "rdapServer": null,
+      "test": {
+        "result": "no-rdap",
+        "domain": null
+      }
+    },
+    {
+      "tld": "it",
+      "category": "Country-code top-level domain",
+      "manager": "IIT - CNR",
+      "rdapServer": null,
+      "test": {
+        "result": "no-rdap",
+        "domain": null
+      }
+    },
+    {
+      "tld": "eu",
+      "category": "Country-code top-level domain",
+      "manager": "EURid vzw",
+      "rdapServer": null,
+      "test": {
+        "result": "no-rdap",
+        "domain": null
+      }
+    },
+    {
+      "tld": "ch",
+      "category": "Country-code top-level domain",
+      "manager": "SWITCH The Swiss Education & Research Network",
+      "rdapServer": null,
+      "test": {
+        "result": "no-rdap",
+        "domain": null
+      }
+    },
+    {
+      "tld": "at",
+      "category": "Country-code top-level domain",
+      "manager": "nic.at GmbH",
+      "rdapServer": null,
+      "test": {
+        "result": "no-rdap",
+        "domain": null
+      }
+    },
+    {
+      "tld": "se",
+      "category": "Country-code top-level domain",
+      "manager": "The Internet Infrastructure Foundation",
+      "rdapServer": null,
+      "test": {
+        "result": "no-rdap",
+        "domain": null
+      }
+    },
+    {
+      "tld": "pl",
+      "category": "Country-code top-level domain",
+      "manager": "Research and Academic Computer Network",
+      "rdapServer": "https://rdap.dns.pl/",
+      "test": {
+        "result": "published",
+        "domain": "nic.pl",
+        "expiresAt": "2027-03-10"
+      }
+    },
+    {
+      "tld": "br",
+      "category": "Country-code top-level domain",
+      "manager": "Comite Gestor da Internet no Brasil",
+      "rdapServer": "https://rdap.registro.br/",
+      "test": {
+        "result": "published",
+        "domain": "google.com.br",
+        "expiresAt": "2027-05-19"
+      }
+    },
+    {
+      "tld": "au",
+      "category": "Country-code top-level domain",
+      "manager": ".au Domain Administration (auDA)",
+      "rdapServer": "https://rdap.cctld.au/rdap/",
+      "test": {
+        "result": "not-published",
+        "domain": "nic.au",
+        "domains": [
+          "nic.au",
+          "google.au",
+          "wikipedia.au",
+          "amazon.au",
+          "google.com.au",
+          "wikipedia.com.au",
+          "amazon.com.au"
+        ]
+      }
+    },
+    {
+      "tld": "nz",
+      "category": "Country-code top-level domain",
+      "manager": "InternetNZ",
+      "rdapServer": null,
+      "test": {
+        "result": "no-rdap",
+        "domain": null
+      }
+    },
+    {
+      "tld": "in",
+      "category": "Country-code top-level domain",
+      "manager": "National Internet Exchange of India",
+      "rdapServer": "https://rdap.nixiregistry.in/rdap/",
+      "test": {
+        "result": "published",
+        "domain": "nic.in",
+        "expiresAt": "2026-12-23"
+      }
+    }
+  ]
+}

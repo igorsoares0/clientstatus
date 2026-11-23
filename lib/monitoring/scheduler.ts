@@ -167,6 +167,9 @@ export async function scheduleDueWork(db: PrismaClient, now = new Date()) {
 }
 
 /** Retention (spec §8.3): raw checks for RETENTION_DAYS, finished jobs for 7 days, expired rate-limit windows. */
+/** How long a health-report request (email, URL, consent) is kept. Shown in the Privacy Policy. */
+export const TOOL_LEAD_RETENTION_DAYS = 365;
+
 export async function prune(db: PrismaClient, now = new Date()) {
   const checkCutoff = new Date(now.getTime() - RETENTION_DAYS * 24 * 60 * 60_000);
   const jobCutoff = new Date(now.getTime() - 7 * 24 * 60 * 60_000);
@@ -178,5 +181,17 @@ export async function prune(db: PrismaClient, now = new Date()) {
     where: { status: { not: "pending" }, createdAt: { lt: checkCutoff } },
   });
   const limits = await db.rateLimitBucket.deleteMany({ where: { resetAt: { lt: now } } });
-  return { checks: checks.count, jobs: jobs.count, emails: emails.count, rateLimits: limits.count };
+  // Free tools: run results after 7 days, leads after 12 months (Privacy Policy §7).
+  const toolRuns = await db.toolRun.deleteMany({ where: { createdAt: { lt: jobCutoff } } });
+  const toolLeads = await db.toolLead.deleteMany({
+    where: { createdAt: { lt: new Date(now.getTime() - TOOL_LEAD_RETENTION_DAYS * 24 * 60 * 60_000) } },
+  });
+  return {
+    checks: checks.count,
+    jobs: jobs.count,
+    emails: emails.count,
+    rateLimits: limits.count,
+    toolRuns: toolRuns.count,
+    toolLeads: toolLeads.count,
+  };
 }

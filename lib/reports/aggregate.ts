@@ -54,7 +54,8 @@ export type SiteReport = {
 
 export type ReportData = {
   version: 1;
-  kind: "monthly" | "preview";
+  /** "sample" = one-off snapshot from the free health-report tool (lib/tools/health-report.ts). */
+  kind: "monthly" | "preview" | "sample";
   client: { name: string; contact: string | null };
   period: { label: string; start: string; end: string; tz: string; days: number; coveredTo: string; toDate: boolean };
   previousLabel: string;
@@ -73,7 +74,7 @@ export type ReportData = {
 
 const DAY_MS = 86_400_000;
 
-const FINDING_LABEL: Record<string, { label: string; priority: Priority }> = {
+export const FINDING_LABEL: Record<string, { label: string; priority: Priority }> = {
   broken_link: { label: "Broken links", priority: "fix" },
   redirect_loop: { label: "Links that loop forever", priority: "fix" },
   redirect_chain: { label: "Links with long redirect chains", priority: "improve" },

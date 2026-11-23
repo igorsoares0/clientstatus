@@ -1,5 +1,6 @@
 import { getSessionCookie } from "better-auth/cookies";
 import { type NextRequest, NextResponse } from "next/server";
+import { MARKETING_PREFIXES } from "@/lib/marketing-paths";
 
 // Optimistic check only: is there a session cookie at all? Real authorization
 // happens in the Data Access Layer (lib/session.ts). Signed-in users are not
@@ -7,6 +8,8 @@ import { type NextRequest, NextResponse } from "next/server";
 
 // "/r" = private report links, authorised by their token rather than a session.
 // "/bot" = the crawler information page its User-Agent links to; the legal pages are public too.
+// MARKETING_PREFIXES = the SEO pages (docs/pseo-plan.md), which crawlers must reach without a session.
+// /robots.txt and the sitemaps have a file extension, so the matcher below skips them.
 const PUBLIC_PATHS = [
   "/sign-in",
   "/sign-up",
@@ -18,6 +21,7 @@ const PUBLIC_PATHS = [
   "/terms",
   "/privacy",
   "/refunds",
+  ...MARKETING_PREFIXES,
 ];
 
 export function proxy(request: NextRequest) {

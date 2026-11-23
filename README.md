@@ -59,7 +59,15 @@ numbers are read from the code that enforces them. Update `SUBPROCESSORS` if the
 
 `/` is the public landing page (`app/page.tsx`, pieces in `components/landing.tsx`); `proxy.ts` sends visitors with a
 session cookie to `/overview`. Prices come from `lib/plans.ts`. The report images in `public/landing/` are screenshots
-of the real renderer with fictional data: re-create them with `npm run landing:images` after changing the report design.
+of the real renderer with fictional data: re-create them with `npm run landing:images` after changing the report design (it also writes the /templates page
+images and the sample PDF in `public/templates/`, from `lib/reports/fixtures.ts`).
+
+SEO pages ([`docs/pseo-plan.md`](docs/pseo-plan.md)) live in `app/(marketing)/` with shared pieces in
+`components/marketing/`; their prefixes are public in `proxy.ts`. `lib/seo.ts` holds canonical URLs (`SITE_URL`, default
+`https://useclientstatus.com`), `pageMetadata()` with title/description limits, the per-section sitemaps listed in
+`/robots.txt`, and the footer's Resources hubs. Competitor data is in `content/competitors.ts` (re-verify every 120 days;
+a test fails after that). The free tools (`/tools/*`) post to `/api/tools/*`; broken-link checks and health reports run
+in the worker. Refresh the TLD pages' data with `npx tsx scripts/refresh-tld-data.ts` and review the diff.
 
 ## Checks
 

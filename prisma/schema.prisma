@@ -782,3 +782,48 @@ model WorkerHeartbeat {
 
   @@map("worker_heartbeat")
 }
+
+// ─── Free tools (docs/pseo-plan.md §4) ────────────────────────────────────
+
+enum ToolRunStatus {
+  queued
+  running
+  completed
+  failed
+}
+
+/// A run of a public tool that takes longer than one request (broken-link check, health
+/// report). Polled by its random id; results are never served at an indexable URL.
+/// Pruned after 7 days (lib/monitoring/scheduler.ts).
+model ToolRun {
+  id          String        @id @default(uuid())
+  tool        String
+  url         String
+  status      ToolRunStatus @default(queued)
+  /// Summary for the page (lib/tools/*); no personal data.
+  result      Json?
+  error       String?
+  createdAt   DateTime      @default(now())
+  completedAt DateTime?
+
+  @@index([createdAt])
+  @@map("tool_run")
+}
+
+/// Someone who asked for the emailed website health report. Kept 12 months.
+model ToolLead {
+  id             String   @id @default(uuid(7))
+  email          String
+  url            String
+  tool           String
+  /// The consent text shown next to the form when they submitted it, verbatim.
+  consent        String
+  /// Separate, optional tick box for product emails. Never pre-ticked.
+  marketingOptIn Boolean  @default(false)
+  toolRunId      String?
+  createdAt      DateTime @default(now())
+
+  @@index([email])
+  @@index([createdAt])
+  @@map("tool_lead")
+}

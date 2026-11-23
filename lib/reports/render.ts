@@ -110,7 +110,8 @@ export function renderReportHtml(data: ReportData, branding: Branding, opts: { f
     branding.color && isHexColor(branding.color) ? normalizeHex(branding.color) : DEFAULT_BRAND,
   );
   const tz = data.period.tz;
-  const month = data.period.label.split(" ")[0];
+  // A one-off sample (free health-report tool) isn't a month: "No confirmed incidents in this sample."
+  const month = data.kind === "sample" ? "this sample" : data.period.label.split(" ")[0];
   const code = esc((data as ReportData & { code?: string }).code ?? "");
   const agency = esc(branding.agencyName);
   const client = esc(data.client.name);
@@ -364,7 +365,7 @@ ${opts.forPdf ? "" : SCREEN_NARROW_CSS}`;
 <section class="page cover">
   <div class="band">
     <div class="bandtop">${logo}<span class="agency">${agency}</span><span class="bandperiod">${esc(data.period.label)}<br>${esc(rangeText)} · ${esc(tz)}</span></div>
-    <div class="kicker">WEBSITE HEALTH REPORT${data.kind === "preview" ? " · PREVIEW" : ""}</div>
+    <div class="kicker">WEBSITE HEALTH REPORT${data.kind === "preview" ? " · PREVIEW" : data.kind === "sample" ? " · SAMPLE" : ""}</div>
     <h1>${client}</h1>
     <div class="siteline">${sitesLine}</div>
   </div>

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Clause, LegalPage } from "@/components/legal-page";
-import { RETENTION_DAYS } from "@/lib/monitoring/scheduler";
+import { RETENTION_DAYS, TOOL_LEAD_RETENTION_DAYS } from "@/lib/monitoring/scheduler";
 import { CHANGE_NOTICE_DAYS, SUBPROCESSORS } from "@/lib/legal";
 
 export const metadata: Metadata = {
@@ -55,6 +55,11 @@ export default function PrivacyPage() {
                 body) and its delivery status, including bounces and complaints.
               </li>
               <li>
+                <strong>Free tools (without an account):</strong> the website or domain you check and the result. For
+                the emailed website health report, also the email address you enter, the website, the consent text shown
+                on the form and whether you ticked the box for product updates.
+              </li>
+              <li>
                 <strong>Security records:</strong> a log of actions taken in your workspace, and rate-limit counters
                 keyed by a SHA-256 hash of an IP address or email address.
               </li>
@@ -70,6 +75,11 @@ export default function PrivacyPage() {
               <li>
                 <strong>To keep the service secure and reliable</strong> (legitimate interest): sessions, rate limits,
                 abuse prevention and the workspace activity log.
+              </li>
+              <li>
+                <strong>To send a health report you request</strong> (your request): we email it once to the address you
+                give and keep the request so we can answer questions about it. Product updates only if you tick that box
+                (consent, which you can withdraw at any time).
               </li>
               <li>
                 <strong>To meet legal obligations</strong>: billing and tax records, mostly kept by Paddle as Merchant
@@ -115,7 +125,11 @@ export default function PrivacyPage() {
           <Clause title="7. How long we keep it">
             <ul>
               <li>Raw check results and copies of sent emails: {RETENTION_DAYS} days.</li>
-              <li>Finished background jobs: 7 days. Rate-limit counters: until their time window ends.</li>
+              <li>
+                Finished background jobs and free-tool results: 7 days. Rate-limit counters: until their time window
+                ends.
+              </li>
+              <li>Health-report requests (email address, website and consent): {TOOL_LEAD_RETENTION_DAYS} days.</li>
               <li>
                 Account, workspace content, reports, incidents and audit findings: while your account exists, or until
                 you delete them.

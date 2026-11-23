@@ -2,7 +2,7 @@
 // retention comes from the code that enforces it, prices and grace from billing config.
 
 /** Shown as "Last updated" on every legal page. Change it whenever a page's substance changes. */
-export const LEGAL_UPDATED = "2026-10-29";
+export const LEGAL_UPDATED = "2026-11-22";
 
 /** Full refund on any charge (first payment and renewals, monthly or yearly) requested within this many days. */
 export const REFUND_DAYS = 14;

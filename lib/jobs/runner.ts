@@ -4,6 +4,7 @@ import { logger } from "@/lib/log";
 import { markEmailFailed } from "@/lib/notify/send";
 import { runJob, type HandlerDeps } from "@/lib/monitoring/handlers";
 import { scheduleDueWork } from "@/lib/monitoring/scheduler";
+import { TOOL_JOB_TYPES } from "@/lib/tools/runs";
 
 const log = logger("runner");
 
@@ -22,8 +23,11 @@ export type RunnerOptions = {
   deps: HandlerDeps;
 };
 
-/** Long jobs (crawls, PDF rendering) get their own lane so they never starve checks and emails. */
-const LONG_TYPES = ["site_audit", "report_generate"];
+/**
+ * Long jobs (crawls, PDF rendering) get their own lane so they never starve checks and emails.
+ * Free-tool runs share it at a lower priority than customer audits and reports.
+ */
+const LONG_TYPES = ["site_audit", "report_generate", ...TOOL_JOB_TYPES];
 
 /** Records give-ups on the domain row too, so the UI can show them. */
 async function onFinalFailure(db: PrismaClient, job: ClaimedJob) {

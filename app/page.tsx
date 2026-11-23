@@ -10,6 +10,7 @@ import {
   SiteFooter,
   SiteHeader,
 } from "@/components/landing";
+import { CtaBand } from "@/components/marketing/cta-band";
 import { ButtonLink } from "@/components/ui/button";
 import { REFUND_DAYS } from "@/lib/legal";
 import { PLANS, TRIAL_DAYS, TRIAL_PLAN } from "@/lib/plans";
@@ -24,6 +25,7 @@ export const metadata: Metadata = {
   title: { absolute: "Client Status · Website monitoring and monthly client reports for agencies" },
   description:
     "Monitor every client website — uptime, SSL, domains and broken links — and send each client a branded monthly report. Built for agencies.",
+  alternates: { canonical: "/" },
   openGraph: { images: [{ url: "/landing/report-cover.jpg", width: 1588, height: 2246 }] },
 };
 
@@ -293,25 +295,7 @@ export default function Home() {
           </Container>
         </section>
 
-        {/* Closing call to action */}
-        <section className="bg-ink text-white">
-          <Container className="flex flex-col gap-5 py-14 tbl:flex-row tbl:items-center">
-            <div className="flex flex-col gap-2">
-              <h2 className="m-0 text-[30px] leading-[1.12] font-semibold font-stretch-85%">
-                Add your first client website today.
-              </h2>
-              <p className="m-0 text-[15px] text-[#D5D8D4]">
-                {TRIAL_DAYS} days free, no card. Your first report can go out on the 1st.
-              </p>
-            </div>
-            <Link
-              href="/sign-up"
-              className="inline-flex h-[42px] items-center justify-center bg-surface px-4 text-sm font-semibold whitespace-nowrap text-ink no-underline hover:bg-nav-hover hover:text-ink tbl:ml-auto"
-            >
-              Start free trial
-            </Link>
-          </Container>
-        </section>
+        <CtaBand />
       </main>
       <SiteFooter />
     </div>

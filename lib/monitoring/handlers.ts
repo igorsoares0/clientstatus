@@ -8,10 +8,13 @@ import type { ClaimedJob } from "@/lib/jobs/queue";
 import { recordDomain, recordNoSsl, recordSsl, recordUptime, type SiteRef } from "@/lib/monitoring/apply";
 import { classifyError, classifyResponse } from "@/lib/monitoring/classify";
 import { lookupDomainExpiry, type JsonFetcher } from "@/lib/monitoring/rdap";
+import { rdapFetcher } from "@/lib/monitoring/rdap-fetch";
 import { safeFetch, type SafeFetchOptions } from "@/lib/monitoring/safe-fetch";
 import { prune } from "@/lib/monitoring/scheduler";
 import { checkCertificate } from "@/lib/monitoring/tls-check";
 import { getPlan } from "@/lib/plans";
+import { runToolJob } from "@/lib/tools/jobs";
+import { TOOL_JOB } from "@/lib/tools/runs";
 
 export type HandlerDeps = {
   now: () => Date;
@@ -25,22 +28,7 @@ export type HandlerDeps = {
   heartbeat?: () => Promise<void>;
 };
 
-const RDAP_TIMEOUT_MS = 15_000;
 const TLS_TIMEOUT_MS = 10_000;
-
-/** RDAP over the same guarded fetch layer. */
-export function rdapFetcher(fetchOpts: HandlerDeps["fetch"] = {}): JsonFetcher {
-  return async (url) => {
-    const res = await safeFetch(url, { timeoutMs: RDAP_TIMEOUT_MS, maxBytes: 1024 * 1024, ...fetchOpts });
-    let json: unknown = null;
-    try {
-      json = JSON.parse(res.bodySnippet);
-    } catch {
-      json = null;
-    }
-    return { status: res.status, json };
-  };
-}
 
 async function loadSite(db: PrismaClient, siteId: string) {
   const site = await db.site.findUnique({
@@ -129,6 +117,18 @@ export async function runJob(db: PrismaClient, job: ClaimedJob, deps: HandlerDep
       return;
     case "prune":
       await prune(db, deps.now());
+      return;
+    case TOOL_JOB["broken-link-checker"]:
+    case TOOL_JOB["website-health-report"]:
+      await runToolJob(db, job, {
+        now: deps.now,
+        fetch: deps.fetch,
+        rdapFetch: deps.rdapFetch ?? rdapFetcher(deps.fetch),
+        tlsPort: deps.tlsPort,
+        sleep: deps.sleep,
+        heartbeat: deps.heartbeat,
+        limits: deps.auditLimits,
+      });
       return;
     default:
       throw new Error(`Unknown job type: ${job.jobType}`);
