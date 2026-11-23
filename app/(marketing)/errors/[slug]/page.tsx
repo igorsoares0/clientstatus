@@ -10,7 +10,7 @@ import { CHECK_LABEL, runProbe } from "@/lib/error-probes";
 import { pageMetadata } from "@/lib/seo";
 import { relatedLinks } from "@/lib/seo-links";
 
-// Fully prerendered from content/errors.ts; unknown errors are real 404s.
+// Fully prerendered from content/errors.ts; unknown errors are real 404s (see alternatives/[slug]).
 export const instant = false;
 
 export function generateStaticParams() {

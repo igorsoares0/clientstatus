@@ -21,8 +21,9 @@ import { COMPETITORS, compareSlug, competitorForCompareSlug, siblings } from "@/
 import { monthsFreeYearly, PLANS, TRIAL_DAYS, TRIAL_PLAN } from "@/lib/plans";
 import { pageMetadata } from "@/lib/seo";
 
-// Every page is prerendered from generateStaticParams, so navigations get full static HTML. Blocking
-// on params is intended: a Suspense boundary would turn unknown slugs into soft 404s (status 200).
+// Every page is prerendered from generateStaticParams, so navigations get full static HTML. Unknown
+// slugs get their 404 status from proxy.ts (lib/marketing-slugs.ts): with Cache Components the page
+// streams a 200 shell before notFound() runs, `instant = false` included; notFound() only renders it.
 export const instant = false;
 
 export function generateStaticParams() {

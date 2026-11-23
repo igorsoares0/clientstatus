@@ -1,6 +1,7 @@
 import { getSessionCookie } from "better-auth/cookies";
 import { type NextRequest, NextResponse } from "next/server";
 import { MARKETING_PREFIXES } from "@/lib/marketing-paths";
+import { isUnknownMarketingSlug } from "@/lib/marketing-slugs";
 
 // Optimistic check only: is there a session cookie at all? Real authorization
 // happens in the Data Access Layer (lib/session.ts). Signed-in users are not
@@ -24,12 +25,20 @@ const PUBLIC_PATHS = [
   ...MARKETING_PREFIXES,
 ];
 
+/** A path no route matches, so rendering it gives Next.js's not-found page with a 404 status. */
+const NOT_FOUND_PATH = "/_unknown-page";
+
 export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   // "/" is the public landing page; signed-in users go straight to the app. A stale cookie
   // lands on /overview, whose session check sends it to /sign-in (public), so it can't loop.
   if (pathname === "/") {
     return getSessionCookie(request) ? NextResponse.redirect(new URL("/overview", request.url)) : NextResponse.next();
+  }
+  // Unknown SEO slugs (/alternatives/not-a-tool) must be real 404s, and only Proxy runs before the
+  // page streams its 200 shell. The rewrite target matches no route, so Next.js serves its 404 page.
+  if (isUnknownMarketingSlug(pathname)) {
+    return NextResponse.rewrite(new URL(NOT_FOUND_PATH, request.url));
   }
   if (PUBLIC_PATHS.some((p) => pathname === p || pathname.startsWith(`${p}/`))) {
     return NextResponse.next();

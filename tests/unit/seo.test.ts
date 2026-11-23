@@ -35,6 +35,28 @@ describe("proxy: marketing pages are public", () => {
     expect(res.headers.get("location")).toBeNull();
   });
 
+  it.each([
+    "/alternatives/not-a-real-tool",
+    "/compare/client-status-vs-not-a-real-tool",
+    "/domain-expiry/notatld",
+    "/errors/not-an-error",
+    "/for/not-a-platform",
+    "/templates/not-a-template",
+  ])("%s is rewritten to the 404 page", (path) => {
+    const res = anonymous(path);
+    expect(res.headers.get("location")).toBeNull();
+    expect(res.headers.get("x-middleware-rewrite")).toContain("/_unknown-page");
+  });
+
+  it.each([
+    "/alternatives/oh-dear",
+    "/compare/client-status-vs-uptimerobot",
+    "/domain-expiry/com",
+    "/tools/ssl-checker",
+  ])("%s renders normally", (path) => {
+    expect(anonymous(path).headers.get("x-middleware-rewrite")).toBeNull();
+  });
+
   it("app pages still redirect anonymous visitors to sign-in", () => {
     const res = anonymous("/overview");
     expect(res.headers.get("location")).toContain("/sign-in");

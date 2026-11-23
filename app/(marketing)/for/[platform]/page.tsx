@@ -11,7 +11,7 @@ import { TRIAL_DAYS } from "@/lib/plans";
 import { pageMetadata } from "@/lib/seo";
 import { relatedLinks } from "@/lib/seo-links";
 
-// Fully prerendered from content/platforms.ts; unknown platforms are real 404s.
+// Fully prerendered from content/platforms.ts; unknown platforms are real 404s (see alternatives/[slug]).
 export const instant = false;
 
 export function generateStaticParams() {
